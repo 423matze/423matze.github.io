@@ -25,7 +25,7 @@ body {
 }
 
 .notion-image.align-start {
-    align-self: center!important;
+   /* align-self: center!important; */
 }
 
 .notion-embed__content 
