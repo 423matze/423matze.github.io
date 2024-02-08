@@ -23,10 +23,11 @@ body {
 .notion-header__content.max-width {
     max-width: var(--lift-width)!important;
 }
-
+/*
 .notion-image.align-start {
-   /* align-self: center!important; */
+  align-self: center!important;
 }
+*/
 
 .notion-embed__content 
 {
