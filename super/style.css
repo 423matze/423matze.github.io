@@ -501,10 +501,14 @@ box-shadow: 0px 24px 16px 0px rgba(0,0,0,0.05)!important;
 }
 
 
-.notion-collection-board .notion-property__title,  .notion-collection-gallery .notion-property__title{
+.notion-collection-board .notion-property__title {
 
     padding: 1rem!important;
 
+}
+
+.notion-collection-gallery .notion-property__title {
+    padding-top: 1rem!important;
 }
 
 
