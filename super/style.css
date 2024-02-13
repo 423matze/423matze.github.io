@@ -131,8 +131,8 @@ body {
 }
 
 .notion-heading {
-
     padding: 0 !important;
+    font-family: var(--primary-font);
 }
 
 .notion-column {
@@ -937,7 +937,7 @@ p.notion-callout__content {
     --primary-font: "Dosis",Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
     --secondary-font: "Dosis",Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
     --text-weight: 400;
-    --heading-weight: 700;
+    --heading-weight: 800;
     --heading1-size: calc(var(--heading-size) * 1.875);
     --heading2-size: calc(var(--heading-size) * 1.5);
     --heading3-size: calc(var(--heading-size) * 1.25);
