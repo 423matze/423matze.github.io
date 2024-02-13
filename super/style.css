@@ -617,6 +617,7 @@ p.notion-callout__content {
 .notion-collection-card__cover.large {
     height: 18rem !important;
     max-height: 18rem !important;
+    border-radius: var(--m423-radius);
 }
 
 .notion-collection-card__cover.medium {
@@ -666,14 +667,14 @@ p.notion-callout__content {
 
 .notion-collection-card.gallery {
 
-    border: 1px solid var(--color-border-default) !important;
+    border: none!important;
     border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 }
 
 .notion-collection-card.gallery:hover {
 
-    border: 1px solid var(--color-bg-default) !important;
+    border: none!important;
     border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 }
@@ -681,15 +682,15 @@ p.notion-callout__content {
 /*---------  Quotes  ---------*/
 
 .notion-quote {
-    font-size: 1em !important;
+    font-size: 2em !important;
     width: 100% !important;
     margin: 1rem auto !important;
     padding: 3em 3em 2em 3em !important;
-    border: 1px solid var(--color-border-default) !important;
+    border: none!important;
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: left !important;
     border-radius: var(--m423-radius) !important;
 }
 
