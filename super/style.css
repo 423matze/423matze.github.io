@@ -92,13 +92,13 @@
 
 @media(max-width: 546px) {
     .super-content {
-        padding-left:var(--padding-left-mobile);
-        padding-right: var(--padding-right-mobile);
-        padding-bottom: 180px
+        padding-left:var(--padding-left-mobile)!important;
+        padding-right: var(--padding-right-mobile)!important;
+        padding-bottom: 12em
     }
 
     .super-content.has-footer {
-        padding-bottom: 45px
+        padding-bottom: 4em
     }
 }
 
