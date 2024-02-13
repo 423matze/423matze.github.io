@@ -77,13 +77,29 @@
     font-weight: 500;
 }
 
-
+.super-content {
+    padding-left: var(--padding-left)!important;
+    padding-right: var(--padding-right)!important;
+    padding-bottom: 30vh
+}
 
 .super-content.max-width {
     max-width: var(--m423-width) !important;
     margin: auto !important;
     padding-top: 6em;
 
+}
+
+@media(max-width: 546px) {
+    .super-content {
+        padding-left:var(--padding-left-mobile);
+        padding-right: var(--padding-right-mobile);
+        padding-bottom: 180px
+    }
+
+    .super-content.has-footer {
+        padding-bottom: 45px
+    }
 }
 
 /* STYLES */
