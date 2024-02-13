@@ -213,6 +213,7 @@ body {
 h1 {
 
     font-style: normal !important;
+    font-weight: 700;
     font-size: 3.25rem !important;
     line-height: 120% !important;
     letter-spacing: -0.04em !important;
