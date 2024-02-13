@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap')
 /*custome styles new */
 
 .super-navbar {
@@ -932,6 +933,16 @@ p.notion-callout__content {
     --collection-card-cover-size-medium: calc(30%) !important;
     --collection-card-cover-size-large: calc(45%) !important;
     --m423-width: 1440px !important;
+    /* -- font test -- */
+    --primary-font: "Dosis",Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
+    --secondary-font: "Dosis",Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
+    --text-weight: 400;
+    --heading-weight: 700;
+    --heading1-size: calc(var(--heading-size) * 1.875);
+    --heading2-size: calc(var(--heading-size) * 1.5);
+    --heading3-size: calc(var(--heading-size) * 1.25);
+    --heading4-size: calc(var(--heading-size) * 1);
+    --heading5-size: calc(var(--heading-size) * 0.8125);
 
 }
 
