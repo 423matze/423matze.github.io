@@ -79,7 +79,7 @@
 
 
 .super-content.max-width {
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
     margin: auto !important;
     padding-top: 6em;
 
@@ -96,7 +96,7 @@ body {
 }
 
 .notion-header__title-wrapper {
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
 }
 
 .notion-header__title {
@@ -104,7 +104,7 @@ body {
 }
 
 .notion-header__content.max-width {
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
 }
 
 /*
@@ -114,7 +114,7 @@ body {
   */
 
 .notion-embed__content {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     overflow: hidden !important;
     margin-bottom: 2rem !important;
 }
@@ -160,10 +160,10 @@ body {
 .my-super-navbar {
     -webkit-backdrop-filter: blur(16px) !important;
     backdrop-filter: blur(16px) !important;
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
     margin: 1em auto !important;
     width: calc(100% - var(--column-spacing)) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     top: 1em !important;
 }
 
@@ -180,7 +180,7 @@ body {
 
 .super-navbar__cta {
     padding: 0.75em 2em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     font-size: 0.8rem !important;
     transition: 0.1s ease-in-out !important;
 }
@@ -189,10 +189,10 @@ body {
 
 .notion-header__cover {
     margin: 1em 1em 4em 1em !important;
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
     margin: auto !important;
     width: calc(100% - var(--column-spacing)) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 
 }
 
@@ -276,7 +276,7 @@ p {
 
 
 img {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     -webkit-animation: fadeIn 1.5s !important;
     -moz-animation: fadeIn 1.5s !important;
     -ms-animation: fadeIn 1.5s !important;
@@ -299,7 +299,7 @@ img {
 }
 
 .notion-code pre {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     color: var(--color-text-default) !important;
     background-color: var(--color-bg-default) !important;
     border: 2px solid var(--color-border-default) !important;
@@ -339,7 +339,7 @@ img {
     padding: 0.9em 1.5em !important;
     border: none !important;
     opacity: 1 !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     color: var(--color-bg-default) !important;
 }
 
@@ -406,7 +406,7 @@ img {
 .notion-checkbox {
     width: 1.5em !important;
     height: 1.5em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     background: var(--color-bg-default) !important;
     border: 1px solid var(--color-text-default) !important;
 
@@ -420,7 +420,7 @@ img {
 
     width: 1.5em !important;
     height: 1.5em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     background: var(--color-text-default) !important;
     border: 1px solid var(--color-text-default) !important;
 
@@ -467,15 +467,15 @@ img {
 
 
 p.notion-callout__content {
-    max-width: var(--lift-width) !important;
-    width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
+    width: var(--m423-width) !important;
 }
 
 
 
 
 .notion-callout {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     border: 1px solid var(--color-border-default) !important;
     padding: 1.5em 1.5em 0.5em 1.5em !important;
     overflow: visible !important;
@@ -504,12 +504,12 @@ p.notion-callout__content {
 .notion-page {
 
 
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 
 }
 
 .notion-page>div {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     display: flex;
     transition: 300ms ease-in !important;
     padding: 0.5em !important;
@@ -538,12 +538,12 @@ p.notion-callout__content {
 
 .notion-pill {
     padding: 0.25em 0.75em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 .notion-toggle__summary::before {
     font-size: 2em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     margin: 0 0em 0.25em 0 !important;
     position: relative !important;
 }
@@ -557,7 +557,7 @@ p.notion-callout__content {
 .notion-collection-card {
     box-shadow: none !important;
     border: none;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 
 }
@@ -584,7 +584,7 @@ p.notion-callout__content {
     margin-bottom: 1rem !important;
     padding: 1em !important;
     background: var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 .notion-collection-card__content {
@@ -641,7 +641,7 @@ p.notion-callout__content {
     border: none !important;
     margin-bottom: 1rem !important;
 
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 
@@ -667,14 +667,14 @@ p.notion-callout__content {
 .notion-collection-card.gallery {
 
     border: 1px solid var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 }
 
 .notion-collection-card.gallery:hover {
 
     border: 1px solid var(--color-bg-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 }
 
@@ -690,7 +690,7 @@ p.notion-callout__content {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 
@@ -719,7 +719,7 @@ p.notion-callout__content {
 .notion-collection-table {
     font-size: 1rem !important;
     border: 1px solid var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     overflow: hidden !important;
     padding: 1em !important;
 
@@ -728,7 +728,7 @@ p.notion-callout__content {
 .notion-collection-table__wrapper {
     background: var(--color-border-default) !important;
     padding: 1em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 
@@ -791,7 +791,7 @@ p.notion-callout__content {
     padding: 1rem !important;
     font-size: 0.75rem !important;
     margin: 1rem 0 !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     z-index: 19 !important;
     border: 1px solid var(--color-border-default) !important;
 }
@@ -840,7 +840,7 @@ p.notion-callout__content {
     border: none !important;
     padding: 1rem !important;
     background-color: var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 .notion-collection-list__item {
@@ -895,7 +895,7 @@ p.notion-callout__content {
     border: none !important;
     padding: 1rem !important;
     background-color: var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
 }
 
 .notion-collection-calendar__week-days {
@@ -924,12 +924,12 @@ p.notion-callout__content {
 
 :root {
     --column-spacing: 2em !important;
-    --lift-radius: 12px !important;
+    --m423-radius: 12px !important;
     --body-font: 18px !important;
     --collection-card-cover-size-small: calc(20%) !important;
     --collection-card-cover-size-medium: calc(30%) !important;
     --collection-card-cover-size-large: calc(45%) !important;
-    --lift-width: 1440px !important;
+    --m423-width: 1440px !important;
 
 }
 
@@ -946,7 +946,7 @@ p.notion-callout__content {
     width: 100% !important;
     border: 1px solid var(--color-border-default) !important;
     padding: 0.5em 1em !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     margin-bottom: 1em !important;
 }
 
@@ -963,7 +963,7 @@ p.notion-callout__content {
     padding: 0 !important;
     width: 100% !important;
     border: 1px solid var(--color-border-default) !important;
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     top: 0px !important;
 }
 
@@ -987,7 +987,7 @@ p.notion-callout__content {
 
 
 .super-footer__links {
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
     font-size: 1em !important;
     margin: 2em 0em !important;
 }
@@ -995,7 +995,7 @@ p.notion-callout__content {
 .super-footer__footnote {
     font-size: 0.75em !important;
     opacity: 0.5 !important;
-    max-width: var(--lift-width) !important;
+    max-width: var(--m423-width) !important;
 }
 
 .super-footer__icons {
@@ -1004,7 +1004,7 @@ p.notion-callout__content {
 
 
 .super-footer.floating {
-    border-radius: var(--lift-radius) !important;
+    border-radius: var(--m423-radius) !important;
     align-self: center !important;
     width: calc(100vw - 48px) !important;
 }
@@ -1101,7 +1101,7 @@ p.notion-callout__content {
 
     .super-footer.floating {
         width: calc(100% - 2em) !important;
-        max-width: calc(var(--lift-width) - 2em) !important;
+        max-width: calc(var(--m423-width) - 2em) !important;
         align-self: center !important;
     }
 }
@@ -1151,7 +1151,7 @@ p.notion-callout__content {
         align-items: center !important;
         padding: 0.5em 1em !important;
         cursor: pointer !important;
-        border-radius: var(--lift-radius) !important;
+        border-radius: var(--m423-radius) !important;
         overflow: hidden !important;
         border: 1px solid var(--color-border-default) !important;
         margin-right: 0.5em !important;
