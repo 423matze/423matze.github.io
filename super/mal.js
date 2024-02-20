@@ -1,18 +1,6 @@
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "theme-preference";
 
-if (document.readyState === "loading") {
-  reflectPreference()
-  document.addEventListener("DOMContentLoaded", afterDOMLoaded);
-} else {
-  afterDOMLoaded();
-}
-
-function afterDOMLoaded() {
-  setupEmbeds();
-  setTimeout(addToggle(), 1000);
-}
-
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey))
     return localStorage.getItem(storageKey)
@@ -40,9 +28,17 @@ const theme = {
   value: getColorPreference(),
 }
 
-// set early so no page flashes / CSS is made aware
-reflectPreference()
+if (document.readyState === "loading") {
+  reflectPreference()
+  document.addEventListener("DOMContentLoaded", afterDOMLoaded);
+} else {
+  afterDOMLoaded();
+}
 
+function afterDOMLoaded() {
+  setupEmbeds();
+  setTimeout(addToggle(), 1000);
+}
 
 function addToggle() {
   console.log("init toggle");
