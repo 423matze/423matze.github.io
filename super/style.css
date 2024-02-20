@@ -104,7 +104,7 @@
         padding-bottom: 4em
     }
     .my-super-navbar {
-    margin-left: -8px!important;
+        margin: 1em auto 1em 0.5em !important;
     }
 }
 
@@ -186,7 +186,7 @@ body {
     -webkit-backdrop-filter: blur(16px) !important;
     backdrop-filter: blur(16px) !important;
     max-width: var(--m423-width) !important;
-    margin: 1em auto !important;
+    margin: 1em auto 1em auto !important;
     width: calc(100% - var(--column-spacing)) !important;
     border-radius: var(--m423-radius) !important;
     top: 1em !important;
