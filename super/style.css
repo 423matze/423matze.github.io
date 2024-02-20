@@ -274,7 +274,7 @@ h3 {
     font-size: 1.375rem !important;
     font-weight: 700!important;
     line-height: 135% !important;
-    letter-spacing: 0.1232em !important;
+    letter-spacing: 0.0123em !important;
     margin-bottom: 0.5em !important;
 
     max-width: 800px !important;
@@ -588,6 +588,10 @@ p.notion-callout__content {
 
 }
 
+.notion-collection-card__property-list {
+    font-size: 1rem;
+}
+
 .notion-collection-card:hover {
     background: var(--color-card-bg) !important;
     transform: scale(1.01) !important;
@@ -620,7 +624,6 @@ p.notion-callout__content {
 
 .notion-collection-board__item {
     margin-bottom: 1rem !important;
-
 }
 
 
@@ -632,6 +635,7 @@ p.notion-callout__content {
 
 .notion-collection-gallery .notion-property__title {
     padding-top: 1rem !important;
+    font-size: var(--collection-card-title-size)!important;
 }
 
 
@@ -892,9 +896,6 @@ p.notion-callout__content {
     white-space: normal !important;
 }
 
-
-
-
 .notion-collection-list__item-property {
     margin-left: 0.5rem !important;
     font-size: 0.75rem !important;
@@ -948,7 +949,7 @@ p.notion-callout__content {
 
 
 
-
+/* Standard browser size */
 :root {
     --column-spacing: 2em !important;
     --m423-radius: 12px !important;
@@ -958,10 +959,13 @@ p.notion-callout__content {
     --collection-card-cover-size-large: calc(45%) !important;
     --m423-width: 1440px !important;
     /* -- font test -- */
-    --primary-font: Dosis,Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
-    --secondary-font: Dosis,Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
+    --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
+    --secondary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
+    
+    --collection-card-title-size: 1.2rem;    
     --text-weight: 400;
     --heading-weight: 800;
+    
     --heading1-size: calc(var(--heading-size) * 1.875);
     --heading2-size: calc(var(--heading-size) * 1.5);
     --heading3-size: calc(var(--heading-size) * 1.25);
