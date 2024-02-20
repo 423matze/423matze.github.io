@@ -101,6 +101,9 @@
     .super-content.has-footer {
         padding-bottom: 4em
     }
+    .my-super-navbar {
+    margin-left: -8px!important;
+    }
 }
 
 /* STYLES */
