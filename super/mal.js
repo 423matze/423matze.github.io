@@ -1,6 +1,8 @@
 const SELECTOR = "code:not([super-embed-seen])";
+const storageKey = "theme-preference";
 
 if (document.readyState === "loading") {
+  reflectPreference()
   document.addEventListener("DOMContentLoaded", afterDOMLoaded);
 } else {
   afterDOMLoaded();
@@ -11,17 +13,53 @@ function afterDOMLoaded() {
   setTimeout(addToggle(), 1000);
 }
 
+const getColorPreference = () => {
+  if (localStorage.getItem(storageKey))
+    return localStorage.getItem(storageKey)
+  else
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+}
+
+const setPreference = () => {
+  localStorage.setItem(storageKey, theme.value)
+  reflectPreference()
+}
+
+const reflectPreference = () => {
+  document.firstElementChild
+    .setAttribute('data-theme', theme.value)
+
+  document
+    .querySelector('#theme-toggle')
+    ?.setAttribute('aria-label', theme.value)
+}
+
+const theme = {
+  value: getColorPreference(),
+}
+
+// set early so no page flashes / CSS is made aware
+reflectPreference()
+
+
 function addToggle() {
   console.log("init toggle");
 
-  const elm = document.getElementById("my-toggle");
+  document
+    .getElementById("#theme-toggle")
+    .addEventListener("click", (e) => {
+    theme.value = theme.value === 'light'
+    ? 'dark'
+    : 'light'
 
-  elm.addEventListener("click", (e) => {
+    setPreference()
+    /*  
     let mode = html.className === "theme-light" ? "theme-dark" : "theme-light";
-
     html.className = mode;
-
     localStorage["color-preference"] = mode.replace("theme-", "");
+    */
   });
 }
 
@@ -69,3 +107,10 @@ observer.observe(document, {
   characterData: false,
   subtree: true,
 });
+
+window
+  .matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', ({matches:isDark}) => {
+    theme.value = isDark ? 'dark' : 'light'
+    setPreference()
+  });
