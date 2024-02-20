@@ -44,7 +44,7 @@ function addToggle() {
   console.log("init toggle");
 
   document
-    .getElementById("#theme-toggle")
+    .querySelector("#theme-toggle")
     .addEventListener("click", (e) => {
     theme.value = theme.value === 'light'
     ? 'dark'
