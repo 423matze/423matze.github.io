@@ -1064,7 +1064,7 @@ p.notion-callout__content {
 }
 
 .sun-and-moon > :is(.moon, .sun) {
-  fill: var(--icon-fill);
+  fill: var(--color-text-default);
 }
 
 .theme-toggle:is(:hover, :focus-visible) > .sun-and-moon > :is(.moon, .sun) {
@@ -1072,12 +1072,12 @@ p.notion-callout__content {
 }
 
 .sun-and-moon > .sun-beams {
-  stroke: var(--icon-fill);
+  stroke: var(--color-text-default);
   stroke-width: 2px;
 }
 
 .theme-toggle:is(:hover, :focus-visible) .sun-and-moon > .sun-beams {
-  stroke: var(--icon-fill-hover);
+  stroke: var(--color-text-default);
 }
 
 [data-theme="dark"] .sun-and-moon > .sun {
