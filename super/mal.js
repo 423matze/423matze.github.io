@@ -34,6 +34,7 @@ const theme = {
 /*-- submenu functions --*/
 
 let toggle_state = false;
+let device = "";
 
 const toggle_menu = () => {
   toggle_state = toggle_state === false ? true : false;
@@ -47,6 +48,13 @@ const toggle_menu = () => {
   document.querySelector("#menu")?.setAttribute("aria-label", state);
 
   console.log("toggle menu", toggle_state);
+}
+
+const mobile_check = (e) => {
+  if(e.match){
+    device = "MOBILE";
+    console.log(device);
+  }
 }
 
 /*-- init super-embad code navigation --*/
@@ -81,7 +89,7 @@ function initNavigation() {
     setPreference();
 
     /*-- add submenu listener --*/
-
+    
     const my_submenu = document.getElementById("my-menu-toggle");
 my_submenu.addEventListener("click", toggle_menu);
     
