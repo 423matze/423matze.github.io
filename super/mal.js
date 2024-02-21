@@ -28,7 +28,7 @@ const reflectPreference = () => {
 }
 
 const theme = {
-  value: getColorPreference();
+  value: getColorPreference()
 }
 
 /*-- submenu functions --*/
