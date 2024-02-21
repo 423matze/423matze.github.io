@@ -22,6 +22,8 @@ const reflectPreference = () => {
   document
     .querySelector('#theme-toggle')
     ?.setAttribute('aria-label', theme.value)
+
+  html.className = "theme-" + theme.value;
 }
 
 const theme = {
@@ -41,6 +43,7 @@ function afterDOMLoaded() {
 }
 
 function addToggle() {
+  
   console.log("init toggle");
 
   const my_toggle = document.getElementById("theme-toggle");
