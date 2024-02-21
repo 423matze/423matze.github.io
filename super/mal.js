@@ -75,23 +75,21 @@ function initNavigation() {
   
   console.log("init toggle");
 
+  const my_submenu = document.getElementById("my-menu-toggle");
+    my_submenu.addEventListener("click", toggle_menu);
+
   const my_toggle = document.getElementById("theme-toggle");
     my_toggle.addEventListener("click", (e) => {
     theme.value = theme.value === 'light'
     ? 'dark'
-    : 'light';
+    : 'light';    
     
     /* -- pass selection to html class --- */
     //let mode = html.className === "theme-light" ? "theme-dark" : "theme-light";
     html.className = "theme-" + theme.value;
     //localStorage["color-preference"] = mode.replace("theme-", "");
     
-    setPreference();
-
-    /*-- add submenu listener --*/
-    
-    const my_submenu = document.getElementById("my-menu-toggle");
-my_submenu.addEventListener("click", toggle_menu);
+    setPreference();   
     
   });
 }
