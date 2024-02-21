@@ -1,5 +1,6 @@
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
+const mediaQueryList = window.matchMedia("(min-width: 546px)");
 
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey))
@@ -27,8 +28,28 @@ const reflectPreference = () => {
 }
 
 const theme = {
-  value: getColorPreference(),
+  value: getColorPreference();
 }
+
+/*-- submenu functions --*/
+
+let toggle_state = false;
+
+const toggle_menu = () => {
+  toggle_state = toggle_state === false ? true : false;
+
+  document
+    .querySelector("#my-menu-toggle")
+    ?.setAttribute("aria-expanded", toggle_state);
+
+  let state = toggle_state === false ? "menu-closed" : "menu-open";
+
+  document.querySelector("#menu")?.setAttribute("aria-label", state);
+
+  console.log("toggle menu", toggle_state);
+}
+
+/*-- init super-embad code navigation --*/
 
 if (document.readyState === "loading") {
   reflectPreference()
@@ -39,10 +60,10 @@ if (document.readyState === "loading") {
 
 function afterDOMLoaded() {
   setupEmbeds();
-  setTimeout(addToggle(), 1000);
+  //setTimeout(initNavigation(), 1000);
 }
 
-function addToggle() {
+function initNavigation() {
   
   console.log("init toggle");
 
@@ -57,7 +78,12 @@ function addToggle() {
     html.className = "theme-" + theme.value;
     //localStorage["color-preference"] = mode.replace("theme-", "");
     
-    setPreference()
+    setPreference();
+
+    /*-- add submenu listener --*/
+
+    const my_submenu = document.getElementById("my-menu-toggle");
+my_submenu.addEventListener("click", toggle_menu);
     
   });
 }
@@ -96,7 +122,7 @@ function setupEmbeds() {
 var observer = new MutationObserver(function (mutations) {
   if (document.querySelector(SELECTOR)) {
     setupEmbeds();
-    addToggle();
+    initNavigation();
   }
 });
 
@@ -113,3 +139,5 @@ window
     theme.value = isDark ? 'dark' : 'light'
     setPreference()
   });
+
+mediaQueryList.addListener(screenTest);
