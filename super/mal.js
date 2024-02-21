@@ -148,4 +148,4 @@ window
     setPreference()
   });
 
-mediaQueryList.addListener(screenTest);
+mediaQueryList.addListener(mobile_check);
