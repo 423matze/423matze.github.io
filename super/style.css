@@ -184,6 +184,7 @@
         gap: 2em;
         background-color: aqua;
         width: 100%;
+        height: unset;
         border-radius: var(--m423-radius);
         padding: 4em 0;
     }
@@ -199,6 +200,8 @@
     .my-menuburger {
         --burger-size: 80px;
         display: block;
+        position: relative;
+        top: -50%;
         background: none;
         border: none;
         padding: 0;
@@ -212,9 +215,7 @@
         outline-offset: var(--burger-size) / 2;
     }
 
-    svg.burger {
-        margin-top: -32px;
-    }
+    
 
     .line--1,
     .line--3 {
@@ -251,12 +252,12 @@
     }
 
     circle.burger-bg {
-        fill: #fff3 !important;
+        fill: #fff3;
         opacity: 0;
     }
 
     button.my-menuburger:hover circle.burger-bg {
-        opacity: 1;
+        opacity: 0;
     }
 
     .super-content {
