@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
-@import "https://unpkg.com/open-props/easings.min.css";
+@import url('https://unpkg.com/open-props/easings.min.css');
 
 /*custome styles new */
 
@@ -185,10 +185,12 @@ body {
 .my-super-navbar {
     -webkit-backdrop-filter: blur(16px) !important;
     backdrop-filter: blur(16px) !important;
-    max-width: var(--m423-width) !important;
-    margin: 1em auto 1em auto !important;
-    width: calc(100% - var(--column-spacing)) !important;
-    border-radius: var(--m423-radius) !important;
+    max-width: calc(var(--m423-width) - var(--padding-right) - var(--padding-left) + var(--nav-ovefloat)*2)!important;
+    margin: 1em auto 1em -1em !important;
+    width: calc(100% - var(
+    --column-spacing)) !important;
+    border-radius: var(
+    --m423-radius) !important;
     top: 1em !important;
 }
 
@@ -229,7 +231,7 @@ body {
 
 .super-navbar__actions,
 .super-navbar__logo {
-    padding: 0 !important;
+    padding: 0 0.75em !important;
 }
 
 /*---------  TYPOGRAPHY ---------*/
@@ -976,6 +978,8 @@ p.notion-callout__content {
     /* -- page paddings -- */
     --padding-right: calc(env(safe-area-inset-right) + 120px);
     --padding-left: calc(env(safe-area-inset-left) + 120px);
+    /* -- my nv vriables -- */
+    --nav-ovefloat: 1em;
     
 
 }
@@ -1059,6 +1063,25 @@ p.notion-callout__content {
 
 /* Dark Lighmode switch - web.dev */
 
+.theme-toggle{
+    --size: 1.5em;
+    background: none;
+    border: none;
+    padding:0;
+    inline-size: var(--size);
+    block-size: var(--size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    touch-action: manipulatin;
+    -webkit-tab-highlight-color: tranparent;
+    outline-offset: var(--size)/2;
+}
+svg.sun-and-moon{
+    width: 100%;
+    height:100%;
+}
+
 .sun-and-moon > :is(.moon, .sun, .sun-beams) {
   transform-origin: center;
 }
@@ -1074,6 +1097,7 @@ p.notion-callout__content {
 .sun-and-moon > .sun-beams {
   stroke: var(--color-text-default);
   stroke-width: 2px;
+  stroke-linecap: round;
 }
 
 .theme-toggle:is(:hover, :focus-visible) .sun-and-moon > .sun-beams {
