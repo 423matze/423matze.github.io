@@ -1,5 +1,5 @@
 const SELECTOR = "code:not([super-embed-seen])";
-const storageKey = "theme-preference";
+const storageKey = "color-preference";
 
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey))
@@ -43,12 +43,11 @@ function afterDOMLoaded() {
 function addToggle() {
   console.log("init toggle");
 
-  document
-    .querySelector("#theme-toggle")
-    .addEventListener("click", (e) => {
+  const my_toggle = document.getElementByID("theme-toggle");
+    my_toggle.addEventListener("click", (e) => {
     theme.value = theme.value === 'light'
     ? 'dark'
-    : 'light'
+    : 'light';
 
     setPreference()
     /*  
