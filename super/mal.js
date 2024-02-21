@@ -48,13 +48,14 @@ function addToggle() {
     theme.value = theme.value === 'light'
     ? 'dark'
     : 'light';
-
+    
+    /* -- pass selection to html class --- */
+    //let mode = html.className === "theme-light" ? "theme-dark" : "theme-light";
+    html.className = "theme-" + theme.value;
+    //localStorage["color-preference"] = mode.replace("theme-", "");
+    
     setPreference()
-    /*  
-    let mode = html.className === "theme-light" ? "theme-dark" : "theme-light";
-    html.className = mode;
-    localStorage["color-preference"] = mode.replace("theme-", "");
-    */
+    
   });
 }
 
