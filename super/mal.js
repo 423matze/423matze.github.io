@@ -43,7 +43,7 @@ function afterDOMLoaded() {
 function addToggle() {
   console.log("init toggle");
 
-  const my_toggle = document.getElementByID("theme-toggle");
+  const my_toggle = document.getElementById("theme-toggle");
     my_toggle.addEventListener("click", (e) => {
     theme.value = theme.value === 'light'
     ? 'dark'
