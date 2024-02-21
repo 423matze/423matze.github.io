@@ -162,6 +162,15 @@
         height: fit-content;
     }
 
+    .my-super-subnav {
+        display: flex;
+        background-color: none;
+        height: 40px;
+        overflow: hidden;
+        flex-direction: row;
+        justify-content: center;
+    }
+
     .my-super-navbar__item-list {
         position: absolute;
         list-style: none;
