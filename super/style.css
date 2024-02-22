@@ -1200,7 +1200,7 @@ svg.sun-and-moon {
         top: 0px;
         left: 0px;
         bottom: 0px;
-        right: 0px
+        right: 0px;
         backdrop-filter: blur(42px) !important;
         -webkit-backdrop-filter: blur(42px) !important;
         background-color: var(--color-backdrop-bg);
@@ -1231,7 +1231,8 @@ svg.sun-and-moon {
 
     .my-super-navbar__item-list {
         position: absolute;
-        list-style: none;
+        width: 100%;
+        height: auto;
         bottom: 3em;
         left: 0px;
         display: flex;
@@ -1239,12 +1240,12 @@ svg.sun-and-moon {
         flex-wrap: nowrap;
         justify-content: space-around;
         align-items: center;
-        gap: 2em;
-        background-color: transparen;
-        width: 100%;
-        height: auto;
+        gap: 1em;
+        background-color: transparent;
+        list-style: none;
+        
         border-radius: var(--m423-radius);
-        padding: 4em 0;
+        padding: 1em 0;
     }
 
     [aria-label="menu-closed"].my-super-navbar__item-list {
@@ -1253,6 +1254,20 @@ svg.sun-and-moon {
 
     [aria-label="menu-open"].my-super-navbar__item-list {
         display: flex;
+    }
+
+    li.my-contacts {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-evenly;
+        padding-bottom: 1em;
+    }
+
+    a.my-contact {
+        color: var(--color-text-default);
     }
 
     a.notion-link.super-navbar__item {
