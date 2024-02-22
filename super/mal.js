@@ -36,6 +36,8 @@ const theme = {
 let toggle_state = false;
 let device = "";
 
+/*-- set default states / back --*/
+document.querySelector("#menu")?.setAttribute("aria-label", state);
 document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
 
 const toggle_menu = () => {
@@ -49,7 +51,6 @@ const toggle_menu = () => {
 
   document.querySelector("#menu")?.setAttribute("aria-label", state);
   document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
-  document.querySelector("body")?.setAttribute("modal", toggle_state);
 
   console.log("toggle menu", toggle_state);
 }
