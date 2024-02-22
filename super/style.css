@@ -751,10 +751,17 @@ p.notion-callout__content {
 
 
 .notion-collection-card {
+    width: 100%;
+    height: 100%;
+    position: relative;    
+    overflow: hidden;
+    padding: var(--collection-card-padding);
+    background: var(--color-card-bg);    
     box-shadow: none !important;
     border: none;
     border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
+    cursor: pointer;
 }
 
 .notion-collection-card__property-list {
