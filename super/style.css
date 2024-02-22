@@ -193,151 +193,6 @@ h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
     margin-left: 64px;
 }
 
-@media(max-width: 546px) {
-
-    .backdrop {
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        width: 100vw;
-        height: 100vh;
-        backdrop-filter: blur(42px) !important;
-        -webkit-backdrop-filter: blur(42px) !important;
-        background-color: var(--color-backdrop-bg);
-    }
-
-    .backdrop:is([visible="true"]) {
-        display:block;
-    }
-    .backdrop:is([visible="false"]) {
-        display:none;
-    }
-
-    .my-super-navbar {
-        margin: 1em auto 1em -0.5em !important;
-        top: unset;
-        bottom: 1rem;
-        height: fit-content;
-    }
-
-    .my-super-subnav {
-        display: flex;
-        background-color: none;
-        height: 40px;
-        overflow: hidden;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .my-super-navbar__item-list {
-        position: absolute;
-        list-style: none;
-        bottom: 3em;
-        left: 0px;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: space-around;
-        align-items: center;
-        gap: 2em;
-        background-color: transparen;
-        width: 100%;
-        height: auto;
-        border-radius: var(--m423-radius);
-        padding: 4em 0;
-    }
-
-    [aria-label="menu-closed"].my-super-navbar__item-list {
-        display: none;
-    }
-
-    [aria-label="menu-open"].my-super-navbar__item-list {
-        display: flex;
-    }
-
-    a.notion-link.super-navbar__item {
-        position: relative;
-        padding: 1em;
-        font-size: 1.23em;
-        font-weight: 800;
-        color: var(--color-text-default);
-        opacity: 1 !important;
-    }
-
-    .my-menuburger {
-        --burger-size: 80px;
-        display: block;
-        position: relative;
-        top: -50%;
-        background: none;
-        border: none;
-        padding: 0;
-        inline-size: var(--burger-size);
-        block-size: var(--burger-size);
-        aspect-ratio: 1;
-        border-radius: 50%;
-        cursor: pointer;
-        touch-action: manipulatin;
-        -webkit-tab-highlight-color: tranparent;
-        outline-offset: var(--burger-size) / 2;
-    }
-
-    
-
-    .line--1,
-    .line--3 {
-        --total-length: 126.64183044433594;
-    }
-
-    .line--2 {
-        --total-length: 70;
-    }
-
-    .line--1,
-    .line--2,
-    .line--3 {
-        fill: none;
-        stroke: var(--color-text-default);
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        --length: 24;
-        --offset: -38;
-        stroke-dasharray: var(--length) var(--total-length);
-        stroke-dashoffset: var(--offset);
-        transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
-
-    [aria-expanded="true"] .line--1,
-    [aria-expanded="true"] .line--3 {
-        --offset: -93.5149185097;
-    }
-
-    [aria-expanded="true"] .line--2 {
-        --offset: -50;
-        --length: 0;
-    }
-
-    circle.burger-bg {
-        fill: #fff3;
-        opacity: 0;
-    }
-
-    button.my-menuburger:hover circle.burger-bg {
-        opacity: 0;
-    }
-
-    .super-content {
-        padding-left: var(--padding-left-mobile) !important;
-        padding-right: var(--padding-right-mobile) !important;
-        padding-bottom: 12em
-    }
-
-    .super-content.has-footer {
-        padding-bottom: 4em
-    }
-}
-
 /* STYLES */
 
 html {
@@ -1323,12 +1178,163 @@ svg.sun-and-moon {
     }
 }
 
+/* ------  M O B I LE  R E S P O N S I V E  --------*/
 
+/* --------- < 860px -------------- */
 
+@media (max-width: 860px)
+.super-navbar__item {
+    width: 100%;
+    padding: 16px 16px 16px 16px;
+    text-align: left;
+}
 
-/*MOBILE RESPONSIVE*/
+/* --------- < 546px -------------- */
 
+@media(max-width: 546px) {
 
+    .backdrop {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        backdrop-filter: blur(42px) !important;
+        -webkit-backdrop-filter: blur(42px) !important;
+        background-color: var(--color-backdrop-bg);
+    }
+
+    .backdrop:is([visible="true"]) {
+        display:block;
+    }
+    .backdrop:is([visible="false"]) {
+        display:none;
+    }
+
+    .my-super-navbar {
+        margin: 1em auto 1em -0.5em !important;
+        top: unset;
+        bottom: 1rem;
+        height: fit-content;
+    }
+
+    .my-super-subnav {
+        display: flex;
+        background-color: none;
+        height: 40px;
+        overflow: hidden;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .my-super-navbar__item-list {
+        position: absolute;
+        list-style: none;
+        bottom: 3em;
+        left: 0px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+        gap: 2em;
+        background-color: transparen;
+        width: 100%;
+        height: auto;
+        border-radius: var(--m423-radius);
+        padding: 4em 0;
+    }
+
+    [aria-label="menu-closed"].my-super-navbar__item-list {
+        display: none;
+    }
+
+    [aria-label="menu-open"].my-super-navbar__item-list {
+        display: flex;
+    }
+
+    a.notion-link.super-navbar__item {
+        position: relative;
+        padding: 1em;
+        font-size: 1.23em;
+        font-weight: 800;
+        color: var(--color-text-default);
+        opacity: 1 !important;
+    }
+
+    .my-menuburger {
+        --burger-size: 80px;
+        display: block;
+        position: relative;
+        top: -50%;
+        background: none;
+        border: none;
+        padding: 0;
+        inline-size: var(--burger-size);
+        block-size: var(--burger-size);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+        touch-action: manipulatin;
+        -webkit-tab-highlight-color: tranparent;
+        outline-offset: var(--burger-size) / 2;
+    }
+
+    
+
+    .line--1,
+    .line--3 {
+        --total-length: 126.64183044433594;
+    }
+
+    .line--2 {
+        --total-length: 70;
+    }
+
+    .line--1,
+    .line--2,
+    .line--3 {
+        fill: none;
+        stroke: var(--color-text-default);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        --length: 24;
+        --offset: -38;
+        stroke-dasharray: var(--length) var(--total-length);
+        stroke-dashoffset: var(--offset);
+        transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    [aria-expanded="true"] .line--1,
+    [aria-expanded="true"] .line--3 {
+        --offset: -93.5149185097;
+    }
+
+    [aria-expanded="true"] .line--2 {
+        --offset: -50;
+        --length: 0;
+    }
+
+    circle.burger-bg {
+        fill: #fff3;
+        opacity: 0;
+    }
+
+    button.my-menuburger:hover circle.burger-bg {
+        opacity: 0;
+    }
+
+    .super-content {
+        padding-left: var(--padding-left-mobile) !important;
+        padding-right: var(--padding-right-mobile) !important;
+        padding-bottom: 12em
+    }
+
+    .super-content.has-footer {
+        padding-bottom: 4em
+    }
+}
 
 @media screen and (max-width: 880px) {
 
