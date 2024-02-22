@@ -199,7 +199,7 @@ body:is([modal="true"]) {
         justify-content: space-around;
         align-items: center;
         gap: 2em;
-        background-color: aqua;
+        background-color: transparen;
         width: 100%;
         height: auto;
         border-radius: var(--m423-radius);
@@ -215,9 +215,11 @@ body:is([modal="true"]) {
     }
 
     a.notion-link.super-navbar__item {
+        position: relative;
         padding: 1em;
         font-size: 1.23em;
         font-weight: 800;
+        color: var(--color-text-default);
     }
 
     .my-menuburger {
