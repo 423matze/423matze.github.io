@@ -179,7 +179,8 @@ body:is([modal="true"]) {
         left: 0px;
         width: 100vw;
         height: 100vh;
-        backdrop-filter: blur(23px);
+        backdrop-filter: blur(23px) !important;
+        -webkit-backdrop-filter: blur(23px) !important;
         background-color: #ffffff2e;
     }
     .backdrop:is([visible="false"]) {
