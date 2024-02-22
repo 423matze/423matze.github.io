@@ -46,6 +46,8 @@ const toggle_menu = () => {
   let state = toggle_state === false ? "menu-closed" : "menu-open";
 
   document.querySelector("#menu")?.setAttribute("aria-label", state);
+  document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
+  document.querySelector("body")?.setAttribute("modal", toggle_state);
 
   console.log("toggle menu", toggle_state);
 }
