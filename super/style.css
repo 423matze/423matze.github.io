@@ -63,7 +63,6 @@ body:is([modal="true"]) {
 
 .my-super-navbar {
     display: flex;
-    
     position: fixed;
     top: 1em;
     z-index: 423;
@@ -71,7 +70,6 @@ body:is([modal="true"]) {
     width: calc(100vw - var(--padding-left) - 64px) !important;
     max-width: calc(var(--m423-width) - var(--padding-right) - var(--padding-left) + var(--nav-ovefloat)*2) !important;
     margin: 1em auto 1em -1em !important;
-    overflow: hidden;
     flex-direction: row;
     justify-content: center;
     border-radius: var(--m423-radius) !important;    
@@ -1201,8 +1199,8 @@ svg.sun-and-moon {
         position: fixed;
         top: 0px;
         left: 0px;
-        width: 100vw;
-        height: 100vh;
+        bottom: 0px;
+        right: 0px
         backdrop-filter: blur(42px) !important;
         -webkit-backdrop-filter: blur(42px) !important;
         background-color: var(--color-backdrop-bg);
@@ -1227,7 +1225,6 @@ svg.sun-and-moon {
         display: flex;
         background-color: none;
         height: 40px;
-        overflow: hidden;
         flex-direction: row;
         justify-content: center;
     }
