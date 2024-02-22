@@ -9,7 +9,7 @@ html.theme-light {
     --color-backdrop-bg: #ffffff70;
 }
 html.theme-dark {
-    --color-card-bg: #f7f2f5!important;
+    --color-card-bg: #202020!important;
     --color-card-bg-hover: #292929!important;
 
     --color-backdrop-bg: #00000070;
@@ -110,7 +110,7 @@ body:is([modal="true"]) {
     flex-wrap: wrap;
     height: 100%;
     overflow: hidden;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .super-navbar__item {
@@ -1178,20 +1178,24 @@ svg.sun-and-moon {
     }
 }
 
+
+
+
+
 /* ------  M O B I LE  R E S P O N S I V E  --------*/
 
-/* --------- < 860px -------------- */
 
-@media (max-width: 860px)
-.super-navbar__item {
-    width: 100%;
-    padding: 16px 16px 16px 16px;
-    text-align: left;
-}
+
+
 
 /* --------- < 546px -------------- */
 
 @media(max-width: 546px) {
+
+    h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
 
     .backdrop {
         position: fixed;
@@ -1216,6 +1220,7 @@ svg.sun-and-moon {
         top: unset;
         bottom: 1rem;
         height: fit-content;
+        width: calc(100% - 32px)!important;
     }
 
     .my-super-subnav {
@@ -1389,6 +1394,20 @@ svg.sun-and-moon {
         margin-bottom: 0.5rem !important;
     }
 
+     .notion-collection-card__content {
+        padding: 0em 1em 1em 1em !important;
+    }
+
+
+    .super-navbar__item {
+    width: 100%;
+    padding: 0px 16px 0px 16px;
+    text-align: left;
+
+    .my-super-navbar__item-list {
+        justify-content: center;
+    }
+
     .notion-collection-list__item-property {
         margin-left: 0rem !important;
         font-size: 0.75rem !important;
@@ -1404,17 +1423,11 @@ svg.sun-and-moon {
 
 
 
-@media screen and (min-width: 880px) {
-
-    .super-footer.floating {
-        width: calc(100% - 2em) !important;
-        max-width: calc(var(--m423-width) - 2em) !important;
-        align-self: center !important;
-    }
-}
-
-
 @media (min-width: 546px) {
+
+    li.my-contacts {
+        display: none;
+    }
 
     .notion-dropdown__menu.animate-in.animate-out,
     .notion-dropdown__menu.animate-in,
@@ -1473,5 +1486,14 @@ svg.sun-and-moon {
         color: var(--color-bg-default) !important;
         background: var(--color-text-default) !important;
         border: 1px solid var(--color-text-default) !important;
+    }
+}
+
+@media screen and (min-width: 880px) {
+
+    .super-footer.floating {
+        width: calc(100% - 2em) !important;
+        max-width: calc(var(--m423-width) - 2em) !important;
+        align-self: center !important;
     }
 }
