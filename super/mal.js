@@ -1,6 +1,6 @@
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
-const mediaQueryList = window.matchMedia("(min-width: 546px)");
+const mediaQueryList = window.matchMedia("(max-width: 546px)");
 
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey))
@@ -36,6 +36,8 @@ const theme = {
 let toggle_state = false;
 let device = "";
 
+document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
+
 const toggle_menu = () => {
   toggle_state = toggle_state === false ? true : false;
 
@@ -55,7 +57,7 @@ const toggle_menu = () => {
 const mobile_check = (e) => {
   if(e.match){
     device = "MOBILE";
-    console.log(device);
+    console.log(e, device);
   }
 }
 
@@ -70,9 +72,9 @@ if (document.readyState === "loading") {
 
 function afterDOMLoaded() {
   setupEmbeds();
-  //setTimeout(initNavigation(), 1000);
 }
 
+/*-- navigation --*/
 function initNavigation() {
   
   console.log("init toggle");
@@ -85,16 +87,15 @@ function initNavigation() {
     theme.value = theme.value === 'light'
     ? 'dark'
     : 'light';    
-    
-    /* -- pass selection to html class --- */
-    //let mode = html.className === "theme-light" ? "theme-dark" : "theme-light";
+
     html.className = "theme-" + theme.value;
-    //localStorage["color-preference"] = mode.replace("theme-", "");
     
     setPreference();   
     
   });
 }
+
+/*-- insert codeblock --*/
 
 function clearBlock(el) {
   const node = el.parentElement.parentElement;
