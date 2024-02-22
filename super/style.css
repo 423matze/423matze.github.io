@@ -41,6 +41,12 @@ html.theme-light {
     --nav-ovefloat: 1em;
 }
 
+/* menu hacks */
+body:is([modal="true"]) {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
 /*custome styles new menue */
 
 .super-navbar {
@@ -206,6 +212,12 @@ html.theme-light {
 
     [aria-label="menu-open"].my-super-navbar__item-list {
         display: flex;
+    }
+
+    a.notion-link.super-navbar__item {
+        padding: 1em;
+        font-size: 1.23em;
+        font-weight: 800;
     }
 
     .my-menuburger {
