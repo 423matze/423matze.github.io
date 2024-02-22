@@ -172,6 +172,20 @@ body:is([modal="true"]) {
 
 @media(max-width: 546px) {
 
+    .backdrop:is([visible="true"]) {
+        display:block;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        backdrop-filter: blur(23px);
+        background-color: #ffffff2e;
+    }
+    .backdrop:is([visible="false"]) {
+        display:none;
+    }
+
     .my-super-navbar {
         margin: 1em auto 1em -0.5em !important;
         top: unset;
