@@ -70,7 +70,6 @@ body:is([modal="true"]) {
     position: fixed;
     top: 1em;
     z-index: 423;
-    height: 40px;
     width: calc(100vw - var(--padding-left) - 64px) !important;
     max-width: calc(var(--m423-width) - var(--padding-right) - var(--padding-left) + var(--nav-ovefloat)*2) !important;
     margin: 1em auto 1em -1em !important;
@@ -195,8 +194,14 @@ li.my-contacts {
 
 }
 
-h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
-    margin-left: 64px;
+h1.notion-heading, 
+h2.notion-heading, 
+.notion-text, 
+.notion-quote {
+    max-width: 740px;
+    width: 100%;
+    min-width: 495px;
+    margin: auto;
 }
 
 /* STYLES */
