@@ -98,6 +98,10 @@ body:is([modal="true"]) {
     display: none;
 }
 
+li.my-contacts {
+        display: none;
+}
+
 .my-super-navbar__item-list {
     display: flex;
     align-items: center;
@@ -1501,11 +1505,16 @@ svg.sun-and-moon {
     }
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 880.02px) {
 
     .super-footer.floating {
         width: calc(100% - 2em) !important;
         max-width: calc(var(--m423-width) - 2em) !important;
         align-self: center !important;
+    }
+    .super-content {
+        padding-left: var(--padding-left-mobile) !important;
+        padding-right: var(--padding-right-mobile) !important;
+        padding-bottom: 30vh;
     }
 }
