@@ -421,8 +421,10 @@ img {
 
 
 .notion-bulleted-list {
-    -webkit-padding-start: 1em;
-    padding-inline-start: 1em;
+    max-width: 740px;
+    margin: auto !important;
+    -webkit-padding-start: 1em !important;
+    padding-inline-start: 1em !important;
     line-height: 1.5;
 }
 
