@@ -29,6 +29,10 @@ html.theme-dark {
     --collection-card-cover-size-large: calc(45%) !important;
     --collection-card-title-size: 1.23em!important;
     --collection-card-property-size: 1em!important;
+
+    --collection-card-content-padding: 1em;
+    --collection-card-content-padding-mobile: 0.42em;
+    --collection-card-title-padding: 0px;
     
     /* -- font test -- */
     --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, Apple Color Emoji, Segoe UI Emoji, NotoColorEmoji, Noto Color Emoji, Segoe UI Symbol, Android Emoji, EmojiSymbols, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Noto Sans, sans-serif;
@@ -677,6 +681,14 @@ p.notion-callout__content {
     cursor: pointer;
 }
 
+.notion-collection-card .notion-property__title {
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    font-size: var(--collection-card-title-size);
+    padding: var(--collection-card-title-padding);
+}
+
 .notion-collection-card__property-list {
     font-size: 1em!important;
 }
@@ -707,7 +719,7 @@ p.notion-callout__content {
 }
 
 .notion-collection-card__content {
-    padding: 0em .5em 0em .5em !important;
+    padding: var(--collection-card-content-padding) !important;
 }
 
 
