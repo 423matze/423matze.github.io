@@ -276,6 +276,15 @@ body {
     margin: 0px 0.5em !important;
 }
 
+.notion-text.color-gray {
+    color: var(--color-text-gray);
+    text-align: center;
+}
+
+.notion-text.color-gray p {
+    margin-bottm: 0 !important;
+}
+
 
 /*--------- NAVBAR ---------*/
 
