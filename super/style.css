@@ -395,6 +395,10 @@ p {
 
 }
 
+.notion-text.color-pink p {
+    margin-bottom: 0 !important;
+}
+
 
 img {
     border-radius: var(--m423-radius) !important;
@@ -425,7 +429,7 @@ img {
     margin: auto !important;
     -webkit-padding-start: 1em !important;
     padding-inline-start: 1em !important;
-    line-height: 1.5;
+    line-height: 1.5em;
 }
 
 .notion-code pre {
