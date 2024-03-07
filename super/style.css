@@ -201,7 +201,7 @@ h3.notion-heading,
 .notion-quote {
     max-width: 740px;
     width: 100%;
-    min-width: 495px;
+    min-width: 240px;
     margin: auto;
 }
 
