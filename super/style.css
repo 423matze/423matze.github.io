@@ -1233,8 +1233,8 @@ svg.sun-and-moon {
 @media(max-width: 546px) {
 
     h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
-        margin-left: 12px;
-        margin-right: 12px;
+        /* margin-left: 12px;
+        margin-right: 12px; */
     }
 
     .backdrop {
@@ -1385,7 +1385,7 @@ svg.sun-and-moon {
     }
 
     .super-content {
-        width: calc(100% - ( var(--padding-left-mobile) * 2))!important;
+        width: 100vw !important;
         padding-left: var(--padding-left-mobile) !important;
         padding-right: var(--padding-right-mobile) !important;
         padding-bottom: 12em
@@ -1478,7 +1478,7 @@ svg.sun-and-moon {
 
 
 
-@media (min-width: 546px) {
+@media (min-width: 546.02px) {
 
     li.my-contacts {
         display: none;
