@@ -1261,7 +1261,7 @@ svg.sun-and-moon {
 @media(max-width: 546px) {
 
     h1 {
-        margin-bottom: 23svh;
+        margin-bottom: 23svh !important;
     }
 
     h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
