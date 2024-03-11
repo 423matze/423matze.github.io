@@ -59,6 +59,34 @@ body:is([modal="true"]) {
     overflow-y: hidden;
 }
 
+/* optimize header image (1st.content image) */
+
+
+.notion-header {
+    width: 100%;
+    margin-bottom: 0px;
+    font-family: var(--primary-font);
+    display: none;
+}
+
+.notion-image.page-width {
+    width: 100%;
+    max-width: 100%;
+    height: 50vh !important;
+}
+
+.notion-image.page-width img {
+    width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: var(--image-border-radii);
+    object-fit: cover !important;
+}
+
+.notion-image.page-width span {
+    height: 100% !important;
+}
+
 /*custome styles new menue */
 
 .super-navbar {
