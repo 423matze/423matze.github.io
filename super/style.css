@@ -72,7 +72,7 @@ body:is([modal="true"]) {
 .notion-image.page-width {
     width: 100%;
     max-width: 100%;
-    height: 50vh !important;
+    height: 50svh !important;
 }
 
 .notion-image.page-width img {
@@ -1260,6 +1260,10 @@ svg.sun-and-moon {
 
 @media(max-width: 546px) {
 
+    h1 {
+        margin-bottom: 23svh;
+    }
+
     h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
         /* margin-left: 12px;
         margin-right: 12px; */
@@ -1420,7 +1424,8 @@ svg.sun-and-moon {
     }
 
     .super-content.has-footer {
-        padding-bottom: 4em
+        padding-bottom: 4em;
+        padding-top: 24px !important;
     }
 }
 
