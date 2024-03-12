@@ -69,10 +69,15 @@ body:is([modal="true"]) {
     display: none;
 }
 
-.notion-image.page-width {
+
+article > .notion-image.page-width {
     width: 100%;
     max-width: 100%;
-    height: 50svh !important;
+    height: 66vh !important;
+}
+
+article > .notion-image.page-width ~ .notion-image.page-width {
+    height: auto !important;
 }
 
 .notion-image.page-width img {
@@ -1260,6 +1265,12 @@ svg.sun-and-moon {
 
 @media(max-width: 546px) {
 
+    article > .notion-image.page-width {
+        width: 100%;
+        max-width: 100%;
+        height: 50svh !important;
+    }
+
     h1 {
         margin-bottom: 23svh !important;
     }
@@ -1268,6 +1279,8 @@ svg.sun-and-moon {
         /* margin-left: 12px;
         margin-right: 12px; */
     }
+
+    
 
     .backdrop {
         position: fixed;
