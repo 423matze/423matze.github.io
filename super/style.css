@@ -3,13 +3,13 @@
 
 /* root variables */
 html.theme-light {
-    --color-card-bg: #f1f1f1!important;
+    --color-card-bg: transparent!important;
     --color-card-bg-hover: #ffff00!important;
 
     --color-backdrop-bg: #ffffff70;
 }
 html.theme-dark {
-    --color-card-bg: #202020!important;
+    --color-card-bg: transparent!important;
     --color-card-bg-hover: #292929!important;
 
     --color-backdrop-bg: #00000070;
