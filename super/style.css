@@ -858,13 +858,17 @@ img {
 .notion-quote {
     font-size: 2em !important;
     width: 100% !important;
-    margin: 1rem auto !important;
-    padding: 3em 3em 2em 0em !important;
+    margin: 0 auto !important;
+    padding: 2em 3em 2em 0em !important;
     border: none !important;
     text-align: left !important;
     display: flex !important;
     flex-direction: column !important;
     border-radius: var(--m423-radius) !important;
+}
+
+.notion-quote > .notion-semantic-string {
+    line-height: 123%;
 }
 
 
@@ -1283,6 +1287,11 @@ svg.sun-and-moon {
         /* margin-left: 12px;
         margin-right: 12px; */
     }
+
+    .notion-quote{
+        padding: 1em 0 !important;
+    }
+    
 
     p {
         line-height: 142% !important;
