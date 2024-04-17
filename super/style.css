@@ -1284,6 +1284,14 @@ svg.sun-and-moon {
         margin-right: 12px; */
     }
 
+    p {
+        line-height: 142% !important;
+    }
+
+    .notion-column-list {
+        margin: 0 auto 0 auto;
+    }
+
     
 
     .backdrop {
