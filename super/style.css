@@ -238,6 +238,10 @@ h3.notion-heading,
     margin: auto;
 }
 
+h1.notion-heading {
+    padding: 4vh 0 ! important;
+}
+
 /* STYLES */
 
 html {
