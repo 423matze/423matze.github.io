@@ -255,6 +255,7 @@ html {
 }
 
 body {
+    ont-family: var(--primary-font) !important;
     font-size: var(--body-font) !important;
 }
 
