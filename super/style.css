@@ -20,7 +20,7 @@ html.theme-dark {
     --m423-radius: 12px !important;
     --m423-width: 1440px !important;
     
-    --body-font: 18px !important;
+    --body-font: 1.6rem !important;
     --text-weight: 400;
     --heading-weight: 800;
     
@@ -245,7 +245,7 @@ h1.notion-heading {
 /* STYLES */
 
 html {
-    font-size: var(--body-font) !important;
+    font-size 62.5% !important;
 }
 
 body {
@@ -1355,7 +1355,7 @@ svg.sun-and-moon {
 @media(max-width: 546px) {
 
     body{
-        font-size: 1rem !important;
+        font-size: 1em !important;
     }
 
     article > .notion-image.page-width {
@@ -1375,6 +1375,7 @@ svg.sun-and-moon {
 
     .notion-quote{
         padding: 1em 0 !important;
+        font-size: 1.8em;
     }
     
 
