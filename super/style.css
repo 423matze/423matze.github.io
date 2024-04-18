@@ -1354,6 +1354,10 @@ svg.sun-and-moon {
 
 @media(max-width: 546px) {
 
+    body{
+        font-size: 1rem !important;
+    }
+
     article > .notion-image.page-width {
         width: 100%;
         max-width: 100%;
