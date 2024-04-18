@@ -14,6 +14,11 @@ html.theme-dark {
 
     --color-backdrop-bg: #00000070;
 }
+@supports (font: -apple-system-body) {
+  html {
+    font: -apple-system-body !important;
+  }
+}
 
 :root {
     --column-spacing: 2em !important;
