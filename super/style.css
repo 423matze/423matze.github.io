@@ -735,6 +735,11 @@ img {
     position: absolute;
     margin-left: -19px;
     margin-top: 3px;
+    ursor: pointer;
+}
+
+.notion-toggle__trigger {
+    display: none !important;
 }
 
 
