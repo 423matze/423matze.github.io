@@ -25,8 +25,8 @@ html.theme-dark {
     --m423-radius: 12px !important;
     --m423-width: 1440px !important;
     
-    --body-font: 1.5rem !important;
-    --text-weight: 400;
+    --body-font: 1.42rem !important;
+    --text-weight: 230;
     --heading-weight: 800;
     
     --collection-card-cover-size-small: calc(20%) !important;
@@ -251,7 +251,7 @@ h1.notion-heading {
 /* STYLES */
 
 html {
-    font-size: 62.5% !important;
+    font-size: 100% !important;
 }
 
 body {
