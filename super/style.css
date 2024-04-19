@@ -430,8 +430,14 @@ h3 {
     font-weight: 600 !important;
 }
 
+.notion-semantic-string {
+    line-height: 123% !important;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
 p {
-    line-height: 175% !important;
+    line-height: 123% !important;
     margin-bottom: 0 !important;
     max-width: 800px !important;
 
@@ -1379,7 +1385,7 @@ svg.sun-and-moon {
 @media(max-width: 546px) {
 
     body{
-        font-size: 1.42rem !important;
+        font-size: 1.23rem !important;
     }
 
     article > .notion-image.page-width {
