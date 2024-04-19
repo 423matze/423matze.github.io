@@ -251,7 +251,7 @@ h1.notion-heading {
 /* STYLES */
 
 html {
-    font-size: 100% !important;
+    font-size: 62.5% !important;
 }
 
 body {
@@ -771,7 +771,8 @@ img {
 }
 
 .notion-collection-card__property-list {
-    font-size: 1em!important;
+    font-size: 1em !important;
+    padding-top: 6px;
 }
 
 .notion-collection-card:hover {
@@ -1346,7 +1347,7 @@ svg.sun-and-moon {
     }
 
      .notion-collection-card__content {
-        padding: 0em 1em 1em 1em !important;
+        padding: 0em 12px 12px 12px !important;
     }
 
 
