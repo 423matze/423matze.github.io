@@ -1295,6 +1295,7 @@ svg.sun-and-moon {
 @media screen and (max-width: 880px) {
 
 
+
     h1 {
         font-size: 2rem !important;
     }
@@ -1353,6 +1354,7 @@ svg.sun-and-moon {
     width: 100%;
     padding: 0px 16px 0px 16px;
     text-align: left;
+    }
 
     .my-super-navbar__item-list {
         justify-content: center;
@@ -1396,7 +1398,7 @@ svg.sun-and-moon {
 
     .notion-quote{
         padding: 1em 0 !important;
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
     
 
@@ -1406,9 +1408,7 @@ svg.sun-and-moon {
 
     .notion-column-list {
         margin: 0 auto 0 auto;
-    }
-
-    
+    }    
 
     .backdrop {
         position: fixed;
