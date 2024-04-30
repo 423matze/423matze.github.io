@@ -124,6 +124,7 @@ function setupEmbeds() {
           });
           script.parentNode.insertBefore(scr, script.nextSibling); // Insert new script right after the original one
           script.remove(); // Remove the original script
+          initNavigation();
         }
       });
     }
