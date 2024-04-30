@@ -69,6 +69,7 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", afterDOMLoaded);
 } else {
   afterDOMLoaded();
+  console.log("DOMloaded");
 }
 
 function afterDOMLoaded() {
