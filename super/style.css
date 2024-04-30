@@ -250,10 +250,6 @@ h1.notion-heading {
 
 /* STYLES */
 
-html {
-    /*font-size: 62.5% !important;*/
-}
-
 body {
     font-family: var(--primary-font) !important;
     font-size: var(--body-font) !important;
@@ -321,7 +317,7 @@ body {
 }
 
 .notion-text.color-gray p {
-    margin-bottm: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 
@@ -741,7 +737,7 @@ img {
     position: absolute;
     margin-left: -19px;
     margin-top: 3px;
-    ursor: pointer;
+    cursor: pointer;
 }
 
 .notion-toggle__trigger {
@@ -1396,11 +1392,6 @@ svg.sun-and-moon {
 
     h1 {
         margin-bottom: 0 !important;
-    }
-
-    h1.notion-heading, h2.notion-heading, .notion-text, .notion-quote {
-        /* margin-left: 12px;
-        margin-right: 12px; */
     }
 
     .notion-quote{
