@@ -74,17 +74,20 @@ const mobile_check = (e) => {
 
 /*-- init super-embad code navigation --*/
 
-if (document.readyState === "loading") {
-  reflectPreference()
-  document.addEventListener("DOMContentLoaded", afterDOMLoaded);
-} else {
-  afterDOMLoaded();
+function afterDOMLoaded() {
   console.log("DOMloaded");
+  setupEmbeds();
+  reflectPreference();
 }
 
-function afterDOMLoaded() {
-  setupEmbeds();
+if (document.readyState === "loading") {  
+  document.addEventListener("DOMContentLoaded", afterDOMLoaded);
+} else {
+  //afterDOMLoaded();
+  console.log("Whats going on!");
 }
+
+
 
 /*-- navigation --*/
 function initNavigation() {
