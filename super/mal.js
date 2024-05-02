@@ -55,6 +55,16 @@ const toggle_menu = () => {
   console.log("toggle menu", toggle_state);
 }
 
+const theme_toggle = () => {
+    theme.value = theme.value === 'light'
+    ? 'dark'
+    : 'light';    
+
+    html.className = "theme-" + theme.value;
+    
+    setPreference();
+}
+
 const mobile_check = (e) => {
   if(e.match){
     device = "MOBILE";
@@ -85,16 +95,7 @@ function initNavigation() {
     my_submenu.addEventListener("click", toggle_menu);
 
   const my_toggle = document.getElementById("theme-toggle");
-    my_toggle.addEventListener("click", (e) => {
-    theme.value = theme.value === 'light'
-    ? 'dark'
-    : 'light';    
-
-    html.className = "theme-" + theme.value;
-    
-    setPreference();   
-    
-  });
+    my_toggle.addEventListener("click", theme_toggle);
 }
 
 /*-- insert codeblock --*/
@@ -124,11 +125,11 @@ function setupEmbeds() {
           });
           script.parentNode.insertBefore(scr, script.nextSibling); // Insert new script right after the original one
           script.remove(); // Remove the original script
-          initNavigation();
         }
       });
     }
   });
+  initNavigation();
 }
 
 var observer = new MutationObserver(function (mutations) {
