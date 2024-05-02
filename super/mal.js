@@ -89,13 +89,15 @@ function afterDOMLoaded() {
 /*-- navigation --*/
 function initNavigation() {
   
-  console.log("init toggle");
+  
 
   const my_submenu = document.getElementById("my-menu-toggle");
     my_submenu.addEventListener("click", toggle_menu);
 
-  const my_toggle = document.getElementById("theme-toggle");
+  const my_toggle = document.getElementById("my-theme-toggle");
     my_toggle.addEventListener("click", theme_toggle);
+
+  console.log("init toggle ready");
 }
 
 /*-- insert codeblock --*/
@@ -107,6 +109,9 @@ function clearBlock(el) {
 }
 
 function setupEmbeds() {
+  
+  console.log("setup custome code and navagiation");
+  
   document.querySelectorAll(SELECTOR).forEach((node) => {
     node.setAttribute("super-embed-seen", 1);
     if (node.innerText.startsWith("super-embed:")) {
@@ -132,6 +137,7 @@ function setupEmbeds() {
   initNavigation();
 }
 
+/*
 var observer = new MutationObserver(function (mutations) {
   if (document.querySelector(SELECTOR)) {
     setupEmbeds();
@@ -145,6 +151,7 @@ observer.observe(document, {
   characterData: false,
   subtree: true,
 });
+*/
 
 window
   .matchMedia('(prefers-color-scheme: dark)')
