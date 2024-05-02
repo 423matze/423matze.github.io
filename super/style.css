@@ -757,7 +757,9 @@ img {
 
 /* ------- Collection ---------*/
 
-
+.notion-collection.inline{
+    margin-top: 4rem;
+}
 
 .notion-collection-card {
     width: 100%;
