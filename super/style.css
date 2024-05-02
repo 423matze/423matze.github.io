@@ -828,7 +828,7 @@ img {
 }
 
 .notion-collection-gallery .notion-property__title {
-    padding-top: 1rem !important;
+    padding-top: 0 !important;
     font-size: var(--collection-card-title-size) !important;
 }
 
