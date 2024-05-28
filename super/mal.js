@@ -1,18 +1,17 @@
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
-const theme = { value: getColorPreference()}
+const theme = { value: "dark"}
 
-/*-- Get Mode Settings --*/
+// Get Mode Settings
+
 
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey)){
     console.log("mode", storageKey);
     return localStorage.getItem(storageKey)
   }else{
-    console.log("mode return matchmedia", window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light');
+    console.log("mode return matchmedia");
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light'
@@ -25,6 +24,13 @@ const setPreference = () => {
 }
 
 const reflectPreference = () => {
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', ({matches:isDark}) => {
+      theme.value = isDark ? 'dark' : 'light'
+      setPreference()
+    });
+    
   document.firstElementChild
     .setAttribute('data-theme', theme.value)
 
@@ -35,12 +41,12 @@ const reflectPreference = () => {
   html.className = "theme-" + theme.value;
 }
 
-/*-- submenu functions --*/
+// submenu functions 
 
 let toggle_state = false;
 let device = "";
 
-/*-- set default states / back --*/
+// set default states
 
 document.querySelector("#menu")?.setAttribute("aria-label", state);
 document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
