@@ -3,8 +3,41 @@ const storageKey = "color-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"}
 
-// Get Mode Settings
+// Setup on route change
+function setupRouteChangeListenerForTooltips() {
+  var routeChangeHandler = () => {
+  // Ensure tooltips are initialized after route changes
+  initializeTooltips();
+  };
+  
+  if (typeof next !== 'undefined' && next.router && next.router.events) {
+  // Old method using 'next'
+  next.router.events.on('routeChangeComplete', routeChangeHandler);
+  } else if (window.events) {
+  // New method using 'window.events'
+  window.events.on('routeChangeComplete', routeChangeHandler);
+  } else {
+  console.error("The platform doesn't support the required event listeners for route changes.");
+  }
+  }
+  
+  // Initialize and set up route change listener after the DOM is fully loaded
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+  console.log("Route change init custom scripts");
+  setupEmbeds();
+  reflectPreference();
+  setupRouteChangeListenerForTooltips();
+  });
+  } else {
+  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
+  console.log("DOMloaded init custom scripts");
+  setupEmbeds();
+  reflectPreference();
+  setupRouteChangeListenerForTooltips();
+  }
 
+// Get Mode Settings
 
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey)){
@@ -103,39 +136,7 @@ if (document.readyState === "loading") {
 
 */
 
-// Setup on route change
-function setupRouteChangeListenerForTooltips() {
-  var routeChangeHandler = () => {
-  // Ensure tooltips are initialized after route changes
-  initializeTooltips();
-  };
-  
-  if (typeof next !== 'undefined' && next.router && next.router.events) {
-  // Old method using 'next'
-  next.router.events.on('routeChangeComplete', routeChangeHandler);
-  } else if (window.events) {
-  // New method using 'window.events'
-  window.events.on('routeChangeComplete', routeChangeHandler);
-  } else {
-  console.error("The platform doesn't support the required event listeners for route changes.");
-  }
-  }
-  
-  // Initialize and set up route change listener after the DOM is fully loaded
-  if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-  console.log("Route change init custom scripts");
-  setupEmbeds();
-  reflectPreference();
-  setupRouteChangeListenerForTooltips();
-  });
-  } else {
-  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
-  console.log("DOMloaded init custom scripts");
-  setupEmbeds();
-  reflectPreference();
-  setupRouteChangeListenerForTooltips();
-  }
+
 
 // init custom navigation
 function initNavigation() {  
