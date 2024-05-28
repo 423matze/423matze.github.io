@@ -1,16 +1,22 @@
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
+const theme = { value: getColorPreference()}
 
 /*-- Get Mode Settings --*/
 
 const getColorPreference = () => {
-  if (localStorage.getItem(storageKey))
+  if (localStorage.getItem(storageKey)){
+    console.log("mode", storageKey);
     return localStorage.getItem(storageKey)
-  else
+  }else{
+    console.log("mode return matchmedia", window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light');
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light'
+  }
 }
 
 const setPreference = () => {
@@ -27,10 +33,6 @@ const reflectPreference = () => {
     ?.setAttribute('aria-label', theme.value)
 
   html.className = "theme-" + theme.value;
-}
-
-const theme = {
-  value: getColorPreference()
 }
 
 /*-- submenu functions --*/
@@ -113,7 +115,7 @@ function setupRouteChangeListenerForTooltips() {
   // Initialize and set up route change listener after the DOM is fully loaded
   if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOMloaded init custom scripts");
+  console.log("Route change init custom scripts");
   setupEmbeds();
   reflectPreference();
   setupRouteChangeListenerForTooltips();
@@ -191,12 +193,12 @@ observer.observe(document, {
 });
 */
 
-// respond on user-settings color scheme
+/* respond on user-settings color scheme
 window
   .matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', ({matches:isDark}) => {
     theme.value = isDark ? 'dark' : 'light'
     setPreference()
   });
+*/
 
-mediaQueryList.addEventListener(mobile_check);
