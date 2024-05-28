@@ -2,6 +2,8 @@ const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
 
+/*-- Get Mode Settings --*/
+
 const getColorPreference = () => {
   if (localStorage.getItem(storageKey))
     return localStorage.getItem(storageKey)
@@ -37,6 +39,7 @@ let toggle_state = false;
 let device = "";
 
 /*-- set default states / back --*/
+
 document.querySelector("#menu")?.setAttribute("aria-label", state);
 document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
 
@@ -72,7 +75,7 @@ const mobile_check = (e) => {
   }
 }
 
-/*-- init super-embad code navigation --*/
+/*-- init super-embad code navigation old version
 
 function afterDOMLoaded() {
   console.log("DOMloaded");
@@ -87,12 +90,44 @@ if (document.readyState === "loading") {
   console.log("Whats going on!");
 }
 
+*/
 
+// Setup on route change
+function setupRouteChangeListenerForTooltips() {
+  var routeChangeHandler = () => {
+  // Ensure tooltips are initialized after route changes
+  initializeTooltips();
+  };
+  
+  if (typeof next !== 'undefined' && next.router && next.router.events) {
+  // Old method using 'next'
+  next.router.events.on('routeChangeComplete', routeChangeHandler);
+  } else if (window.events) {
+  // New method using 'window.events'
+  window.events.on('routeChangeComplete', routeChangeHandler);
+  } else {
+  console.error("The platform doesn't support the required event listeners for route changes.");
+  }
+  }
+  
+  // Initialize and set up route change listener after the DOM is fully loaded
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOMloaded init custom scripts");
+  setupEmbeds();
+  reflectPreference();
+  setupRouteChangeListenerForTooltips();
+  });
+  } else {
+  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
+  console.log("DOMloaded init custom scripts");
+  setupEmbeds();
+  reflectPreference();
+  setupRouteChangeListenerForTooltips();
+  }
 
-/*-- navigation --*/
-function initNavigation() {
-  
-  
+// init custom navigation
+function initNavigation() {  
 
   const my_submenu = document.getElementById("my-menu-toggle");
     my_submenu.addEventListener("click", toggle_menu);
@@ -103,7 +138,7 @@ function initNavigation() {
   console.log("init toggle ready");
 }
 
-/*-- insert codeblock --*/
+//insert custome codeblocks
 
 function clearBlock(el) {
   const node = el.parentElement.parentElement;
@@ -140,7 +175,7 @@ function setupEmbeds() {
   initNavigation();
 }
 
-/*
+/* 
 var observer = new MutationObserver(function (mutations) {
   if (document.querySelector(SELECTOR)) {
     setupEmbeds();
@@ -156,6 +191,7 @@ observer.observe(document, {
 });
 */
 
+// respond on user-settings color scheme
 window
   .matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', ({matches:isDark}) => {
@@ -163,4 +199,4 @@ window
     setPreference()
   });
 
-mediaQueryList.addListener(mobile_check);
+mediaQueryList.addEventListener(mobile_check);
