@@ -24,6 +24,7 @@ const setPreference = () => {
 }
 
 const reflectPreference = () => {
+  
   window
     .matchMedia('(prefers-color-scheme: dark)')
     .addEventListener('change', ({matches:isDark}) => {
@@ -39,6 +40,8 @@ const reflectPreference = () => {
     ?.setAttribute('aria-label', theme.value)
 
   html.className = "theme-" + theme.value;
+
+  console.log("ReflectPreferences", theme.value);
 }
 
 // submenu functions 
