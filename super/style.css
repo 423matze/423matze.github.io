@@ -462,6 +462,10 @@ h3 {
     font-weight: 600 !important;
 }
 
+.notion-text {
+    min-height: auto !important;
+}
+
 .notion-semantic-string {
     line-height: 142% !important;
     white-space: pre-wrap;
