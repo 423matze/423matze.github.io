@@ -463,7 +463,7 @@ h3 {
 }
 
 .notion-text {
-    min-height: auto !important;
+    min-height: 2em !important;
 }
 
 .notion-semantic-string {
@@ -486,6 +486,7 @@ p {
 
 .notion-text__content {
     letter-spacing: 0.0423rem;
+    min-height: fit-content !important;
 }
 
 .notion-text.color-pink p {
