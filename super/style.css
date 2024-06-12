@@ -78,8 +78,17 @@ body:is([modal="true"]) {
 }
 
 .super-content {
-    padding-top: 38vh !important;
+    padding-top: 34vh !important;
     padding-bottom: 4em !important;
+    padding-left: var(--padding-left) !important;
+    padding-right: var(--padding-right) !important;
+}
+
+.super-content.max-width {
+    max-width: var(--m423-width) !important;
+    margin: auto !important;
+    padding-top: 6em;
+
 }
 
 /*----- images  -----*/
@@ -251,20 +260,6 @@ li.my-contacts {
     color: var(--color-text-default) !important;
     font-weight: 500;
 }
-
-.super-content {
-    padding-left: var(--padding-left) !important;
-    padding-right: var(--padding-right) !important;
-    padding-bottom: 30vh
-}
-
-.super-content.max-width {
-    max-width: var(--m423-width) !important;
-    margin: auto !important;
-    padding-top: 6em;
-
-}
-
 
 /* STYLES */
 
@@ -500,6 +495,7 @@ p {
 
 
 .notion-bulleted-list {
+    width:100%;
     max-width: 740px;
     margin: auto !important;
     -webkit-padding-start: 1em !important;
@@ -1585,9 +1581,10 @@ svg.sun-and-moon {
 
     .super-content {
         width: 100vw !important;
+        padding-bottom: 0vh;
         padding-left: var(--padding-left-mobile) !important;
         padding-right: var(--padding-right-mobile) !important;
-        padding-bottom: 12em
+        
     }
 
     .super-content.has-footer {
