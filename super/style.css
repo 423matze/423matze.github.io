@@ -1581,7 +1581,8 @@ svg.sun-and-moon {
 
     .super-content {
         width: 100vw !important;
-        padding-bottom: 0vh;
+        padding-top:0vh;
+        padding-bottom: 12vh;
         padding-left: var(--padding-left-mobile) !important;
         padding-right: var(--padding-right-mobile) !important;
         
