@@ -78,7 +78,7 @@ body:is([modal="true"]) {
 }
 
 .super-content {
-    padding-top: 34vh !important;
+    padding-top: 23vh !important;
     padding-bottom: 4em !important;
     padding-left: var(--padding-left) !important;
     padding-right: var(--padding-right) !important;
