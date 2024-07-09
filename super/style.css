@@ -6,11 +6,14 @@ html.theme-light {
     --color-card-bg: transparent!important;
     --color-card-bg-hover: #ffff00!important;
     --color-backdrop-bg: #ffffff70;
+    --ilu-image: invert(0);
 }
 html.theme-dark {
     --color-card-bg: transparent!important;
     --color-card-bg-hover: #292929!important;
     --color-backdrop-bg: #00000070;
+    --ilu-image: invert(1);
+    
 }
 @supports (font: -apple-system-body) {
   html {
@@ -51,6 +54,8 @@ html.theme-dark {
     --padding-left: calc(env(safe-area-inset-left) + 120px);
     /* -- my nv vriables -- */
     --nav-ovefloat: 1em;
+    /* responsiv illustrations logos etc. */
+    --ilu-image: invert(0);
 }
 
 /* layout overrides */
@@ -224,6 +229,13 @@ li.my-contacts {
     height: 100%
 }
 
+.notion-callout.bg-gray-light .notion-image {
+    filter: var(--ilu-image);
+}
+
+.notion-callout.bg-gray-light {
+    background: transparent !important;
+}
 
 .notion-image.normal img {
     position: relative;
@@ -679,14 +691,15 @@ p {
 
 
 .notion-callout {
-    max-width: 80%;
+    /* max-width: 80%; */
+    width: 100%;
     margin: auto;
     border-radius: var(--m423-radius) !important;
     border: 1px solid var(--color-border-default) !important;
     padding: 1em !important;
     overflow: visible !important;
     margin-bottom: 1em !important;
-    text-align: center;
+    text-align: left;
 }
 
 .notion-callout.bg-gray-light,
