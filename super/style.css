@@ -490,14 +490,23 @@ p {
 
 .notion-bulleted-list,
 .notion-numbered-list {
-    padding-bottom: 1em !important;
+    /* padding-bottom: 1em !important; */
 }
 
 
 .notion-bulleted-list {
     width:100%;
     max-width: 740px;
-    margin: auto !important;
+    margin: auto!important;
+    -webkit-padding-start: 1em !important;
+    padding-inline-start: 1em !important;
+    line-height: 1.5em;
+}
+
+.notion-callout__content .notion-bulleted-list {
+    width: 100%;
+    max-width: 740px;
+    margin: 0 !important;
     -webkit-padding-start: 1em !important;
     padding-inline-start: 1em !important;
     line-height: 1.5em;
@@ -678,7 +687,6 @@ p {
     overflow: visible !important;
     margin-bottom: 1em !important;
     text-align: center;
-
 }
 
 .notion-callout.bg-gray-light,
