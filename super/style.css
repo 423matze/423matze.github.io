@@ -518,12 +518,19 @@ p {
     line-height: 1.5em;
 }
 
+.notion-callout__content {
+    display: flex;
+    flex-direction: column;
+    -webkit-margin-start: 0px;
+    margin-inline-start: 0px;
+    overflow: hidden;
+    width: 100%;
+}
+
 .notion-callout__content .notion-bulleted-list {
     width: 100%;
     max-width: 740px;
     margin: 0 !important;
-    -webkit-padding-start: 1em !important;
-    padding-inline-start: 1em !important;
     line-height: 1.5em;
 }
 
