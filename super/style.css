@@ -235,6 +235,9 @@ li.my-contacts {
 
 .notion-callout.bg-gray-light {
     background: transparent !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    border-radius: 0px !important;
 }
 
 .notion-image.normal img {
@@ -717,9 +720,6 @@ p {
 .notion-callout__icon {
     display: none !important;
 }
-
-
-
 
 .notion-page {
     border-radius: var(--m423-radius) !important;
