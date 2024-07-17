@@ -1,4 +1,4 @@
-/* style 423 v.1.1 */
+/* style 423 v.1.2 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -732,6 +732,19 @@ p {
     display: none !important;
 }
 
+/* Disclamer */
+.notion-callout.bg-yellow-light{
+    height: auto;
+    max-width: 860px;
+}
+
+/* Pains */
+.notion-callout.bg-pink-light {
+    min-width: 240px;
+    width: 320px;
+    max-width: 420px;
+}
+
 .notion-page {
     border-radius: var(--m423-radius) !important;
 }
@@ -1201,8 +1214,15 @@ p {
 .notion-column-list {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    max-width: 62%;
     margin: 6em auto 2em auto;
+}
+
+/*  list in list > image */
+.notion-column .notion-column-list {
+    margin: 1em 0px 1em 0px;
+    width: 100%;
+    max-width: 100%;
 }
 
 
@@ -1462,6 +1482,7 @@ svg.sun-and-moon {
 
     .notion-column-list {
         margin: 0 auto 0 auto;
+        max-width: 100%;
     }    
 
     .backdrop {
