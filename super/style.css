@@ -231,6 +231,7 @@ li.my-contacts {
 
 .notion-callout.bg-gray-light .notion-image {
     filter: var(--ilu-image);
+    margin: 0px !important;
 }
 
 .notion-callout.bg-gray-light {
@@ -238,6 +239,7 @@ li.my-contacts {
     padding: 0px !important;
     margin: 0px !important;
     border-radius: 0px !important;
+    height: fit-content;
 }
 
 .notion-image.normal img {
@@ -320,7 +322,7 @@ body {
 .notion-heading {font-family: "Dosis", var(--primary-font) !important;font-optical-sizing: auto;padding: 0 !important;}
 
 .notion-column {
-    margin-bottom: 1em !important;
+    /* margin-bottom: 1em !important; */
     padding: 0 !important;
 }
 
@@ -458,12 +460,11 @@ h2 {
 
 h3 {
     font-style: normal !important;
-    font-size: 1.375rem !important;
+    font-size: 2rem !important;
     font-weight: 700 !important;
     line-height: 135% !important;
     letter-spacing: 0.0123em !important;
     margin-bottom: 0.5em !important;
-
     -webkit-animation: fadeIn 1s !important;
     -moz-animation: fadeIn 1s !important;
     -ms-animation: fadeIn 1s !important;
@@ -479,7 +480,7 @@ h3 {
 .notion-semantic-string {
     line-height: 142% !important;
     white-space: pre-wrap;
-    word-break: break-word;
+    /* word-break: break-word; */
 }
 
 p {
@@ -496,7 +497,8 @@ p {
 
 .notion-text__content {
     letter-spacing: 0.0423rem;
-    min-height: fit-content !important;
+    /* min-height: fit-content !important; */
+    margin-top: 0;
 }
 
 .notion-text.color-pink p {
@@ -525,6 +527,7 @@ p {
     margin-inline-start: 0px;
     overflow: hidden;
     width: 100%;
+    height: fit-content;
 }
 
 .notion-callout__content .notion-bulleted-list {
