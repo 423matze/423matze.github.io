@@ -1,4 +1,4 @@
-/* style 423 v.1.2 */
+/* style 423 v.1.3 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -156,12 +156,12 @@ img {
     position: fixed;
     top: 1em;
     z-index: 423;
-    width: calc(100vw - var(--padding-left) - 64px) !important;
+    /* width: calc(100vw - var(--padding-left) - 64px) !important; */
     max-width: calc(var(--m423-width) + 2em )!important;
     margin: 1em 0 1em -1em !important;
     flex-direction: row;
     justify-content: center;
-    border-radius: var(--m423-radius) !important;    
+    border-radius: var(--m423-radius) !important;
     background-color: none;
     -webkit-backdrop-filter: blur(16px) !important;
     backdrop-filter: blur(16px) !important;
@@ -1216,6 +1216,15 @@ p {
     flex-wrap: wrap;
     max-width: 62%;
     margin: 6em auto 2em auto;
+}
+
+.notion-column-list.full-width {
+    /* width: calc(100vw - var(--scrollbar-width)); */
+    max-width: 90%;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    align-self: center;
+    line-height: 0px;
 }
 
 /*  list in list > image */
