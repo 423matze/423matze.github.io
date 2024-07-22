@@ -561,6 +561,7 @@ p {
 }
 
 /*--------- LINKS ----------*/
+
 .notion-semantic-string .link {
     color: inherit;
     text-decoration: underline;
