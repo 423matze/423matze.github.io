@@ -560,6 +560,20 @@ p {
     width: 3em !important;
 }
 
+/*--------- LINKS ----------*/
+.notion-semantic-string .link {
+    color: inherit;
+    text-decoration: underline;
+    line-height: 120%;
+    height: 82px;
+    -webkit-text-decoration-color: var(--color-text-default-light);
+    text-decoration-color: #191919;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 9px;
+    opacity: .8;
+    transition: all .2s ease-in, opacity .1s ease-in;
+}
+
 /*--------- CTA ---------*/
 
 
@@ -743,6 +757,14 @@ p {
     min-width: 240px;
     width: 320px;
     max-width: 420px;
+}
+
+/* CTA */
+.notion-callout.bg-orange-light{
+    width: 320px;
+    height: auto;
+    background-color: pink;
+    margin: 0px 0px 0px calc((800px - (320px /2)) / 2);
 }
 
 .notion-page {
