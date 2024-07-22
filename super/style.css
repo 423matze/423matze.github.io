@@ -770,7 +770,8 @@ p {
 .notion-callout.bg-orange-light{
     width: 320px;
     height: auto;
-    background-color: pink;
+    background-color: var(--cta-background);
+    color: var(--cta-text);
     margin: 0px 0px 0px calc((800px - (320px /2)) / 2);
 }
 
