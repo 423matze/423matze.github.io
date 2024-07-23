@@ -1301,7 +1301,7 @@ p {
 /* Dark Lighmode switch - web.dev */
 
 .theme-toggle {
-    --size: 1.5em;
+    --size: 28px;
     background: none;
     border: none;
     padding: 0;
