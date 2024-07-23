@@ -768,11 +768,25 @@ p {
 
 /* CTA */
 .notion-callout.bg-orange-light{
-    width: 320px;
-    height: auto;
+    width: 800px;
+    height: 64px;
     background-color: var(--cta-background);
     color: var(--cta-text);
-    margin: 0px 0px 0px calc((800px - (320px /2)) / 2);
+}
+
+.notion-callout.bg-orange-light .notion-callout__content {
+    background: var(--cta-background);
+    border-radius: 12px;
+    height: 64px;
+    padding: 12px 12px 12px 24px;
+    width: 320px;
+    left: -42px;
+}
+
+.notion-callout.bg-orange-light .notion-callout__icon {
+    display: block !important;
+    left: 42px;
+    top: 20px;
 }
 
 .notion-page {
