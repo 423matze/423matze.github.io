@@ -1482,9 +1482,21 @@ svg.sun-and-moon {
         margin-bottom: 0.5rem !important;
     }
 
-     .notion-collection-card__content {
-        padding: 0em 12px 12px 12px !important;
+    .notion-collection-card__cover.large {
+        height: 80vw !important;
+        border-radius: var(--m423-radius);
     }
+
+     .notion-collection-card__content {
+        padding: 12px 12px 12px 12px !important;
+    }
+    .notion-collection-card__content .notion-property__select {
+    padding-top: 0.5em;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 
     .super-navbar__item {
