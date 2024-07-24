@@ -55,7 +55,7 @@ const getColorPreference = () => {
       theme.value = 'light';
     }
   }
-  theme.value = localStorage.getItem(userKey);
+  theme.value = localStorage.getItem(storageKey);
   console.log("Pref set on load", theme.value);
 
   setPreference('sys')
