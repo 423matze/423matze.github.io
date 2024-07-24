@@ -55,9 +55,8 @@ const getColorPreference = () => {
       theme.value = 'light';
     }
   }
-
   console.log("Pref set on load", theme.value);
-  
+
   setPreference('sys')
   
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
@@ -72,12 +71,12 @@ const setPreference = (val) => {
   
   localStorage.setItem(storageKey, theme.value);
   
-  if(val === 'user'){
+  if(val === 'sys'){
+    console.log("keep user preferences");    
+  }else if(val === 'user'){
     localStorage.setItem(userKey, 'true'); 
   }else{
     localStorage.setItem(userKey, 'false'); 
-  }else if(val === 'sys'){
-    console.log("keep user preferences");
   }
   reflectPreference()
 }
