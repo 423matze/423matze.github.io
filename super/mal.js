@@ -29,20 +29,18 @@ function setupRouteChangeListenerForTooltips() {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
-  reflectPreference();
+  //reflectPreference();
   setupRouteChangeListenerForTooltips();
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
   console.log("DOMloaded init custom scripts");
   setupEmbeds();
-  reflectPreference();
+  //reflectPreference();
   setupRouteChangeListenerForTooltips();
   }
 
 // Get Mode Settings
-
-const 
 
 const getColorPreference = () => {
   window.matchMedia('(prefers-color-scheme: dark)', ({matches:isDark}) => {
