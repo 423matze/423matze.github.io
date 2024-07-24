@@ -1,3 +1,6 @@
+//
+// MAL super custome script v1.1
+//
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
@@ -58,9 +61,7 @@ const setPreference = () => {
 
 const reflectPreference = () => {
   
-  window
-    //.matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', ({matches:isDark}) => {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
       theme.value = isDark ? 'dark' : 'light'
       setPreference()
     });
