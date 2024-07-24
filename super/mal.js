@@ -6,7 +6,7 @@ const storageKey = "color-preference";
 const userKey = "user-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"};
-const userPref = { value: "false"};
+//const userPref = { value: "false"};
 
 // Setup on route change
 function setupRouteChangeListenerForTooltips() {
@@ -73,11 +73,9 @@ const setPreference = (val) => {
   localStorage.setItem(storageKey, theme.value);
   
   if(val === 'user'){
-    userPref.value = 'true';
-    localStorage.setItem(userKey, userPref.value); 
+    localStorage.setItem(userKey, 'true'); 
   }else{
-    userPref.value = 'false';
-    localStorage.setItem(userKey, userPref.value); 
+    localStorage.setItem(userKey, 'false'); 
   }
   reflectPreference()
 }
