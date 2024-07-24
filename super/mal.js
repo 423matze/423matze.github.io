@@ -1,5 +1,5 @@
 //
-// MAL super custome script v1.1
+// MAL super custome script v1.11
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -43,6 +43,7 @@ function setupRouteChangeListenerForTooltips() {
 // Get Mode Settings
 
 const getColorPreference = () => {
+  console.log("Funkt. getColorPreference");
   window.matchMedia('(prefers-color-scheme: dark)', ({matches:isDark}) => {
       theme.value = isDark ? 'dark' : 'light';
       console.log("Pref set on load", theme.value);
@@ -50,7 +51,7 @@ const getColorPreference = () => {
     });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
       theme.value = isDark ? 'dark' : 'light';
-      console.log("Pref onChange Listeber", theme.value);
+      console.log("Pref onChange Listener", theme.value);
       setPreference()
     });
 }
