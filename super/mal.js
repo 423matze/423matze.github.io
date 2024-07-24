@@ -45,9 +45,9 @@ function setupRouteChangeListenerForTooltips() {
 // Get Mode Settings
 
 const getColorPreference = () => {
-  console.log("Funkt. getColorPreference");
+  console.log("Funkt. getColorPreference", localStorage.getItem(userKey));
 
-  if(localStorage.userKey == "false"){  
+  if(localStorage.getItem(userKey) == "false"){  
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       theme.value = 'dark';
     }else{
@@ -67,7 +67,10 @@ const getColorPreference = () => {
 }
 
 const setPreference = (val) => {
+  console.log("Funkt. setPreference", val);
+  
   localStorage.setItem(storageKey, theme.value);
+  
   if(val === 'true'){
     userPref.value = val;
     localStorage.setItem(userKey, userPref.value); 
