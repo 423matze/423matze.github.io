@@ -44,11 +44,19 @@ function setupRouteChangeListenerForTooltips() {
 
 const getColorPreference = () => {
   console.log("Funkt. getColorPreference");
-  window.matchMedia('(prefers-color-scheme: dark)', ({matches:isDark}) => {
-      theme.value = isDark ? 'dark' : 'light';
-      console.log("Pref set on load", theme.value);
-      setPreference()
-    });
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //theme.value = 'dark';
+    console.log("dark");
+  }else{
+    //theme.value = 'light';
+    console.log("light");
+  }
+  // short ?
+  theme.value = window.matchMedia('(prefers-color-scheme: dark)') ? 'dark' : 'light';
+  console.log("Pref set on load", theme.value);
+  
+  setPreference()
+  
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
       theme.value = isDark ? 'dark' : 'light';
       console.log("Pref onChange Listener", theme.value);
