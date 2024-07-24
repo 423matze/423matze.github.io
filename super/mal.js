@@ -3,8 +3,10 @@
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
+const userKey = "user-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
-const theme = { value: "dark"}
+const theme = { value: "dark"};
+const userPref = { value: "false"};
 
 // Setup on route change
 function setupRouteChangeListenerForTooltips() {
@@ -44,11 +46,13 @@ function setupRouteChangeListenerForTooltips() {
 
 const getColorPreference = () => {
   console.log("Funkt. getColorPreference");
-  
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    theme.value = 'dark';
-  }else{
-    theme.value = 'light';
+
+  if(localStorage.userKey == "false"){  
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      theme.value = 'dark';
+    }else{
+      theme.value = 'light';
+    }
   }
 
   console.log("Pref set on load", theme.value);
@@ -62,8 +66,15 @@ const getColorPreference = () => {
     });
 }
 
-const setPreference = () => {
-  localStorage.setItem(storageKey, theme.value)
+const setPreference = (val) => {
+  localStorage.setItem(storageKey, theme.value);
+  if(val === 'true'){
+    userPref.value = val;
+    localStorage.setItem(userKey, userPref.value); 
+  }else{
+    userPref.value = "false";
+    localStorage.setItem(userKey, userPref.value); 
+  }
   reflectPreference()
 }
 
@@ -113,7 +124,7 @@ const theme_toggle = () => {
 
     html.className = "theme-" + theme.value;
     
-    setPreference();
+    setPreference('user');
 }
 
 const mobile_check = (e) => {
