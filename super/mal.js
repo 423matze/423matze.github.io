@@ -71,11 +71,11 @@ const setPreference = (val) => {
   
   localStorage.setItem(storageKey, theme.value);
   
-  if(val === 'true'){
-    userPref.value = val;
+  if(val === 'user'){
+    userPref.value = 'true';
     localStorage.setItem(userKey, userPref.value); 
   }else{
-    userPref.value = "false";
+    userPref.value = 'false';
     localStorage.setItem(userKey, userPref.value); 
   }
   reflectPreference()
