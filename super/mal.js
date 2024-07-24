@@ -51,8 +51,10 @@ const getColorPreference = () => {
   if(localStorage.getItem(userKey) == 'false'){  
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       theme.value = 'dark';
+      localStorage.setItem(storageKey, theme.value);
     }else{
       theme.value = 'light';
+      localStorage.setItem(storageKey, theme.value);
     }
   }
   theme.value = localStorage.getItem(storageKey);
