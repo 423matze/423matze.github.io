@@ -44,15 +44,13 @@ function setupRouteChangeListenerForTooltips() {
 
 const getColorPreference = () => {
   console.log("Funkt. getColorPreference");
+  
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    //theme.value = 'dark';
-    console.log("dark");
+    theme.value = 'dark';
   }else{
-    //theme.value = 'light';
-    console.log("light");
+    theme.value = 'light';
   }
-  // short ?
-  theme.value = window.matchMedia('(prefers-color-scheme: dark)') ? 'dark' : 'light';
+
   console.log("Pref set on load", theme.value);
   
   setPreference()
