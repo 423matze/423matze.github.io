@@ -770,27 +770,55 @@ p {
 }
 
 /* CTA */
-.notion-callout.bg-orange-light{
+.notion-callout.bg-orange-light {
+    position: relative;
     width: 800px;
     height: 64px;
-    background-color: var(--cta-background);
+    background-color: transparent;
+    padding: 0px !important;
+    margin: 0px auto;
     color: var(--cta-text);
 }
 
-.notion-callout.bg-orange-light .notion-callout__content {
-    background: var(--cta-background);
-    border-radius: 12px;
-    height: 64px;
-    padding: 12px 12px 12px 24px;
-    width: 320px;
-    left: -42px;
+.notion-callout.bg-orange-light .notion-callout__content{
+    position: relative;
+    margin: 0px !important;
+    padding: 0px !important;
+    width: auto;
 }
 
+.notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
+    position:relative;
+    width: 100%;
+}
+
+.notion-callout.bg-orange-light .notion-callout__content .notion-column-list {
+   display: grid;
+   grid-template-columns: 67px auto;
+   margin: 0px;
+   padding: 0px 12px;
+}
+
+.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column{
+    margin-inline-start: 0px !important;
+}
+
+.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column:first-of-type{
+    width: auto !important;
+    /* padding: 0px 0px 0px 24px !important; */
+}
+
+
+
+/* -- braucht es nicht
 .notion-callout.bg-orange-light .notion-callout__icon {
     display: block !important;
     left: 42px;
     top: 20px;
 }
+*/
+
+/*-- notion page ? outdated --*/
 
 .notion-page {
     border-radius: var(--m423-radius) !important;
