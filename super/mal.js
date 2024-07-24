@@ -62,7 +62,8 @@ const setPreference = () => {
 const reflectPreference = () => {
   
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
-      theme.value = isDark ? 'dark' : 'light'
+      theme.value = isDark ? 'dark' : 'light';
+      console.log("Media Change pref", theme.value);
       setPreference()
     });
     
