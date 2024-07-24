@@ -42,16 +42,19 @@ function setupRouteChangeListenerForTooltips() {
 
 // Get Mode Settings
 
+const 
+
 const getColorPreference = () => {
-  if (localStorage.getItem(storageKey)){
-    console.log("mode", storageKey);
-    return localStorage.getItem(storageKey)
-  }else{
-    console.log("mode return matchmedia");
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
-  }
+  window.matchMedia('(prefers-color-scheme: dark)', ({matches:isDark}) => {
+      theme.value = isDark ? 'dark' : 'light';
+      console.log("Pref set on load", theme.value);
+      setPreference()
+    });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
+      theme.value = isDark ? 'dark' : 'light';
+      console.log("Pref onChange Listeber", theme.value);
+      setPreference()
+    });
 }
 
 const setPreference = () => {
@@ -60,13 +63,7 @@ const setPreference = () => {
 }
 
 const reflectPreference = () => {
-  
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({matches:isDark}) => {
-      theme.value = isDark ? 'dark' : 'light';
-      console.log("Media Change pref", theme.value);
-      setPreference()
-    });
-    
+      
   document.firstElementChild
     .setAttribute('data-theme', theme.value)
 
