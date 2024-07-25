@@ -252,6 +252,11 @@ li.my-contacts {
     height: fit-content;
 }
 
+.notion-callout.bg-gray-light .notion-callout__content .notion-column-list {
+    margin: 0px auto;
+    max-width: 100%;
+}
+
 .notion-image.normal img {
     position: relative;
     height: auto;
