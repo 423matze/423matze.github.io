@@ -71,7 +71,7 @@ html.theme-dark {
 
 /* ABOUT POTRAIT -- DRAFT */
 
-.notion-root:before {
+.my_background_portrait {
     content: '';
     display: block;
     position: absolute;
