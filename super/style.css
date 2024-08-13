@@ -813,6 +813,7 @@ p {
     padding: 4px 8px !important;
     border-radius: 8px;
     width: auto;
+    height: auto;
     background-color: var(--cta-background);
 }
 
@@ -827,7 +828,8 @@ p {
     flex-direction: row;
     align-items: stretch;
     flex-wrap: nowrap;
-    gap: 16px
+    gap: 16px;
+    margin: 0px;
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
