@@ -813,7 +813,7 @@ p {
     padding: 4px 8px !important;
     border-radius: 8px;
     width: auto;
-    background-color: #40ffa8;
+    background-color: var(--cta-background);
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
