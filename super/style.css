@@ -810,8 +810,10 @@ p {
 .notion-callout.bg-orange-light .notion-callout__content{
     position: relative;
     margin: 0px !important;
-    padding: 0px !important;
+    padding: 4px 8px !important;
+    border-radius: 8px;
     width: auto;
+    background-color: #40ffa8;
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
@@ -820,15 +822,25 @@ p {
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-column-list {
-   display: grid;
-   grid-template-columns: 67px auto;
-   margin: 0px;
-   padding: 0px 12px;
+   display: inline-flex;
+    align-content: center;
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 16px
 }
 
-.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column{
+.notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
+    position: relative;
+    width: 100%;
+    top: 5px;
+}
+
+.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column {
+    position: relative;
     margin-inline-start: 0px !important;
 }
+
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column:first-of-type{
     width: auto !important;
