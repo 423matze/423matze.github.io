@@ -83,7 +83,8 @@ html.theme-dark {
     opacity: 0.9;
     background-image: var(--mode-potrait-d);
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto 100%;
+    background-position: right;
     z-index: -1;
 }
 
