@@ -8,6 +8,11 @@ const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"};
 //const userPref = { value: "false"};
 
+// Helper Functions
+function toggleExpandeable() {
+  console.log('hallo toggle');
+};
+
 // Setup on route change
 function setupRouteChangeListenerForTooltips() {
   var routeChangeHandler = () => {
