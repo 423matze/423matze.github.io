@@ -11,7 +11,6 @@ html.theme-light {
     --cta-background: #e200b1;
     --cta-text: #ffffff;
     --link-text: #e200b1;
-    /*
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
 }
@@ -23,7 +22,6 @@ html.theme-dark {
     --cta-background: #00e2ab;
     --cta-text: #000000;
     --link-text: #00e2ab;
-    /*
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
 }
@@ -697,22 +695,23 @@ p {
     padding: 0px;
     background-color: transparent;
 }
+
 .notion-toggle.bg-blue .notion-toggle__summary{
     display: block;
     margin: auto;
     width:100%;
     max-width: 800px;
     font-weight: 230;
-    letter-spacing: 0.0423rem;
-    
+    letter-spacing: 0.0423rem;    
 }
+
 .notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
     font-size: 2rem !important;
     font-weight: 700 !important;
     line-height: 142%;
 }
 
-/* close super-embed
+/* close super-embed */
 
 #closeExpandeable {
     width: 800px;
