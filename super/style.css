@@ -561,6 +561,11 @@ p {
     padding-inline-start: 1em !important;
     line-height: 1.5em;
 }
+.notion-list-item {
+    margin: 3px 1px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
 
 .notion-callout__content {
     display: flex;
@@ -687,8 +692,10 @@ p {
 
 .notion-toggle.bg-blue {
     position:relative;
-    background-color: transparent;
     max-width: 100%;
+    margin: 0 auto !important;
+    padding: 0px;
+    background-color: transparent;
 }
 .notion-toggle.bg-blue .notion-toggle__summary{
     display: block;
