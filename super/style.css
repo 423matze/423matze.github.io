@@ -678,6 +678,62 @@ p {
     background-color: var(--color-text-red) !important;
 }
 
+/*--------- Togglel / Expand ---------*/
+
+
+.notion-toggle.bg-blue {
+    position:relative;
+    background-color: transparent;
+    max-width: 100%;
+}
+.notion-toggle.bg-blue .notion-toggle__summary span {
+    display: block;
+    margin: auto;
+    width:100%;
+    max-width: 800px;
+    font-weight: 230;
+    letter-spacing: 0.0423rem;
+    
+}
+.notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    line-height: 142%;
+}
+
+/* Funtional Setup */
+.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    display:block !important;
+    position:absolute;
+    width: 100%;
+    letter-spacing: 142%;
+}
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    height: 300px;
+    background:  transparent;
+}
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    height: 100%;
+    background: linear-gradient(180deg, transparent 15%, var(--color-bg-default) 80%, transparent 82% );
+}
+.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
+    display: none;
+}
+
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger:after {
+    display:block;
+    position:absolute;
+    top: 300px;
+    content:'';
+    
+}
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger:after {
+    display:block;
+    position:absolute;
+    top: 100%;
+    content:'';
+    
+}
 
 /*---------  TO_DO ---------*/
 
