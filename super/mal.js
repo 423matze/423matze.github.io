@@ -11,6 +11,9 @@ const theme = { value: "dark"};
 // Helper Functions
 function toggleExpandeable() {
   console.log('hallo toggle');
+  const elm = document.getElementsByClassName('notion-toggle__summary')[0];
+  elm.click();
+  elm.scrollIntoView();
 };
 
 // Setup on route change
