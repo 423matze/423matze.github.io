@@ -965,7 +965,6 @@ p {
 .notion-toggle__content {
     -webkit-padding-start: 0px !important;
     padding-inline-start: 0px !important;
-    font-size: var(--body-font)
 }
 
 
