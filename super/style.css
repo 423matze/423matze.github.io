@@ -711,6 +711,10 @@ p {
     line-height: 142%;
 }
 
+.notion-toggle.bg-blue .notion-toggle__content {
+    margin-top: 6rem !important;
+}
+
 /* close super-embed */
 
 #closeExpandeable {
