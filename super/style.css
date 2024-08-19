@@ -1882,6 +1882,10 @@ svg.sun-and-moon {
         width: 100%;
         height: 64px;
     }
+    
+    #closeExpandeable {
+    width: auto;   
+    }
 }
 
 
