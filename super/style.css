@@ -734,7 +734,7 @@ p {
 }
 .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
     height: 100%;
-    background: linear-gradient(180deg, transparent 15%, var(--color-bg-default) 80%, transparent 82% );
+    background: linear-gradient(180deg, transparent 15%, var(--color-bg-default) 100%);
 }
 .notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
     display: none;
@@ -743,12 +743,13 @@ p {
 .notion-toggle.closed.bg-blue .notion-toggle__summary:after {
     display:block;
     position: relative;
-    width: 800px;
+    /*width: 800px;*/
     top: 142%;
     margin-top: 42px;
     color: var(--cta-background);
     content:
     '+ read more about how we tackle the challenge.';
+    
 }
 
 /*---------  TO_DO ---------*/
@@ -979,13 +980,14 @@ p {
     border-radius: var(--m423-radius) !important;
 }
 
-
+/*-- no need 
 .notion-toggle.closed::before {
     content: "+";
     position: absolute;
     margin-left: -19px;
     margin-top: 3px;
 }
+*/
 .notion-toggle.open::before {
     content: "-";
     position: absolute;
