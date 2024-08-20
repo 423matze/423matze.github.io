@@ -135,7 +135,7 @@ const theme_toggle = () => {
     setPreference('user');
 }
 // Helper Functions
-const toggleExpandeable = () {
+const toggleExpandeable = () => {
   console.log('hallo toggle');
   const elm = document.getElementsByClassName('notion-toggle__summary')[0];
   elm.click();
