@@ -193,7 +193,7 @@ img {
     position: fixed;
     top: 1em;
     z-index: 423;
-    /* width: calc(100vw - var(--padding-left) - 64px) !important; */
+   width: calc(100vw - var(--padding-left) - 64px) !important;
     max-width: calc(var(--m423-width) + 2em )!important;
     margin: 1em 0 1em -1em !important;
     flex-direction: row;
