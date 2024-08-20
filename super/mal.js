@@ -34,7 +34,7 @@ function setupRouteChangeListenerForTooltips() {
   console.log("Route change init custom scripts");
   setupEmbeds();
   //reflectPreference();
-  setupRouteChangeListenerForTooltips();
+  //setupRouteChangeListenerForTooltips();
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
@@ -110,7 +110,17 @@ let device = "";
 document.querySelector("#menu")?.setAttribute("aria-label", state);
 document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
 
-const toggle_menu = () => {
+const theme_toggle = () => {
+    theme.value = theme.value === 'light'
+    ? 'dark'
+    : 'light';    
+
+    html.className = "theme-" + theme.value;
+    
+    setPreference('user');
+}
+
+const menu_toggle = () => {
   toggle_state = toggle_state === false ? true : false;
 
   document
@@ -125,15 +135,6 @@ const toggle_menu = () => {
   console.log("toggle menu", toggle_state);
 }
 
-const theme_toggle = () => {
-    theme.value = theme.value === 'light'
-    ? 'dark'
-    : 'light';    
-
-    html.className = "theme-" + theme.value;
-    
-    setPreference('user');
-}
 // Helper Functions
 const toggleExpandeable = () => {
   console.log('hallo toggle');
@@ -168,7 +169,7 @@ if (document.readyState === "loading") {
 
 
 
-// init custom navigation
+/* init custom navigation
 function initNavigation() {  
 
   const my_submenu = document.getElementById("my-menu-toggle");
@@ -179,6 +180,7 @@ function initNavigation() {
 
   console.log("init toggle ready");
 }
+*/
 
 //insert custome codeblocks
 
@@ -214,7 +216,7 @@ function setupEmbeds() {
       });
     }
   });
-  initNavigation();
+  //initNavigation();
 }
 
 /* 
