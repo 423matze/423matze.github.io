@@ -8,13 +8,7 @@ const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"};
 //const userPref = { value: "false"};
 
-// Helper Functions
-function toggleExpandeable() {
-  console.log('hallo toggle');
-  const elm = document.getElementsByClassName('notion-toggle__summary')[0];
-  elm.click();
-  elm.scrollIntoView();
-};
+
 
 // Setup on route change
 function setupRouteChangeListenerForTooltips() {
@@ -139,6 +133,13 @@ const theme_toggle = () => {
     html.className = "theme-" + theme.value;
     
     setPreference('user');
+}
+// Helper Functions
+const toggleExpandeable = () {
+  console.log('hallo toggle');
+  const elm = document.getElementsByClassName('notion-toggle__summary')[0];
+  elm.click();
+  elm.scrollIntoView();
 }
 
 const mobile_check = (e) => {
