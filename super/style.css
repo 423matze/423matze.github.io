@@ -1834,14 +1834,14 @@ svg.sun-and-moon {
         position: absolute;
         width: 100%;
         height: auto;
-        bottom: 3em;
+        bottom: 2em;
         left: 0px;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: space-around;
         align-items: center;
-        gap: 1em;
+        gap: 0.7em;
         background-color: transparent;
         list-style: none;
 
@@ -1864,7 +1864,7 @@ svg.sun-and-moon {
         align-content: center;
         align-items: center;
         justify-content: space-evenly;
-        padding-bottom: 1em;
+        padding-bottom: 1rem;
     }
 
     a.my-contact {
@@ -1873,9 +1873,9 @@ svg.sun-and-moon {
 
     a.notion-link.super-navbar__item {
         position: relative;
-        padding: 1em;
-        font-size: 1.23em;
-        font-weight: 800;
+        padding: 1rem;
+        font-size: 1.72rem;
+        font-weight: 700;
         color: var(--color-text-default);
         opacity: 1 !important;
     }
