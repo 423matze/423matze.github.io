@@ -1,4 +1,4 @@
-/* style 423 v.1.6 */
+/* style 423 v.1.7 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -127,13 +127,6 @@ body {
     padding-bottom: 4em !important;
     padding-left: var(--padding-left) !important;
     padding-right: var(--padding-right) !important;
-}
-
-.super-content.max-width {
-    max-width: var(--m423-width) !important;
-    margin: auto !important;
-    padding-top: 6em;
-
 }
 
 /*----- images  -----*/
@@ -1742,6 +1735,18 @@ svg.sun-and-moon {
     body{
         font-size: 1.23rem !important;
     }
+    .super-content {
+        width: 100vw !important;
+        padding-top: 0vh !important;
+        padding-bottom: 12vh;
+        padding-left: 24px !important;
+        padding-right: 24px !important;    
+    }
+
+    .super-content.has-footer {
+        padding-bottom: 4em;
+        padding-top: 24px !important;
+    }
 
     .my_background_portrait {
         background-image: var(--mode-potrait-m);
@@ -1773,10 +1778,10 @@ svg.sun-and-moon {
         max-width: 100%;
     }
     .notion-callout.bg-pink-light {
-    min-width: 240px;
-    width: 90%;
-    max-width: 420px;
-}
+	min-width: 240px;
+	width: 90%;
+	max-width: 420px;
+    }
 
     .backdrop {
         position: fixed;
@@ -1923,20 +1928,6 @@ svg.sun-and-moon {
 
     button.my-menuburger:hover circle.burger-bg {
         opacity: 0;
-    }
-
-    .super-content {
-        width: 100vw !important;
-        padding-top: 0vh !important;
-        padding-bottom: 12vh;
-        padding-left: var(--padding-left-mobile) !important;
-        padding-right: var(--padding-right-mobile) !important;
-        
-    }
-
-    .super-content.has-footer {
-        padding-bottom: 4em;
-        padding-top: 24px !important;
     }
 
     .notion-callout.bg-orange-light {
