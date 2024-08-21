@@ -1,4 +1,4 @@
-/* style 423 v.1.5 */
+/* style 423 v.1.51 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -733,13 +733,20 @@ p {
 
 /* -- EXPANDS CASE SEXTION -- */
 
-
 .notion-toggle.bg-blue {
     position:relative;
     max-width: 100%;
     margin: 0 auto !important;
     padding: 0px;
     background-color: transparent;
+}
+
+.notion-toggle.bg-blue.closed::before {
+    content: "";
+}
+
+.notion-toggle.bg-blue.open::before {
+    content: "";
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary{
