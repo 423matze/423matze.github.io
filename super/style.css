@@ -689,7 +689,49 @@ p {
     background-color: var(--color-text-red) !important;
 }
 
-/*--------- Togglel / Expand ---------*/
+/*--------- TOGGLES / EXPANDS ---------*/
+
+.notion-toggle {
+    display: block;
+    margin: 0 auto 0.5rem auto !important;
+    font-size: 1.375rem;
+    font-family: "Dosis", var(--primary-font) !important;
+    font-optical-sizing: auto;
+    padding-left: 24px;
+}
+
+.notion-toggle__summary {
+    font-weight: 600 !important;
+}
+
+.notion-toggle__content {
+    -webkit-padding-start: 0px !important;
+    padding-inline-start: 0px !important;
+}
+
+.notion-toggle.closed::before {
+    content: "+";
+    position: absolute;
+    margin-left: -19px;
+    margin-top: 3px;
+    color: var(--cta-background);
+}
+
+.notion-toggle.open::before {
+    content: "-";
+    position: absolute;
+    margin-left: -19px;
+    margin-top: 3px;
+    cursor: pointer;
+    color: var(--cta-background);
+}
+
+.notion-toggle__trigger {
+    display: none !important;
+}
+
+
+/* -- EXPANDS CASE SEXTION -- */
 
 
 .notion-toggle.bg-blue {
@@ -717,15 +759,6 @@ p {
 
 .notion-toggle.bg-blue .notion-toggle__content {
     margin-top: 6rem !important;
-}
-
-/* close super-embed */
-
-#closeExpandeable {
-    width: 800px;
-    margin: 42px auto;
-    color: var(--cta-background);
-    font-weight: 600;
 }
 
 /* Funtional Setup */
@@ -756,8 +789,16 @@ p {
     margin-top: 42px;
     color: var(--cta-background);
     content:
-    '+ read more about how we tackle the challenge.';
-    
+    '+ read more about how we tackle the challenge.';    
+}
+
+/* -- Close super-embed -- */
+
+#closeExpandeable {
+    width: 800px;
+    margin: 42px auto;
+    color: var(--cta-background);
+    font-weight: 600;
 }
 
 /*---------  TO_DO ---------*/
@@ -961,26 +1002,6 @@ p {
 
 
 
-/*---------  TOGGLE ---------*/
-
-
-.notion-toggle {
-    display: block;
-    margin: 0 auto 0.5rem auto !important;
-    font-size: 1.375rem;
-    font-family: "Dosis", var(--primary-font) !important;
-    font-optical-sizing: auto;
-    padding-left: 24px;
-}
-
-.notion-toggle__summary {
-    font-weight: 600 !important;
-}
-
-.notion-toggle__content {
-    -webkit-padding-start: 0px !important;
-    padding-inline-start: 0px !important;
-}
 
 
 .notion-pill {
@@ -988,25 +1009,7 @@ p {
     border-radius: var(--m423-radius) !important;
 }
 
-/*-- no need 
-.notion-toggle.closed::before {
-    content: "+";
-    position: absolute;
-    margin-left: -19px;
-    margin-top: 3px;
-}
-*/
-.notion-toggle.open::before {
-    content: "-";
-    position: absolute;
-    margin-left: -19px;
-    margin-top: 3px;
-    cursor: pointer;
-}
 
-.notion-toggle__trigger {
-    display: none !important;
-}
 
 
 
