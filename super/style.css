@@ -1746,6 +1746,13 @@ svg.sun-and-moon {
         padding-left: 24px !important;
         padding-right: 24px !important;
     }
+    /* -- page specific -- */
+    /* home */
+    
+    .super-content.page__index {
+        padding-top: 23vh !important;
+        padding-bottom: 12vh;
+    }
 
     .super-content.has-footer {
         padding-bottom: 4em;
