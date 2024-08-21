@@ -1,4 +1,4 @@
-/* style 423 v.1.52 */
+/* style 423 v.1.6 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -7,10 +7,12 @@ html.theme-light {
     --color-card-bg: transparent!important;
     --color-card-bg-hover: #ffff00!important;
     --color-backdrop-bg: #ffffff70;
-    --ilu-image: invert(0);
+    --ilu-image: invert(0);    
     --cta-background: #e200b1;
     --cta-text: #ffffff;
+    --cta-icon-color: invert(1);
     --link-text: #e200b1;
+    
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
 }
@@ -21,6 +23,7 @@ html.theme-dark {
     --ilu-image: invert(1);
     --cta-background: #00e2ab;
     --cta-text: #000000;
+    --cta-icon-color: invert(0);
     --link-text: #00e2ab;
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
@@ -459,7 +462,6 @@ h3.notion-heading,
 .notion-toggle{
     max-width: 800px;
     width: 100%;
-    min-width: 240px;
     margin: auto;
 }
 
@@ -611,17 +613,60 @@ p {
 /*--------- LINKS ----------*/
 
 .notion-semantic-string .link {
-    color: inherit;
+    color: var(--link-text);
     text-decoration: underline;
     line-height: 120%;
     height: 82px;
     -webkit-text-decoration-color: var(--color-text-default-light);
-    text-decoration-color: #191919;
+    text-decoration-color: var(--link-text);
     text-decoration-thickness: 1.5px;
     text-underline-offset: 9px;
     opacity: .8;
     transition: all .2s ease-in, opacity .1s ease-in;
 }
+
+/* footer links */
+
+.notion-semantic-string.color-default .link {
+    /* color: greenyellow; */
+}
+
+
+.notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
+    position: relative;
+    width: auto;
+    top: 5px;
+}
+
+/* icon */
+.notion-callout.bg-orange-light 
+.notion-callout__content
+.notion-image.align-start{
+    display: block;
+    width: 42px;
+    flex-shrink: 0;
+    top: 5px;
+}
+.notion-callout.bg-orange-light 
+.notion-callout__content
+.notion-image.align-start img {
+    /* display: inline-block; */
+    border-radius: 0px !important;
+    width:32px;
+    filter: var(;
+}
+
+/* link text */
+.notion-callout.bg-orange-light 
+.notion-callout__content
+.notion-text
+.notion-link{
+	color: var(--cta-text);
+    text-decoration-color: var(--cta-text);
+    
+}
+
+
 
 /*--------- CTA ---------*/
 
