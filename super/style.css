@@ -1,4 +1,4 @@
-/* style 423 v.1.51 */
+/* style 423 v.1.52 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -698,6 +698,7 @@ p {
     font-family: "Dosis", var(--primary-font) !important;
     font-optical-sizing: auto;
     padding-left: 24px;
+    cursor: pointer;
 }
 
 .notion-toggle__summary {
@@ -712,17 +713,18 @@ p {
 .notion-toggle.closed::before {
     content: "+";
     position: absolute;
-    margin-left: -19px;
-    margin-top: 3px;
+    margin-top: -1px;
+    margin-left: -23px;
+    font-size: 2rem;
     color: var(--cta-background);
 }
 
 .notion-toggle.open::before {
     content: "-";
     position: absolute;
-    margin-left: -19px;
-    margin-top: 3px;
-    cursor: pointer;
+    margin-top: -1px;
+    margin-left: -23px;
+    font-size: 2rem;
     color: var(--cta-background);
 }
 
