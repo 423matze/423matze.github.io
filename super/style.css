@@ -1,4 +1,4 @@
-/* style 423 v.3.1 */
+/* style 423 v.3.2 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -65,13 +65,20 @@ html.theme-dark {
     --heading3-size: calc(var(--heading-size) * 1.25);
     --heading4-size: calc(var(--heading-size) * 1);
     --heading5-size: calc(var(--heading-size) * 0.8125);
+
     /* -- page paddings -- */
-    --padding-right: calc(env(safe-area-inset-right) + 120px);
-    --padding-left: calc(env(safe-area-inset-left) + 120px);
-    --padding-right-tablet: calc(env(safe-area-inset-right) + 80px);
-    --padding-left-tablet: calc(env(safe-area-inset-left) + 80px);
-    /* -- my nv vriables -- */
+    --padding-mob: 24px;
+    --padding-tablet: 32px;
+    --padding-desktop: 120px;
+
+    --padding-right: calc(env(safe-area-inset-right) + var(--padding-desktop));
+    --padding-left: calc(env(safe-area-inset-left) + var(--padding-desktop));
+    --padding-right-tablet: calc(env(safe-area-inset-right) + var(--padding-tablet));
+    --padding-left-tablet: calc(env(safe-area-inset-left) + var(--padding-tablet));
+    
+    /* -- my nav vriables -- */
     --nav-ovefloat: 1em;
+    
     /* responsiv illustrations logos etc. */
     --ilu-image: invert(0);
     --cta-background: #e200b1;
@@ -1713,6 +1720,27 @@ svg.sun-and-moon {
         text-overflow: ellipsis;
     }
 
+    /* -- Navigation -- */
+
+    .my-super-navbar {
+        width: 100%;
+        display: block;
+        position: fixed;
+        top: unset;
+        bottom: 1rem;
+        left: 0px;
+        z-index: 423;
+        margin: 1em auto 1em auto !important;
+        padding-left: 64px !important;
+        padding-right: 64px !important;
+    }
+
+    .my-super-navbar__content {
+        width: 100%;
+        margin: auto;
+
+    }
+
 
     .super-navbar__item {
         width: 100%;
@@ -1840,7 +1868,6 @@ svg.sun-and-moon {
 
     .my-super-navbar__content {
         width: 100%;
-        max-width: 1440px;
         margin: auto;
 
     }
