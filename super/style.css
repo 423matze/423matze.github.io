@@ -1,4 +1,4 @@
-/* style 423 v.3.3 */
+/* style 423 v.3.4 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -43,6 +43,7 @@ html.theme-dark {
     --m423-width-med: 60vw !important;
 
     --body-font: 1.42rem !important;
+   --color-text-default: #37352F;
     --text-weight: 230;
     --heading-weight: 800;
 
@@ -787,7 +788,7 @@ p {
 }
 
 
-/* -- EXPANDS CASE SEXTION -- */
+/* -- EXPANDS TOHHLE CASE SECTION -- */
 
 .notion-toggle.bg-blue {
     position: relative;
@@ -810,7 +811,7 @@ p {
     margin: auto;
     width: 100%;
     max-width: 800px;
-    font-weight: 230;
+    font-weight: 230 !important;
     letter-spacing: 0.0423rem;
 }
 
@@ -860,7 +861,7 @@ p {
 
 /* -- Close super-embed -- */
 
-#closeExpandeable {
+#closeExpandable {
     width: 800px;
     margin: 42px auto;
     color: var(--cta-background);
