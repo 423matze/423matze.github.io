@@ -1111,6 +1111,9 @@ p {
     font-size: 1em !important;
     padding-top: 6px;
 }
+.notion-collection-card__content .notion-property__select{
+    margin-top: 1rem;
+}
 
 .notion-collection-card:hover {
     background: var(--color-card-bg) !important;
