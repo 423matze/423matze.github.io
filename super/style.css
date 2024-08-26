@@ -1,4 +1,4 @@
-/* style 423 v.3.2 */
+/* style 423 v.3.3 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -75,10 +75,10 @@ html.theme-dark {
     --padding-left: calc(env(safe-area-inset-left) + var(--padding-desktop));
     --padding-right-tablet: calc(env(safe-area-inset-right) + var(--padding-tablet));
     --padding-left-tablet: calc(env(safe-area-inset-left) + var(--padding-tablet));
-    
+
     /* -- my nav vriables -- */
     --nav-ovefloat: 1em;
-    
+
     /* responsiv illustrations logos etc. */
     --ilu-image: invert(0);
     --cta-background: #e200b1;
@@ -1110,9 +1110,6 @@ p {
 .notion-collection-card__property-list {
     font-size: 1em !important;
     padding-top: 6px;
-}
-.notion-collection-card__content .notion-property__select{
-    margin-top: 1rem;
 }
 
 .notion-collection-card:hover {
