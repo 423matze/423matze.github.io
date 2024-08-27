@@ -788,7 +788,7 @@ p {
 }
 
 
-/* -- EXPANDS TOHHLE CASE SECTION -- */
+/* -- EXPANDS TOGGLE CASE SECTION -- */
 
 .notion-toggle.bg-blue {
     position: relative;
@@ -861,7 +861,7 @@ p {
 
 /* -- Close super-embed -- */
 
-#closeExpandable {
+.expandable__close {
     width: 800px;
     margin: 42px auto;
     color: var(--cta-background);
@@ -999,8 +999,9 @@ p {
 
 .notion-callout.bg-orange-light .notion-callout__content {
     position: relative;
+    flex-direction: row;
     margin: 0px !important;
-    padding: 4px 8px !important;
+    padding: 4px 16px !important;
     border-radius: 8px;
     width: auto;
     height: auto;
@@ -1009,7 +1010,6 @@ p {
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
     position: relative;
-    width: 100%;
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-column-list {
