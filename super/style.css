@@ -158,15 +158,23 @@ body {
     flex-direction: column;
 }
 
-.notion-image.normal {
-    max-width:800px;
-    margin: auto;
+.notion-image.align-start {
+    align-items: start;
 }
 
+.notion-image.align-end {
+    align-items: end;
+}
+
+.notion-image img {
+    object-fit: cover;
+}
+
+/* Images content width (page) */
+
 .notion-image.page-width {
-    width: 100%;
-    max-width: 100%;
-    margin-top: 2rem;
+    width: 800px;
+    margin-top: auto;
 }
 
 .notion-image.page-width img {
@@ -191,13 +199,18 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
-.notion-image img {
-    object-fit: cover;
+/* Images sized */
+
+.notion-image.normal {
+    max-width:1440px;
 }
+
 .notion-image.normal img {
     position: relative;
     height: auto;
 }
+
+
 
 /* Mode responsive illustrations images */
 
