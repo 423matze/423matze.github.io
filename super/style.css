@@ -1,4 +1,4 @@
-/* style 423 v.3.5 */
+/* style 423 v.3.6 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -422,16 +422,6 @@ li.my-contacts {
     /* margin-bottom: 1em !important; */
     padding: 0 !important;
 }
-
-
-.notion-collection__header-wrapper {
-    display: block !important;
-}
-
-.notion-collection__header {
-    display: none !important;
-}
-
 
 .notion-dropdown__button p,
 .notion-dropdown__option p {
@@ -1060,12 +1050,20 @@ p {
 }
 
 
-
+/* -- PILL --*/
 
 
 .notion-pill {
     padding: 0.25em 0.75em !important;
     border-radius: var(--m423-radius) !important;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.125rem;
+    white-space: nowrap;
+    display: inline-block;
+    margin: 3px 0;
+    -webkit-margin-end: 6px;
+    margin-inline-end: 6px;
 }
 
 
@@ -1074,9 +1072,19 @@ p {
 
 /* ------- Collection ---------*/
 
+.notion-collection__header-wrapper {
+    display: block !important;
+}
+
+.notion-collection__header {
+    display: none !important;
+}
+
 .notion-collection.inline {
     margin-top: 4rem;
 }
+
+/* CARDS */
 
 .notion-collection-card {
     width: 100%;
@@ -1134,6 +1142,14 @@ p {
     padding: var(--collection-card-content-padding) !important;
 }
 
+.notion-collection-card__content .notion-property__select {
+    margin-top: .5rem;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
 
 .notion-collection-board__item {
     margin-bottom: 1rem !important;
@@ -1173,13 +1189,6 @@ p {
     border-radius: var(--m423-radius) !important;
 }
 
-
-/*
-  .notion-property__title .notion-property__title__icon-wrapper {
-      display: block!important;
-  }
-*/
-
 .notion-collection-card img {
     opacity: 1 !important;
     transition: 0.3s ease-in-out !important;
@@ -1200,6 +1209,8 @@ p {
     border-radius: var(--m423-radius) !important;
     transition: .3s ease-in-out !important;
 }
+
+
 
 /*---------  Quotes  ---------*/
 
