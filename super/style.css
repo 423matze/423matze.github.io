@@ -158,6 +158,13 @@ body {
     flex-direction: column;
 }
 
+/* case header images */
+
+article div.notion-image:first-of-type{
+    width: 100% !important;
+    margin: 2rem auto;
+}
+
 .notion-image.align-start {
     align-items: start;
 }
@@ -173,8 +180,9 @@ body {
 /* Images content width (page) */
 
 .notion-image.page-width {
-    width: 800px;
-    margin-top: auto;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
 }
 
 .notion-image.page-width img {
