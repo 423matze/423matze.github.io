@@ -162,6 +162,7 @@ body {
 
 article div.notion-image:first-of-type{
     width: 100% !important;
+    max-width: 100% !important;
     margin: 2rem auto;
 }
 
