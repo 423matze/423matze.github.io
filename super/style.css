@@ -188,15 +188,30 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
-.notion-image {
-    margin-bottom: 2rem !important;
-}
-
 .notion-image img {
     object-fit: cover;
 }
+.notion-image.normal img {
+    position: relative;
+    height: auto;
+}
 
-/*custome styles new menue */
+/* Mode responsive illustrations images */
+
+.notion-callout.bg-gray-light .notion-image {
+    filter: var(--ilu-image);
+    padding: 16px;
+}
+
+.notion-callout.bg-gray-light .notion-image img {
+    border-radius: 0px !important;
+}
+
+
+
+
+
+/* -- MY CUSTOM MENU -- */
 
 .super-navbar {
     display: none;
@@ -287,11 +302,6 @@ li.my-contacts {
     height: 100%
 }
 
-.notion-callout.bg-gray-light .notion-image {
-    filter: var(--ilu-image);
-    margin: 0px !important;
-}
-
 .notion-callout.bg-gray-light {
     background: transparent !important;
     padding: 0px !important;
@@ -309,10 +319,7 @@ li.my-contacts {
     margin: 0px !important;
 }
 
-.notion-image.normal img {
-    position: relative;
-    height: auto;
-}
+
 
 /* custom menu for individual cases*/
 
@@ -1469,6 +1476,22 @@ p {
     margin: 1em 0px 1em 0px;
     width: 100%;
     max-width: 100%;
+}
+
+/* ------ NUMBERED LISTS --------*/
+
+.notion-numbered-list {
+    margin: auto;
+    max-width: 800px;
+    -webkit-padding-start: 24px;
+}
+
+.notion-numbered-list .notion-list-item {
+    padding-left: 16px;
+}
+
+ol.notion-numbered-list li::marker {
+    display: inline;
 }
 
 
