@@ -43,8 +43,9 @@ html.theme-dark {
     --m423-width-med: 60vw !important;
 
     --body-font: 1.42rem !important;
-   --color-text-default: #37352F;
+    --body-font-letterspacing:0.142rem;
     --text-weight: 230;
+    --color-text-default: #37352F;
     --heading-weight: 800;
 
     --collection-card-cover-size-small: calc(20%) !important;
@@ -122,8 +123,9 @@ body:is([modal="true"]) {
 }
 
 body {
-    /* overflow-x: hidden; */
-    font-size: var(--body-font);
+    font-family: var(--primary-font) !important;
+    font-size: var(--body-font) !important;
+    letter-spacing: var(--body-font-letterspacing);
 }
 
 /* optimize header image (1st.content image) */
@@ -353,11 +355,6 @@ li.my-contacts {
 }
 
 /* STYLES */
-
-body {
-    font-family: var(--primary-font) !important;
-    font-size: var(--body-font) !important;
-}
 
 .notion-header__title-wrapper {
     max-width: var(--m423-width) !important;
