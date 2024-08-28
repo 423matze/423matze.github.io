@@ -4,6 +4,7 @@
 
 /* root variables */
 html.theme-light {
+    --text-weight: 310 !important;
     --color-card-bg: transparent !important;
     --color-card-bg-hover: #ffff00 !important;
     --color-backdrop-bg: #ffffff70;
@@ -18,6 +19,7 @@ html.theme-light {
 }
 
 html.theme-dark {
+    --text-weight: 230 !important;
     --color-card-bg: transparent !important;
     --color-card-bg-hover: #292929 !important;
     --color-backdrop-bg: #00000070;
