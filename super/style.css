@@ -564,7 +564,7 @@ p {
     padding-bottom: 1rem;
 }
 
-.notion-text::empty{
+.notion-text:empty{
     min-height: 4rem;
 }
 
