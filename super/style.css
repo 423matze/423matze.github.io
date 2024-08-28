@@ -769,22 +769,23 @@ p {
     padding-inline-start: 0px !important;
 }
 
+/* standard toggle */
+
 .notion-toggle.closed::before {
-    /* content: "+"; */
+   content: "+"; 
     position: absolute;
     margin-top: -1px;
     margin-left: -23px;
     font-size: 2rem;
     color: var(--cta-background);
-    /* border-bottom: 1px red solid; */
 }
 
-.notion-toggle.open::after {
+.notion-toggle.open::before {
     content: "-";
     position: absolute;
     margin-top: -1px;
     margin-left: -23px;
-    /* font-size: 2rem; */
+    font-size: 2rem; 
     color: var(--cta-background);
 }
 
