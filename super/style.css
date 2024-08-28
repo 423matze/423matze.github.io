@@ -332,6 +332,11 @@ li.my-contacts {
     margin-top: 2rem;
     height: auto;
 }
+.notion-callout.color-default .notion-callout__content p {
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
 
 .notion-callout.bg-gray-light {
     background: transparent !important;
