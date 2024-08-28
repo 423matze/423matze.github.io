@@ -523,14 +523,17 @@ h2 {
     font-style: normal !important;
     font-size: 2rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.0123em !important;
-    margin-bottom: 0.5em !important;
+    letter-spacing: 0.0123rem !important;
+    margin-bottom: 1rem !important;
 
     -webkit-animation: fadeIn 0.75s !important;
     -moz-animation: fadeIn 0.75s !important;
     -ms-animation: fadeIn 0.75s !important;
     -o-animation: fadeIn 0.75s !important;
     animation: fadeIn 0.75s !important;
+}
+h2.notion-heading:not(.toggle) {
+    margin-top: 0rem !important;
 }
 
 h3 {
@@ -572,12 +575,12 @@ p {
 }
 
 .notion-text__content {
-    margin: 1rem auto;
+    margin: 0 auto;
     padding-bottom: 1rem;
 }
 
 .notion-text:empty{
-    min-height: 4rem;
+    min-height: 1rem;
 }
 
 .notion-text.color-pink p {
