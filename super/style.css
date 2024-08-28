@@ -166,11 +166,10 @@ body {
     flex-direction: column;
 }
 
-/* case header images */
+/* case header images teaser */
 
 div.notion-image:nth-child(5) {
     max-width: 100%;
-    border: 3px red solid;
 }
 
 /* geht nicht ? */
