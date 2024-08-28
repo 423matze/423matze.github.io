@@ -107,6 +107,14 @@ html.theme-dark {
     z-index: -1;
 }
 
+/*-- EMBED VIDEOS --*/
+
+.my-video-small {
+    display: block;
+    width: 423px;
+    margin: auto;
+}
+
 /* layout overrides */
 
 .notion-root.max-width {
