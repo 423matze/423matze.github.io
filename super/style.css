@@ -1,4 +1,4 @@
-/* style 423 v.3.6 */
+/* style 423 v.3.7 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -43,7 +43,7 @@ html.theme-dark {
     --m423-width-med: 60vw !important;
 
     --body-font-size: 1.42rem !important;
-    --body-font-letterspacing:0.123rem !important;
+    --body-font-letterspacing: 0.123rem !important;
     --text-weight: 230 !important;
     --color-text-default: #37352F;
     --heading-weight: 800;
@@ -125,7 +125,7 @@ body:is([modal="true"]) {
 body {
     font-family: var(--primary-font) !important;
     font-size: var(--body-font-size);
-    text-wight: var(--text-weight);
+    font-weight: var(--text-weight);
     letter-spacing: var(--body-font-letterspacing);
 }
 
@@ -160,7 +160,7 @@ body {
 
 /* case header images */
 
-article div.notion-image:first-of-type{
+article div.notion-image:first-of-type {
     width: 100% !important;
     max-width: 100% !important;
     margin: 2rem auto;
@@ -211,7 +211,7 @@ img {
 /* Images sized */
 
 .notion-image.normal {
-    max-width:1440px;
+    max-width: 1440px;
 }
 
 .notion-image.normal img {
@@ -321,10 +321,16 @@ li.my-contacts {
     z-index: 423;
 }
 
-/* More --- */
+/* --- CALLOUTS --- */
 
 .notion-callout {
     height: 100%
+}
+
+.notion-callout.color-default {
+    max-width: 800px;
+    margin-top: 2rem;
+    height: auto;
 }
 
 .notion-callout.bg-gray-light {
@@ -526,13 +532,14 @@ h3 {
 }
 
 .notion-text {
-    min-height: 2em !important;
+    /* max-height: 100%; */
+    min-height: auto;
 }
 
 .notion-semantic-string {
     line-height: 142% !important;
     white-space: pre-wrap;
-    /* word-break: break-word; */
+    word-break: break-word;
 }
 
 p {
@@ -548,7 +555,12 @@ p {
 }
 
 .notion-text__content {
-    margin-top: 0;
+    margin: 1rem auto;
+    padding-bottom: 1rem;
+}
+
+.notion-text__content::empty{
+    min-height: 4rem;
 }
 
 .notion-text.color-pink p {
@@ -749,20 +761,21 @@ p {
 }
 
 .notion-toggle.closed::before {
-    content: "+";
+    /* content: "+"; */
     position: absolute;
     margin-top: -1px;
     margin-left: -23px;
     font-size: 2rem;
     color: var(--cta-background);
+    /* border-bottom: 1px red solid; */
 }
 
-.notion-toggle.open::before {
+.notion-toggle.open::after {
     content: "-";
     position: absolute;
     margin-top: -1px;
     margin-left: -23px;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     color: var(--cta-background);
 }
 
@@ -776,26 +789,46 @@ p {
 .notion-toggle.bg-blue {
     position: relative;
     max-width: 100%;
-    margin: 0 auto !important;
+    margin: 0 auto 4rem 0 !important;
     padding: 0px;
     background-color: transparent;
 }
 
-.notion-toggle.bg-blue.closed::before {
-    content: "";
+.notion-toggle.bg-blue.closed::after {
+    display: block;
+    position: relative;
+    width: 800px;
+    top: -6rem;
+    margin: 42px auto 0 auto;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    content: '+ read more about how we tackle the challenge';
+    border-bottom: 1px var(--cta-background) solid;
+    pointer-events: none;
 }
 
-.notion-toggle.bg-blue.open::before {
-    content: "";
+.notion-toggle.bg-blue.open::after {
+    display: block;
+    position: relative;
+    width: 800px;
+    top: -6rem;
+    margin: 42px auto 0 auto;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    content: '- close the intesting infos';
+    border-bottom: 1px var(--cta-background) solid;
+    pointer-events: none;
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary {
     display: block;
+    height: auto;
     margin: auto;
     width: 100%;
     max-width: 800px;
     font-weight: 230 !important;
     letter-spacing: 0.0423rem;
+    padding-bottom: 6rem;
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
@@ -806,6 +839,8 @@ p {
 
 .notion-toggle.bg-blue .notion-toggle__content {
     margin-top: 6rem !important;
+    cursor: default;
+    padding-bottom: 6rem;
 }
 
 /* Funtional Setup */
@@ -813,34 +848,59 @@ p {
 .notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger {
     display: block !important;
     position: absolute;
-    width: 100%;
-    letter-spacing: 142%;
+    width: auto;
 }
 
 .notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    height: 300px;
+    height: 100%;
+    width: 800px;
     background: transparent;
 }
 
 .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    width: 800px;
     height: 100%;
     background: linear-gradient(180deg, transparent 15%, var(--color-bg-default) 100%);
+}
+
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    width: 800px;
+    height: 100%;
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
     display: none;
 }
 
+/*
+
 .notion-toggle.closed.bg-blue .notion-toggle__summary:after {
     display: block;
     position: relative;
-    /*width: 800px;*/
+    width: 800px;
     top: 142%;
     margin-top: 42px;
+    padding-bottom: 1rem;
     color: var(--cta-background);
-    content:
-        '+ read more about how we tackle the challenge.';
+    content: '+ read more about how we tackle the challenge.';
+    border-bottom: 1px var(--cta-background) solid;
 }
+
+
+
+.notion-toggle.open.bg-blue .notion-toggle__summary:after {
+    display: block;
+    position: relative;
+    width: 800px;
+    top: 142%;
+    margin-top: 42px;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    content: '+ read more about how we tackle the challenge.';
+    border-bottom: 1px var(--cta-background) solid;
+}
+
+*/
 
 /* -- Close super-embed -- */
 
@@ -1216,12 +1276,13 @@ p {
 /*---------  Quotes  ---------*/
 
 .notion-quote {
-    font-size: 2.3rem !important;
+    font-size: var(--body-font-size);
+    font-weight: 300;
+    text-align: left !important;
     width: 100% !important;
     margin: 0 auto !important;
     padding: 2em 3em 2em 0em !important;
     border: none !important;
-    text-align: left !important;
     display: flex !important;
     flex-direction: column !important;
     border-radius: var(--m423-radius) !important;
