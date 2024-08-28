@@ -37,6 +37,7 @@ html.theme-dark {
 }
 
 :root {
+    var(--content-max-desktop): 800px;
     --column-spacing: 2em !important;
     --m423-radius: 12px !important;
     --m423-width: 1440px !important;
@@ -182,7 +183,7 @@ article div.notion-image:first-of-type {
 
 .notion-image.page-width {
     width: 100%;
-    max-width: 800px;
+    max-width: var(--content-max-desktop);
     margin: auto;
 }
 
@@ -328,7 +329,7 @@ li.my-contacts {
 }
 
 .notion-callout.color-default {
-    max-width: 800px;
+    max-width: var(--content-max-desktop);
     margin-top: 2rem;
     height: auto;
 }
@@ -477,7 +478,7 @@ h3.notion-heading,
 .notion-text,
 .notion-quote,
 .notion-toggle {
-    max-width: 800px;
+    max-width: var(--content-max-desktop);
     width: 100%;
     margin: auto;
 }
@@ -549,7 +550,7 @@ h3 {
 
 p {
     margin-bottom: 0 !important;
-    max-width: 800px !important;
+    max-width: var(--content-max-desktop) !important;
 
     -webkit-animation: fadeIn 1.25s !important;
     -moz-animation: fadeIn 1.25s !important;
@@ -574,7 +575,7 @@ p {
 
 .notion-bulleted-list {
     width: 100%;
-    max-width: 740px;
+    max-width: var(--content-max-desktop);
     margin: auto !important;
     -webkit-padding-start: 1em !important;
     padding-inline-start: 1em !important;
@@ -807,7 +808,7 @@ p {
 .notion-toggle.bg-blue.closed::after {
     display: block;
     position: relative;
-    width: 800px;
+    width: var(--content-max-desktop);
     top: -6rem;
     margin: 42px auto 0 auto;
     padding-bottom: 1rem;
@@ -820,7 +821,7 @@ p {
 .notion-toggle.bg-blue.open::after {
     display: block;
     position: relative;
-    width: 800px;
+    width: var(--content-max-desktop);
     top: -6rem;
     margin: 42px auto 0 auto;
     padding-bottom: 1rem;
@@ -835,7 +836,7 @@ p {
     height: auto;
     margin: auto;
     width: 100%;
-    max-width: 800px;
+    max-width: var(--content-max-desktop);
     font-weight: 230 !important;
     letter-spacing: 0.0423rem;
     padding-bottom: 6rem;
@@ -863,18 +864,18 @@ p {
 
 .notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
     height: 100%;
-    width: 800px;
+    width: var(--content-max-desktop);
     background: transparent;
 }
 
 .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    width: 800px;
+    width: var(--content-max-desktop);
     height: 100%;
     background: linear-gradient(180deg, transparent 15%, var(--color-bg-default) 100%);
 }
 
 .notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    width: 800px;
+    width: var(--content-max-desktop);
     height: 100%;
 }
 
@@ -887,7 +888,7 @@ p {
 .notion-toggle.closed.bg-blue .notion-toggle__summary:after {
     display: block;
     position: relative;
-    width: 800px;
+    width: var(--content-max-desktop);
     top: 142%;
     margin-top: 42px;
     padding-bottom: 1rem;
@@ -901,7 +902,7 @@ p {
 .notion-toggle.open.bg-blue .notion-toggle__summary:after {
     display: block;
     position: relative;
-    width: 800px;
+    width: var(--content-max-desktop);
     top: 142%;
     margin-top: 42px;
     padding-bottom: 1rem;
@@ -915,7 +916,7 @@ p {
 /* -- Close super-embed -- */
 
 .expandable__close {
-    width: 800px;
+    width: var(--content-max-desktop);
     margin: 42px auto;
     color: var(--cta-background);
     font-weight: 600;
@@ -1042,7 +1043,7 @@ p {
 /* CTA */
 .notion-callout.bg-orange-light {
     position: relative;
-    width: 800px;
+    width: var(--content-max-desktop);
     height: 64px;
     background-color: transparent;
     padding: 0px !important;
@@ -1578,7 +1579,7 @@ p {
 
 .notion-numbered-list {
     margin: auto;
-    max-width: 800px;
+    max-width: var(--content-max-desktop);
     -webkit-padding-start: 24px;
 }
 
