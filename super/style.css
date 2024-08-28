@@ -37,7 +37,7 @@ html.theme-dark {
 }
 
 :root {
-    var(--content-max-desktop): 800px;
+    --content-max-desktop: 800px;
     --column-spacing: 2em !important;
     --m423-radius: 12px !important;
     --m423-width: 1440px !important;
