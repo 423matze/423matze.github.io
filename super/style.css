@@ -142,9 +142,6 @@ body {
 
 
 .notion-header {
-    width: 100%;
-    margin-bottom: 0px;
-    font-family: var(--primary-font);
     display: none;
 }
 
@@ -169,6 +166,12 @@ body {
 
 /* case header images */
 
+div.notion-image:nth-child(5) {
+    max-width: 100%;
+    border: 3px red solid;
+}
+
+/* geht nicht ? */
 article div.notion-image:first-of-type {
     width: 100% !important;
     max-width: 100% !important;
