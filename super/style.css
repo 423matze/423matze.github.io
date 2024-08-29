@@ -213,7 +213,7 @@ h3 {
 
 h2.notion-heading:not(.toggle),
 h3.notion-heading:not(.toggle){
-    margin-top: -.5rem !important;
+    margin-top: -.6rem !important;
     margin-bottom: 2rem !important;
     transform: translateX(1px);
 }
