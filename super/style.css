@@ -1,4 +1,4 @@
-/* style 423 v.3.9 */
+/* style 423 v.3.10 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -90,7 +90,148 @@ html.theme-dark {
     --cta-text: #ffffff;
 }
 
-/* ABOUT POTRAIT -- DRAFT */
+/* 
+
+
+    DRAFTS 
+
+
+*/
+
+
+
+
+
+/* layout overrides */
+
+body:is([modal="true"]) {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.notion-header {
+    display: none;
+}
+
+body {
+    font-family: var(--primary-font) !important;
+    font-size: var(--body-font-size);
+    font-weight: var(--text-weight);
+    letter-spacing: var(--body-font-letterspacing);
+}
+.notion-root.max-width {
+    /* width: var(--m423-width-med); */
+    max-width: var(--m423-width) !important;
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow-x: hidden;
+}
+
+/* pages */
+
+.super-content {
+    padding-top: 23vh !important;
+    padding-bottom: 4em !important;
+    padding-left: var(--padding-left) !important;
+    padding-right: var(--padding-right) !important;
+}
+
+.super-conten.page__index {
+    margin-top: 11vh;
+}
+
+.notion-text__children {
+    margin-inline-start: 0;
+    -webkit-margin-start: 0;
+}
+    
+/*---------  TYPOGRAPHY ---------*/
+
+/* HEADINGS */
+
+h1.notion-heading,
+h2.notion-heading,
+h3.notion-heading,
+.notion-text,
+.notion-quote,
+.notion-toggle {
+    max-width: var(--content-max-desktop);
+    width: 100%;
+    margin: auto;
+}
+
+
+h1 {
+    font-size: 3.25rem !important;
+    font-style: normal !important;
+    font-weight: 800 !important;
+    line-height: 117% !important;
+    letter-spacing: 0.0123em !important;
+    margin-bottom: 0 !important;
+    padding: 0 ! important;
+
+    -webkit-animation: fadeIn 4s !important;
+    -moz-animation: fadeIn 4s !important;
+    -ms-animation: fadeIn 4s !important;
+    -o-animation: fadeIn 4s !important;
+    animation: fadeIn 4s !important;
+}
+
+.page__index .notion-root h1 strong {
+    font-size: 8rem;
+    font-weight: 800 !important;
+    margin-
+}
+
+h2 {
+    font-style: normal !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.0123rem !important;
+    margin-bottom: 1rem !important;
+
+    -webkit-animation: fadeIn 0.75s !important;
+    -moz-animation: fadeIn 0.75s !important;
+    -ms-animation: fadeIn 0.75s !important;
+    -o-animation: fadeIn 0.75s !important;
+    animation: fadeIn 0.75s !important;
+}
+
+h3 {
+    font-style: normal !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    line-height: 135% !important;
+    letter-spacing: 0.0123em !important;
+    margin-bottom: 0.5em !important;
+    -webkit-animation: fadeIn 1s !important;
+    -moz-animation: fadeIn 1s !important;
+    -ms-animation: fadeIn 1s !important;
+    -o-animation: fadeIn 1s !important;
+    animation: fadeIn 1s !important;
+    font-weight: 600 !important;
+}
+h2.notion-heading:not(.toggle),
+h3.notion-heading:not(.toggle){
+    margin-top: 0rem !important;
+    margin-bottom: 2rem;
+    transform: translateX(1px);
+}
+
+
+.notion-text {
+    /* max-height: 100%; */
+    min-height: auto;
+}
+
+.notion-semantic-string {
+    line-height: 142% !important;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+
+/*----- IMAGES  -----*/
 
 .my_background_portrait {
     content: '';
@@ -108,53 +249,6 @@ html.theme-dark {
     background-position: right;
     z-index: -1;
 }
-
-/*-- EMBED VIDEOS --*/
-
-.my-video-small {
-    display: block;
-    width: 423px;
-    margin: auto;
-}
-
-/* layout overrides */
-
-.notion-root.max-width {
-    /* width: var(--m423-width-med); */
-    max-width: var(--m423-width) !important;
-    padding-left: 0px;
-    padding-right: 0px;
-    overflow-x: hidden;
-}
-
-/* menu hacks */
-body:is([modal="true"]) {
-    height: 100vh;
-    overflow-y: hidden;
-}
-
-body {
-    font-family: var(--primary-font) !important;
-    font-size: var(--body-font-size);
-    font-weight: var(--text-weight);
-    letter-spacing: var(--body-font-letterspacing);
-}
-
-/* optimize header image (1st.content image) */
-
-
-.notion-header {
-    display: none;
-}
-
-.super-content {
-    padding-top: 23vh !important;
-    padding-bottom: 4em !important;
-    padding-left: var(--padding-left) !important;
-    padding-right: var(--padding-right) !important;
-}
-
-/*----- IMAGES  -----*/
 
 .notion-image {
     margin-top: .5rem;
@@ -242,10 +336,16 @@ img {
 }
 
 .notion-callout.bg-gray-light .notion-image img {
-    border-radius: 0px !important;
+     border-radius: 0px !important;
 }
 
+/*--     EMBED VIDEOS    --*/
 
+.my-video-small {
+    display: block;
+    width: 423px;
+    margin: auto;
+}
 
 
 
@@ -482,86 +582,7 @@ li.my-contacts {
     padding: 0 0.75em !important;
 }
 
-/*---------  TYPOGRAPHY ---------*/
 
-h1.notion-heading,
-h2.notion-heading,
-h3.notion-heading,
-.notion-text,
-.notion-quote,
-.notion-toggle {
-    max-width: var(--content-max-desktop);
-    width: 100%;
-    margin: auto;
-}
-
-
-h1 {
-
-    font-style: normal !important;
-    font-weight: 800 !important;
-    font-size: 3.25rem !important;
-    letter-spacing: 0.0123em !important;
-    margin-bottom: 0 !important;
-
-    -webkit-animation: fadeIn 0.5s !important;
-    -moz-animation: fadeIn 0.5s !important;
-    -ms-animation: fadeIn 0.5s !important;
-    -o-animation: fadeIn 0.5s !important;
-    animation: fadeIn 0.5s !important;
-}
-
-
-
-h1.notion-heading {
-    padding: 4vh 0 0 0 ! important;
-    line-height: 117% !important;
-}
-
-
-
-h2 {
-    font-style: normal !important;
-    font-size: 2rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.0123rem !important;
-    margin-bottom: 1rem !important;
-
-    -webkit-animation: fadeIn 0.75s !important;
-    -moz-animation: fadeIn 0.75s !important;
-    -ms-animation: fadeIn 0.75s !important;
-    -o-animation: fadeIn 0.75s !important;
-    animation: fadeIn 0.75s !important;
-}
-h2.notion-heading:not(.toggle) {
-    margin-top: 0rem !important;
-}
-
-h3 {
-    font-style: normal !important;
-    font-size: 2rem !important;
-    font-weight: 700 !important;
-    line-height: 135% !important;
-    letter-spacing: 0.0123em !important;
-    margin-bottom: 0.5em !important;
-    -webkit-animation: fadeIn 1s !important;
-    -moz-animation: fadeIn 1s !important;
-    -ms-animation: fadeIn 1s !important;
-    -o-animation: fadeIn 1s !important;
-    animation: fadeIn 1s !important;
-    font-weight: 600 !important;
-}
-
-.notion-text {
-    /* max-height: 100%; */
-    min-height: auto;
-}
-
-.notion-semantic-string {
-    line-height: 142% !important;
-    white-space: pre-wrap;
-    word-break: break-word;
-}
 
 p {
     margin-bottom: 0 !important;
