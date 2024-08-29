@@ -180,7 +180,6 @@ h1 {
 .page__index .notion-root h1 strong {
     font-size: 8rem;
     font-weight: 800 !important;
-    margin-
 }
 
 h2 {
@@ -211,10 +210,11 @@ h3 {
     animation: fadeIn 1s !important;
     font-weight: 600 !important;
 }
+
 h2.notion-heading:not(.toggle),
 h3.notion-heading:not(.toggle){
-    margin-top: 0rem !important;
-    margin-bottom: 2rem;
+    margin-top: -.5rem !important;
+    margin-bottom: 2rem !important;
     transform: translateX(1px);
 }
 
@@ -228,6 +228,14 @@ h3.notion-heading:not(.toggle){
     line-height: 142% !important;
     white-space: pre-wrap;
     word-break: break-word;
+}
+
+/* reading time */
+
+span.highlighted-color.color-yellow {
+    font-size: 1rem;
+    color: var(--color-text-default);
+    padding-left: 24px;
 }
 
 
@@ -1592,7 +1600,7 @@ p {
     flex-wrap: wrap;
     width: 100%;
     max-width: 900px;
-    margin: 4em auto 2em auto;
+    margin: 2em auto 2em auto;
 }
 
 .notion-column-list.full-width {
