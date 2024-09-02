@@ -91,16 +91,14 @@ html.theme-dark {
 }
 
 /* 
-
-
-    DRAFTS 
-
-
+    ------------ DRAFTS --------------
 */
 
+/* Element specifics - Home header --- */
 
-
-
+div#block-98667ca7aebf4dfdb339cd7c0a9d84e6 {
+    margin-bottom: 8rem;
+}
 
 /* layout overrides */
 
