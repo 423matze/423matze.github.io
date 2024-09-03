@@ -1904,7 +1904,7 @@ svg.sun-and-moon {
 
     .super-content {
         width: 100vw !important;
-        padding-top: 0vh !important;
+        padding-top: 2rem !important;
         padding-bottom: 12vh;
         padding-left: 24px !important;
         padding-right: 24px !important;
@@ -1934,8 +1934,8 @@ svg.sun-and-moon {
         height: 50svh !important;
     }
 
-    h1 {
-        margin-bottom: 0 !important;
+    .notion-root  h1.notion-heading {
+    margin-bottom: 1rem !important;
     }
 
     .notion-quote {
