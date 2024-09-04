@@ -163,11 +163,9 @@ h1 {
     font-size: 3.25rem !important;
     font-style: normal !important;
     font-weight: 800 !important;
-    line-height: 117% !important;
     letter-spacing: 0.0123em !important;
     margin-bottom: 0 !important;
     padding: 0 ! important;
-
     -webkit-animation: fadeIn 4s !important;
     -moz-animation: fadeIn 4s !important;
     -ms-animation: fadeIn 4s !important;
@@ -186,7 +184,6 @@ h2 {
     font-weight: 700 !important;
     letter-spacing: 0.0123rem !important;
     margin-bottom: 1rem !important;
-
     -webkit-animation: fadeIn 0.75s !important;
     -moz-animation: fadeIn 0.75s !important;
     -ms-animation: fadeIn 0.75s !important;
@@ -198,7 +195,6 @@ h3 {
     font-style: normal !important;
     font-size: 2rem !important;
     font-weight: 700 !important;
-    line-height: 135% !important;
     letter-spacing: 0.0123em !important;
     margin-bottom: 0.5em !important;
     -webkit-animation: fadeIn 1s !important;
@@ -214,6 +210,10 @@ h3.notion-heading:not(.toggle){
     margin-top: -.6rem !important;
     margin-bottom: 2rem !important;
     transform: translateX(1px);
+}
+
+.notion-heading.notion-semantic-string {
+    line-height: 1.23em !important;
 }
 
 /* -- headings before -- */
@@ -280,6 +280,7 @@ span.highlighted-color.color-yellow {
 
 div.notion-image:nth-child(5) {
     max-width: 100%;
+    margin-top: 2rem;
 }
 
 .notion-image.align-start {
