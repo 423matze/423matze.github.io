@@ -216,6 +216,16 @@ h3.notion-heading:not(.toggle){
     transform: translateX(1px);
 }
 
+/* -- headings before -- */
+
+.notion-text__content:has( + .notion-heading__anchor){
+    padding-bottom: 1rem !important;
+}
+
+.notion-text__content:has( + .notion-text__children){
+    padding-bottom: 1rem;
+}
+
 
 .notion-text {
     /* max-height: 100%; */
