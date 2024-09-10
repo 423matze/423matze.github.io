@@ -253,7 +253,7 @@ span.highlighted-color.color-yellow {
     content: '';
     display: block;
     position: fixed;
-    left: 0;
+    left: 14.23vw;
     top: 0;
     width: 100vw;
     max-width: 1960px;
