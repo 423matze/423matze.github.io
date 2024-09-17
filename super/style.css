@@ -355,11 +355,13 @@ img {
     display: block;
     width: 423px;
     margin: auto;
+    border-radius: var(--m423-radius);
 }
 .my-video-conten {
     display: block;
     width: var(--content-max-desktop);
     margin: auto;
+    border-radius: var(--m423-radius);
 }
 
 
