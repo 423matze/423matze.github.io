@@ -356,6 +356,11 @@ img {
     width: 423px;
     margin: auto;
 }
+.my-video-conten {
+    display: block;
+    width: var(--content-max-desktop);
+    margin: auto;
+}
 
 
 
