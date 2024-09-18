@@ -173,16 +173,20 @@ h1 {
     animation: fadeIn 4s !important;
 }
 
+/* home header */
 .page__index .notion-root h1 strong {
     font-size: 8rem;
     font-weight: 800 !important;
 }
+.notion-text__children .notion-text {
+        margin-top: 2rem;
+}
 
 h2 {
     font-style: normal !important;
-    font-size: 2rem !important;
+    font-size: 2.42rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.0123rem !important;
+    letter-spacing: 0.0423rem !important;
     margin-bottom: 1rem !important;
     -webkit-animation: fadeIn 0.75s !important;
     -moz-animation: fadeIn 0.75s !important;
@@ -552,6 +556,7 @@ li.my-contacts {
 
 .notion-divider {
     margin: 4em 0 !important;
+    border: 0px !important;
 }
 
 .notion-heading {
@@ -1929,6 +1934,7 @@ svg.sun-and-moon {
     }
 
     /* -- page specific -- */
+    
     /* home */
 
     .super-content.page__index {
