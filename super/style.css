@@ -1618,6 +1618,14 @@ p {
     margin: 2em auto 2em auto;
 }
 
+/* Text Bild Column LR/RL */
+
+.notion-text__children .notion-column-list {
+    width: 900px;
+    margin-left: -50px;
+    margin-right: 0px;
+}
+
 .notion-column-list.full-width {
     /* width: calc(100vw - var(--scrollbar-width)); */
     max-width: 90%;
