@@ -178,9 +178,12 @@ h1 {
     font-size: 8rem;
     font-weight: 800 !important;
 }
+
+/* brachts den Abstand? 
 .notion-text__children .notion-text {
         margin-top: 2rem;
 }
+*/
 
 h2 {
     font-style: normal !important;
@@ -209,9 +212,13 @@ h3 {
     font-weight: 600 !important;
 }
 
-h2.notion-heading:not(.toggle),
-h3.notion-heading:not(.toggle){
+h2.notion-heading:not(.toggle){
     margin-top: -.6rem !important;
+    margin-bottom: 2rem !important;
+    transform: translateX(1px);
+}
+h3.notion-heading:not(.toggle){
+    margin-top: 8rem !important;
     margin-bottom: 2rem !important;
     transform: translateX(1px);
 }
@@ -464,6 +471,7 @@ li.my-contacts {
 .notion-callout.color-default {
     max-width: var(--content-max-desktop);
     margin-top: 2rem;
+    margin-bottom: 8rem;
     height: auto;
 }
 .notion-callout.color-default .notion-callout__content p {
