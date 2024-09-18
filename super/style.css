@@ -471,7 +471,7 @@ li.my-contacts {
 .notion-callout.color-default {
     max-width: var(--content-max-desktop);
     margin-top: 2rem;
-    margin-bottom: 8rem;
+    margin-bottom: 8rem !important;
     height: auto;
 }
 .notion-callout.color-default .notion-callout__content p {
@@ -1823,12 +1823,12 @@ svg.sun-and-moon {
     }
 
     h2 {
-        font-size: 1.5rem !important;
+        font-size: 1.75rem !important;
 
     }
 
     h3 {
-        font-size: 1.25rem !important;
+        font-size: 1.42rem !important;
     }
 
     .notion-divider {
@@ -1997,6 +1997,14 @@ svg.sun-and-moon {
 
     .notion-text__children .notion-column-list:nth-of-type(odd) {
         flex-direction: column-reverse;
+    }
+    .notion-text__children .notion-column-list {
+        width: 900px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .notion-column .notion-text + .notion-image{
+        margin-bottom: 8rem;
     }
 
     .notion-callout.bg-pink-light {
