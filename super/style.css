@@ -1977,6 +1977,12 @@ svg.sun-and-moon {
         max-width: 100%;
     }
 
+    /* Bild Text Reihen wechsel */
+
+    .notion-text__children .notion-column-list:nth-of-type(odd) {
+        flex-direction: column-reverse;
+    }
+
     .notion-callout.bg-pink-light {
         min-width: 240px;
         width: 90%;
