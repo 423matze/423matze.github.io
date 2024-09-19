@@ -1016,6 +1016,20 @@ p {
     font-weight: 600;
 }
 
+/* -- Blocks & Sections -- */
+
+/* Home Process */
+
+.page__index .notion-callout.bg-gray-light .notion-image {
+    width: 10rem;
+    margin: 0;
+    padding: 0;
+}
+
+.page__index .notion-column>.notion-heading {
+    margin-top: 0 !important;
+}
+
 /*---------  TO_DO ---------*/
 
 
