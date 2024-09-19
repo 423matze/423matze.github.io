@@ -1,4 +1,4 @@
-/* style 423 v.3.13 */
+/* style 423 v.3.14 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -184,16 +184,20 @@ h1 {
     font-weight: 900;
     letter-spacing: -.042em !important;
     color: var(--link-text);
-    background: radial-gradient(circle at 100%, var(--link-text), var(--color-bg-default) 100%);
+    background: radial-gradient(circle at 123%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
     background-clip: text;
     background-size: 200% auto;
     -webkit-text-fill-color: transparent;
-    animation: animatedHeadline 2.3s ease-in-out infinite;
+    animation: animatedHeadline 42.3s ease-in-out infinite;
 }
 @keyframes animatedHeadline {
-  to {
-    background-position: 230% center;
+  0% {
+    background-position: 0% center;
   }
+    50% {
+        background-position: 180% 23%;
+    }
+    100% {background-position: 0% center;}
 }
 
 .page__index h1.notion-heading + .notion-text{
