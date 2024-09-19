@@ -180,15 +180,17 @@ h1 {
 }
 
 .page__index h1.notion-heading strong {
-    font-size: 9rem !important;
+    font-size: 8.42rem !important;
     font-weight: 900;
-    letter-spacing: -.042em !important;
+    letter-spacing: -.0123em !important;
     color: var(--link-text);
-    background: radial-gradient(circle at 123%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
+    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
     background-clip: text;
     background-size: 200% auto;
     -webkit-text-fill-color: transparent;
     animation: animatedHeadline 42.3s ease-in-out infinite;
+    -webkit-text-stroke: .423px var(--link-text);
+    text-shadow: 4px -2px 8px #00000042;
 }
 @keyframes animatedHeadline {
   0% {
