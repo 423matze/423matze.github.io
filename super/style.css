@@ -174,9 +174,26 @@ h1 {
 }
 
 /* home header */
-.page__index .notion-root h1 strong {
-    font-size: 8rem;
-    font-weight: 800 !important;
+
+.page__index h1.notion-heading{
+    letter-spacing: -.042em !important;
+    /* experimental */
+    color: var(--link-text);
+    background: radial-gradient(
+    circle at 100%, var(--link-text), #000 80% );
+    background-clip: text;
+	  -webkit-text-fill-color: transparent;
+	  animation: animatedHeadline 1.5s linear infinite;
+}
+@keyframes animatedHeadline {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.page__index h1.notion-heading + .notion-text{
+    margin-top: 1.23rem;
+    color: var(--link-text);
 }
 
 /* brachts den Abstand? 
