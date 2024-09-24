@@ -2101,7 +2101,7 @@ svg.sun-and-moon {
 
     .my-super-subnav {
         display: flex;
-        background-color: none;
+        background-color: transparent;
         height: 40px;
         flex-direction: row;
         justify-content: center;
