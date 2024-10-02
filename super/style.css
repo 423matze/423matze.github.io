@@ -142,6 +142,11 @@ body {
     margin-inline-start: 0;
     -webkit-margin-start: 0;
 }
+
+.super-content.page__blog423 .notion-collection.inline {
+    width: 832px;
+    margin: auto;
+}
     
 /*---------  TYPOGRAPHY ---------*/
 
