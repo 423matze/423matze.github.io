@@ -2233,4 +2233,9 @@ svg.sun-and-moon {
     #closeExpandeable {
         width: auto;
     }
+
+    .super-content.page__blog423 .notion-collection.inline {
+        width: 100%;
+        margin: auto;
+    }
 }
