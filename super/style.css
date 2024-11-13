@@ -195,7 +195,6 @@ h1 {
     -webkit-text-fill-color: transparent;
     animation: animatedHeadline 42.3s ease-in-out infinite;
     -webkit-text-stroke: .423px var(--link-text);
-    text-shadow: 4px -2px 8px #00000042;
 }
 @keyframes animatedHeadline {
   0% {
@@ -514,11 +513,15 @@ li.my-contacts {
 }
 
 .notion-callout.bg-gray-light {
-    background: transparent !important;
+    position: relative;
+    max-width: 900px;
+    margin: auto !important;
     padding: 0px !important;
-    margin: 0px !important;
+    left: 14px;
+    background: transparent !important;
     border-radius: 0px !important;
     height: fit-content;
+    
 }
 
 .notion-callout.bg-gray-light .notion-callout__content .notion-column-list {
@@ -1403,9 +1406,10 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 /*---------  Quotes  ---------*/
 
 .notion-quote {
-    font-size: var(--body-font-size);
-    font-weight: 300;
+    font-size: 2rem;
+    font-weight: 200;
     text-align: left !important;
+    color: var(--link-text);
     width: 100% !important;
     margin: 0 auto !important;
     padding: 2em 3em 2em 0em !important;
@@ -1683,12 +1687,18 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 .notion-text__children .notion-column-list {
     width: 900px;
-    margin-left: -50px;
     margin-right: 0px;
 }
 
+/* Oversize 3-column table */
+
+.notion-text.bg-gray { background: transparent}
+
+.notion-text.bg-gray .notion-text__children .notion-column-list {
+    margin-left: -50px;
+}
+
 .notion-column-list.full-width {
-    /* width: calc(100vw - var(--scrollbar-width)); */
     max-width: 90%;
     margin-top: .5rem;
     margin-bottom: .5rem;
@@ -2031,9 +2041,18 @@ svg.sun-and-moon {
     margin-bottom: 1rem !important;
     }
 
-    .notion-quote {
-        padding: 1em 0 !important;
+    .notion-quote {        
         font-size: 2rem !important;
+        font-weight: 200;
+        text-align: left !important;
+        color: var(--link-text);
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 1em 0 !important;
+        border: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        border-radius: var(--m423-radius) !important;
     }
 
 
