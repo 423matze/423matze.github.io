@@ -94,10 +94,15 @@ html.theme-dark {
     ------------ DRAFTS --------------
 */
 
-/* Element specifics - Home header --- */
+/* Element specifics - HOME --- */
 
 div#block-98667ca7aebf4dfdb339cd7c0a9d84e6 {
     margin-bottom: 8rem;
+}
+/* LOGO Dessert */
+div#block-45841df76bdc46a9b1702a9ac03add65 {
+    margin: auto !important;
+    left: 20px;
 }
 
 /* layout overrides */
@@ -523,7 +528,7 @@ li.my-contacts {
 .notion-callout.bg-gray-light {
     position: relative;
     max-width: 900px;
-    margin: auto !important;
+    margin: 0px !important;
     padding: 0px !important;
     left: 20px;
     background: transparent !important;
