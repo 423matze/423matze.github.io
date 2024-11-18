@@ -1765,8 +1765,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     margin-top: 4rem;
 }
 
+.super-embed:has(.next-column-wide) + .notion-column-list {
+    max-width: 1100px;
+}
+
 /* FOOOTER */
-.super-embed:has(.next-footer)+.notion-column-list {
+.super-embed:has(.next-footer) + .notion-column-list {
     width: 80%;
 }
 
