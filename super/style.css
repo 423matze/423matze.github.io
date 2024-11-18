@@ -105,6 +105,11 @@ div#block-45841df76bdc46a9b1702a9ac03add65 {
     margin: auto !important;
     left: 20px;
 }
+/* My Process */
+div#block-2562d3f010ec4ed795890d1ac334c738 {
+    position: relative;
+    left: -24px;
+}
 
 /* layout overrides */
 
@@ -266,7 +271,7 @@ h2.notion-heading:not(.toggle) {
 
 h3.notion-heading:not(.toggle) {
     margin-top: 8rem !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 1rem !important;
     transform: translateX(1px);
 }
 
@@ -386,9 +391,12 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
-.notion-text+.notion-column-list,
-.notion-text+.notion-image {
+.notion-text+.notion-column-list {
     margin-top: 4rem;
+}
+
+.notion-text+.notion-image {
+    margin: 1rem auto 4rem auto;
 }
 
 /* Images sized */
@@ -415,6 +423,12 @@ img {
 .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width>figcaption {
     position: relative;
     left: 100px;
+}
+.notion-caption {
+    padding: 6px 2px;
+    color: var(--color-text-default-light);
+    font-size: .875rem;
+    text-align: center;
 }
 
 
