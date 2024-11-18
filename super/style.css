@@ -378,6 +378,10 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
+.notion-text + .notion-column-list, .notion-text + .notion-image {
+    margin-top: 4rem;
+}
+
 /* Images sized */
 
 .notion-image.normal {
@@ -396,6 +400,7 @@ img {
     width: 1000px;
     max-width: 1000px;
     left: -100px;
+    margin-bottom: 2rem;
 }
 
 .super-embed:has(.next-xl-imgage) + .notion-image.align-start.page-width>figcaption {
