@@ -964,6 +964,7 @@ p {
     font-size: 2rem !important;
     font-weight: 700 !important;
     line-height: 142%;
+    color: var(--link-text);
 }
 
 .notion-toggle.bg-blue .notion-toggle__content {
