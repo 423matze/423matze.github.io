@@ -395,7 +395,7 @@ img {
 
 .notion-callout.bg-gray-light .notion-image {
     filter: var(--ilu-image);
-    padding: 16px;
+    padding: 0px;
 }
 
 .notion-callout.bg-gray-light .notion-image img {
