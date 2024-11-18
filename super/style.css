@@ -164,6 +164,8 @@ h3.notion-heading,
 }
 
 
+
+
 h1 {
     font-size: 3.25rem !important;
     font-style: normal !important;
@@ -630,7 +632,7 @@ li.my-contacts {
 }
 
 .notion-text.color-gray {
-    color: var(--color-text-gray);
+    color: transparent;
     text-align: center;
 }
 
@@ -1709,7 +1711,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 /* Oversize 3-column table */
 
-.notion-text.bg-gray { background: transparent}
+.notion-text.bg-gray { background-color: transparent;}
 
 .notion-text.bg-gray .notion-text__children .notion-column-list {
     margin-left: -50px;
