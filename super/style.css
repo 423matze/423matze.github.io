@@ -270,9 +270,13 @@ h2.notion-heading:not(.toggle) {
 }
 
 h3.notion-heading:not(.toggle) {
-    margin-top: 8rem !important;
+    margin-top: 2rem !important;
     margin-bottom: 0.42rem !important;
     transform: translateX(1px);
+}
+
+.notion-divider + .notion-heading__anchor + h3.notion-heading {
+    margin: 0rem auto .42rem auto !important;
 }
 
 .notion-heading.notion-semantic-string {
@@ -391,9 +395,6 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
-.notion-text+.notion-column-list {
-    margin-top: 4rem;
-}
 
 .notion-text+.notion-image {
     margin: 1rem auto 4rem auto;
@@ -659,28 +660,16 @@ li.my-contacts {
     border: 0px !important;
 }
 
+.notion-image + .notion-divider {
+    margin: 3rem 0 !important;
+}
+
 .notion-heading {
     font-family: "Dosis", var(--primary-font) !important;
     font-optical-sizing: auto;
     padding: 0 !important;
 }
 
-.notion-column {
-    /* margin-bottom: 1em !important; */
-    padding: 0 !important;
-}
-
-.notion-column-list {
-    max-width: 1200px;
-    width: 100%;
-    margin: 4rem auto;
-    justify-content: space-between;
-}
-
-/* FOOOTER */
-.super-embed:has(.next-footer)+.notion-column-list {
-    width: 80%;
-}
 
 .notion-dropdown__button p,
 .notion-dropdown__option p {
@@ -1763,7 +1752,22 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     flex-wrap: wrap;
     width: 100%;
     max-width: 900px;
-    margin: 0rem auto;
+    margin: 4rem auto;
+    justify-content: space-between;
+}
+
+.notion-column {
+    /* margin-bottom: 1em !important; */
+    padding: 0 !important;
+}
+
+.notion-text+.notion-column-list {
+    margin-top: 4rem;
+}
+
+/* FOOOTER */
+.super-embed:has(.next-footer)+.notion-column-list {
+    width: 80%;
 }
 
 /* Text Bild Column LR/RL */
