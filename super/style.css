@@ -530,7 +530,7 @@ li.my-contacts {
     
 }
 
-.notion-callout.bg-gray-light .notion-callout__content .notion-column-list {
+.notion-callout.bg-gray-light .notion-callout__content {
     margin: 0px auto;
     max-width: 100%;
 }
@@ -618,6 +618,10 @@ li.my-contacts {
 .notion-column {
     /* margin-bottom: 1em !important; */
     padding: 0 !important;
+}
+.notion-column-list {
+    max-width: 1200px;
+    margin: auto;
 }
 
 .notion-dropdown__button p,
