@@ -271,7 +271,7 @@ h2.notion-heading:not(.toggle) {
 
 h3.notion-heading:not(.toggle) {
     margin-top: 8rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.42rem !important;
     transform: translateX(1px);
 }
 
@@ -365,7 +365,7 @@ div.notion-image:nth-child(5) {
 
 .notion-image.page-width {
     width: 100%;
-    max-width: var(--content-max-desktop);
+    max-width: calc(var(--content-max-desktop) + 24px);
     margin: auto;
 }
 
