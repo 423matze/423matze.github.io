@@ -504,7 +504,10 @@ li.my-contacts {
 }
 
 .notion-callout.color-default {
-    max-width: var(--content-max-desktop);
+    position: relative;
+    max-width: calc(var(--content-max-desktop) + 2rem);
+    width: calc(var(--content-max-desktop) + 2rem);
+    left: -1rem;
     margin-top: 2rem;
     margin-bottom: 8rem !important;
     height: auto;
