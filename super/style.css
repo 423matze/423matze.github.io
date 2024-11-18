@@ -899,6 +899,10 @@ p {
     color: var(--cta-background);
 }
 
+.notion-toggle.bg-blue.closed::before {
+   content: "" !important;
+}
+
 .notion-toggle.open::before {
     content: "-";
     position: absolute;
