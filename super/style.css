@@ -263,7 +263,7 @@ h3.notion-heading:not(.toggle){
 
 .notion-text__content:has( + .notion-heading__anchor){
     position: relative;
-    padding-bottom: 0rem !important;
+    padding-bottom: 0.6rem !important;
     font-size: 2rem !important;
     left: -1px;
 }
@@ -1386,6 +1386,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     border-radius: var(--m423-radius) !important;
 }
 
+/* RELATED PROJECTS */
+.notion-collection-gallery.medium {
+    grid-template-columns: 1fr 1fr;
+    width: 824px;
+    margin: auto;
+
 .notion-collection-card img {
     opacity: 1 !important;
     transition: 0.3s ease-in-out !important;
@@ -1694,6 +1700,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 .notion-text__children .notion-column-list {
     width: 900px;
     margin-right: 0px;
+    margin-bottom: 4rem;
 }
 
 /* Oversize 3-column table */
