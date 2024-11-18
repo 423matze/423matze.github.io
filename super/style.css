@@ -714,6 +714,10 @@ p {
     line-height: 1.5em;
 }
 
+.notion-callout.bg-gray-light.border + ul {
+    margin-top: 4rem !important;
+}
+
 .notion-list-item {
     margin: 3px 1px;
     padding-top: 3px;
