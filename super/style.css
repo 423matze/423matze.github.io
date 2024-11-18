@@ -332,7 +332,7 @@ span.highlighted-color.color-yellow {
 /* case header images teaser */
 
 div.notion-image:nth-child(5) {
-    max-width: 100%;
+    max-width: 98%;
     margin-top: 2rem;
 }
 
@@ -641,7 +641,9 @@ li.my-contacts {
 }
 .notion-column-list {
     max-width: 1200px;
+    width: 80%;
     margin: auto;
+    justify-content: space-between;
 }
 
 .notion-dropdown__button p,
