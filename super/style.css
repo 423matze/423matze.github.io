@@ -2146,6 +2146,11 @@ svg.sun-and-moon {
         max-width: 100%;
     }
 
+    .notion-collection-gallery.medium {
+        width: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(var(--collection-card-cover-size-large), 1fr));
+    }
+
      .my-video-content {
         width: 100%;
     }
@@ -2181,6 +2186,10 @@ svg.sun-and-moon {
         width: 900px;
         margin-left: 0px;
         margin-right: 0px;
+    }
+
+    .notion-text+.notion-image {
+    margin: 1rem auto 1rem auto;
     }
 
     .notion-column .notion-text+.notion-image {
