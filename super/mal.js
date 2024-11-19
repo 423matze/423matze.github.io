@@ -195,8 +195,7 @@ function callback(mutationList, observer) {
     })    
 }
 
-function scrollBack(cl){
-    
+function scrollBack(cl){    
     if(cl == "notion-toggle open bg-blue"){
         yPos = window.scrollY;
     }else{
@@ -207,16 +206,13 @@ function scrollBack(cl){
           });
         yPos = 0;
     }
-    
-    var elmPos = elm.scrollTop;
     console.log(cl + " - " + elmPos + " - " + yPos);
-
 }
 
-const elm = document.querySelector(".notion-toggle")
-const options = {attributes: true}
-const observer = new MutationObserver(callback)
-var yPos = 0;
+const elm = document.querySelector(".notion-toggle");
+const options = {attributes: true};
+const observer = new MutationObserver(callback);
+let yPos = 0;
 
 observer.observe(elm, options)
 
