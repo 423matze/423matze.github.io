@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.16
+// MAL super costome script v1.17
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -133,7 +133,7 @@ const menu_toggle = () => {
   console.log("toggle menu", toggle_state);
 }
 
-// Helper Functions
+// Helper functions
 const mobile_check = (e) => {
   if(e.match){
     device = "MOBILE";
@@ -141,7 +141,7 @@ const mobile_check = (e) => {
   }
 }
 
-//insert costome codeblocks
+//insert custome codeblocks
 
 function clearBlock(el) {
   const node = el.parentElement.parentElement;
@@ -202,7 +202,7 @@ function scrollBack(cl){
     console.log(cl + " - " + elmPos + " - " + yPos);
 }
 
-const toggle = document.querySelector(".notion-toggle");
+const elm = document.querySelector(".notion-toggle");
 const options = {attributes: true};
 const observer = new MutationObserver(callback);
 let yPos = 0;
