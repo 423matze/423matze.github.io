@@ -370,7 +370,7 @@ div.notion-image:nth-child(5) {
 .notion-image.page-width {
     width: 100%;
     max-width: calc(var(--content-max-desktop) + 24px);
-    margin: auto;
+    margin: 0 auto;
 }
 
 .notion-image.page-width img {
@@ -973,15 +973,13 @@ p {
 
 .notion-toggle.bg-blue.closed::after {
     display: block;
-    position: relative;
+    position: absolute;
     width: var(--content-max-desktop);
-    top: -6rem;
-    margin: 42px auto 0 auto;
+    bottom: 0rem;
     padding-bottom: 1rem;
     color: var(--cta-background);
     content: '+ read more about how we tackle the challenge';
     border-bottom: 1px var(--cta-background) solid;
-    pointer-events: none;
 }
 
 .notion-toggle.bg-blue.open::after {
@@ -1765,12 +1763,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     margin-top: 4rem;
 }
 
-.super-embed:has(.next-column-wide) + .notion-column-list {
+.super-embed:has(.next-column-wide)+.notion-column-list {
     max-width: 1100px;
 }
 
 /* FOOOTER */
-.super-embed:has(.next-footer) + .notion-column-list {
+.super-embed:has(.next-footer)+.notion-column-list {
     width: 80%;
 }
 
