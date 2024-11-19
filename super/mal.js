@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.20
+// MAL super costome script v1.21
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -207,5 +207,16 @@ const elm = document.querySelector(".notion-toggle");
 const options = {attributes: true};
 const observer = new MutationObserver(callback);
 
-observer.observe(elm, options);
+function addObserverIfDesiredNodeAvailable() {
+    if(!elm) {
+        //The node we need does not exist yet.
+        //Wait 500ms and try again
+        window.setTimeout(addObserverIfDesiredNodeAvailable,500);
+        return;
+    }
+    observer.observe(elm, options);
+}
+addObserverIfDesiredNodeAvailable();
+
+
 
