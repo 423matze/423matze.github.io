@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.21
+// MAL super costome script v1.22
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -181,6 +181,12 @@ function setupEmbeds() {
 // m423 check when toggle ist offen oder zu
 // when geschlossen scolle zu start position
 
+var yPos = 0;
+const options = {attributes: true};
+const observer = new MutationObserver(callback);
+
+//
+
 function callback(mutationList, observer) {
     mutationList.forEach((mutation) => {
         console.log("toggle clicked");
@@ -202,12 +208,8 @@ function scrollBack(cl){
     console.log(cl + " - " + yPos);
 }
 
-var yPos = 0;
-const elm = document.querySelector(".notion-toggle");
-const options = {attributes: true};
-const observer = new MutationObserver(callback);
-
 function addObserverIfDesiredNodeAvailable() {
+    const elm = document.querySelector(".notion-toggle");
     if(!elm) {
         //The node we need does not exist yet.
         //Wait 500ms and try again
@@ -217,6 +219,5 @@ function addObserverIfDesiredNodeAvailable() {
     observer.observe(elm, options);
 }
 addObserverIfDesiredNodeAvailable();
-
 
 
