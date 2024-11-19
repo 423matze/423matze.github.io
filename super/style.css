@@ -943,10 +943,6 @@ p {
     color: var(--cta-background);
 }
 
-.notion-toggle.bg-blue.closed::before {
-    content: "" !important;
-}
-
 .notion-toggle.open::before {
     content: "-";
     position: absolute;
@@ -971,7 +967,15 @@ p {
     background-color: transparent;
 }
 
-.notion-toggle.bg-blue.closed::after {
+.notion-toggle.bg-blue.closed::before {
+    content: "" !important;
+}
+
+.notion-toggle.bg-blue.open::before {
+    content: "" !important;
+}
+
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after  {
     display: block;
     position: absolute;
     width: var(--content-max-desktop);
@@ -982,7 +986,7 @@ p {
     border-bottom: 1px var(--cta-background) solid;
 }
 
-.notion-toggle.bg-blue.open::after {
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger::after{
     display: block;
     position: relative;
     width: var(--content-max-desktop);
