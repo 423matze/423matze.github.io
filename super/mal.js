@@ -1,5 +1,5 @@
 //
-// MAL super custome script v1.11
+// MAL super costome script v1.14
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -7,8 +7,6 @@ const userKey = "user-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"};
 //const userPref = { value: "false"};
-
-
 
 // Setup on route change
 function setupRouteChangeListenerForTooltips() {
@@ -150,38 +148,6 @@ const mobile_check = (e) => {
   }
 }
 
-/*-- init super-embad code navigation old version
-
-function afterDOMLoaded() {
-  console.log("DOMloaded");
-  setupEmbeds();
-  reflectPreference();
-}
-
-if (document.readyState === "loading") {  
-  document.addEventListener("DOMContentLoaded", afterDOMLoaded);
-} else {
-  //afterDOMLoaded();
-  console.log("Whats going on!");
-}
-
-*/
-
-
-
-/* init custom navigation
-function initNavigation() {  
-
-  const my_submenu = document.getElementById("my-menu-toggle");
-    my_submenu.addEventListener("click", toggle_menu);
-
-  const my_toggle = document.getElementById("my-theme-toggle");
-    my_toggle.addEventListener("click", theme_toggle);
-
-  console.log("init toggle ready");
-}
-*/
-
 //insert custome codeblocks
 
 function clearBlock(el) {
@@ -224,10 +190,9 @@ function setupEmbeds() {
 
 function callback(mutationList, observer) {
     mutationList.forEach((mutation) => {
-        console.log(`the ${mutation.attributeName} has changed : ${mutation.target.className}`);
+        console.log("toggle clicked");
         scrollBack(mutation.target.className)
-    })
-    
+    })    
 }
 
 function scrollBack(cl){
@@ -254,29 +219,4 @@ const observer = new MutationObserver(callback)
 var yPos = 0;
 
 observer.observe(elm, options)
-
-/* 
-var observer = new MutationObserver(function (mutations) {
-  if (document.querySelector(SELECTOR)) {
-    setupEmbeds();
-    initNavigation();
-  }
-});
-
-observer.observe(document, {
-  attributes: false,
-  childList: true,
-  characterData: false,
-  subtree: true,
-});
-*/
-
-/* respond on user-settings color scheme
-window
-  .matchMedia('(prefers-color-scheme: dark)')
-  .addEventListener('change', ({matches:isDark}) => {
-    theme.value = isDark ? 'dark' : 'light'
-    setPreference()
-  });
-*/
 
