@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.18
+// MAL super costome script v1.19
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -181,4 +181,30 @@ function setupEmbeds() {
 // m423 check when toggle ist offen oder zu
 // when geschlossen scolle zu start position
 
+function callback(mutationList, observer) {
+    mutationList.forEach((mutation) => {
+        console.log("toggle clicked");
+        scrollBack(mutation.target.className)
+    })    
+}
 
+function scrollBack(cl){    
+    if(cl == "notion-toggle open bg-blue"){
+        yPos = window.scrollY;
+    }else{
+        window.scrollTo({
+            top: yPos,
+            left: 0,
+            behavior: "smooth",
+          });
+        yPos = 0;
+    }
+    console.log(cl + " - " + yPos);
+}
+
+const elm = document.querySelector(".notion-toggle");
+const options = {attributes: true};
+const observer = new MutationObserver(callback);
+var yPos = 0;
+
+observer.observe(elm, options)
