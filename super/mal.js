@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.14
+// MAL super costome script v1.15
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
