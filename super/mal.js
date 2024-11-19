@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.19
+// MAL super costome script v1.20
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -202,9 +202,10 @@ function scrollBack(cl){
     console.log(cl + " - " + yPos);
 }
 
+var yPos = 0;
 const elm = document.querySelector(".notion-toggle");
 const options = {attributes: true};
 const observer = new MutationObserver(callback);
-var yPos = 0;
 
-observer.observe(elm, options)
+observer.observe(elm, options);
+
