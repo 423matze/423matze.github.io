@@ -219,6 +219,42 @@ function setupEmbeds() {
   //initNavigation();
 }
 
+// m423 check when toggle ist offen oder zu
+// when geschlossen scolle zu start position
+
+function callback(mutationList, observer) {
+    mutationList.forEach((mutation) => {
+        console.log(`the ${mutation.attributeName} has changed : ${mutation.target.className}`);
+        scrollBack(mutation.target.className)
+    })
+    
+}
+
+function scrollBack(cl){
+    
+    if(cl == "notion-toggle open bg-blue"){
+        yPos = window.scrollY;
+    }else{
+        window.scrollTo({
+            top: yPos,
+            left: 0,
+            behavior: "smooth",
+          });
+        yPos = 0;
+    }
+    
+    var elmPos = elm.scrollTop;
+    console.log(cl + " - " + elmPos + " - " + yPos);
+
+}
+
+const elm = document.querySelector(".notion-toggle")
+const options = {attributes: true}
+const observer = new MutationObserver(callback)
+var yPos = 0;
+
+observer.observe(elm, options)
+
 /* 
 var observer = new MutationObserver(function (mutations) {
   if (document.querySelector(SELECTOR)) {
