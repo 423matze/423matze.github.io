@@ -2081,11 +2081,14 @@ svg.sun-and-moon {
         left: 0px;
     }
     div#block-2562d3f010ec4ed795890d1ac334c738 .notion-column .notion-callout .notion-callout__content .notion-image {
-            left: -17px;
+        left: -17px;
     }
     /* Home logowüste */
     div#block-45841df76bdc46a9b1702a9ac03add65 {
-    left: -12px;
+        left: -12px;
+    }
+    div#block-45841df76bdc46a9b1702a9ac03add65 .notion-callout__content .notion-column-list {
+        margin: 0 auto;
     }
     /* Home CTA */
     .notion-callout.bg-orange-light .notion-callout__content {
