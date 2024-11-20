@@ -893,28 +893,26 @@ p {
 }
 */
 
+/*--------- CTAs ---------*/
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
     position: relative;
     width: auto;
-    top: 7px;
     margin: 0;
+    padding: 0px;
+    letter-spacing: 0.1rem;
 }
 
 /* icon */
 .notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start {
-    display: inline-block;
-    width: 42px !important;
-    height: 42px !important;
+    width: 32px !important;
+    height: 32px !important;
     margin: 0 !important;
     flex-shrink: 0;
-    top: 14px;
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start img {
-    /* display: inline-block; */
     border-radius: 0px !important;
-    width: 32px;
     filter: var(--cta-icon-color);
 }
 
@@ -925,10 +923,7 @@ p {
 
 }
 
-
-
-/*--------- CTA ---------*/
-
+/* ---- */
 
 .highlighted-background {
     transition: 0.3s ease-in-out !important;
@@ -966,12 +961,6 @@ p {
 .highlighted-background.bg-yellow a {
     background-color: var(--color-text-yellow) !important;
 }
-
-/*
-  .highlighted-background.bg-brown a{
-      background-color: var(--color-text-brown);
-  }
-*/
 
 .highlighted-background.bg-green a {
     background-color: var(--color-text-green) !important;
@@ -2086,6 +2075,31 @@ svg.sun-and-moon {
     /* -- page specific -- */
 
     /* home */
+
+     /* Home my design process */
+    div#block-2562d3f010ec4ed795890d1ac334c738 {
+        left: 0px;
+    }
+    div#block-2562d3f010ec4ed795890d1ac334c738 .notion-column .notion-callout .notion-callout__content .notion-image {
+            left: -17px;
+    }
+    /* Home logowüste */
+    div#block-45841df76bdc46a9b1702a9ac03add65 {
+    left: -12px;
+    }
+    /* Home CTA */
+    .notion-callout.bg-orange-light .notion-callout__content {
+        position: relative;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin: 0px !important;
+        padding: 0px 0px !important;
+        border-radius: 8px;
+        width: auto;
+        height: auto;
+        background-color: var(--cta-background);
+    }
 
     .super-content.page__index {
         padding-top: 15vh !important;
