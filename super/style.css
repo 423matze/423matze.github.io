@@ -658,14 +658,17 @@ li.my-contacts {
 .notion-callout.bg-orange-light .notion-callout__content {
     position: relative;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 16px;
+    align-content: center;
     margin: 0px !important;
-    padding: 4px 24px !important;
+    padding: 4px 17px 4px 0px!important;
     border-radius: 8px;
     width: auto;
     height: auto;
     background-color: var(--cta-background);
 }
+
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-column-list {
     display: inline-flex;
