@@ -2140,6 +2140,12 @@ svg.sun-and-moon {
         margin-bottom: 1rem !important;
     }
 
+    .page__i-about h1.notion-heading strong,
+    .page__think h1.notion-heading strong,
+    .page__index h1.notion-heading strong {
+        font-size: 4.23rem !important;
+    }
+
     .notion-quote {
         font-size: 2rem !important;
         font-weight: 200;
