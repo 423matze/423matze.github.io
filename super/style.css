@@ -2114,9 +2114,23 @@ svg.sun-and-moon {
         margin: 0px !important;
         padding: 0px 0px !important;
         border-radius: 8px;
-        width: auto;
+        width: 100%;
         height: auto;
         background-color: var(--cta-background);
+    }
+     .notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start {
+        width: 24px !important;
+        height: 24px !important;
+        margin: 0 !important;
+        flex-shrink: 0;
+    }
+    .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
+        font-size: 1rem;
+        position: relative;
+        width: auto;
+        margin: 0;
+        padding: 0px;
+        letter-spacing: 0.1rem;
     }
 
     .super-content.page__index {
@@ -2132,6 +2146,7 @@ svg.sun-and-moon {
     .my_background_portrait {
         background-image: var(--mode-potrait-m);
         background-repeat: no-repeat;
+        background-size: cover;
     }
 
     article>.notion-image.page-width {
@@ -2147,7 +2162,7 @@ svg.sun-and-moon {
     .page__i-about h1.notion-heading strong,
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
-        font-size: 4.8rem !important;
+        font-size: 5.1rem !important;
     }
 
     .notion-quote {
