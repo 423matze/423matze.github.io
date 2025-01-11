@@ -2305,6 +2305,7 @@ svg.sun-and-moon {
 
     li.my-contacts {
         display: flex;
+        font-size: .8rem;
         width: 100%;
         flex-direction: row;
         align-content: center;
