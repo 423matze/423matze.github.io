@@ -229,7 +229,9 @@ h1 {
     }
 }
 
-.page__index h1.notion-heading+.notion-text {
+.page__index h1.notion-heading+.notion-text,
+.page__i-about h1.notion-heading+.notion-text,
+.page__think h1.notion-heading+.notion-text{
     margin-top: 1.23rem;
     color: var(--link-text);
 }
@@ -2114,7 +2116,7 @@ svg.sun-and-moon {
     }
 
     .super-content.page__index {
-        padding-top: 15vh !important;
+        padding-top: 5vh !important;
         padding-bottom: 12vh;
     }
 
