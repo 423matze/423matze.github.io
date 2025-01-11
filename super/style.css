@@ -333,7 +333,7 @@ span.highlighted-color.color-yellow {
     content: '';
     display: block;
     position: fixed;
-    left: 14.23vw;
+    left: 0vw;
     top: 0;
     width: 100vw;
     max-width: 1960px;
@@ -2147,7 +2147,7 @@ svg.sun-and-moon {
     .page__i-about h1.notion-heading strong,
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
-        font-size: 4.23rem !important;
+        font-size: 4.8rem !important;
     }
 
     .notion-quote {
