@@ -13,6 +13,7 @@ html.theme-light {
     --cta-text: #ffffff;
     --cta-icon-color: invert(1);
     --link-text: #e200b1;
+    --blend-mode: darken;
 
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
@@ -28,6 +29,8 @@ html.theme-dark {
     --cta-text: #000000;
     --cta-icon-color: invert(0);
     --link-text: #00e2ab;
+    --blend-mode: lighten;
+    
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
 }
@@ -198,6 +201,7 @@ h1 {
 .page__i-about h1.notion-heading,
 .page__think h1.notion-heading{
     transform: translateX(-6px);
+    mix-blend-mode: var(--blend-mode);
 }
 
 .page__i-about h1.notion-heading strong,
@@ -206,7 +210,7 @@ h1 {
     font-size: 8.42rem !important;
     font-weight: 900;
     letter-spacing: -.0123em !important;
-    color: var(--link-text);
+    color: transparent;
     background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
     background-clip: text;
     background-size: 200% auto;
