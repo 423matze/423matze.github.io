@@ -158,6 +158,21 @@ body {
     -webkit-margin-start: 0;
 }
 
+.page__i-about .notion-column-list {
+    column-gap: 8rem;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+}
+
+.page__i-about .notion-column-list .notion-column:nth-child(2){
+    width: max-content !important;
+}
+
+.page__i-about .notion-column-list .notion-column:nth-child(2) .notion-text__content{
+    background-color: transparent;
+    padding-bottom: 0.42rem;
+}
+
 .super-content.page__blog423 .notion-collection.inline {
     width: 832px;
     margin: auto;
