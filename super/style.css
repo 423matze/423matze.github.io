@@ -1060,7 +1060,7 @@ p {
 .notion-toggle.bg-blue {
     position: relative;
     max-width: 100%;
-    margin: 2rem 0 0rem 0 !important;
+    margin: 1rem 0 3rem 0 !important;
     padding: 0px;
     background-color: transparent;
 }
@@ -1076,7 +1076,7 @@ p {
 .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
     display: block;
     position: absolute;
-    width: var(--content-max-desktop);
+    width: 100%;
     bottom: 0rem;
     padding-bottom: 1rem;
     color: var(--cta-background);
@@ -1106,6 +1106,10 @@ p {
     font-weight: 230 !important;
     letter-spacing: 0.0423rem;
     padding-bottom: 4rem;
+}
+
+page__i-about .notion-toggle.bg-blue .notion-toggle__summary {
+    padding-bottom: 0 !important;
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
@@ -1141,8 +1145,10 @@ p {
 }
 
 .notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    width: var(--content-max-desktop);
+    width: 100%;
+    max-width: var(--content-max-desktop);
     height: 100%;
+    margin: 0 !important;
 }
 
 .notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
