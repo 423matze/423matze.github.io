@@ -159,7 +159,7 @@ body {
 }
 
 .page__i-about .notion-column-list {
-    column-gap: 8rem;
+    column-gap: 2rem;
     flex-wrap: nowrap;
     max-width: 1200px;
 }
@@ -325,6 +325,11 @@ h3.notion-heading:not(.toggle) {
 .notion-text {
     /* max-height: 100%; */
     min-height: auto;
+}
+
+.notion-text.bg-purple {
+    font-size: 1.23rem;
+    line-height: 144% !important;
 }
 
 .notion-semantic-string {
@@ -2280,8 +2285,13 @@ svg.sun-and-moon {
     }
 
     .page__i-about .notion-column-list .notion-column:nth-child(2) {
-    width: 100% !important;
-}
+        width: 100% !important;
+    }
+
+    .notion-text.bg-purple {
+        font-size: 1rem;
+        line-height: 92% !important;
+    }
 
     .notion-text+.notion-image {
     margin: 1rem auto 1rem auto;
