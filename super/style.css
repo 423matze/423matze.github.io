@@ -2265,8 +2265,12 @@ svg.sun-and-moon {
         flex-direction: column;
         row-gap: 1rem;
     }
-    .page__i-about .notion-column-list:nth-of-type(odd) {
+    .page__i-about .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
+    }
+
+    .page__i-about .notion-column-list + .notion-column-list {
+        margin-bottom: 2rem;
     }
 
     .notion-text+.notion-image {
