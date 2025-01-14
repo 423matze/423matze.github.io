@@ -1104,11 +1104,10 @@ p {
     width: 100%;
     max-width: var(--content-max-desktop);
     font-weight: 230 !important;
-    letter-spacing: 0.0423rem;
     padding-bottom: 4rem;
 }
 
-page__i-about .notion-toggle.bg-blue .notion-toggle__summary {
+.page__i-about .notion-toggle.bg-blue .notion-toggle__summary {
     padding-bottom: 0 !important;
 }
 
