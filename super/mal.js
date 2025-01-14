@@ -224,6 +224,7 @@ addObserverIfDesiredNodeAvailable();
 function dimPotrait() {
   let num = window.scrollY / window.innerHeight;
   let y = 0;
+  console.log("scroll", y);
 
   if (num <= 1){
     document.getElementById('portrait').style.opacity = 1-num;
