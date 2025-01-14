@@ -31,14 +31,12 @@ function setupRouteChangeListenerForTooltips() {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
-  //reflectPreference();
-  //setupRouteChangeListenerForTooltips();
+  window.addEventListener('scroll', dimPotrait);
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
   console.log("DOMloaded init custom scripts");
   setupEmbeds();
-  //reflectPreference();
   setupRouteChangeListenerForTooltips();
   }
 
@@ -222,7 +220,7 @@ addObserverIfDesiredNodeAvailable();
 
 // fade in out portrait
 
-window.addEventListener('scroll', function(){
+function dimPotrait() {
   let num = window.scrollY / window.innerHeight;
   let y = 0;
 
