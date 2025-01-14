@@ -220,4 +220,16 @@ function addObserverIfDesiredNodeAvailable() {
 }
 addObserverIfDesiredNodeAvailable();
 
+// fade in out portrait
+
+window.addEventListener('scroll', function(){
+  let num = window.scrollY / window.innerHeight;
+  let y = 0;
+
+  if (num <= 1){
+    document.getElementById('portrait').style.opacity = 1-num;
+    y = (1-num)*1.5;
+  }
+})
+
 
