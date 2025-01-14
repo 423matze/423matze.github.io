@@ -216,10 +216,11 @@ function addObserverIfDesiredNodeAvailable() {
     }
     observer.observe(elm, options);
 }
+
 addObserverIfDesiredNodeAvailable();
 
-// fade in out portrait
 
+// fade in out portrait
 function dimPotrait() {
   let num = window.scrollY / window.innerHeight;
   let y = 0;
@@ -228,6 +229,6 @@ function dimPotrait() {
     document.getElementById('portrait').style.opacity = 1-num;
     y = (1-num)*1.5;
   }
-})
+}
 
 
