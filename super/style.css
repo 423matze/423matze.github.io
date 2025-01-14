@@ -2265,6 +2265,7 @@ svg.sun-and-moon {
         flex-direction: column;
         row-gap: 1rem;
     }
+    
     .page__i-about .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
     }
@@ -2272,6 +2273,10 @@ svg.sun-and-moon {
     .page__i-about .notion-column-list + .notion-column-list {
         margin-bottom: 2rem;
     }
+
+    .page__i-about .notion-column-list .notion-column:nth-child(2) {
+    width: 100% !important;
+}
 
     .notion-text+.notion-image {
     margin: 1rem auto 1rem auto;
