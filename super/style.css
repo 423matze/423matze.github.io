@@ -156,6 +156,14 @@ body {
     font-size: var(--body-font-size);
     font-weight: var(--text-weight);
     letter-spacing: var(--body-font-letterspacing);
+    height: 100%;
+    color: var(--color-text-default);
+    background: var(--color-bg-default);
+    fill: currentColor;
+    margin: 0;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .15s;
 }
 
 .notion-root.max-width {
