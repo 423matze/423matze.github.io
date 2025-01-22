@@ -5,9 +5,14 @@
 /* root variables */
 html.theme-light {
     --text-weight: 310 !important;
+    
+    --color-text-default: #33182A;
     --color-card-bg: transparent !important;
     --color-card-bg-hover: #ffff00 !important;
     --color-backdrop-bg: #ffffff70;
+    --color-bg-default: #FAFAFA;
+    --color-bg-transparent: #FAFAFA00;
+
     --ilu-image: invert(0);
     --cta-background: #e200b1;
     --cta-text: #ffffff;
@@ -21,9 +26,14 @@ html.theme-light {
 
 html.theme-dark {
     --text-weight: 230 !important;
+    
+    --color-text-default: #F0EEEF;
     --color-card-bg: transparent !important;
     --color-card-bg-hover: #292929 !important;
     --color-backdrop-bg: #00000070;
+    --color-bg-default: #2E2E2B;
+    --color-bg-transparent: #2E2E2B00;
+    
     --ilu-image: invert(1);
     --cta-background: #00e2ab;
     --cta-text: #000000;
@@ -42,6 +52,18 @@ html.theme-dark {
 }
 
 :root {
+
+    --color-text-default: #F0EEEF;
+    --color-card-bg: transparent !important;
+    --color-card-bg-hover: #292929 !important;
+    --color-backdrop-bg: #00000070;
+    --color-bg-default: #2E2E2B;
+    --color-bg-transparent: #2E2E2B00;
+
+    --cta-background: #00e2ab;
+    --cta-text: #000000;
+    --link-text: #00e2ab;
+    
     --content-max-desktop: 800px;
     --column-spacing: 2em !important;
     --m423-radius: 12px !important;
@@ -51,7 +73,6 @@ html.theme-dark {
     --body-font-size: 1.42rem !important;
     --body-font-letterspacing: 0.123rem !important;
     --text-weight: 230 !important;
-    --color-text-default: #37352F;
     --heading-weight: 800;
 
     --collection-card-cover-size-small: calc(20%) !important;
@@ -88,9 +109,13 @@ html.theme-dark {
     --nav-ovefloat: 1em;
 
     /* responsiv illustrations logos etc. */
-    --ilu-image: invert(0);
-    --cta-background: #e200b1;
-    --cta-text: #ffffff;
+    --ilu-image: invert(1);
+    --cta-icon-color: invert(0);    
+    --blend-mode: lighten;
+
+    /* -- about potrait --*/
+    --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
+    --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
 }
 
 /* 
@@ -226,7 +251,7 @@ h1 {
     font-weight: 900;
     letter-spacing: -.0123em !important;
     color: transparent;
-    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
+    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-transparent) 42%), var(--link-text) 100%;
     background-clip: text;
     background-size: 200% auto;
     -webkit-text-fill-color: transparent;
