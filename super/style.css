@@ -161,7 +161,7 @@ body {
     background: var(--color-bg-default);
     fill: currentColor;
     margin: 0;
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+    transition-property: color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; /* background-color ? */
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .15s;
 }
