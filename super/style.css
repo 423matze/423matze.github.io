@@ -11,7 +11,7 @@ html.theme-light {
     --color-card-bg-hover: #ffff00 !important;
     --color-backdrop-bg: #ffffff70;
     --color-bg-default: #FAFAFA;
-    --color-bg-transparent: #FAFAFA00;
+    --color-bg-transparent: #FAFAFA;
 
     --ilu-image: invert(0);
     --cta-background: #e200b1;
@@ -32,7 +32,7 @@ html.theme-dark {
     --color-card-bg-hover: #292929 !important;
     --color-backdrop-bg: #00000070;
     --color-bg-default: #2E2E2B;
-    --color-bg-transparent: #2E2E2B00;
+    --color-bg-transparent: #2E2E2B;
     
     --ilu-image: invert(1);
     --cta-background: #00e2ab;
@@ -58,7 +58,7 @@ html.theme-dark {
     --color-card-bg-hover: #292929 !important;
     --color-backdrop-bg: #00000070;
     --color-bg-default: #2E2E2B;
-    --color-bg-transparent: #2E2E2B00;
+    --color-bg-transparent: #2E2E2B;
 
     --cta-background: #00e2ab;
     --cta-text: #000000;
@@ -242,6 +242,7 @@ h1 {
 .page__think h1.notion-heading{
     transform: translateX(-6px);
     mix-blend-mode: var(--blend-mode);
+    color: var(--color-bg-default);
 }
 
 .page__i-about h1.notion-heading strong,
