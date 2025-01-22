@@ -251,8 +251,8 @@ h1 {
     font-size: 8.42rem !important;
     font-weight: 900;
     letter-spacing: -.0123em !important;
-    color: transparent;
-    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-transparent) 42%), var(--link-text) 100%;
+    color: var(--color-bg-default);
+    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
     background-clip: text;
     background-size: 200% auto;
     -webkit-text-fill-color: transparent;
