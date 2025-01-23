@@ -6,7 +6,7 @@
 html.theme-light {
     --text-weight: 310 !important;
     
-    --color-text-default: #33182A;
+    --color-text-default: #271d23 !important;
     --color-card-bg: transparent !important;
     --color-card-bg-hover: #ffff00 !important;
     --color-backdrop-bg: #ffffff70;
