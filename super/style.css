@@ -804,7 +804,7 @@ li.my-contacts {
 }
 
 .notion-divider {
-    margin: 4em 0 !important;
+    margin: 2rem 0 !important;
     border: 0px !important;
 }
 
@@ -2029,7 +2029,7 @@ svg.sun-and-moon {
     }
 
     .notion-divider {
-        margin: 2em 0 !important;
+        margin: 2rem 0 !important;
     }
 
     /* custom navigation */
