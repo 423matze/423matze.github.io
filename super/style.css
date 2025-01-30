@@ -786,17 +786,56 @@ li.my-contacts {
 }
 
 /*
-  .notion-image.align-start {
-    align-self: center!important;
-  }
+  Notion Embeds like youtube video
 */
-
+.notion-embed {
+    width: 100%;
+    align-self: center;
+}
 .notion-embed__content {
+    display: flex;
+    justify-content: center;
     border-radius: var(--m423-radius) !important;
     overflow: hidden !important;
-    margin-bottom: 2rem !important;
+}
+.notion-embed__container__wrapper, .notion-embed__loader {
+    width: var(--content-max-desktop); 
+    min-height: calc(var(--content-max-desktop)/16*9);
+    display: flex;
+    padding: 0 !important;
+    border-radius: var(--m423-radius);
+    overflow: hidden;
+}
+.notion-embed__container {
+    position: relative;
+    max-width: 100%;
+    height: 100% !important;
+    width: 100% !important;
+}
+.notion-embed__container>iframe[title="www.youtube.com"] {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: auto;
+    margin: auto !important;
 }
 
+@media(max-width: 546px) {
+    .notion-embed__container__wrapper, .notion-embed__loader {
+        width: 100vw; 
+        min-height: calc((100vw - 48px)/16*9);
+        display: flex;
+        padding: 0 !important;
+        border-radius: var(--m423-radius);
+        overflow: hidden;
+    }
+}
+
+
+/* Header Covers */
 
 .notion-header__cover.no-cover {
     max-height: 4em !important;
