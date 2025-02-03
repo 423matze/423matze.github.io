@@ -1411,9 +1411,17 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 .notion-collection.inline {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    width: 96%;
+    margin: 4rem auto;
 }
+
+@media(max-width: 546px) {
+    .notion-collection.inline {
+        width: 100%;
+    }
+}
+
+
 
 /* CARDS */
 
