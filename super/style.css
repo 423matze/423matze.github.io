@@ -1174,7 +1174,7 @@ p {
 .notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
     display: block;
     position: absolute;
-    width: var(--content-max-desktop);
+    width: 100%;
     bottom: 0rem;
     margin: 42px auto 0 auto;
     padding-bottom: 1rem;
