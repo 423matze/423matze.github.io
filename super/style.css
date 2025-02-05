@@ -2133,9 +2133,6 @@ svg.sun-and-moon {
         padding: 0 !important;
     }
 
-    .notion-quote {
-        padding: 2em !important;
-    }
 
     .notion-collection-list__item-content {
         flex-direction: column !important;
@@ -2317,7 +2314,7 @@ svg.sun-and-moon {
         color: var(--link-text);
         width: 100% !important;
         margin: 0 auto !important;
-        padding: 1em 0 !important;
+        padding: 0 0 0 1rem !important;
         border: none !important;
         display: flex !important;
         flex-direction: column !important;
