@@ -1,3 +1,14 @@
+.notion-quote::before{
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:1.6px;
+    height:100%;
+    background-color:var(--link-text);
+    border-radius:0.8px;
+}
 /* style 423 v.3.17 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1561,7 +1572,8 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 /*---------  Quotes  ---------*/
 
-.notion-quote {
+.notion-quote, 
+.notion-quote.large {
     position: relative;
     font-size: 2rem;
     font-weight: 200;
@@ -1582,6 +1594,18 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     position: absolute;
     left: 0px;
     top: 0px;
+    width:1.6px;
+    height:100%;
+    background-color:var(--link-text);
+    border-radius:0.8px;
+}
+
+.notion-quote.large::before{
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
     width:4px;
     height:100%;
     background-color:var(--link-text);
@@ -1590,6 +1614,9 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 .notion-quote>.notion-semantic-string {
     line-height: 123%;
+}
+.notion-quote .notion-semantic-string em {
+    font-size: var(--body-font-size) !important;
 }
 
 
