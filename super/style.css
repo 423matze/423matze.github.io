@@ -329,13 +329,8 @@ h2.notion-heading:not(.toggle) {
 }
 
 h3.notion-heading:not(.toggle) {
-    margin-top: 2rem !important;
-    margin-bottom: 0.42rem !important;
+    margin-bottom: 1rem !important;
     transform: translateX(1px);
-}
-
-.notion-divider+.notion-heading__anchor+h3.notion-heading {
-    margin: 0rem auto .42rem auto !important;
 }
 
 .notion-heading.notion-semantic-string {
@@ -841,7 +836,7 @@ li.my-contacts {
 }
 
 .notion-divider {
-    margin: 2rem 0 !important;
+    margin: 4rem 0 !important;
     border: 0px !important;
 }
 
@@ -1017,6 +1012,7 @@ p {
 .notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start img {
     border-radius: 0px !important;
     filter: var(--cta-icon-color);
+    width:100%;
 }
 
 /* link text */
@@ -2311,12 +2307,24 @@ svg.sun-and-moon {
      .my-video-content {
         width: 100%;
     }
-    .notion-text__content:has(+ .notion-heading__anchor) {
-    position: relative;
-    padding-bottom: 0.6rem !important;
-    font-size: 1.75rem !important;
-    left: -1px;
+
+    /* Hedline Comps */
+    
+   .notion-text__content:has(+ .notion-heading__anchor + h2) {
+		position: relative;
+		left: -1px;
+        padding-bottom: 0.6rem !important;
+        font-size: 2.23rem !important;
+        color: var(--link-text);
     }
+    .notion-text__content:has(+ .notion-heading__anchor + h3) {
+        font-size: 1.96rem !important;
+        left: -1px;
+        padding-bottom: 0.6rem !important;
+        color: var(--link-text);
+    }
+
+    
     .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
     width: 100%;
     height: 100%;
