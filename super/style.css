@@ -313,7 +313,8 @@ h3.notion-heading:not(.toggle) {
 .page__index h1.notion-heading,
 .page__i-about h1.notion-heading,
 .page__think h1.notion-heading,
-.page__think h1.notion-heading{
+.page__projects h1.notion-heading
+{
     transform: translateX(-6px);
     mix-blend-mode: var(--blend-mode) !important;
     color: var(--color-bg-default);
@@ -321,7 +322,9 @@ h3.notion-heading:not(.toggle) {
 
 .page__i-about h1.notion-heading strong,
 .page__think h1.notion-heading strong,
-.page__projects h1.notion-heading strong {
+.page__projects h1.notion-heading strong,
+.page__index h1.notion-heading strong
+{
     font-size: 8.42rem !important;
     font-weight: 900;
     letter-spacing: -.0123em !important;
