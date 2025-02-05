@@ -866,12 +866,6 @@ li.my-contacts {
     padding: 0 !important;
 }
 
-
-.notion-dropdown__button p,
-.notion-dropdown__option p {
-    margin: 0px 0.5em !important;
-}
-
 .notion-text.color-gray {
     color: transparent;
     text-align: center;
@@ -1835,39 +1829,74 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 
 /*---------  Collection Switch ---------*/
+/* Dropdown to pills */
 
-.notion-dropdown__button {
-    justify-content: space-between !important;
-    width: 100% !important;
-    border: 1px solid var(--color-border-default) !important;
-    padding: 0.5em 1em !important;
-    border-radius: var(--m423-radius) !important;
-    margin-bottom: 1em !important;
+.notion-dropdown__option-list {
+  display: flex !important;
+  gap: 2rem;
+  margin: 2rem 0;
 }
 
-.notion-dropdown__menu-header,
-.notion-dropdown__option-icon,
-.notion-dropdown__button svg:first-of-type {
-    display: none !important;
+.notion-dropdown__option p {
+  font-size: var(--body-font-size) !important;
+  font-weight: 500;
+  
+}
+
+.notion-dropdown__option.active,
+.notion-dropdown__option.active:hover
+{
+  background-color: var(--cta-text);
+  color: var(--cta-background);
+}
+
+.notion-dropdown__option,
+.notion-dropdown__option:hover
+{
+  padding: 0.42em 1em !important;
+  border-radius: var(--m423-radius);
+  background-color: var(--cta-background);
+  color: var(--cta-text);
+}
+
+.notion-dropdown__menu.animate-out {
+  animation: none !important;
+}
+
+/* resets */
+.notion-dropdown {
+  position: relative;
+}
+
+.notion-collection__header-wrapper {
+  align-items: start !important;
+}
+
+.notion-dropdown__button {
+  display: none !important;
+}
+
+.notion-dropdown__menu.initial-state {
+  z-index: 1 !important;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .notion-dropdown__menu {
-    background: var(--color-bg-default) !important;
-    box-shadow: 0px 24px 16px 0px rgba(0, 0, 0, 0.05) !important;
-    transform: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-    border: 1px solid var(--color-border-default) !important;
-    border-radius: var(--m423-radius) !important;
-    top: 0px !important;
+  background: none !important;
+  box-shadow: unset !important;
+  left: auto !important;
+  top: auto !important;
+  position: relative !important;
+  transform: none !important;
 }
 
-.notion-dropdown__option-list {
-    padding: 0px !important;
+.notion-dropdown__menu-header {
+  display: none !important;
 }
 
-.notion-dropdown__option {
-    padding: 0.5em 1em !important;
+.notion-dropdown__option-icon {
+  display: none !important;
 }
 
 
