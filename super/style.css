@@ -1145,6 +1145,7 @@ p {
 .notion-toggle.bg-blue {
     position: relative;
     max-width: 100%;
+    min-height: 7rem;
     margin: 1rem 0 3rem 0 !important;
     padding: 0px;
     background-color: transparent;
