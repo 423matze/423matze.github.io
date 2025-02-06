@@ -1,4 +1,4 @@
-/* style 423 v.4.10 */
+/* style 423 v.4.11 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -11,7 +11,7 @@
 /* root variables */
 html.theme-light {
 
-    --text-weight: 310 !important;
+    --text-weight: 240 !important;
     --color-text-default: #271d23 !important;
     --color-card-bg: var(--color-bg-defaul) !important;
     --color-card-bg-hover: #fcfcfc !important;
@@ -31,8 +31,8 @@ html.theme-light {
 }
 
 html.theme-dark {
-    --text-weight: 230 !important;
-
+    
+    --text-weight: 280 !important;
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
     --color-card-bg-hover: #292929 !important;
@@ -2249,20 +2249,6 @@ svg.sun-and-moon {
 
     .notion-root h1.notion-heading {
         margin-bottom: 1rem !important;
-    }
-
-    .notion-quote {
-        font-size: 2rem !important;
-        font-weight: 200;
-        text-align: left !important;
-        color: var(--link-text);
-        width: 100% !important;
-        margin: 0 auto !important;
-        padding: 0 0 0 1rem !important;
-        border: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-        border-radius: var(--m423-radius) !important;
     }
 
     p {
