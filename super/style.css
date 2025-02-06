@@ -1,4 +1,4 @@
-/* style 423 v.4.11 */
+/* style 423 v.4.12 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -31,7 +31,7 @@ html.theme-light {
 }
 
 html.theme-dark {
-    
+
     --text-weight: 280 !important;
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
@@ -350,7 +350,7 @@ h3.notion-heading:not(.toggle) {
     color: var(--link-text);
 }
 
-/* ----- Animated Headers ------- */
+/* ----- Headline big animated ------- */
 
 .page__index h1.notion-heading,
 .page__i-about h1.notion-heading,
@@ -367,6 +367,7 @@ h3.notion-heading:not(.toggle) {
 .page__index h1.notion-heading strong {
     font-size: 8.42rem !important;
     font-weight: 900;
+    line-height: 33%;
     letter-spacing: -.0123em !important;
     color: var(--color-bg-default);
     background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
@@ -375,14 +376,24 @@ h3.notion-heading:not(.toggle) {
     -webkit-text-fill-color: transparent;
     animation: animatedHeadline 42.3s ease-in-out infinite;
     -webkit-text-stroke: .423px var(--link-text);
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 @media(max-width: 546px) {
 
-    .page__i-about h1.notion-heading strong,
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
         font-size: 6rem !important;
+        line-height: 33%
+    }
+
+    .page__projects h1.notion-heading strong,
+    .page__i-about h1.notion-heading strong {
+        font-size: 5.2rem !important;
+        line-height: 33%
     }
 }
 
