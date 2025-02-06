@@ -1,4 +1,4 @@
-/* style 423 v.4.03 */
+/* style 423 v.4.04 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -740,52 +740,6 @@ li.my-contacts {
     max-width: 420px;
 }
 
-/* CTA */
-.notion-callout.bg-orange-light {
-    position: relative;
-    width: var(--content-max-desktop);
-    height: 64px;
-    background-color: transparent;
-    padding: 0px !important;
-    margin: 0px auto;
-    color: var(--cta-text);
-}
-
-.notion-callout.bg-orange-light .notion-callout__content {
-    position: relative;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-content: center;
-    margin: 0px !important;
-    padding: 4px 17px 4px 0px !important;
-    border-radius: 8px;
-    width: auto;
-    height: auto;
-    background-color: var(--cta-background);
-}
-
-
-.notion-callout.bg-orange-light .notion-callout__content .notion-column-list {
-    display: inline-flex;
-    align-content: center;
-    flex-direction: row;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    gap: 16px;
-    margin: 0px;
-}
-
-.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column {
-    position: relative;
-    margin-inline-start: 0px !important;
-}
-
-.notion-callout.bg-orange-light .notion-callout__content .notion-column-list .notion-column:first-of-type {
-    width: auto !important;
-    /* padding: 0px 0px 0px 24px !important; */
-}
-
 .highlighted-background.bg-brown {
     display: inline-block !important;
     padding: 0px !important;
@@ -1015,7 +969,31 @@ p {
 }
 
 
-/*--------- CTAs ---------*/
+/*  ------------- CTA ------------- */
+
+.notion-callout.bg-orange-light {
+    position: relative;
+    width: var(--content-max-desktop);
+    height: 64px;
+    background-color: transparent;
+    padding: 0px !important;
+    margin: 0px auto;
+    color: var(--cta-text);
+}
+
+.notion-callout.bg-orange-light .notion-callout__content {
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-content: center;
+    margin: 0px !important;
+    padding: 4px 17px 4px 0px !important;
+    border-radius: 8px;
+    width: auto;
+    height: auto;
+    background-color: var(--cta-background);
+}
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
     position: relative;
@@ -1046,7 +1024,7 @@ p {
 
 }
 
-/* ---- */
+/*  ----  */
 
 .highlighted-background {
     transition: 0.3s ease-in-out !important;
