@@ -1,4 +1,4 @@
-/* style 423 v.4.01 */
+/* style 423 v.4.02 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -1573,18 +1573,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 
-
-
-
-
-
-
 /*---------  Quotes  ---------*/
 
 .notion-quote,
 .notion-quote.large {
     position: relative;
-    font-size: 2rem;
+    font-size: var(--heading2-size);
     font-weight: 200;
     text-align: left !important;
     color: var(--link-text);
