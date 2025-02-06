@@ -1,4 +1,4 @@
-/* style 423 v.4.07 */
+/* style 423 v.4.08 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -406,7 +406,7 @@ h3.notion-heading:not(.toggle) {
 .notion-semantic-string {
     line-height: 142% !important;
     white-space: pre-wrap;
-    word-break: break-word;
+    word-break: normal;
 }
 
 /* reading time */
@@ -971,64 +971,47 @@ p {
 
 /*  ------------- CALL TO ACTIONS ------------- */
 
-.notion-callout.bg-orange-light {
-    position: relative;
-    width: var(--content-max-desktop);
-    height: 64px;
-    background-color: transparent;
-    padding: 0px !important;
-    margin: 0px auto;
-    color: var(--cta-text);
-}
-
-.notion-callout.bg-orange-light .notion-callout__content {
-    position: relative;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-content: center;
-    margin: 0px !important;
-    padding: 4px 17px 4px 0px !important;
-    border-radius: calc(var(--m423-radius)/2);
-    width: auto;
-    height: auto;
+.notion-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--m423-radius) / 2);
+    cursor: pointer;
+    transition: background 20ms ease-in;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    border-radius: calc(var(--m423-radius) / 2);
+    padding: calc(var(--m423-radius) / 2);
+    min-width: 50px;
+    font-weight: 600;
+    border: 0;
+    color: var(--cta-text) !important;
     background-color: var(--cta-background);
 }
 
+.notion-button__content:hover {
+    background: var(--cta-background);
+}
+
+.notion-button__icon .notion-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    line-height: 1rem;
+    border-radius: 0 !important;
+    filter: var(--cta-icon-color);
+}
+
+
 @media(max-width: 546px){
-    .notion-callout.bg-orange-light .notion-callout__content {
+    .notion-button__content {
         width: 100%;
     }
 }
 
-.notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
-    position: relative;
-    width: auto;
-    margin: 0;
-    padding: 0px;
-    letter-spacing: 0.1rem;
-}
 
-/* icon */
-.notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start {
-    width: 32px !important;
-    height: 32px !important;
-    margin: 0 !important;
-    flex-shrink: 0;
-}
-
-.notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start img {
-    border-radius: 0px !important;
-    filter: var(--cta-icon-color);
-    width: 100%;
-}
-
-/* link text */
-.notion-callout.bg-orange-light .notion-callout__content .notion-text .notion-link {
-    color: var(--cta-text);
-    text-decoration-color: var(--cta-text);
-
-}
 
 /*  ----  */
 
