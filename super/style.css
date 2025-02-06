@@ -130,7 +130,7 @@ html.theme-dark {
 }
 
 /* 
-    ------------ DRAFTS --------------
+    ------------ Page & ID rooted elements --------------
 */
 
 /* Element specifics - HOME --- */
@@ -139,10 +139,28 @@ div#block-98667ca7aebf4dfdb339cd7c0a9d84e6 {
     margin-bottom: 8rem;
 }
 
-/* LOGO Dessert */
+/* Logo desert */
+
 div#block-45841df76bdc46a9b1702a9ac03add65 {
+    width: 100% !important;
+    overflow: hidden !important;
     margin: auto !important;
-    left: 20px;
+}
+
+div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list {
+    margin: 0 !important;
+}
+
+div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
+    margin: 0px !important;
+    width: 50% !important;
+}
+
+@media screen and (max-width: 546px) {    
+    div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
+    margin: 0px !important;
+    width: 100% !important;
+    }    
 }
 
 /* My Process */
@@ -208,6 +226,8 @@ body {
     max-width: 1200px;
 }
 
+/* about bilder - brauch ich glaubs nicht 
+
 .page__i-about .notion-column-list .notion-column:nth-child(2){
     width: max-content !important;
 }
@@ -216,6 +236,8 @@ body {
     background-color: transparent;
     padding-bottom: 0.42rem;
 }
+
+*/
 
 .super-content.page__blog423 .notion-collection.inline {
     width: 832px;
@@ -1510,7 +1532,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     padding: 1rem !important;
 }
 
-.notion-collection-gallery .notion-property__title {
+.notion-collection-card .notion-property__title {
     padding-top: 0 !important;
     font-size: var(--collection-card-title-size) !important;
 }
@@ -2274,13 +2296,7 @@ svg.sun-and-moon {
     div#block-2562d3f010ec4ed795890d1ac334c738 .notion-column .notion-callout .notion-callout__content .notion-image {
         left: -17px;
     }
-    /* Home logowüste */
-    div#block-45841df76bdc46a9b1702a9ac03add65 {
-        left: -12px;
-    }
-    div#block-45841df76bdc46a9b1702a9ac03add65 .notion-callout__content .notion-column-list {
-        margin: 0 auto;
-    }
+	
     /* Home CTA */
     .notion-callout.bg-orange-light .notion-callout__content {
         position: relative;
