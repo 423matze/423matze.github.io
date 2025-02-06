@@ -1,4 +1,4 @@
-/* style 423 v.4.09 */
+/* style 423 v.4.10 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -180,6 +180,8 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
 
 .page__index .notion-column-list:has(.bg-gray-light) {
     max-width: 1080px;
+    margin-top: 0;
+    margin-bottom: 6rem;
 }
 
 .page__index .notion-column .notion-text__content {
