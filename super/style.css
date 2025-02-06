@@ -1,4 +1,4 @@
-/* style 423 v.4.05 */
+/* style 423 v.4.06 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -52,6 +52,11 @@ html.theme-dark {
 }
 
 :root {
+
+    /* -- Breakpoints -- */
+
+    --media-mobile: 546px;
+    
 
     /* -- Typo -- */
     --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
@@ -969,7 +974,7 @@ p {
 }
 
 
-/*  ------------- CTA ------------- */
+/*  ------------- CALL TO ACTIONS ------------- */
 
 .notion-callout.bg-orange-light {
     position: relative;
@@ -989,10 +994,16 @@ p {
     align-content: center;
     margin: 0px !important;
     padding: 4px 17px 4px 0px !important;
-    border-radius: 8px;
+    border-radius: calc(var(--m423-radius)/2);
     width: auto;
     height: auto;
     background-color: var(--cta-background);
+}
+
+@media(max-width: var(--media-mobile)){
+    .notion-callout.bg-orange-light .notion-callout__content {
+        width: 100%;
+    }
 }
 
 .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
@@ -2196,7 +2207,7 @@ svg.sun-and-moon {
 
 /* --------- < 546px -------------- */
 
-@media(max-width: 546px) {
+@media(max-width: var(--media-mobile)) {
 
     .notion-root.max-width {
         padding-left: 0px;
