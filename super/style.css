@@ -971,6 +971,11 @@ p {
 
 /*  ------------- CALL TO ACTIONS ------------- */
 
+.notion-button {
+    width: var(--content-max-desktop);
+    margin: 8px auto;
+}
+
 .notion-button__content {
     display: inline-flex;
     align-items: center;
