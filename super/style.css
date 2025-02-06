@@ -1,6 +1,12 @@
-/* style 423 v.3.20 */
+/* style 423 v.4.00 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
+
+@supports (font: -apple-system-body) {
+    html {
+        font: -apple-system-body !important;
+    }
+}
 
 /* root variables */
 html.theme-light {
@@ -45,13 +51,22 @@ html.theme-dark {
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
 }
 
-@supports (font: -apple-system-body) {
-    html {
-        font: -apple-system-body !important;
-    }
-}
-
 :root {
+
+    /* -- Typo -- */
+    --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
+    --secondary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
+
+    --body-font-size: 1.42rem !important;
+    --body-font-letterspacing: 0.123rem !important;
+    --text-weight: 230 !important;
+    --heading-weight: 800;
+
+    --heading1-size: calc(var(--body-font-size) * 1.875);
+    --heading2-size: calc(var(--body-font-size) * 1.5);
+    --heading3-size: calc(var(--body-font-size) * 1.25);
+
+    /* Colors */
 
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
@@ -64,16 +79,13 @@ html.theme-dark {
     --cta-text: #000000;
     --link-text: #00e2ab;
 
+    /* Shapes */
+
     --content-max-desktop: 800px;
     --column-spacing: 2em !important;
-    --m423-radius: 12px !important;
+    --m423-radius: 23px !important;
     --m423-width: 1440px !important;
     --m423-width-med: 60vw !important;
-
-    --body-font-size: 1.42rem !important;
-    --body-font-letterspacing: 0.123rem !important;
-    --text-weight: 230 !important;
-    --heading-weight: 800;
 
     --collection-card-cover-size-small: calc(20%) !important;
     --collection-card-cover-size-medium: calc(30%) !important;
@@ -84,16 +96,6 @@ html.theme-dark {
     --collection-card-padding: 0px;
     --collection-card-content-padding: 10px;
     --collection-card-title-padding: 0px;
-
-    /* -- font test -- */
-    --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
-    --secondary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
-
-    --heading1-size: calc(var(--heading-size) * 1.875);
-    --heading2-size: calc(var(--heading-size) * 1.5);
-    --heading3-size: calc(var(--heading-size) * 1.25);
-    --heading4-size: calc(var(--heading-size) * 1);
-    --heading5-size: calc(var(--heading-size) * 0.8125);
 
     /* -- page paddings -- */
     --padding-mob: 24px;
@@ -216,18 +218,6 @@ body {
     max-width: 1200px;
 }
 
-/* about bilder - brauch ich glaubs nicht 
-
-.page__i-about .notion-column-list .notion-column:nth-child(2){
-    width: max-content !important;
-}
-
-.page__i-about .notion-column-list .notion-column:nth-child(2) .notion-text__content{
-    background-color: transparent;
-    padding-bottom: 0.42rem;
-}
-
-*/
 
 .super-content.page__blog423 .notion-collection.inline {
     width: 832px;
@@ -250,7 +240,7 @@ h3.notion-heading,
 }
 
 h1 {
-    font-size: 3.25rem !important;
+    font-size: var(--heading1-size)!important;
     font-style: normal !important;
     font-weight: 800 !important;
     letter-spacing: 0.0123em !important;
@@ -265,7 +255,7 @@ h1 {
 
 h2 {
     font-style: normal !important;
-    font-size: 2.42rem !important;
+    font-size: var(--heading2-size)!important;
     font-weight: 700 !important;
     letter-spacing: 0.0423rem !important;
     margin-bottom: 1rem !important;
@@ -278,7 +268,7 @@ h2 {
 
 h3 {
     font-style: normal !important;
-    font-size: 2rem !important;
+    font-size: var(--heading3-size) !important;
     font-weight: 700 !important;
     letter-spacing: 0.0123em !important;
     margin-bottom: 0.5em !important;
@@ -288,6 +278,23 @@ h3 {
     -o-animation: fadeIn 1s !important;
     animation: fadeIn 1s !important;
     font-weight: 600 !important;
+}
+
+@media screen and (max-width: 880px) {
+
+    :root {
+        --body-font-size: 1.23rem !important;
+    }
+
+    h2 {
+        font-size: var(--heading2-size) !important;
+
+    }
+
+    h3 {
+        font-size: var(--heading3-size) !important;
+    }
+
 }
 
 h2.notion-heading:not(.toggle) {
@@ -305,18 +312,19 @@ h3.notion-heading:not(.toggle) {
     line-height: 1.23em !important;
 }
 
-/* Hedline Comps */
+/* ------- Hedline Comps -----------*/
 
 .notion-text__content:has(+ .notion-heading__anchor + h2) {
     position: relative;
+    font-size: var(--heading2-size) !important;
     left: -1px;
     padding-bottom: 0.8rem !important;
-    font-size: 2.23rem !important;
     color: var(--link-text);
 }
 
 .notion-text__content:has(+ .notion-heading__anchor + h3) {
-    font-size: 1.96rem !important;
+    position: relative;
+    font-size: var(--heading2-size) !important;
     left: -1px;
     padding-bottom: 0rem !important;
     color: var(--link-text);
@@ -2147,14 +2155,7 @@ svg.sun-and-moon {
         font-size: 2rem !important;
     }
 
-    h2 {
-        font-size: 1.75rem !important;
 
-    }
-
-    h3 {
-        font-size: 1.42rem !important;
-    }
 
     .notion-divider {
         margin: 2rem 0 !important;
