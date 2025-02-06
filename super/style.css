@@ -1409,27 +1409,6 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 
-/* -- PILL --*/
-
-
-.notion-pill {
-    padding: 0.25em 0.75em !important;
-    min-height: 1.5rem !important;
-    border-radius: .75rem !important;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.125rem;
-    white-space: nowrap;
-    display: inline-block;
-    margin: 3px 0;
-    -webkit-margin-end: 6px;
-    margin-inline-end: 6px;
-}
-
-
-
-
-
 /* ------- Collection ---------*/
 
 .notion-collection__header-wrapper {
@@ -1538,7 +1517,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     height: var(--pill-height) !important;
     max-width: calc(100% - 10px) !important;
     padding: 0 calc(var(--pill-height) / 2) !important;
-    border-radius: calc(var(--h) / 2) !important;
+    border-radius: calc(var(--pill-height) / 2) !important;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.125rem;
