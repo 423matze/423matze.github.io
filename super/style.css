@@ -1,4 +1,4 @@
-/* style 423 v.4.00 */
+/* style 423 v.4.01 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -60,11 +60,11 @@ html.theme-dark {
     --body-font-size: 1.42rem !important;
     --body-font-letterspacing: 0.123rem !important;
     --text-weight: 230 !important;
-    --heading-weight: 800;
+    --heading-weight: 800 !important;
 
-    --heading1-size: calc(var(--body-font-size) * 1.875);
-    --heading2-size: calc(var(--body-font-size) * 1.5);
-    --heading3-size: calc(var(--body-font-size) * 1.25);
+    --heading1-size: calc(var(--body-font-size) * 1.875) !important;
+    --heading2-size: calc(var(--body-font-size) * 1.5) !important;
+    --heading3-size: calc(var(--body-font-size) * 1.25) !important;
 
     /* Colors */
 
@@ -330,7 +330,7 @@ h3.notion-heading:not(.toggle) {
     color: var(--link-text);
 }
 
-/* home header */
+/* Animated Headers */
 
 .page__index h1.notion-heading,
 .page__i-about h1.notion-heading,
@@ -377,13 +377,6 @@ h3.notion-heading:not(.toggle) {
     margin-top: 1.23rem;
     color: var(--link-text);
 }
-
-/* brachts den Abstand? 
-.notion-text__children .notion-text {
-        margin-top: 2rem;
-}
-*/
-
 
 
 .notion-text__content:has(+ .notion-text__children) {
