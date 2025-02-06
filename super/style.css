@@ -972,6 +972,8 @@ p {
 /*  ------------- CALL TO ACTIONS ------------- */
 
 .notion-button {
+    margin-top: 4px;
+    margin-bottom: 4px;
     width: var(--content-max-desktop);
     margin: 8px auto;
 }
@@ -1011,6 +1013,9 @@ p {
 
 
 @media(max-width: 546px){
+    .notion-button {
+        width: 100%;        
+    }
     .notion-button__content {
         width: 100%;
     }
