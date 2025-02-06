@@ -1554,7 +1554,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 .notion-quote,
 .notion-quote.large {
     position: relative;
-    font-size: var(--heading2-size);
+    font-size: var(--heading3-size);
     font-weight: 200;
     text-align: left !important;
     color: var(--link-text);
