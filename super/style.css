@@ -1,4 +1,4 @@
-/* style 423 v.4.04 */
+/* style 423 v.4.05 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -2226,36 +2226,6 @@ svg.sun-and-moon {
 
     div#block-2562d3f010ec4ed795890d1ac334c738 .notion-column .notion-callout .notion-callout__content .notion-image {
         left: -17px;
-    }
-
-    /* Home CTA */
-    .notion-callout.bg-orange-light .notion-callout__content {
-        position: relative;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        margin: 0px !important;
-        padding: 0px 0px !important;
-        border-radius: 8px;
-        width: 100%;
-        height: auto;
-        background-color: var(--cta-background);
-    }
-
-    .notion-callout.bg-orange-light .notion-callout__content .notion-image.align-start {
-        width: 24px !important;
-        height: 24px !important;
-        margin: 0 !important;
-        flex-shrink: 0;
-    }
-
-    .notion-callout.bg-orange-light .notion-callout__content .notion-semantic-string {
-        font-size: 1rem;
-        position: relative;
-        width: auto;
-        margin: 0;
-        padding: 0px;
-        letter-spacing: 0.1rem;
     }
 
     .super-content.page__index {
