@@ -1,4 +1,4 @@
-/* style 423 v.4.12 */
+/* style 423 v.4.13 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -1034,8 +1034,8 @@ p {
 }
 
 .notion-button__icon .notion-icon {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     font-size: 1rem;
     line-height: 1rem;
     border-radius: 0 !important;
@@ -1919,10 +1919,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     max-width: 1100px;
 }
 
-/* FOOOTER */
-.super-embed:has(.next-footer)+.notion-column-list {
-    width: 80%;
-}
+
 
 /* Text Bild Column LR/RL */
 
@@ -1977,7 +1974,17 @@ ol.notion-numbered-list li::marker {
 /*---------  FOOTERS ---------*/
 
 
+.super-embed:has(.next-footer)+.notion-column-list {
+    width: 100%;
+}
 
+.super-embed:has(.next-footer)+.notion-column-list > .notion-column .notion-text__content{
+    /* color:red; */
+    text-align: left;
+}
+
+
+/*
 .super-footer.stack {
     align-items: center !important;
 }
@@ -2005,7 +2012,7 @@ ol.notion-numbered-list li::marker {
     align-self: center !important;
     width: calc(100vw - 48px) !important;
 }
-
+*/
 
 /* Dark Lighmode switch - web.dev */
 
@@ -2330,7 +2337,7 @@ svg.sun-and-moon {
         row-gap: 1rem;
     }
 
-    .page__i-about .notion-column-list:nth-of-type(even) {
+    .page__i-about .notion-column-list:nth-of-type(odd) {
         flex-direction: column-reverse;
     }
 
