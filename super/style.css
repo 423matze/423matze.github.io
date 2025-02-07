@@ -1,4 +1,4 @@
-/* style 423 v.4.14 */
+/* style 423 v.4.15 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -176,7 +176,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
     }
 }
 
-/* My design process */
+/* -------- My design process ---------- */
 
 .page__index .notion-column-list:has(.bg-gray-light) {
     max-width: 1080px;
@@ -184,12 +184,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
     margin-bottom: 6rem;
 }
 
-.page__index .notion-column .notion-text__content {
-    margin: 0 auto;
-    padding-bottom: 1rem;
-    text-align: center;
-    word-break: normal;
-}
+/* -------- BW responsive images --------- */
 
 .page__index .notion-callout.bg-gray-light .notion-image {
     width: 8rem;
@@ -209,6 +204,17 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
     margin: 0 !important;
     text-align: center;
 }
+
+.page__index .notion-column .notion-text__content {
+    margin: 0 auto;
+    padding-bottom: 1rem;
+    text-align: center;
+    word-break: normal;
+}
+
+
+
+
 
 
 /* layout overrides */
@@ -240,11 +246,7 @@ body:is([modal="true"]) {
     -webkit-margin-start: 0;
 }
 
-.page__i-about .notion-column-list {
-    column-gap: 2rem;
-    flex-wrap: nowrap;
-    max-width: 1200px;
-}
+
 
 
 .super-content.page__blog423 .notion-collection.inline {
@@ -749,11 +751,8 @@ li.my-contacts {
     max-width: 100%;
 }
 
-.notion-callout.bg-gray-light .notion-callout__content .notion-column-list .notion-column {
-    margin: 0px !important;
-}
+/* ---- custom menu for individual cases ---------- */
 
-/* custom menu for individual cases*/
 .notion-callout.bg-brown-light.border {
     display: inline;
     margin: 0px !important;
@@ -766,13 +765,13 @@ li.my-contacts {
     top: 1em;
 }
 
-/* Disclamer */
+/* Disclamer --------------------------------- */
 .notion-callout.bg-yellow-light {
     height: auto;
     max-width: 860px;
 }
 
-/* Pains */
+/* Painspoints -------------------------------------- */
 .notion-callout.bg-pink-light {
     min-width: 240px;
     width: 100%;
@@ -1903,7 +1902,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 
-/* ------ COLUMN LISTS --------*/
+/* columnlists spalten  --------*/
 
 .notion-column-list {
     display: flex;
@@ -1923,13 +1922,21 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     margin-top: 4rem;
 }
 
+/* hacks ---------------------------------*/
+
 .super-embed:has(.next-column-wide)+.notion-column-list {
     max-width: 1100px;
 }
 
+/* page specific -------------------------*/
+.page__i-about .notion-column-list {
+    column-gap: 2rem;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+}
 
 
-/* Text Bild Column LR/RL */
+/* Text Bild Splaten  Column LR/RL -------*/
 
 .notion-text__children .notion-column-list {
     width: 900px;
@@ -1937,7 +1944,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     margin-bottom: 4rem;
 }
 
-/* Oversize 3-column table */
+/* Oversize 3-column table ---------------*/
 
 .notion-text.bg-gray {
     background-color: transparent;
@@ -1955,31 +1962,22 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     line-height: 0px;
 }
 
-/*  list in list > image */
+/*  list in list > image ----------------------*/
 .notion-column .notion-column-list {
     margin: 1em 0px 1em 0px;
     width: 100%;
     max-width: 100%;
 }
 
-/* ------ NUMBERED LISTS --------*/
-
-.notion-numbered-list {
-    margin: auto;
-    max-width: var(--content-max-desktop);
-    -webkit-padding-start: 24px;
-}
-
-.notion-numbered-list .notion-list-item {
-    padding-left: 16px;
-}
-
-ol.notion-numbered-list li::marker {
-    display: inline;
+/* wozu gehört das? */
+.notion-callout.bg-gray-light .notion-callout__content .notion-column-list .notion-column {
+    margin: 0px !important;
 }
 
 
-/*---------  FOOTERS ---------*/
+
+
+/* footers -------------------------------------*/
 
 
 .super-embed:has(.next-footer)+.notion-column-list {
@@ -1991,38 +1989,7 @@ ol.notion-numbered-list li::marker {
     text-align: left;
 }
 
-
-/*
-.super-footer.stack {
-    align-items: center !important;
-}
-
-
-.super-footer__links {
-    max-width: var(--m423-width) !important;
-    font-size: 1em !important;
-    margin: 2em 0em !important;
-}
-
-.super-footer__footnote {
-    font-size: 0.75em !important;
-    opacity: 0.5 !important;
-    max-width: var(--m423-width) !important;
-}
-
-.super-footer__icons {
-    gap: 36px !important
-}
-
-
-.super-footer.floating {
-    border-radius: var(--m423-radius) !important;
-    align-self: center !important;
-    width: calc(100vw - 48px) !important;
-}
-*/
-
-/* Dark Lighmode switch - web.dev */
+/* Dark Lighmode switch -------------------------*/
 
 .theme-toggle {
     --size: 28px;
@@ -2336,6 +2303,16 @@ svg.sun-and-moon {
     }
 
     /* Column Bild Text auf spezifischer Seite */
+
+    /* projects --------------------------------*/
+
+    .notion-dropdown__menu.animate-out, .notion-dropdown__menu.initial-state {
+        -webkit-user-select: auto;
+        -moz-user-select: none;
+        user-select: auto;
+        pointer-events: inherit;
+    }
+}
 
     .page__i-about .notion-column-list {
         max-width: 100%;
