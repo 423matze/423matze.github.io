@@ -1,4 +1,4 @@
-/* style 423 v.4.15 */
+/* style 423 v.4.16 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -35,7 +35,7 @@ html.theme-dark {
     --text-weight: 280 !important;
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
-    --color-card-bg-hover: #292929 !important;
+    --color-card-bg-hover: #353532 !important;
     --color-backdrop-bg: #00000070;
     --color-bg-default: #2E2E2B !important;
     --color-bg-transparent: #2E2E2B;
@@ -592,7 +592,7 @@ img {
 
 
 
-/* -- MY CUSTOM MENU -- */
+/* my super nav menu - backdrop  ----------------------------- */
 
 .super-navbar {
     display: none;
@@ -605,7 +605,6 @@ img {
     top: 1em;
     left: 0px;
     z-index: 423;
-    /* max-width: calc(var(--m423-width) + 2em) !important; */
     margin: 1em 0 1em 0 !important;
     padding-left: var(--padding-left) !important;
     padding-right: var(--padding-right) !important;
@@ -2312,7 +2311,6 @@ svg.sun-and-moon {
         user-select: auto;
         pointer-events: inherit;
     }
-}
 
     .page__i-about .notion-column-list {
         max-width: 100%;
@@ -2353,8 +2351,25 @@ svg.sun-and-moon {
         max-width: 420px;
     }
 
+    /* image super embed hacks images ---------------*/
+
+    .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width {
+        position: relative;
+        width: calc(100% + 24px) !important;
+        max-width: 100%;
+        left: -12px;
+        margin: 0 auto 2rem auto !important;
+    }
+    .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width>figcaption {
+        position: relative;
+        left: -12px;
+    }
+
+    /* my super menu backdrop mobile ----------------*/
+
     .backdrop {
         position: fixed;
+        z-index: 123;
         top: 0px;
         left: 0px;
         bottom: 0px;
