@@ -1,4 +1,4 @@
-/* style 423 v.4.16 */
+/* style 423 v.4.17 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -360,7 +360,7 @@ h3.notion-heading:not(.toggle) {
     color: var(--link-text);
 }
 
-/* ----- Headline big animated ------- */
+/* ----- Headline big animated ----------------------- */
 
 .page__index h1.notion-heading,
 .page__i-about h1.notion-heading,
@@ -421,8 +421,11 @@ h3.notion-heading:not(.toggle) {
     }
 }
 
+/* Headline big subline -------------------------------*/
+
 .page__index h1.notion-heading+.notion-text,
 .page__i-about h1.notion-heading+.notion-text,
+.page__projects h1.notion-heading+.notion-text,
 .page__think h1.notion-heading+.notion-text {
     margin-top: 1.23rem;
     color: var(--link-text);
