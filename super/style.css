@@ -1,4 +1,4 @@
-/* style 423 v.4.13 */
+/* style 423 v.4.14 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -192,13 +192,21 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-column-list .notion-column {
 }
 
 .page__index .notion-callout.bg-gray-light .notion-image {
-    width: 10rem;
+    width: 8rem;
     margin: auto;
     padding: 0;
 }
+@media(max-width:546px){
+    .page__index .notion-callout.bg-gray-light .notion-image {
+        width: 6rem;
+    }
+    .page__index .notion-column-list:has(.bg-gray-light) .notion-column {
+        margin-bottom: 2rem !important;
+    }
+}
 
 .page__index .notion-column>.notion-heading {
-    margin-top: 0 !important;
+    margin: 0 !important;
     text-align: center;
 }
 
