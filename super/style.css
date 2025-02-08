@@ -1,4 +1,4 @@
-/* style 423 v.4.17 */
+/* style 423 v.4.18 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -946,24 +946,12 @@ p {
     margin-bottom: 0 !important;
 }
 
-.notion-bulleted-list {
-    width: 100%;
-    max-width: var(--content-max-desktop);
-    margin: auto !important;
-    -webkit-padding-start: 1em !important;
-    padding-inline-start: 1em !important;
-    line-height: 1.5em;
-}
+
 
 .notion-callout.bg-gray-light.border+ul {
     margin-top: 4rem !important;
 }
 
-.notion-list-item {
-    margin: 3px 1px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
 
 .notion-callout__content {
     display: flex;
@@ -1975,6 +1963,48 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 .notion-callout.bg-gray-light .notion-callout__content .notion-column-list .notion-column {
     margin: 0px !important;
 }
+
+
+/* ul / ol lists -----------------------------------*/
+
+.notion-list-item {
+    margin: 3px 1px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* numbered lists ----------------------------------*/
+
+.notion-numbered-list {
+    width: var(--content-max-desktop);
+    -webkit-padding-start: calc(1.5em + 4px);
+    padding-inline-start: calc(1.5em + 4px);
+    margin: 0 auto;
+}
+
+.notion-numbered-list .notion-list-item {
+    padding-left: 10px;
+    margin-left: -10px;
+}
+
+
+/* bullet lists ------------------------------------*/
+
+.notion-bulleted-list {
+    width: 100%;
+    max-width: var(--content-max-desktop);
+    margin: auto !important;
+    -webkit-padding-start: 1em !important;
+    padding-inline-start: 1em !important;
+    line-height: 1.5em;
+}
+
+.notion-bulleted-list .notion-list-item {
+    padding-left: 10px;
+    margin-left: 0;
+}
+
+
 
 
 
