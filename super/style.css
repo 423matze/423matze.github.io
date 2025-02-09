@@ -1,4 +1,4 @@
-/* style 423 v.4.20 */
+/* style 423 v.4.21 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -398,13 +398,13 @@ h3.notion-heading:not(.toggle) {
 
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
-        font-size: 6rem !important;
+        font-size: 96px !important;
         line-height: 33%
     }
 
     .page__projects h1.notion-heading strong,
     .page__i-about h1.notion-heading strong {
-        font-size: 5.2rem !important;
+        font-size: 83px !important;
         line-height: 33%
     }
 }
@@ -2006,6 +2006,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     margin-left: -10px;
 }
 
+@media(max-width: 546px){
+    .notion-numbered-list {
+        width: 100%
+    }
+}
+
 
 /* bullet lists ------------------------------------*/
 
@@ -2251,7 +2257,7 @@ svg.sun-and-moon {
     }
 
     body {
-        font-size: 1.023rem !important;
+        font-size: 1.123rem !important;
     }
 
     .super-content {
