@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.262
+// MAL super costome script v1.263
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -199,12 +199,11 @@ function initToogleObservers(){
   // Select the target element(s)
   const targetElements = document.querySelectorAll(".notion-toggle");
   //
-  setTimeout(() => {
-    targetElements.forEach((element) => {
-      observer.observe(element, config);
-      console.log("Observe Element: ", element);
-    });
-  }, 230)
+  targetElements.forEach((element) => {
+    observer.observe(element, config);
+    console.log("Observe Element: ", element);
+  });
+  
   
 }
 
@@ -216,7 +215,9 @@ if (document.readyState === 'loading') {
 
     console.log("Route change init custom scripts");
     setupEmbeds();
-    initToogleObservers();
+    setTimeout(() => {
+      initToogleObservers();
+    }, 2000)
     
     
   })
