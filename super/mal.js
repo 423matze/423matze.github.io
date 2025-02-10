@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.246
+// MAL super costome script v1.247
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -31,7 +31,7 @@ function setupRouteChangeListenerForTooltips() {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
-  initToogleObservers()
+  initToogleObservers();
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
@@ -241,15 +241,15 @@ function toggleToggle(target){
 // Configure the MutationObserver options
 const config = { attributes: true };
 
-// Select the target element(s)
-const targetElements = document.querySelectorAll(".notion-toggle");
-
 function initToogleObservers(){
+  // Select the target element(s)
+  const targetElements = document.querySelectorAll(".notion-toggle");
   // Start observing the target elements
+  console.log("init observers");
   targetElements.forEach((element) => {
     observer.observe(element, config);
     console.log("Observe Element: ", element);
-});
+  });
 }
   
 
