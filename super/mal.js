@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.250
+// MAL super costome script v1.251
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -178,47 +178,43 @@ function setupEmbeds() {
 // m423 check when toggle ist offen oder zu
 // when geschlossen scolle zu start position
 
-
-/* Toogle Toggle
-function toggleToggle(target){
-  console.log("toggle clicked");
-  
-}*/
-function initToogleObservers(){
-  //
-  let yPos = 0;
-  // Create a new MutationObserver instance
-  const observer = new MutationObserver(callback);
-  // Configure the MutationObserver options
-  const config = { attributes: true };
-  // Select the target element(s)
-  const targetElements = document.querySelectorAll(".notion-toggle");
-  // Define the callback function to be executed on mutations
-  function callback(mutationsList, observer) {
-    // Handle mutations
-    console.log("callback", mutationsList, observer );  
-    mutationsList.forEach((mutation) => {    
-      //toggleToggle(mutation.target.className);
-      if(mutation.target.className == "notion-toggle open bg-blue"){
-        yPos = window.scrollY;
-      }else{
-        window.scrollTo({
-            top: yPos,
-            left: 0,
-            behavior: "smooth",
-          });
-        yPos = 0;
-      }
-    console.log(target + " - " + yPos);
-    }) 
-  }
-  // Start observing the target elements
+//
+let yPos = 0;
+// Create a new MutationObserver instance
+const observer = new MutationObserver(callback);
+// Configure the MutationObserver options
+const config = { attributes: true };
+// Select the target element(s)
+const targetElements = document.querySelectorAll(".notion-toggle");
+// Define the callback function to be executed on mutations
+function callback(mutationsList, observer) {
+  // Handle mutations
+  console.log("callback", mutationsList, observer );  
+  mutationsList.forEach((mutation) => {    
+    //toggleToggle(mutation.target.className);
+    if(mutation.target.className == "notion-toggle open bg-blue"){
+      yPos = window.scrollY;
+    }else{
+      window.scrollTo({
+          top: yPos,
+          left: 0,
+          behavior: "smooth",
+        });
+      yPos = 0;
+    }
+  console.log(target + " - " + yPos);
+  }) 
+}
+// Start observing the target elements
+const initToogleObservers = () => {
   console.log("init observers");
   targetElements.forEach((element) => {
     observer.observe(element, config);
     console.log("Observe Element: ", element);
   });
-}
+};
+
+
   
 
 
