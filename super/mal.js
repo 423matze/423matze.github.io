@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.257
+// MAL super costome script v1.258
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -213,6 +213,8 @@ function initToogleObservers(){
     console.log("Observe Element: ", element);
   });
 };
+// init toggles
+initToogleObservers();
 
 
   
