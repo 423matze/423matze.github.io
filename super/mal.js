@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.253
+// MAL super costome script v1.254
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -181,7 +181,7 @@ function setupEmbeds() {
 //
 let yPos = 0;
 // Create a new MutationObserver instance
-const observer;
+const observer = null;
 // Define the callback function to be executed on mutations
 function callback(mutationsList, observer) {
   // Handle mutations
