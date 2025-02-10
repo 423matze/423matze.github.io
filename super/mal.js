@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.240
+// MAL super costome script v1.241
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -207,7 +207,7 @@ function scrollBack(cl){
 
 function addObserverIfDesiredNodeAvailable() {
   const elm = document.querySelectorAll(".notion-toggle.bg-blue");  
-  if(!elm) {        
+  if(elm.length == 0) {        
       //The node we need does not exist yet.
       //Wait 500ms and try again
       window.setTimeout(addObserverIfDesiredNodeAvailable,100);
