@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.236
+// MAL super costome script v1.237
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -207,18 +207,14 @@ function scrollBack(cl){
 
 function addObserverIfDesiredNodeAvailable() {
     const elm = document.getElementsByClassName(".notion-toggle.bg-blue");  
-    
-    if(!elm) {
-        console.log("Add Observer", elm);
+    if(!elm) {        
         //The node we need does not exist yet.
         //Wait 500ms and try again
         window.setTimeout(addObserverIfDesiredNodeAvailable,100);
         return;
     }
-    for(let i = 0; i > elm.length; i++){
-      observer.observe(element[i], options);
-      console.log(element[i]);
-    }
+    console.log("Add Observer", elm);
+    observer.observe(elm, options);
     
 };
 
