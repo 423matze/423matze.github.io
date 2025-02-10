@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.260
+// MAL super costome script v1.261
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -189,11 +189,13 @@ function callback(mutationsList, observer) {
         });
       yPos = 0;
     }
-  console.log(mutation.target.className + " - " + yPos);
+    console.log(mutation.target.className + " - " + yPos);
   }) 
 }
 // Create a new MutationObserver instance
 const observer = new MutationObserver(callback);
+
+
 /* Start observing the target elements
 function initToogleObservers(){
   console.log("init observers");
@@ -210,28 +212,24 @@ function initToogleObservers(){
 
 // Initialize and set up route change listener after the DOM is fully loaded
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-  console.log("Route change init custom scripts");
-  setupEmbeds();
-  //initToogleObservers();
-  //
-  targetElements.forEach((element) => {
-    observer.observe(element, config);
-    console.log("Observe Element: ", element);
-  });
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+    console.log("Route change init custom scripts");
+
+    setupEmbeds();
+
+    //initToogleObservers();
+    //
+    targetElements.forEach((element) => {
+      observer.observe(element, config);
+      console.log("Observe Element: ", element);
+    })
+    
+  })
 } else {
-  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
-  console.log("DOMloaded init custom scripts");
-  setupEmbeds();
-  setupRouteChangeListenerForTooltips();
+    // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
+    console.log("DOMloaded init custom scripts");
+    setupEmbeds();
+    setupRouteChangeListenerForTooltips();
 }
-
-
-  
-
-
-
-
-
-
-
