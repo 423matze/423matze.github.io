@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.241
+// MAL super costome script v1.242
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -185,6 +185,7 @@ const observer = new MutationObserver(callback);
 //
 
 function callback(mutationList, observer) {
+  console.log("Callback", mutationList, observer );
     mutationList.forEach((mutation) => {
         console.log("toggle clicked");
         scrollBack(mutation.target.className)
@@ -213,10 +214,11 @@ function addObserverIfDesiredNodeAvailable() {
       window.setTimeout(addObserverIfDesiredNodeAvailable,100);
       return;
   }
-  console.log("Add Observer", elm);
+  console.log("Add Observer nodes", elm);
   elm.forEach((i) => {
     if (i) {
         observer.observe(i, options); // added option
+        console.log("Add node to Observer", i);
     }
   });
 };
