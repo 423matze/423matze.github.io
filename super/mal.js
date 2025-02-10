@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.244
+// MAL super costome script v1.245
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -179,6 +179,8 @@ function setupEmbeds() {
 // when geschlossen scolle zu start position
 
 var yPos = 0;
+
+/*
 const options = {attributes: true};
 const observer = new MutationObserver(callback);
 
@@ -205,23 +207,36 @@ function scrollBack(cl){
     }
     console.log(cl + " - " + yPos);
 }
+*/
 
-function addTooglesToObserv() {
-  const targets = document.querySelectorAll(".notion-toggle.bg-blue");  
-  if(targets.length == 0) {        
-      //The node we need does not exist yet.
-      //Wait 500ms and try again
-      window.setTimeout(addTooglesToObserv,100);
-      return;
-  }
-  console.log("Add Observer nodes", targets);
 
-  targets.forEach((element) => {
-      observer.observe(element, options);
-  });
-};
+// Create a new MutationObserver instance
+const observer = new MutationObserver(callback);
 
-addTooglesToObserv();
+// Define the callback function to be executed on mutations
+function callback(mutationsList, observer) {
+  // Handle mutations
+  console.log("callback", mutationsList, observer );
+  mutationsList.forEach((mutation) => {
+    console.log("toggle clicked");
+    //scrollBack(mutation.target.className)
+})    
+
+}
+
+// Configure the MutationObserver options
+const config = { attributes: true };
+
+// Select the target element(s)
+const targetElements = document.querySelectorAll(".notion-toggle");
+
+// Start observing the target elements
+targetElements.forEach((element) => {
+  observer.observe(element, config);
+});
+  
+
+
 
 
 
