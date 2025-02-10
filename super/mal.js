@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.252
+// MAL super costome script v1.253
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -181,7 +181,7 @@ function setupEmbeds() {
 //
 let yPos = 0;
 // Create a new MutationObserver instance
-const observer = new MutationObserver(callback);
+const observer;
 // Define the callback function to be executed on mutations
 function callback(mutationsList, observer) {
   // Handle mutations
@@ -204,6 +204,8 @@ function callback(mutationsList, observer) {
 // Start observing the target elements
 function initToogleObservers(){
   console.log("init observers");
+  // Observer
+  observer = new MutationObserver(callback);
   // Configure the MutationObserver options
   const config = { attributes: true };
   // Select the target element(s)
