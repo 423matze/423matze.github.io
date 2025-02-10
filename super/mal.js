@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.259
+// MAL super costome script v1.260
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -169,6 +169,11 @@ function setupEmbeds() {
 //
 let yPos = 0;
 // Define the callback function to be executed on mutations
+// Configure the MutationObserver options
+const config = { attributes: true };
+// Select the target element(s)
+const targetElements = document.querySelectorAll(".notion-toggle");
+//
 function callback(mutationsList, observer) {
   // Handle mutations
   console.log("callback", mutationsList, observer );  
@@ -189,7 +194,7 @@ function callback(mutationsList, observer) {
 }
 // Create a new MutationObserver instance
 const observer = new MutationObserver(callback);
-// Start observing the target elements
+/* Start observing the target elements
 function initToogleObservers(){
   console.log("init observers");
   // Configure the MutationObserver options
@@ -201,20 +206,25 @@ function initToogleObservers(){
     console.log("Observe Element: ", element);
   });
 };
+*/
 
 // Initialize and set up route change listener after the DOM is fully loaded
-  if (document.readyState === 'loading') {
+if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
-  initToogleObservers();
+  //initToogleObservers();
+  //
+  targetElements.forEach((element) => {
+    observer.observe(element, config);
+    console.log("Observe Element: ", element);
   });
-  } else {
+} else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
   console.log("DOMloaded init custom scripts");
   setupEmbeds();
   setupRouteChangeListenerForTooltips();
-  }
+}
 
 
   
