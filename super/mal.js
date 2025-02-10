@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.232
+// MAL super costome script v1.234
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -207,7 +207,7 @@ function scrollBack(cl){
 }
 
 function addObserverIfDesiredNodeAvailable() {
-    const elm = document.querySelector(".notion-toggle");    
+    const elm = document.getElementsByClassName(".notion-toggle.bg-blue");  
     
     if(!elm) {
         console.log("Add Observer", elm);
@@ -226,16 +226,6 @@ function addObserverIfDesiredNodeAvailable() {
 addObserverIfDesiredNodeAvailable();
 
 
-// fade in out portrait
-function dimPotrait() {
-  let num = window.scrollY / window.innerHeight;
-  let y = 0;
-  console.log("scroll", y);
 
-  if (num <= 1){
-    document.getElementById('portrait').style.opacity = 1-num;
-    y = (1-num)*1.5;
-  }
-}
 
 
