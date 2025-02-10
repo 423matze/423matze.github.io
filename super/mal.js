@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.243
+// MAL super costome script v1.244
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -217,7 +217,7 @@ function addTooglesToObserv() {
   console.log("Add Observer nodes", targets);
 
   targets.forEach((element) => {
-      observer.observe(element, config);
+      observer.observe(element, options);
   });
 };
 
