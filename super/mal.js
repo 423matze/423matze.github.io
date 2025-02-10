@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.251
+// MAL super costome script v1.252
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -182,10 +182,6 @@ function setupEmbeds() {
 let yPos = 0;
 // Create a new MutationObserver instance
 const observer = new MutationObserver(callback);
-// Configure the MutationObserver options
-const config = { attributes: true };
-// Select the target element(s)
-const targetElements = document.querySelectorAll(".notion-toggle");
 // Define the callback function to be executed on mutations
 function callback(mutationsList, observer) {
   // Handle mutations
@@ -206,8 +202,12 @@ function callback(mutationsList, observer) {
   }) 
 }
 // Start observing the target elements
-const initToogleObservers = () => {
+function initToogleObservers(){
   console.log("init observers");
+  // Configure the MutationObserver options
+  const config = { attributes: true };
+  // Select the target element(s)
+  const targetElements = document.querySelectorAll(".notion-toggle");
   targetElements.forEach((element) => {
     observer.observe(element, config);
     console.log("Observe Element: ", element);
