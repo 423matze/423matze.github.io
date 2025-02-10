@@ -1,11 +1,17 @@
 //
-// MAL super costome script v1.247
+// MAL super costome script v1.248
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
 const userKey = "user-preference";
 const mediaQueryList = window.matchMedia("(max-width: 546px)");
 const theme = { value: "dark"};
+//
+var yPos = 0;
+// Create a new MutationObserver instance
+const observer = new MutationObserver(callback);
+// Configure the MutationObserver options
+const config = { attributes: true };
 //const userPref = { value: "false"};
 
 // Setup on route change
@@ -179,53 +185,13 @@ function setupEmbeds() {
 // m423 check when toggle ist offen oder zu
 // when geschlossen scolle zu start position
 
-var yPos = 0;
-
-/*
-const options = {attributes: true};
-const observer = new MutationObserver(callback);
-
-//
-
-function callback(mutationList, observer) {
-  console.log("Callback", mutationList, observer );
-    mutationList.forEach((mutation) => {
-        console.log("toggle clicked");
-        scrollBack(mutation.target.className)
-    })    
-}
-
-function toggleToggle(cl){    
-    if(cl == "notion-toggle open bg-blue"){
-        yPos = window.scrollY;
-    }else{
-        window.scrollTo({
-            top: yPos,
-            left: 0,
-            behavior: "smooth",
-          });
-        yPos = 0;
-    }
-    console.log(cl + " - " + yPos);
-}
-*/
-
-
-// Create a new MutationObserver instance
-const observer = new MutationObserver(callback);
-
 // Define the callback function to be executed on mutations
 function callback(mutationsList, observer) {
   // Handle mutations
-  console.log("callback", mutationsList, observer );
-  mutationsList.forEach((mutation) => {
-    console.log("toggle clicked");
-    toggleToggle(mutation.target.className)
-  }) 
-}
-// Toogle Toggle
-function toggleToggle(target){    
-  if(target == "notion-toggle open bg-blue"){
+  console.log("callback", mutationsList, observer );  
+  mutationsList.forEach((mutation) => {    
+    //toggleToggle(mutation.target.className);
+    if(mutation.target.className) == "notion-toggle open bg-blue"){
       yPos = window.scrollY;
   }else{
       window.scrollTo({
@@ -236,11 +202,13 @@ function toggleToggle(target){
       yPos = 0;
   }
   console.log(target + " - " + yPos);
+  }) 
 }
-
-// Configure the MutationObserver options
-const config = { attributes: true };
-
+/* Toogle Toggle
+function toggleToggle(target){
+  console.log("toggle clicked");
+  
+}*/
 function initToogleObservers(){
   // Select the target element(s)
   const targetElements = document.querySelectorAll(".notion-toggle");
