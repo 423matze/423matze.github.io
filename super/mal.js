@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.22
+// MAL super costome script v1.23
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -40,7 +40,7 @@ function setupRouteChangeListenerForTooltips() {
   setupRouteChangeListenerForTooltips();
   }
 
-// Get Mode Settings
+// Get Dark / Light Mode Settings
 
 const getColorPreference = () => {
   
@@ -208,14 +208,17 @@ function scrollBack(cl){
 
 function addObserverIfDesiredNodeAvailable() {
     const elm = document.querySelector(".notion-toggle");
-    if(!elm) {
-        //The node we need does not exist yet.
-        //Wait 500ms and try again
-        window.setTimeout(addObserverIfDesiredNodeAvailable,500);
-        return;
-    }
-    observer.observe(elm, options);
-}
+    elm.forEach((element) => {
+      if(!element) {
+          //The node we need does not exist yet.
+          //Wait 500ms and try again
+          window.setTimeout(addObserverIfDesiredNodeAvailable,100);
+          return;
+      }
+      observer.observe(element, options);
+      console.log(element);
+    })
+  };
 
 addObserverIfDesiredNodeAvailable();
 
