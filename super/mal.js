@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.245
+// MAL super costome script v1.246
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -31,6 +31,7 @@ function setupRouteChangeListenerForTooltips() {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
+  initToogleObservers()
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
@@ -194,7 +195,7 @@ function callback(mutationList, observer) {
     })    
 }
 
-function scrollBack(cl){    
+function toggleToggle(cl){    
     if(cl == "notion-toggle open bg-blue"){
         yPos = window.scrollY;
     }else{
@@ -219,9 +220,22 @@ function callback(mutationsList, observer) {
   console.log("callback", mutationsList, observer );
   mutationsList.forEach((mutation) => {
     console.log("toggle clicked");
-    //scrollBack(mutation.target.className)
-})    
-
+    toggleToggle(mutation.target.className)
+  }) 
+}
+// Toogle Toggle
+function toggleToggle(target){    
+  if(target == "notion-toggle open bg-blue"){
+      yPos = window.scrollY;
+  }else{
+      window.scrollTo({
+          top: yPos,
+          left: 0,
+          behavior: "smooth",
+        });
+      yPos = 0;
+  }
+  console.log(target + " - " + yPos);
 }
 
 // Configure the MutationObserver options
@@ -230,10 +244,13 @@ const config = { attributes: true };
 // Select the target element(s)
 const targetElements = document.querySelectorAll(".notion-toggle");
 
-// Start observing the target elements
-targetElements.forEach((element) => {
-  observer.observe(element, config);
+function initToogleObservers(){
+  // Start observing the target elements
+  targetElements.forEach((element) => {
+    observer.observe(element, config);
+    console.log("Observe Element: ", element);
 });
+}
   
 
 
