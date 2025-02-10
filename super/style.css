@@ -1,4 +1,4 @@
-/* style 423 v.4.21 */
+/* style 423 v.4.22 */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
 
@@ -2374,7 +2374,9 @@ svg.sun-and-moon {
         row-gap: 1rem;
     }
 
-    .page__i-about .notion-column-list:nth-of-type(odd) {
+    /* 2 columns alternating image and text -----------------------*/
+
+    .page__i-about .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
     }
 
@@ -2385,6 +2387,28 @@ svg.sun-and-moon {
     .page__i-about .notion-column-list .notion-column:nth-child(2) {
         width: 100% !important;
     }
+
+    /* super embed hacks in case -----------------------------------------------------*/
+
+    .super-embed:has(.imgText-columns) ~ .notion-column-list:has( ~ .notion-column-list):nth-child(odd) {
+        flex-direction: column-reverse;
+    }
+
+     /* image super embed hacks images ---------------*/
+
+     .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width {
+        position: relative;
+        width: calc(100% + 24px) !important;
+        max-width: 100%;
+        left: -12px;
+        margin: 0 auto 2rem auto !important;
+    }
+
+    .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width>figcaption {
+        position: relative;
+        left: -12px;
+    }
+
 
     .notion-text.bg-purple {
         font-size: 1rem;
@@ -2405,21 +2429,7 @@ svg.sun-and-moon {
         max-width: 420px;
     }
 
-    /* image super embed hacks images ---------------*/
-
-    .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width {
-        position: relative;
-        width: calc(100% + 24px) !important;
-        max-width: 100%;
-        left: -12px;
-        margin: 0 auto 2rem auto !important;
-    }
-
-    .super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width>figcaption {
-        position: relative;
-        left: -12px;
-    }
-
+   
     /* my super menu backdrop mobile ----------------*/
 
     .backdrop {
