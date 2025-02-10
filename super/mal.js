@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.235
+// MAL super costome script v1.236
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -31,7 +31,6 @@ function setupRouteChangeListenerForTooltips() {
   document.addEventListener('DOMContentLoaded', () => {
   console.log("Route change init custom scripts");
   setupEmbeds();
-  window.addEventListener('scroll', dimPotrait);
   });
   } else {
   // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
