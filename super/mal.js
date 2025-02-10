@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.258
+// MAL super costome script v1.259
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -27,19 +27,7 @@ function setupRouteChangeListenerForTooltips() {
   }
   }
   
-  // Initialize and set up route change listener after the DOM is fully loaded
-  if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-  console.log("Route change init custom scripts");
-  setupEmbeds();
-  initToogleObservers();
-  });
-  } else {
-  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
-  console.log("DOMloaded init custom scripts");
-  setupEmbeds();
-  setupRouteChangeListenerForTooltips();
-  }
+  
 
 // Get Dark / Light Mode Settings
 
@@ -213,8 +201,20 @@ function initToogleObservers(){
     console.log("Observe Element: ", element);
   });
 };
-// init toggles
-initToogleObservers();
+
+// Initialize and set up route change listener after the DOM is fully loaded
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+  console.log("Route change init custom scripts");
+  setupEmbeds();
+  initToogleObservers();
+  });
+  } else {
+  // If the DOMContentLoaded event has already fired, run the function directly and set up the listener
+  console.log("DOMloaded init custom scripts");
+  setupEmbeds();
+  setupRouteChangeListenerForTooltips();
+  }
 
 
   
