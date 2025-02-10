@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.256
+// MAL super costome script v1.257
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -196,7 +196,7 @@ function callback(mutationsList, observer) {
         });
       yPos = 0;
     }
-  console.log(target + " - " + yPos);
+  console.log(mutation.target.className + " - " + yPos);
   }) 
 }
 // Create a new MutationObserver instance
