@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.238
+// MAL super costome script v1.239
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -214,17 +214,15 @@ function addObserverIfDesiredNodeAvailable() {
         return;
     }
     console.log("Add Observer", elm);
-    observer.observe(elm, options);
+    elm.forEach((i) => {
+      if (i) {
+          observer.observe(i);
+      }
+    });
     
 };
 
 addObserverIfDesiredNodeAvailable();
-
-
-
-
-
-
 
 
 
