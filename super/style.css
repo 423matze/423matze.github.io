@@ -1,4 +1,4 @@
-/* style 423 v.4.222 */
+/* style 423 v.4.223 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -326,6 +326,7 @@ h3.notion-heading:not(.toggle) {
 .notion-text__content:has(+.notion-heading__anchor+h2) {
     position: relative;
     font-size: var(--heading2-size) !important;
+    line-height: 123% !important;
     left: -1px;
     padding-bottom: 0.8rem !important;
     color: var(--link-text);
