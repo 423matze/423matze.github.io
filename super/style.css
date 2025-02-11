@@ -1,4 +1,4 @@
-/* style 423 v.4.223 */
+/* style 423 v.4.224 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1397,6 +1397,8 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 /* Galleries & Collection Cards */
 
+/* Gallery Large -----------------------*/
+
 .notion-collection-gallery {
     display: grid;
     grid-auto-rows: 1fr;
@@ -1434,6 +1436,18 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     box-shadow: 0px 24px 16px 0px rgba(0, 0, 0, 0.05) !important;
     -webkit-box-shadow: 1px 17px 23px 0px rgba(0, 0, 0, 0.05) !important;
     -moz-box-shadow: 1px 17px 23px 0px rgba(0, 0, 0, 0.05) !important;
+}
+
+.notion-collection-card__cover.large {
+    height: 24rem !important;
+    min-height: 348px !important;
+}
+
+@media(max-width: 880px) {
+    .notion-collection-card__cover.large {
+        height: calc(100vw - 48px) !important;
+        min-height: unset !important;
+    }
 }
 
 .notion-collection-card img {
@@ -1495,29 +1509,38 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 
-/* cover sizes */
+/* Gallery smal ---------------------------------------*/
 
-.notion-collection-card__cover.large {
-    height: 24rem !important;
-    min-height: 20rem !important;
-}
-
-.notion-collection-card__cover.medium {
-    height: 16rem !important;
-    max-height: 12rem !important;
+.notion-collection-gallery.small {
+    grid-template-columns: auto auto auto auto auto !important;
+    grid-auto-rows: max-content;
 }
 
 .notion-collection-card__cover.small {
-    height: 19rem !important;
+    min-height:  230px !important;
+    max-height:  240px !important;
 }
 
-@media(max-width: 880px) {
-    .notion-collection-card__cover.large {
-        height: calc(100vw - 48px) !important;
-        min-height: unset !important;
+.notion-collection-gallery.small .notion-collection-card .notion-property__title {
+    padding: 0 0 0.1rem 0 !important;
+    font-size: var( --body-font-size) !important;
+    line-height: 130% !important;
+}
+
+@media(max-width: 546px){
+    .notion-collection-gallery.small {
+    grid-template-columns: auto auto !important;
+
     }
 }
 
+
+/* other cover sizes */
+
+.notion-collection-card__cover.medium {
+    height: 16rem !important;
+    max-height: 256px !important;
+}
 
 /* boards */
 
