@@ -1,4 +1,4 @@
-/* style 423 v.4.30 */
+/* style 423 v.4.31 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -30,7 +30,7 @@ html.theme-light {
 }
 
 html.theme-dark {
-    --text-weight: 280 !important;
+    --text-weight: 240 !important;
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
     --color-card-bg-hover: #353532 !important;
@@ -53,11 +53,13 @@ html.theme-dark {
     --secondary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
     --body-font-size: 1.42rem !important;
     --body-font-letterspacing: 0.123rem !important;
-    --text-weight: 230 !important;
+    --text-weight: 240 !important;
+
     --heading-weight: 800 !important;
     --heading1-size: calc(var(--body-font-size) * 1.875) !important;
     --heading2-size: calc(var(--body-font-size) * 1.5) !important;
     --heading3-size: calc(var(--body-font-size) * 1.25) !important;
+
     /* Colors */
     --color-text-default: #F0EEEF !important;
     --color-card-bg: var(--color-bg-defaul) !important;
@@ -97,6 +99,13 @@ html.theme-dark {
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
 }
+
+@media(max-width: 546px){
+
+    :root {
+        --body-font-size: 1.123rem !important; 
+    }
+}       
 
 
 /* 
@@ -290,7 +299,7 @@ h3 {
     font-weight: 600 !important;
 }
 
-@media screen and (max-width: 880px) {
+@media(max-width: 880px) {
      :root {
         --body-font-size: 1.23rem !important;
     }
@@ -309,6 +318,7 @@ h2.notion-heading:not(.toggle) {
 }
 
 h3.notion-heading:not(.toggle) {
+    margin-top: 0 !important;
     margin-bottom: 1rem !important;
     transform: translateX(1px);
 }
@@ -331,7 +341,7 @@ h3.notion-heading:not(.toggle) {
 
 .notion-text__content:has(+.notion-heading__anchor+h3) {
     position: relative;
-    font-size: var(--heading2-size) !important;
+    font-size: var(--heading3-size) !important;
     left: -1px;
     padding-bottom: 0rem !important;
     color: var(--link-text);
@@ -1396,6 +1406,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 /* Gallery Large -----------------------*/
 
+/* HOME */
+
+.page__index .notion-collection-gallery.large {
+    grid-template-columns: auto auto !important;
+}
+
 .notion-collection-gallery {
     display: grid;
     grid-auto-rows: 1fr;
@@ -1407,7 +1423,8 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 }
 
 @media (max-width: 880px) {
-    .notion-collection-gallery {
+    .notion-collection-gallery.large,
+    page__index .notion-collection-gallery.large {
         grid-auto-rows: auto;
     }
 }
@@ -2006,8 +2023,8 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     width: 100%;
     max-width: var(--content-max-desktop);
     margin: auto !important;
-    -webkit-padding-start: 1em !important;
-    padding-inline-start: 1em !important;
+    -webkit-padding-start: 24px !important;
+    padding-inline-start: 24px !important;
     line-height: 1.5em;
 }
 
@@ -2141,9 +2158,6 @@ svg.sun-and-moon {
         padding-left: var(--padding-left-tablet) !important;
         padding-right: var(--padding-right-tablet) !important;
     }
-    h1 {
-        font-size: 2rem !important;
-    }
     .notion-divider {
         margin: 2rem 0 !important;
     }
@@ -2211,12 +2225,7 @@ svg.sun-and-moon {
     .notion-root.max-width {
         padding-left: 0px;
         padding-right: 0px;
-    }
-
-    /* Mobile font size -----------------------------------*/
-    body { 
-        font-size: 1rem !important;
-    }
+    } 
     .super-content {
         width: 100vw !important;
         padding-top: 2rem !important;
