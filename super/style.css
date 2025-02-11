@@ -1,4 +1,4 @@
-/* style 423 v.4.221 */
+/* style 423 v.4.222 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -751,9 +751,16 @@ li.my-contacts {
 
 /* Disclamer --------------------------------- */
 
+
 .notion-callout.bg-yellow-light {
     height: auto;
     max-width: 860px;
+    font-size: .8rem !important;
+    text-align: center;
+}
+
+.notion-callout.bg-yellow-light p {
+    padding-bottom: 0 !important;
 }
 
 
@@ -2176,8 +2183,10 @@ svg.sun-and-moon {
         padding-left: 0px;
         padding-right: 0px;
     }
-    body {
-        font-size: 1.123rem !important;
+
+    /* Mobile font size -----------------------------------*/
+    body { 
+        font-size: 1rem !important;
     }
     .super-content {
         width: 100vw !important;
@@ -2256,7 +2265,10 @@ svg.sun-and-moon {
         margin-left: 0px;
         margin-right: 0px;
     }
-    /* Column Bild Text auf spezifischer Seite */
+    .notion-column:has(p){
+        margin: 1rem 0 0 0 !important
+    }
+    /* Column BildText auf spezifischer Seite */
     /* projects --------------------------------*/
     .notion-dropdown__menu.animate-out,
     .notion-dropdown__menu.initial-state {
