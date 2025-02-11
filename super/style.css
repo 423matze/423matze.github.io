@@ -1,4 +1,4 @@
-/* style 423 v.4.224 */
+/* style 423 v.4.225 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1530,7 +1530,12 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 @media(max-width: 546px){
     .notion-collection-gallery.small {
     grid-template-columns: auto auto !important;
+    gap: 20 !important;
 
+    }
+    .notion-collection-card__cover.small {
+        min-height: calc(100vw / 2 - 24px) !important;
+        max-height: 240px !important;
     }
 }
 
@@ -2216,8 +2221,8 @@ svg.sun-and-moon {
         width: 100vw !important;
         padding-top: 2rem !important;
         padding-bottom: 12vh;
-        padding-left: 24px !important;
-        padding-right: 24px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
     /* -- page specific -- */
     .super-content.page__index {
