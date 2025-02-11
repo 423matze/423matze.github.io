@@ -1,4 +1,4 @@
-/* style 423 v.4.32 */
+/* style 423 v.4.33 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1424,7 +1424,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 @media (max-width: 880px) {
     .notion-collection-gallery.large,
-    page__index .notion-collection-gallery.large {
+    .page__index .notion-collection-gallery.large {
         grid-auto-rows: auto;
     }
 }
@@ -1513,13 +1513,15 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
     justify-content: center;
     align-items: center;
     height: var(--pill-height) !important;
-    max-width: calc(100% - 10px) !important;
+    max-width: calc(100%) !important;
     padding: 0 calc(var(--pill-height) / 2) !important;
     border-radius: calc(var(--pill-height) / 2) !important;
     font-size: 1rem;
     font-weight: 500;
-    line-height: 1.125rem;
+    line-height: 1.125rem;    
+    overflow: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 
@@ -1544,7 +1546,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 @media(max-width: 546px){
     .notion-collection-gallery.small {
         grid-template-columns: auto auto !important;
-        gap: 18 !important;
+        gap: 18px !important;
 
     }
     .notion-collection-card__cover.small {
