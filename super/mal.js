@@ -213,11 +213,11 @@ if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', () => {
 
-    console.log("Route change init custom scripts");
-    setupEmbeds();
-    setTimeout(() => {
-      initToogleObservers();
-    }, 2000)
+      console.log("Route change init custom scripts");
+      setupEmbeds();
+      setTimeout(() => {
+        initToogleObservers();
+      }, 8000)
     
     
   })
@@ -226,4 +226,7 @@ if (document.readyState === 'loading') {
     console.log("DOMloaded init custom scripts");
     setupEmbeds();
     setupRouteChangeListenerForTooltips();
+  setTimeout(() => {  
+        initToogleObservers();
+      }, 8000)
 }
