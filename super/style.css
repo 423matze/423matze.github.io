@@ -1,4 +1,4 @@
-/* style 423 v.4.33 */
+/* style 423 v.4.34 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1509,16 +1509,14 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 
 .notion-pill {
     --pill-height: 2.3rem;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+    display: block;
     height: var(--pill-height) !important;
     max-width: calc(100%) !important;
     padding: 0 calc(var(--pill-height) / 2) !important;
     border-radius: calc(var(--pill-height) / 2) !important;
     font-size: 1rem;
     font-weight: 500;
-    line-height: 1.125rem;    
+    line-height: var(--pill-height);    
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
