@@ -1,4 +1,4 @@
-/* style 423 v.4.34 */
+/* style 423 v.4.35 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1425,6 +1425,7 @@ div#block-45841df76bdc46a9b1702a9ac03add65 .notion-image {
 @media (max-width: 880px) {
     .notion-collection-gallery.large,
     .page__index .notion-collection-gallery.large {
+        grid-template-columns: auto !important;
         grid-auto-rows: auto;
     }
 }
