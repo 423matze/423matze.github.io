@@ -1,13 +1,7 @@
-/* style 423 v.4.38 */
+/* style 423 v.4.40 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
-@supports (font: -apple-system-body) {
-    html {
-        font: -apple-system-body !important;
-    }
-}
-
 
 /* root variables */
 
@@ -98,6 +92,12 @@ html.theme-dark {
     /* -- about potrait --*/
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
+}
+
+@supports (font: -apple-system-body) {
+    html {
+        font: -apple-system-body !important;
+    }
 }
 
 @media(max-width: 546px){
@@ -374,7 +374,7 @@ h3.notion-heading:not(.toggle) {
     background-size: 200% auto;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
-    -webkit-text-stroke: .423px var(--link-text);
+    -webkit-text-stroke: .423px solid var(--link-text);
     animation: animatedHeadline 42.3s ease-in-out infinite;    
 }
 
