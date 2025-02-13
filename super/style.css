@@ -1,4 +1,4 @@
-/* style 423 v.4.41 */
+/* style 423 v.4.42 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -375,20 +375,20 @@ h3.notion-heading:not(.toggle) {
     -webkit-text-fill-color: transparent !important;
     -webkit-background-clip: text;
     -webkit-text-stroke: var(--link-text);
-    -webkit-text-stroke-width: 0.42px;
-    animation: animatedHeadline 42.3sease-in-out infinite;  
+    -webkit-text-stroke-width: .42px;
+    animation: animatedHeadline 42.3s ease-in-out 23s infinite alternate;
 }
 
 @media(max-width: 546px) {
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
         font-size: 96px !important;
-        line-height: 33%
+        line-height: 33%;
     }
     .page__projects h1.notion-heading strong,
     .page__i-about h1.notion-heading strong {
         font-size: 83px !important;
-        line-height: 33%
+        line-height: 33%;
     }
 }
 
