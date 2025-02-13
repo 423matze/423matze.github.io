@@ -1,4 +1,4 @@
-/* style 423 v.4.40 */
+/* style 423 v.4.41 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -353,29 +353,30 @@ h3.notion-heading:not(.toggle) {
 .page__projects h1.notion-heading {
     transform: translateX(-6px);
     mix-blend-mode: var(--blend-mode) !important;
-    color: var(--color-bg-default);
+    color: transparent !important;
 }
 
 .page__i-about h1.notion-heading strong,
 .page__think h1.notion-heading strong,
 .page__projects h1.notion-heading strong,
 .page__index h1.notion-heading strong {
-    font-size: 8.42rem !important;
+    font-size: 9rem !important;
     font-weight: 900;
     line-height: 33%;
-    letter-spacing: -.0123em !important;
+    letter-spacing: -.023em !important;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
     color: transparent;
-    background: radial-gradient(circle at 50%, var(--link-text) 10%, var(--color-bg-default) 42%), var(--link-text) 100%;
+    background: radial-gradient(circle at 50%, rgba(0, 226, 171, 1) 10%, rgba(0, 0, 0, 0) 42%, rgba(25, 25, 24, 0.42) 60%, rgba(0, 226, 171, 1) 100%);
     background-clip: text;
     background-size: 200% auto;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent !important;
     -webkit-background-clip: text;
-    -webkit-text-stroke: .423px solid var(--link-text);
-    animation: animatedHeadline 42.3s ease-in-out infinite;    
+    -webkit-text-stroke: var(--link-text);
+    -webkit-text-stroke-width: 0.42px;
+    animation: animatedHeadline 42.3sease-in-out infinite;  
 }
 
 @media(max-width: 546px) {
