@@ -1,4 +1,4 @@
-/* style 423 v.4.42 */
+/* style 423 v.4.421 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -376,7 +376,7 @@ h3.notion-heading:not(.toggle) {
     -webkit-background-clip: text;
     -webkit-text-stroke: var(--link-text);
     -webkit-text-stroke-width: .42px;
-    animation: animatedHeadline 42.3s ease-in-out 23s infinite alternate;
+    animation: animatedHeadline 42.3s ease-in-out infinite alternate;
 }
 
 @media(max-width: 546px) {
