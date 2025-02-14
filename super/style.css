@@ -1,4 +1,4 @@
-/* style 423 v.R 1.3 */
+/* style 423 v.R 1.5 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1058,129 +1058,7 @@ p {
 }
 
 
-/* -- EXPANDS TOGGLE CASE SECTION (bg-blue) -- */
 
-.notion-toggle.bg-blue {
-    position: relative;
-    max-width: 100%;
-    min-height: 7rem;
-    margin: 1rem 0 3rem 0 !important;
-    padding: 0px;
-    background-color: transparent;
-}
-
-.notion-toggle.bg-blue.closed::before {
-    content: "" !important;
-}
-
-.notion-toggle.bg-blue.open::before {
-    content: "" !important;
-}
-
-.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
-    display: block;
-    position: absolute;
-    width: 100%;
-    bottom: 0rem;
-    padding-bottom: 1rem;
-    color: var(--cta-background);
-    content: '+ read more about how we tackle the challenge';
-    border-bottom: 1px var(--cta-background) solid;
-}
-
-.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
-    display: block;
-    position: absolute;
-    width: 100%;
-    bottom: 0rem;
-    margin: 42px auto 0 auto;
-    padding-bottom: 1rem;
-    color: var(--cta-background);
-    content: '- Close the insights';
-    border-bottom: 1px var(--cta-background) solid;
-    pointer-events: none;
-}
-
-.notion-toggle.bg-blue .notion-toggle__summary {
-    display: block;
-    height: auto;
-    margin: auto;
-    width: 100%;
-    max-width: var(--content-max-desktop);
-    font-weight: 230 !important;
-    padding-bottom: 4rem;
-}
-
-.page__i-about .notion-toggle.bg-blue .notion-toggle__summary {
-    padding-bottom: 0 !important;
-}
-
-.notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
-    font-size: var(--heading3-size) !important;
-    font-weight: 700 !important;
-    line-height: 123%;
-    
-}
-
-.notion-toggle.bg-blue .notion-toggle__content {
-    cursor: default;
-    padding-bottom: 6rem;
-}
-
-
-/* Funtional Setup */
-
-.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    display: block !important;
-    position: absolute;
-    width: auto;
-}
-
-.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    height: 100%;
-    width: var(--content-max-desktop);
-    background: transparent;
-}
-
-.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    width: var(--content-max-desktop);
-    height: 100%;
-    background: linear-gradient(180deg, transparent 10%, var(--color-bg-default) 80%);
-}
-
-.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-    width: 100%;
-    max-width: var(--content-max-desktop);
-    height: 100%;
-    margin: 0 !important;
-}
-
-.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
-    display: none;
-}
-
-.notion-toggle__summary>span.notion-semantic-string {
-    margin: 0px;
-}
-
-@media(max-width:546px){
-
-    .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(180deg, transparent 10%, var(--color-bg-default) 80%);
-    }
-    .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
-        display: block;
-        position: absolute;
-        width: 100%;
-        bottom: 0rem;
-        padding-bottom: 1rem;
-        color: var(--cta-background);
-        content: '+ read more';
-        border-bottom: 1px var(--cta-background) solid;
-    }
-}
 
 
 
@@ -2274,6 +2152,7 @@ svg.sun-and-moon {
 .notion-heading.notion-semantic-string,
 .notion-text__content.notion-semantic-string,
 .notion-bulleted-list,
+.notion-toggle,
 .notion-quote{
     display: block;
     width: 100%;
@@ -2558,7 +2437,7 @@ blockquote {
     }
 }
 
-/* NOTION COLLECTIONS (Galleries)-----------------------------------------*/
+/* NOTION COLLECTIONS (Galleries) MY PROJECTS --------------------------------*/
 
 .notion-collection.inline{
     width: calc(100% - var(--m423-radius)) !important;
@@ -2675,7 +2554,7 @@ blockquote {
     width: 98%!important;
     max-width: unset;
     margin: auto;
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .notion-text.bg-purple p.notion-text__content {
@@ -2694,7 +2573,7 @@ blockquote {
     width: 100%!important;
     max-width: unset;
     margin: auto;
-    background-color: #4caf500f;
+    background-color: transparent !important;
 }
 
 .notion-text.bg-yellow p.notion-text__content {
@@ -2712,7 +2591,7 @@ blockquote {
     width: 98%!important;
     max-width: unset;
     margin: auto;
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .notion-text.bg-blue p.notion-text__content {
@@ -2859,6 +2738,134 @@ blockquote {
 
 /* NOTION TOGGLE ----------------------------------------------*/
 
+/* -- EXPANDS TOGGLE CASE SECTION (bg-blue) -- */
+
+.notion-toggle.bg-blue {
+    position: relative;
+    max-width: 100%;
+    min-height: 7rem;
+    margin: 1rem auto 3rem auto !important;
+    padding: 0px;
+    background-color: transparent;
+}
+
+/* normalize content */
+.notion-toggle__content .notion-text__content.notion-semantic-string {
+    padding: 0 !important
+}
+
+.notion-toggle.bg-blue.closed::before {
+    content: "" !important;
+}
+
+.notion-toggle.bg-blue.open::before {
+    content: "" !important;
+}
+
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0rem;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    content: '+ read more about how we tackle the challenge';
+    border-bottom: 1px var(--cta-background) solid;
+}
+
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0rem;
+    margin: 42px auto 0 auto;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    content: '- Close the insights';
+    border-bottom: 1px var(--cta-background) solid;
+    pointer-events: none;
+}
+
+.notion-toggle.bg-blue .notion-toggle__summary {
+    display: block;
+    height: auto;
+    margin: auto;
+    width: 100%;
+    max-width: var(--content-max-desktop);
+    font-weight: 230 !important;
+    padding-bottom: 4rem;
+}
+
+.page__i-about .notion-toggle.bg-blue .notion-toggle__summary {
+    padding-bottom: 0 !important;
+}
+
+.notion-toggle.bg-blue .notion-toggle__summary .notion-semantic-string strong {
+    font-size: var(--heading3-size) !important;
+    font-weight: 700 !important;
+    line-height: 123%;
+    
+}
+
+.notion-toggle.bg-blue .notion-toggle__content {
+    cursor: default;
+    padding-bottom: 6rem;
+}
+
+
+/* Funtional Setup */
+
+.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    display: block !important;
+    position: absolute;
+    width: auto;
+}
+
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    height: 100%;
+    width: calc(100%-40px);
+    max-width: var(--content-max-desktop);
+    margin: 0 !important;
+    background: transparent;
+}
+
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+    width: var(--content-max-desktop);
+    height: 100%;
+    background: linear-gradient(180deg, transparent 10%, var(--color-bg-default) 80%);
+}
+
+
+
+.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger .notion-toggle__trigger_icon {
+    display: none;
+}
+
+.notion-toggle__summary>span.notion-semantic-string {
+    margin: 0px;
+}
+
+@media(max-width:546px){
+
+    .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, transparent 10%, var(--color-bg-default) 80%);
+    }
+    .notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+        display: block;
+        position: absolute;
+        width: 100%;
+        bottom: 0rem;
+        padding-bottom: 1rem;
+        color: var(--cta-background);
+        content: '+ read more';
+        border-bottom: 1px var(--cta-background) solid;
+    }
+}
+
+
+
 /* NOTION CALLOUTS --------------------------------------------*/
 
 /* CALLOUT color-default - Project Outline */
@@ -2888,6 +2895,18 @@ div.notion-image:nth-child(5) {
     width: calc(100% - var(--padding-desktop)*2) !important;
     max-width: calc(var(--m423-width) - var(--m423-radius)*2);
     margin: 0 auto;
+}
+
+.notion-column .notion-image.page-width {
+    width: 100% !important
+}
+
+@media (max-width:546px) {
+
+    .notion-image.page-width,
+    .notion-column .notion-image.page-width {
+        width: calc(100% - var(--padding-mob) * 2) !important
+    }    
 }
 
 
