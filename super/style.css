@@ -1,4 +1,4 @@
-/* style 423 v.R 1.0 */
+/* style 423 v.R 1.1 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -35,7 +35,7 @@
     /* Shapes */
     --content-xl: 1440px;
     --content-lg: 1440px;
-    --content-md: 800px;
+    --content-md: 840px;
     --content-sm: 500px;
     --column-spacing: 2em !important;
     --m423-radius: 23px !important;
@@ -157,20 +157,7 @@ div#block-98667ca7aebf4dfdb339cd7c0a9d84e6 {
 
 /* -------- BW responsive images --------- */
 
-.page__index .notion-callout.bg-gray-light .notion-image {
-    width: 8rem;
-    margin: auto;
-    padding: 0;
-}
 
-@media(max-width:546px) {
-    .page__index .notion-callout.bg-gray-light .notion-image {
-        width: 6rem;
-    }
-    .page__index .notion-column-list:has(.bg-gray-light) .notion-column {
-        margin-bottom: 2rem !important;
-    }
-}
 
 .page__index .notion-column>.notion-heading {
     margin: 0 !important;
@@ -2686,7 +2673,7 @@ blockquote {
 /* FEATURED Cases (home) */
 
 .page__index .notion-collection-gallery.large {
-    grid-template-columns: auto auto !important;
+    grid-template-columns: auto auto;
 }
 
 
@@ -2938,8 +2925,30 @@ div.notion-image:nth-child(5) {
 }
 
 .notion-column {
-    width: 100% !important;
+   /*  width: 100% !important; */
     padding: 0 !important;
+}
+
+/* Home deliveries */
+
+.page__index .notion-column-list:has(.notion-bulleted-list ) {
+    /* background-color: red ; */
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 1fr;
+    
+    padding: 2rem var(--m423-radius) 0 var(--m423-radius) !important;
+    max-width: var(--content-md) !important;
+    margin: 0 auto !important;
+}
+
+@media screen and (max-width: 546px) {
+    .page__index .notion-column-list:has(.notion-bulleted-list ) {
+        grid-template-columns: auto;
+    
+}
+
 }
 
 /* Logo desert */
@@ -2962,9 +2971,17 @@ div.notion-image:nth-child(5) {
 }
 
 @media screen and (max-width: 546px) {
-    .page__index .notion-text.bg-gray .notion-column-list .notion-column {
+    .page__index .notion-column-list .bg-gray-light .notion-image.page-width {
+        width: 6rem;
+    }
+    .page__index .notion-column-list:has(.bg-gray-light) .notion-column {
+        margin-bottom: 2rem !important;
+    }
+
+    .page__index .notion-text.bg-gray .notion-column-list {
         margin: 0px !important;
         width: 100% !important;
+        padding: 0 20px 0 20px !important;
     }
 }
 
@@ -2980,17 +2997,25 @@ div.notion-image:nth-child(5) {
     margin-bottom: 6rem;
 }
 
-.page__index .notion-column-list:has(.notion-bulleted-list ) {
-    /* background-color: red ; */
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 1fr;
-    
-    padding: 2rem var(--m423-radius) 0 var(--m423-radius) !important;
-    max-width: var(--content-md) !important;
-    margin: 0 auto !important;
+.page__index .notion-column-list .bg-gray-light .notion-image.page-width {
+    width: 8rem !important;!i;!;
+    margin: auto;
+    padding: 0 0 2rem 0;
 }
+
+@media(max-width:546px) {
+    .page__index .notion-column-list .bg-gray-light .notion-image.page-width {
+        width: 6rem;
+    }
+    .page__index .notion-column-list:has(.bg-gray-light) .notion-column {
+        margin-bottom: 2rem !important;
+    }
+}
+
+
+
+
+
 
 
 
