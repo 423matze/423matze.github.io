@@ -1,4 +1,4 @@
-/* style 423 v.R 2.2 */
+/* style 423 v.R 2.4 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1917,11 +1917,11 @@ h3.notion-heading:not(.toggle) {
     line-height: 1.23em !important;
 }
 
-/* Hedline Comps -----------*/
+/* MY HEADLINE COMPS -----------*/
 
 .notion-text__content:has(+.notion-heading__anchor+h2) {
     position: relative;
-    font-size: var(--heading2-size) !important;
+    font-size: calc(var(--heading2-size) - .023rem) !important;
     line-height: 123% !important;
     left: -1px;
     padding-bottom: 0.8rem !important;
@@ -1930,7 +1930,7 @@ h3.notion-heading:not(.toggle) {
 
 .notion-text__content:has(+.notion-heading__anchor+h3) {
     position: relative;
-    font-size: var(--heading3-size) !important;
+    font-size: calc(var(--heading3-size) - .023rem) !important;
     left: -1px;
     padding-bottom: 0rem !important;
     color: var(--link-text);
@@ -2119,7 +2119,7 @@ blockquote {
     }
 }
 
-/* NOTION COLLECTIONS (Galleries) MY PROJECTS --------------------------------*/
+/* NOTION MY COLLECTIONS ( MY GALLERIES ) MY PROJECTS --------------------------------*/
 
 .notion-collection.inline{
     width: calc(100% - var(--m423-radius) * 2) !important;
@@ -2238,7 +2238,7 @@ blockquote {
 }
 
 
-/* COLLECTION HACKS */
+/* MY PROJECTS COLLECTION HACKS */
 
 /* BG PURPEL gallery 4s */
 .notion-text.bg-purple {
@@ -2246,11 +2246,6 @@ blockquote {
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
-}
-
-.notion-text.bg-purple p.notion-text__content {
-    color: var(--link-text);
-    font-size: var(--heading2-size);
 }
 
 .notion-text.bg-purple .notion-collection-gallery.large {
@@ -2267,10 +2262,6 @@ blockquote {
     background-color: transparent !important;
 }
 
-.notion-text.bg-yellow p.notion-text__content {
-    color: var(--link-text);
-    font-size: var(--heading2-size);
-}
 
 .notion-text.bg-yellow .notion-collection-gallery.large {
     grid-template-columns: auto auto;
@@ -2285,14 +2276,19 @@ blockquote {
     background-color: transparent !important;
 }
 
-.notion-text.bg-blue p.notion-text__content {
-    color: var(--link-text);
-    font-size: var(--heading2-size);
-}
-
 .notion-text.bg-blue .notion-collection-gallery.large {
     grid-template-columns: auto auto auto;
     grid-auto-rows: max-content;
+}
+
+/* GALLERY GLOBALS */
+
+.notion-text.bg-blue p.notion-text__content,
+.notion-text.bg-yellow p.notion-text__content,
+.notion-text.bg-purple p.notion-text__content {
+    color: var(--link-text);
+    font-size: calc(var(--heading2-size) - .023rem);
+    padding-bottom: 0.8rem !important;
 }
 
 @media (max-width:880px){
@@ -2426,13 +2422,6 @@ blockquote {
 }
 
 /* notion-property notion-property__title notion-collection-card__property notion-semantic-string */
-
-
-
-
-
-
-
 
 
 /* NOTION MY TOGGLES ----------------------------------------------*/
@@ -2994,16 +2983,6 @@ img {
 .super-embed:has(.next-footer)+.notion-column-list .notion-text__content {
     margin-bottom: 0.66rem !important;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /* NOTION MY BULLETED LIST ---------------------------------------*/
