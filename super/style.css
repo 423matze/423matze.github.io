@@ -1,4 +1,4 @@
-/* style 423 v.R 2.1 */
+/* style 423 v.R 2.2 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -377,11 +377,6 @@ h3.notion-heading:not(.toggle) {
     min-height: auto;
 }
 
-.notion-text.bg-purple {
-    font-size: 1.23rem;
-    line-height: 144% !important;
-}
-
 .notion-semantic-string {
     line-height: 142% !important;
     white-space: normal;
@@ -588,49 +583,7 @@ li.my-contacts {
 }
 
 
-/* Disclamer --------------------------------- */
 
-
-.notion-callout.bg-yellow-light {
-    height: auto;
-    max-width: 860px;
-    font-size: .8rem !important;
-    text-align: center;
-}
-
-.notion-callout.bg-yellow-light p {
-    padding-bottom: 0 !important;
-}
-
-
-/* Painspoints and Insights -------------------------------------- */
-
-.notion-callout.bg-blue-light, 
-.notion-callout.bg-purple-light{
-    height: -webkit-fill-available;
-}
-
-.notion-callout.bg-pink-light {
-    min-width: 240px;
-    width: 100%;
-    max-width: 420px;
-}
-
-.highlighted-background.bg-brown {
-    display: inline-block !important;
-    padding: 0px !important;
-    border: none !important;
-    opacity: 1 !important;
-    border-radius: 0px !important;
-    background-color: transparent !important;
-    cursor: default;
-}
-
-.highlighted-background.bg-brown a {
-    background-color: transparent;
-    color: var(--color-text-default) !important;
-    font-weight: 500;
-}
 
 
 /* STYLES */
@@ -1679,11 +1632,7 @@ svg.sun-and-moon {
         position: relative;
         left: -12px;
     }
-    .notion-text.bg-purple {
-        font-size: 1rem;
-        line-height: 92% !important;
-    }
-    
+      
     .notion-callout.bg-pink-light {
         min-width: 240px;
         width: 90%;
@@ -2293,7 +2242,7 @@ blockquote {
 
 /* BG PURPEL gallery 4s */
 .notion-text.bg-purple {
-    width: 98%!important;
+    width: 100% !important;
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
@@ -2330,7 +2279,7 @@ blockquote {
 
 /* BG BLUE gallery 3s */
 .notion-text.bg-blue {
-    width: 98%!important;
+    width: 100% !important;
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
@@ -2344,6 +2293,14 @@ blockquote {
 .notion-text.bg-blue .notion-collection-gallery.large {
     grid-template-columns: auto auto auto;
     grid-auto-rows: max-content;
+}
+
+@media (max-width:880px){
+    .notion-text.bg-blue .notion-collection.inline,
+    .notion-text.bg-yellow .notion-collection.inline,
+    .notion-text.bg-purple .notion-collection.inline {
+        width: calc(100% - var(--m423-radius) * 2) !important
+    }
 }
 
 /* cards */
@@ -2496,7 +2453,8 @@ blockquote {
 }
 
 
-/* normalize content */
+/* NORMALIZE CONTENT */
+.notion-toggle__content .notion-heading.notion-semantic-string,
 .notion-toggle__content .notion-text__content.notion-semantic-string {
     padding: 0 !important
 }
@@ -2648,7 +2606,7 @@ blockquote {
 
 
 
-/* NOTION CALLOUTS --------------------------------------------*/
+/* NOTION MY CALLOUTS --------------------------------------------*/
 
 /* CALLOUT color-default - Project Outline */
 
@@ -2657,11 +2615,12 @@ blockquote {
 .notion-callout.bg-orange-light,
 .notion-callout.bg-yellow-light,
 .notion-callout.bg-green-light,
-.notion-callout.bg-blue-light,
-.notion-callout.bg-purple-light,
+/* .notion-callout.bg-blue-light, */
+/* .notion-callout.bg-purple-light, */
 .notion-callout.bg-pink-light,
 .notion-callout.bg-red-light {
-    border: none !important;
+    background-color: transparent !important;
+    border: 0 !important;
 }
 
 .notion-callout {
@@ -2672,8 +2631,7 @@ blockquote {
     margin-bottom: 1em !important;
     text-align: left;
     padding: calc(var(--m423-radius));
-    background-color: transparent !important;
-    border: 0 !important;
+    
 }
 
 .notion-callout__icon {
@@ -2701,6 +2659,8 @@ blockquote {
     padding: 0 !important;
 }
 
+
+
 /* OUTLINE */
 
 .notion-callout.color-default {
@@ -2722,24 +2682,64 @@ blockquote {
     }
 }
 
-
-/* Overview */
-
 .notion-callout.color-default .notion-callout__content p {
     margin: 0;
     padding: 0;
     height: auto;
 }
 
-/* .notion-callout.bg-gray-light {
-    position: relative;
-    max-width: 900px;
-    margin: 0px !important;
+/* DISCLAIMER --------------------------------- */
+
+
+.notion-callout.bg-yellow-light {
+    height: auto;
+    max-width: 860px;
+    font-size: .8rem !important;
+    text-align: center;
+}
+
+.notion-callout.bg-yellow-light p {
+    padding-bottom: 0 !important;
+}
+
+
+/* CALLS - PAINS POINTS  */
+
+.notion-callout.bg-blue-light, 
+.notion-callout.bg-purple-light{
+    height: -webkit-fill-available;
+}
+
+.notion-callout .notion-semantic-string strong {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* Wo verwende ich wohl diese? */
+
+.notion-callout.bg-pink-light {
+    min-width: 240px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.highlighted-background.bg-brown {
+    display: inline-block !important;
     padding: 0px !important;
-    background: transparent !important;
+    border: none !important;
+    opacity: 1 !important;
     border-radius: 0px !important;
-    height: fit-content;
-} */
+    background-color: transparent !important;
+    cursor: default;
+}
+
+.highlighted-background.bg-brown a {
+    background-color: transparent;
+    color: var(--color-text-default) !important;
+    font-weight: 500;
+}
+
+/* NORMALIZE D/L MODE IMAGES */
 
 .notion-callout.bg-gray-light .notion-callout__content {
     margin: 0px auto;
@@ -2748,7 +2748,7 @@ blockquote {
 
 /* NOTION MY IMAGES ----------------------------------------------*/
 
-/* Case Header Image */
+/* CASE HEADER */
 
 div.notion-image:nth-child(5) {
     width: calc(100% - var(--padding-desktop)*2) !important;
@@ -2757,7 +2757,7 @@ div.notion-image:nth-child(5) {
     margin-top: 2rem;
 }
 
-/* Standard Images */
+/* STANDARDS */
 
 .notion-image.normal {
     max-width: 1440px;
@@ -2770,7 +2770,7 @@ div.notion-image:nth-child(5) {
 
 .notion-image.page-width {
     width: calc(100% - var(--padding-desktop)*2) !important;
-    max-width: calc(var(--m423-width) - var(--m423-radius)*2);
+    max-width: calc(var(--content-lg) - var(--m423-radius)*2);
     min-width: var(--content-md);
     margin: 0 auto;
 }
@@ -2797,9 +2797,6 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
-
-
-
 /* D/L MODE images */
 
 .notion-text .notion-callout.bg-gray-light .notion-image{   
@@ -2814,14 +2811,12 @@ img {
     border-radius: 0 !important;
 }
 
-/* IMAGE RESETS - not on top level article */
+/* NORMALISE - not on top level article */
 
 .notion-text .notion-callout.bg-gray-light .notion-image
 {
     padding: 0 !important;
 }
-
-/* RESET IMAGES - in containers z.B Spalten */
 
 .notion-column .notion-image.page-width {
     width: 100% !important;
@@ -2831,8 +2826,6 @@ img {
 .notion-text+.notion-image {
     margin: 1rem auto 4rem auto;
 }
-
-
 
 @media (max-width:880px) {
 
