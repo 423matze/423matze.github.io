@@ -1,4 +1,4 @@
-/* style 423 v.R 2.4 */
+/* style 423 v.R 2.5 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -2445,7 +2445,8 @@ blockquote {
 /* NORMALIZE CONTENT */
 .notion-toggle__content .notion-heading.notion-semantic-string,
 .notion-toggle__content .notion-text__content.notion-semantic-string {
-    padding: 0 !important
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .notion-toggle.bg-blue.closed::before {
@@ -2699,7 +2700,7 @@ blockquote {
     height: -webkit-fill-available;
 }
 
-.notion-callout .notion-semantic-string strong {
+.notion-callout:not(.color-default) .notion-semantic-string strong {
     display: block;
     margin-bottom: 1rem;
 }
