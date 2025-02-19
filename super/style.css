@@ -1,4 +1,4 @@
-/* style 423 v.R 3 */
+/* style 423 v.R 3.1 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -183,7 +183,7 @@ body {
     display: block;
     width: 100%;
     padding: 0 var(--m423-radius);
-    max-width: var(--content-md);
+    max-width: var(--content-md) !important;
     margin: 0 auto !important;
 }
 
@@ -1258,13 +1258,6 @@ blockquote {
     margin-bottom: 1rem;
 }
 
-/* NORMALIZE D/L MODE IMAGES */
-
-.notion-callout.bg-gray-light .notion-callout__content {
-    margin: 0px auto;
-    max-width: 100%;
-}
-
 /* NOTION MY IMAGES ----------------------------------------------*/
 
 .notion-image {
@@ -1347,7 +1340,12 @@ div.notion-image:nth-child(5) {
     margin-top: 2rem;
 }
 
-/* D/L MODE images */
+/* D/L MODE IMAGES inverted */
+
+.notion-text.bg-gray-light,
+.notion-callout.bg-gray-light{
+    background-color: transparent;
+}
 
 .notion-text .notion-callout.bg-gray-light .notion-image {
     max-width: var(--content-md) !important;
@@ -1358,6 +1356,13 @@ div.notion-image:nth-child(5) {
 .notion-callout.bg-gray-light .notion-image img {
     filter: var(--ilu-image);
     border-radius: 0 !important;
+}
+
+/* NORMALIZE D/L MODE IMAGES */
+
+.notion-callout.bg-gray-light .notion-callout__content {
+    margin: 0px auto;
+    max-width: 100%;
 }
 
 /* MY PORTRAIT */
@@ -1754,8 +1759,8 @@ div.notion-image:nth-child(5) {
 
 .notion-bulleted-list {
     width: 100%;
-    max-width: var(--content-max-desktop);
-    margin: auto !important;
+    max-width: var(--content-md) !important;
+    margin: auto auto !important;
     line-height: 1.5em;
 }
 
@@ -1782,6 +1787,13 @@ div.notion-image:nth-child(5) {
     max-width: 740px;
     margin: 0 !important;
     line-height: 1.5em;
+}
+
+@media (max-width: 546px){    
+
+    .notion-bulleted-list {
+        margin: auto var(--padding-mob) !important;
+    }
 }
 
 /* NOTION MY NUMBERED LIST ---------------------------------------*/
@@ -2032,8 +2044,6 @@ M O B I LE  R E S P O N S I V E
     .super-content {
         padding-top: 23vh !important;
         padding-bottom: 4em !important;
-        padding-left: var(--padding-left-tablet) !important;
-        padding-right: var(--padding-right-tablet) !important;
     }
 
     .notion-divider {
