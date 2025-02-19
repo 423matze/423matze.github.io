@@ -1342,7 +1342,7 @@ div.notion-image:nth-child(5) {
 
 /* D/L MODE IMAGES inverted */
 
-.notion-text.bg-gray-light,
+.notion-text.bg-gray,
 .notion-callout.bg-gray-light{
     background-color: transparent;
 }
