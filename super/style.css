@@ -1,4 +1,4 @@
-/* style 423 v.R 3.1 */
+/* style 423 v.R 3.2 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1932,8 +1932,7 @@ li.my-contacts {
     aspect-ratio: 1;
     border-radius: 50%;
     cursor: pointer;
-    touch-action: manipulatin;
-    -webkit-tab-highlight-color: tranparent;
+    touch-action: manipulation;
     outline-offset: var(--size)/2;
 }
 
@@ -2330,8 +2329,7 @@ M O B I LE  R E S P O N S I V E
         aspect-ratio: 1;
         border-radius: 50%;
         cursor: pointer;
-        touch-action: manipulatin;
-        -webkit-tab-highlight-color: tranparent;
+        touch-action: manipulation;
         outline-offset: var(--burger-size) / 2;
     }
 
