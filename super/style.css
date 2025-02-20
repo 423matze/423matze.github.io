@@ -1,4 +1,4 @@
-/* style 423 v.R 3.2 */
+/* style 423 v.R 3.3 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -195,7 +195,7 @@ body {
 
 @media(max-width: 546px) {
     .super-content {
-        padding-top: 2rem !important;
+        padding-top: 12vh !important;
     }
 }
 
@@ -982,6 +982,19 @@ blockquote {
     cursor: pointer;
 }
 
+@media (max-width: 546px) {
+    .notion-toggle.bg-blue {
+                min-height: 7rem;
+        margin: 1rem auto 3rem auto !important;
+        padding: 0 20px;
+        background-color: transparent;
+        font-family: "Dosis", var(--primary-font) !important;
+        font-optical-sizing: auto;
+        cursor: pointer;
+    }
+
+}
+
 
 /* NORMALIZE CONTENT */
 .notion-toggle__content .notion-heading.notion-semantic-string,
@@ -1343,7 +1356,7 @@ div.notion-image:nth-child(5) {
 /* D/L MODE IMAGES inverted */
 
 .notion-text.bg-gray,
-.notion-callout.bg-gray-light{
+.notion-callout.bg-gray-light {
     background-color: transparent;
 }
 
@@ -1789,10 +1802,10 @@ div.notion-image:nth-child(5) {
     line-height: 1.5em;
 }
 
-@media (max-width: 546px){    
+@media (max-width: 546px) {
 
     .notion-bulleted-list {
-        margin: auto var(--padding-mob) !important;
+        margin: auto calc(var(--padding-mob) + 2px) !important;
     }
 }
 
@@ -2041,7 +2054,7 @@ M O B I LE  R E S P O N S I V E
 
 @media screen and (max-width: 880px) {
     .super-content {
-        padding-top: 23vh !important;
+        padding-top: 2rem !important;
         padding-bottom: 4em !important;
     }
 
@@ -2134,7 +2147,9 @@ M O B I LE  R E S P O N S I V E
     }
 
     .notion-root h1.notion-heading {
+        width: 100%;
         margin-bottom: 1rem !important;
+        padding: 0 var(--padding-mob);
     }
 
     p {
