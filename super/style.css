@@ -1,4 +1,4 @@
-/* style 423 v.R 3.92 */
+/* style 423 v.R 3.93 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1198,7 +1198,7 @@ blockquote {
     display: none !important;
 }
 
-/* TOGGLE - creative journey */
+/* TOGGLE creative journey */
 
 .page__kreativelaufbahn .notion-toggle{
     padding-bottom: 1rem;
@@ -1222,6 +1222,12 @@ blockquote {
 
 .page__kreativelaufbahn .notion-toggle .notion-toggle__content p.notion-semantic-string {
     padding: 0 0 0 32px;
+}
+
+@media (max-width:546px){
+    .page__kreativelaufbahn .notion-bulleted-list{
+        margin: 0 !important
+    }
 }
 
 
