@@ -1,4 +1,4 @@
-/* style 423 v.R 3.5 */
+/* style 423 v.R 3.6 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -472,13 +472,13 @@ span.highlighted-color.color-yellow {
 
 /* MY GREEN TEXTBLOCK - CV download & Journey */
 
-.notion-text.bg-green{
+.notion-text.bg-green {
     background-color: transparent
 }
 
-.notion-text.bg-green .notion-text__children{
+.notion-text.bg-green .notion-text__children {
 
-    display:flex;
+    display: flex;
     max-width: var(--content-md);
     margin: auto auto;
     flex-direction: row;
@@ -486,19 +486,24 @@ span.highlighted-color.color-yellow {
     padding: 0;
 }
 
-.notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string{
-    display:inline;
+.notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string {
+    display: inline;
     width: auto;
-    margin: 0 0 0 var(--m423-radius) !important;!i;!;
+    margin: 0 0 0 var(--m423-radius) !important;
+     !i;
+     !;
     padding: 0;
 }
 
-@media (max-width: 546px){
-    .notion-text.bg-green .notion-text__children{
+@media (max-width: 546px) {
+    .notion-text.bg-green .notion-text__children {
         flex-direction: column;
     }
-    .notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string:not(:has(a)){
-        margin: 1.5rem 0 1rem var(--m423-radius) !important;!i;!;
+
+    .notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string:not(:has(a)) {
+        margin: 1.5rem 0 1rem var(--m423-radius) !important;
+         !i;
+         !;
     }
 }
 
@@ -1007,19 +1012,17 @@ blockquote {
 .notion-toggle.bg-blue {
     display: block;
     position: relative;
-    max-width: 100%;
     min-height: 7rem;
     margin: 1rem auto 3rem auto !important;
-    padding: 0px;
     background-color: transparent;
     font-family: "Dosis", var(--primary-font) !important;
     font-optical-sizing: auto;
     cursor: pointer;
 }
 
-@media (max-width: 546px) {
+@media (max-width: 880px) {
     .notion-toggle.bg-blue {
-                min-height: 7rem;
+        min-height: 7rem;
         margin: 1rem auto 3rem auto !important;
         padding: 0 20px;
         background-color: transparent;
@@ -1312,7 +1315,7 @@ blockquote {
     margin-bottom: 1rem;
 }
 
-@media (max-width:546px){
+@media (max-width:546px) {
 
     .notion-callout.bg-blue-light.border {
         width: calc(100% - var(--padding-mob));
@@ -1616,7 +1619,7 @@ div.notion-image:nth-child(5) {
         max-width: 100%;
     }
 
-   .notion-text__children .notion-column-list {
+    .notion-text__children .notion-column-list {
         width: 100%;
         margin-left: 0px;
         margin-right: 0px;
@@ -1626,6 +1629,7 @@ div.notion-image:nth-child(5) {
     .notion-text .notion-text__children .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
     }
+
     /* LIST special - starts with image right */
     .notion-text.bg-red .notion-text__children .notion-column-list:nth-child(odd) {
         flex-direction: column-reverse;
@@ -1636,7 +1640,7 @@ div.notion-image:nth-child(5) {
     .notion-text .notion-text__children h3.notion-heading {
         padding-left: var(--padding-mob);
         padding-right: var(--padding-mob);
-    }   
+    }
 
     .notion-column:has(p) {
         margin: 1rem 0 0 0 !important
@@ -2222,7 +2226,7 @@ M O B I LE  R E S P O N S I V E
         line-height: 142% !important;
     }
 
-    
+
 
     /* Column BildText auf spezifischer Seite */
     /* projects --------------------------------*/
