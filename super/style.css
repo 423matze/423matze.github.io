@@ -1,4 +1,4 @@
-/* style 423 v.R 3.93 */
+/* style 423 v.R 4 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -510,6 +510,12 @@ span.highlighted-color.color-green {
     .notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string:not(:has(a)) {
         margin: 1.5rem 0 1rem var(--m423-radius) !important;
     }
+}
+
+/* TEXTBLOCK FULL WIDTH BG PINK */
+.notion-text.bg-pink {
+    background-color: rgba(0,0,0,.042);
+    padding: 2rem 0 2rem 0;
 }
 
 /* NOTION MY BUTTONS ---------------------------------------------*/
