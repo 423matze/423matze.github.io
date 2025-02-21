@@ -1,4 +1,4 @@
-/* style 423 v.R 3.8 */
+/* style 423 v.R 3.9 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -332,6 +332,11 @@ h3.notion-heading:not(.toggle) {
     color: var(--link-text);
 }
 
+/* CREATIVE JOURNEY */
+.page__kreativelaufbahn .notion-text__content:has(+.notion-heading__anchor+h3) {
+    font-size: var(--body-font-size) !important;
+}
+
 /* ----- Display Headline big animated  (strong) ---------------- */
 
 :-webkit-any(article, aside, nav, section) h1 {
@@ -490,8 +495,6 @@ span.highlighted-color.color-yellow {
     display: inline;
     width: auto;
     margin: 0 0 0 var(--m423-radius) !important;
-     !i;
-     !;
     padding: 0;
 }
 
@@ -502,8 +505,6 @@ span.highlighted-color.color-yellow {
 
     .notion-text.bg-green .notion-text__children .notion-text__content.notion-semantic-string:not(:has(a)) {
         margin: 1.5rem 0 1rem var(--m423-radius) !important;
-         !i;
-         !;
     }
 }
 
