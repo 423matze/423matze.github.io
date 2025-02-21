@@ -1227,7 +1227,7 @@ blockquote {
 }
 
 .page__kreativelaufbahn .notion-toggle .notion-toggle__content p.notion-semantic-string {
-    padding: 0 0 0 32px;
+    padding: 0 0 0 32px !important;
 }
 
 @media (max-width:546px){
