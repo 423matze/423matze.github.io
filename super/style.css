@@ -1,4 +1,4 @@
-/* style 423 v.R 3.9 */
+/* style 423 v.R 3.91 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -327,7 +327,7 @@ h3.notion-heading:not(.toggle) {
 .notion-text__content:has(+.notion-heading__anchor+h3) {
     position: relative;
     font-size: calc(var(--heading3-size) - .023rem) !important;
-    left: -1px;
+    left: 2px;
     padding-bottom: 0rem !important;
     color: var(--link-text);
 }
@@ -465,12 +465,16 @@ p {
     transition: all .2s ease-in, opacity .1s ease-in;
 }
 
-/* READING TIME */
+/* COLORED TEXT*/
 
 span.highlighted-color.color-yellow {
     font-size: 1rem;
     color: var(--color-text-default);
     padding-left: 24px;
+}
+
+span.highlighted-color.color-green {
+    color: var(--link-text);
 }
 
 /* NOTION MY TEXT BLOCKS -------------------------------------------*/
@@ -1192,6 +1196,28 @@ blockquote {
 
 .notion-toggle__trigger {
     display: none !important;
+}
+
+/* TOGGLE - creative journey */
+
+.page__kreativelaufbahn .notion-toggle{
+    padding-bottom: 1rem;
+}
+
+.page__kreativelaufbahn .notion-toggle .notion-semantic-string {
+    margin: 0 0 0 32px;
+}
+
+.page__kreativelaufbahn .notion-toggle.closed::before{
+    margin: -2px 0 0 0;
+}
+.page__kreativelaufbahn .notion-toggle.open::before{
+    margin: -1.5px 0 0 0;
+}
+
+.page__kreativelaufbahn .notion-bulleted-list .notion-list-item {
+    padding-left: 12px;
+    margin-left: 50px;
 }
 
 
