@@ -1,4 +1,4 @@
-/* style 423 v.R 3.91 */
+/* style 423 v.R 3.92 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1218,6 +1218,10 @@ blockquote {
 .page__kreativelaufbahn .notion-bulleted-list .notion-list-item {
     padding-left: 12px;
     margin-left: 50px;
+}
+
+.page__kreativelaufbahn .notion-toggle .notion-toggle__content p.notion-semantic-string {
+    padding: 0 0 0 32px;
 }
 
 
