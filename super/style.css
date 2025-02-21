@@ -1,4 +1,4 @@
-/* style 423 v.R 3.7 */
+/* style 423 v.R 3.8 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -340,7 +340,7 @@ h3.notion-heading:not(.toggle) {
 }
 
 .page__index h1.notion-heading,
-.page__page__about-matze-lenz h1.notion-heading,
+.page__about-matze-lenz h1.notion-heading,
 .page__think h1.notion-heading,
 .page__projects h1.notion-heading {
     transform: translateX(-6px);
@@ -348,7 +348,7 @@ h3.notion-heading:not(.toggle) {
     color: transparent !important;
 }
 
-.page__page__about-matze-lenz h1.notion-heading strong,
+.page__about-matze-lenz h1.notion-heading strong,
 .page__think h1.notion-heading strong,
 .page__projects h1.notion-heading strong,
 .page__index h1.notion-heading strong {
@@ -380,7 +380,7 @@ h3.notion-heading:not(.toggle) {
     }
 
     .page__projects h1.notion-heading strong,
-    .page__page__about-matze-lenz h1.notion-heading strong {
+    .page__about-matze-lenz h1.notion-heading strong {
         font-size: 83px !important;
         line-height: 33%;
     }
@@ -404,7 +404,7 @@ h3.notion-heading:not(.toggle) {
 /* Display Headline subline -------------------------------*/
 
 .page__index h1.notion-heading+.notion-text,
-.page__page__about-matze-lenz h1.notion-heading+.notion-text,
+.page__about-matze-lenz h1.notion-heading+.notion-text,
 .page__projects h1.notion-heading+.notion-text,
 .page__think h1.notion-heading+.notion-text {
     margin-top: 1.23rem !important;
@@ -1093,7 +1093,7 @@ blockquote {
     padding-bottom: 4rem;
 }
 
-.page__page__about-matze-lenz .notion-toggle.bg-blue .notion-toggle__summary {
+.page__about-matze-lenz .notion-toggle.bg-blue .notion-toggle__summary {
     padding-bottom: 0 !important;
 }
 
@@ -2238,7 +2238,7 @@ M O B I LE  R E S P O N S I V E
         pointer-events: inherit;
     }
 
-    .page__page__about-matze-lenz .notion-column-list {
+    .page__about-matze-lenz .notion-column-list {
         max-width: 100%;
         column-gap: 0;
         flex-wrap: wrap;
@@ -2247,15 +2247,15 @@ M O B I LE  R E S P O N S I V E
     }
 
     /* 2 columns alternating image and text -----------------------*/
-    .page__page__about-matze-lenz .notion-column-list:nth-of-type(even) {
+    .page__about-matze-lenz .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
     }
 
-    .page__page__about-matze-lenz .notion-column-list+.notion-column-list {
+    .page__about-matze-lenz .notion-column-list+.notion-column-list {
         margin-bottom: 2rem;
     }
 
-    .page__page__about-matze-lenz .notion-column-list .notion-column:nth-child(2) {
+    .page__about-matze-lenz .notion-column-list .notion-column:nth-child(2) {
         width: 100% !important;
     }
 
