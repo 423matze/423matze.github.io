@@ -176,7 +176,7 @@ function callback(mutationsList, observer) {
     //toggleToggle(mutation.target.className) && window.location.pathname != '/kreativelaufbahn'
     if(mutation.target.className === "notion-toggle open bg-blue" ){      
       yPos = window.scrollY;
-    }else if(mutation.target.className === "notion-toggle open bg-blue" ){
+    }else if(mutation.target.className === "notion-toggle close bg-blue" ){
       window.scrollTo({
           top: yPos,
           left: 0,
@@ -195,10 +195,7 @@ const observer = new MutationObserver(callback);
 
 // Start observing the target elements
 function initToogleObservers(){
-  console.log("init observers");
-  // Configure the MutationObserver options
-  const config = { attributes: true };
-  // Select the target element(s)
+  console.log("init observers");(s)
   const targetElements = document.querySelectorAll(".notion-toggle");
   //
   targetElements.forEach((element) => {
