@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.31
+// MAL super costome script v1.32
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -196,7 +196,8 @@ const observer = new MutationObserver(callback);
 // Start observing the target elements
 function initToogleObservers(){
   console.log("init observers");
-  const targetElements = document.querySelectorAll(".notion-toggle");
+  const targetElements = document.querySelectorAll(".notion-toggle bg-blue");
+  const config = { attributes: true }
   //
   targetElements.forEach((element) => {
     observer.observe(element, config);
