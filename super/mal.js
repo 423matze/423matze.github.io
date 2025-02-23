@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.35
+// MAL super costome script v1.36
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -170,9 +170,9 @@ function setupEmbeds() {
 let yPos = 0;
 // Define the callback function to be executed on mutations
 function callback(mutationsList, observer) {
-  // Handle mutations
-  console.log("callback", mutation.target.className);  
-  mutationsList.forEach((mutation) => {    
+  // Handle mutations   
+  mutationsList.forEach((mutation) => {  
+    console.log("callback", mutation.target.className); 
     if(mutation.target.className === "notion-toggle open bg-blue" ){      
       yPos = window.scrollY;
       console.log("open toggle: " + mutation.target.className + " - " + yPos);
