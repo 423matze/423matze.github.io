@@ -180,7 +180,7 @@ function callback(mutationsList, observer) {
       window.scrollTo({
           top: yPos,
           left: 0,
-          behavior: "smooth",
+          behavior: "smooth"
         });
     }else{
       console.log("not blue");
@@ -195,7 +195,7 @@ const observer = new MutationObserver(callback);
 
 // Start observing the target elements
 function initToogleObservers(){
-  console.log("init observers");(s)
+  console.log("init observers");
   const targetElements = document.querySelectorAll(".notion-toggle");
   //
   targetElements.forEach((element) => {
