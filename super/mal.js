@@ -1,5 +1,5 @@
 //
-// MAL super costome script v1.36
+// MAL super costome script v1.37
 //
 const SELECTOR = "code:not([super-embed-seen])";
 const storageKey = "color-preference";
@@ -176,7 +176,7 @@ function callback(mutationsList, observer) {
     if(mutation.target.className === "notion-toggle open bg-blue" ){      
       yPos = window.scrollY;
       console.log("open toggle: " + mutation.target.className + " - " + yPos);
-    }else if(mutation.target.className === "notion-toggle close bg-blue" ){
+    }else if(mutation.target.className === "notion-toggle closed bg-blue" ){
       window.scrollTo({
           top: yPos,
           left: 0,
@@ -184,7 +184,7 @@ function callback(mutationsList, observer) {
         });
        console.log("close toggle: " + mutation.target.className + " - scrollTo: " + yPos);
     }else{
-      console.log("not blue" + mutation.target.className + " - scrollTo: " + yPos);
+      console.log("not blue: " + mutation.target.className + " - scrollTo: " + yPos);
     }
    
    
