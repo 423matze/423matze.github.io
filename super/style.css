@@ -1,4 +1,4 @@
-/* style 423 v.R 4 */
+/* style 423 v.R 4.1 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1227,7 +1227,7 @@ blockquote {
 }
 
 .page__kreativelaufbahn .notion-toggle .notion-toggle__content p.notion-semantic-string {
-    padding: 0 0 0 32px !important;
+    padding: 0 0 0 32px;
 }
 
 @media (max-width:546px){
@@ -1885,9 +1885,10 @@ div.notion-image:nth-child(5) {
 
 .notion-bulleted-list {
     width: 100%;
-    max-width: var(--content-md) !important;
+    max-width: calc(var(--content-md) - var(--m423-radius)*2) !important;
     margin: auto auto !important;
     line-height: 1.5em;
+    list-style-type: disc;
 }
 
 .notion-bulleted-list .notion-list-item {
