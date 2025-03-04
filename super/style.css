@@ -1,4 +1,4 @@
-/* style 423 v.R 4.1 */
+/* style 423 v.R 4.2 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1904,10 +1904,11 @@ div.notion-image:nth-child(5) {
     width: calc(100% - 40px);
     max-width: calc(var(--content-md) - 40px) !important;
 }
-
+/* denke ich brauche es nicht zurückzusetzten
 .notion-toggle__content .notion-bulleted-list {
     padding: 0 !important;
 }
+*/
 
 .notion-callout__content .notion-bulleted-list {
     width: 100%;
