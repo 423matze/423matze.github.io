@@ -1,4 +1,4 @@
-/* style 423 v.R 4.3 */
+/* style 423 v.R 4.4 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -651,6 +651,7 @@ blockquote {
     padding-left: var(--padding-left);
     padding-right: var(--padding-right);
     margin: auto;
+    display: block !important;
 }
 
 .notion-collection-gallery {
@@ -761,7 +762,7 @@ blockquote {
 
 /* BG PURPEL gallery 4s */
 .notion-text.bg-purple {
-    width: var(--content-lg) !important;
+    width: 100% !important;
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
@@ -775,7 +776,7 @@ blockquote {
 
 /* BG YELLOW gallery 2s */
 .notion-text.bg-yellow:has(.notion-collection-gallery) {
-    width: var(--content-lg) !important;
+    width: 100% !important;
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
@@ -789,7 +790,7 @@ blockquote {
 
 /* BG BLUE gallery 3s */
 .notion-text.bg-blue {
-    width: var(--content-lg) !important;
+    width: 100% !important;
     max-width: unset;
     margin: auto;
     background-color: transparent !important;
