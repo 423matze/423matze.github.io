@@ -1,4 +1,4 @@
-/* style 423 v.R 4.5 */
+/* style 423 v.R 4.6 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -744,6 +744,13 @@ blockquote {
 
 
 /* FEATURED Cases (home) */
+
+
+.page__index .notion-collection.inline {
+    width: 100% !important;
+    margin: auto;
+    max-width: var(--content-lg) !important;
+}
 
 .page__index .notion-collection-gallery.large {
     grid-template-columns: auto auto;
