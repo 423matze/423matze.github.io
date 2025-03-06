@@ -1,4 +1,4 @@
-/* style 423 v.R 4.7 */
+/* style 423 v.R 4.8 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1299,7 +1299,7 @@ blockquote {
 
 .notion-callout.color-default {
     position: relative;
-    width: fit-content;
+    width: var(--content-md);
     margin: var(--m423-radius) auto var(--m423-radius) auto;
     padding: var(--m423-radius) !important;
     border-radius: var(--m423-radius) !important;
