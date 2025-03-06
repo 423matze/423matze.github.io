@@ -1,4 +1,4 @@
-/* style 423 v.R 4.8 */
+/* style 423 v.R 4.9 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1250,7 +1250,7 @@ blockquote {
 .notion-callout.bg-gray-light,
 .notion-callout.bg-brown-light,
 .notion-callout.bg-orange-light,
-.notion-callout.bg-yellow-light,
+/* .notion-callout.bg-yellow-light, disclaimer */
 .notion-callout.bg-green-light,
 .notion-callout.bg-pink-light,
 .notion-callout.bg-red-light {
@@ -1341,8 +1341,8 @@ blockquote {
 
 .notion-callout.bg-yellow-light {
     height: auto;
-    max-width: 860px;
-    font-size: .8rem !important;
+    max-width: calc(var(--content-md) - var(--m423-radius));
+    font-size: .942rem !important;
     text-align: center;
 }
 
@@ -1396,6 +1396,7 @@ blockquote {
 /* CAPTION */
 
 .notion-caption {
+    width: 100%;
     padding: 6px 2px;
     color: var(--color-text-default-light);
     font-size: .875rem;
@@ -1464,7 +1465,7 @@ div.notion-image:nth-child(5) {
 
 .notion-text .notion-callout.bg-gray-light .notion-image {
     max-width: var(--content-md) !important;
-    padding: 0 !important;
+    padding: 0 var(--m423-radius) !important;
 }
 
 .notion-text.bg-gray .notion-image img,
@@ -1508,18 +1509,9 @@ div.notion-image:nth-child(5) {
     margin-bottom: 2rem;
 }
 
-.super-embed:has(.next-xl-imgage)+.notion-image.align-start.page-width>figcaption {
-    position: relative;
-    left: 100px;
-}
-
-
 
 /* NORMALISE - not on top level article */
 
-.notion-text .notion-callout.bg-gray-light .notion-image {
-    padding: 0 !important;
-}
 
 .notion-column .notion-image.page-width {
     width: 100% !important;
