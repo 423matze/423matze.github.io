@@ -1,4 +1,4 @@
-/* style 423 v.R 4.9 */
+/* style 423 v.R 5 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1932,17 +1932,44 @@ div.notion-image:nth-child(5) {
 
 /* NOTION MY NUMBERED LIST ---------------------------------------*/
 
-.notion-numbered-list {
-    list-style-position: inside;
-    width: var(--content-max-desktop);
-    -webkit-padding-start: calc(1.5em + 4px);
-    padding-inline-start: calc(1.5em + 4px);
-    margin: 0 auto;
-}
-
-.notion-numbered-list .notion-list-item {
+ol.notion-numbered-list .notion-list-item {
     padding-left: 10px;
     margin-left: -10px;
+}
+
+ol.notion-numbered-list {
+    list-style: inside none;
+    counter-reset: my-awesome-counter;
+    width: var(--content-max-desktop);
+    margin: 0 auto;
+    padding: 0;
+
+}
+
+ol li {
+  counter-increment: my-awesome-counter;
+}
+
+ol li::before {
+  display:inline-block;
+  min-width: 2rem;
+  content:  counter(my-awesome-counter)".";
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  line-height: 1;
+  text-align:center;
+}
+ol li:first-child::before {
+  display:inline-block;
+  min-width: 2rem;
+  content:  counter(my-awesome-counter)".";
+  font-weight: bold;
+  font-size: 2rem;
+  left: .42rem;
+  margin-right: 0.6rem;
+  line-height: 1;
+  text-align:center;
 }
 
 @media(max-width: 546px) {
