@@ -1,4 +1,4 @@
-/* style 423 v.R 4.4 */
+/* style 423 v.R 4.5 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -640,16 +640,8 @@ blockquote {
 .notion-collection.inline {
     width: calc(100% - var(--m423-radius) * 2) !important;
     max-width: calc(var(--content-xl) - var(--m423-radius)) !important;
-    padding-left: var(--padding-left);
-    padding-right: var(--padding-right);
-    margin: auto;
-}
-
-.notion-text .notion-collection.inline {
-    width: calc(100% - var(--m423-radius)) !important;
-    max-width: var(--content-xl) !important;
-    padding-left: var(--padding-left);
-    padding-right: var(--padding-right);
+/*     padding-left: var(--padding-left);
+    padding-right: var(--padding-right); */
     margin: auto;
     display: block !important;
 }
@@ -763,8 +755,8 @@ blockquote {
 /* BG PURPEL gallery 4s */
 .notion-text.bg-purple {
     width: 100% !important;
-    max-width: unset;
     margin: auto;
+    max-width: unset;
     background-color: transparent !important;
 }
 
@@ -777,13 +769,15 @@ blockquote {
 /* BG YELLOW gallery 2s */
 .notion-text.bg-yellow:has(.notion-collection-gallery) {
     width: 100% !important;
-    max-width: unset;
     margin: auto;
+    max-width: unset;    
     background-color: transparent !important;
 }
 
 
 .notion-text.bg-yellow .notion-collection-gallery.large {
+    width: var(--content-lg) !important;
+    margin: auto;
     grid-template-columns: auto auto;
     grid-auto-rows: max-content;
 }
