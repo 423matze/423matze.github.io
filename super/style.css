@@ -1,4 +1,4 @@
-/* style 423 v.R 4.6 */
+/* style 423 v.R 4.7 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1611,6 +1611,15 @@ div.notion-image:nth-child(5) {
     border: none;
     pointer-events: auto;
     margin: auto !important;
+}
+
+/* alternative video über code embed */
+
+.super-embed iframe {
+    width: 800px;
+    height: calc(800px/16*9);
+    margin: auto;
+    border-radius: var(--m423-radius);
 }
 
 @media(max-width: 546px) {
