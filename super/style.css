@@ -1,4 +1,4 @@
-/* style 423 v.R 5.2 */
+/* style 423 v.R 5.3 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -656,25 +656,6 @@ blockquote {
     border-radius: 0 !important;
 }
 
-@media (max-width: 880px) {
-
-    .notion-collection-gallery.large,
-    .page__index .notion-collection-gallery.large {
-        padding: 0 var(--m423-radius)!important;
-        grid-template-columns: auto !important;
-        grid-auto-rows: auto;
-    }
-}
-
-
-@media(max-width: 546px) {
-    .notion-collection.inline {
-        grid-template-columns: auto !important;
-        padding: 0 !important;
-    }
-
-}
-
 /* Gallery smal */
 
 .notion-collection-gallery.small {
@@ -735,14 +716,6 @@ blockquote {
     height: 16rem !important;
     max-height: 256px !important;
 }
-
-@media (max-width: 546px) {
-    .notion-collection-gallery.medium {
-        width: 100% !important;
-        grid-template-columns: auto !important;
-    }
-}
-
 
 /* FEATURED Cases (home) */
 
@@ -821,6 +794,35 @@ blockquote {
     .notion-text.bg-yellow .notion-collection.inline,
     .notion-text.bg-purple .notion-collection.inline {
         width: calc(100% - var(--m423-radius) * 2) !important
+    }
+
+    .notion-text.bg-blue .notion-collection-gallery.large, 
+    .notion-text.bg-yellow .notion-collection-gallery.large, 
+    .notion-text.bg-purple .notion-collection-gallery.large {
+        padding: 0 !important;
+    }
+
+    .notion-text.bg-yellow .notion-collection-gallery.large{
+        width: 100% !important;
+    }
+
+    .notion-collection-gallery.large,
+    .page__index .notion-collection-gallery.large {
+        padding: 0 var(--m423-radius)!important;
+        grid-template-columns: auto !important;
+        grid-auto-rows: auto;
+    }
+}
+
+@media(max-width: 546px) {
+    .notion-collection.inline {
+        grid-template-columns: auto !important;
+        padding: 0 !important;
+    }
+
+    .notion-collection-gallery.medium {
+        width: 100% !important;
+        grid-template-columns: auto !important;
     }
 }
 
