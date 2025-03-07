@@ -1,4 +1,4 @@
-/* style 423 v.R 5.3 */
+/* style 423 v.R 5.4 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1722,7 +1722,10 @@ div.notion-image:nth-child(5) {
     .page__index .notion-column-list:has(.notion-bulleted-list) {
         grid-template-columns: auto;
         padding: 1rem 0 0 0 !important;
+    }
 
+    .page__index .notion-column-list .notion-bulleted-list{
+        margin: auto calc(var(--padding-mob) + 2px) !important;
     }
 
 }
