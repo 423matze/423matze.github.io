@@ -1,4 +1,4 @@
-/* style 423 v.R 5.1 */
+/* style 423 v.R 5.2 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -817,9 +817,6 @@ blockquote {
 
 @media (max-width:880px) {
 
-    .notion-text.bg-blue,
-    .notion-text.bg-yellow,
-    .notion-text.bg-purple,
     .notion-text.bg-blue .notion-collection.inline,
     .notion-text.bg-yellow .notion-collection.inline,
     .notion-text.bg-purple .notion-collection.inline {
