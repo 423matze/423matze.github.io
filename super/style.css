@@ -1,4 +1,4 @@
-/* style 423 v.R 5.4 */
+/* style 423 v.R 5.6 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -2543,4 +2543,98 @@ M O B I LE  R E S P O N S I V E
         width: 100%;
         margin: auto;
     }
+}
+
+/* 
+--------------------------------------------------------------------
+PRINT Style für Bewerbungsschreiben etc.
+--------------------------------------------------------------------
+*/
+
+@media print {
+	body {
+		font-size: 13pt;
+        background-color: white;
+        color: black !important;
+	}
+    *{
+      color: black !important;
+    }
+}
+
+body:has(.parent-page__bewerbungen){
+  font-size: 13px !important;
+}
+
+@page {
+ size: a4;
+ margin-top: 2.3cm;
+ margin-bottom: 2.3cm;
+ margin-left: 2.3cm;
+ margin-right: 2.3cm;
+ color: black !important;
+}
+
+@page{
+	@bottom-right {
+	    content: "Seite " counter(page);
+		font-family: "Dosis", var(--primary-font) !important;
+	    font-optical-sizing: auto;
+		font-size: 11px;
+		olor: black !important;
+	}
+	@bottom-left {
+	    content: "Circulum Vitales - Matze Lenz 2025";
+		font-family: "Dosis", var(--primary-font) !important;
+	    font-optical-sizing: auto;
+		font-size: 11px;
+		color: black !important;
+	}  
+}
+
+
+main.parent-page__bewerbungen.super-content{
+  margin: 0;
+  padding: 0 !important;!i;!;
+}
+
+main.parent-page__bewerbungen .notion-callout.color-default{
+  border: 0 !important;
+  padding: 0 !important;!i;!;
+  margin: 0 0 14px 0;
+  width: 100%;
+  border-radius: 0 !important;!i;!ik;!i;!;
+}
+main.parent-page__bewerbungen .notion-callout.color-default .notion-column-list{margin: 0 auto;}
+
+main.parent-page__bewerbungen .notion-semantic-string {
+    line-height: 23px!important;
+    letter-spacing: 0.05rem;
+    white-space: break-spaces;
+    word-break: normal;
+    margin: 0 !important;!i;!;
+    padding: 0 !important;!im;!imo;!i;!;
+}
+main.parent-page__bewerbungen .notion-heading.notion-semantic-string {
+  padding: 0 !important
+}
+
+main.parent-page__bewerbungen h2.notion-heading:not(.toggle) {
+  font-size: 23px !important;
+  margin: 0 auto !important;!i;!;
+}
+main.parent-page__bewerbungen h3.notion-heading:not(.toggle) {
+  font-size: 16px !important;
+}
+
+
+main.parent-page__bewerbungen .notion-divider {
+    margin: 14px auto !important;
+    height: 0;
+    border-top: 0.0023px solid black !important;
+    max-width: var(--content-md) !important;
+}
+
+main.parent-page__bewerbungen h2.notion-heading:not(.toggle){
+  margin-bottom: 14px !important
 }
