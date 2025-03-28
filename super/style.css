@@ -1,4 +1,4 @@
-/* style 423 v.R 6.1 */
+/* style 423 v.R 6.2 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -2556,17 +2556,17 @@ PRINT Style für Bewerbungsschreiben etc.
 */
 
 @media print {
-    
+
 
     * {
         color: black !important;
     }
-   
+
     body:has(.parent-page__bewerbungen) {
         font-size: 13px !important;
         background-color: white;
         color: black !important;
-    } 
+    }
 
     /* Pagebreaks */
 
@@ -2579,6 +2579,7 @@ PRINT Style für Bewerbungsschreiben etc.
     main.parent-page__bewerbungen.super-content {
         margin: 0;
         padding: 0 !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen .notion-callout.color-default {
@@ -2588,6 +2589,7 @@ PRINT Style für Bewerbungsschreiben etc.
         margin: 0 0 14px 0;
         width: 100%;
         border-radius: 0 !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen .notion-callout.color-default .notion-column-list {
@@ -2601,27 +2603,32 @@ PRINT Style für Bewerbungsschreiben etc.
         word-break: normal;
         margin: 0 !important;
         padding: 0 !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen .notion-heading.notion-semantic-string {
-        padding: 0 !important
+        padding: 0 !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen h1.notion-heading:not(.toggle) {
         font-size: 23px !important;
         margin: 0 auto !important;
         margin-bottom: 16px !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen h2.notion-heading:not(.toggle) {
         font-size: 23px !important;
         margin: 0 auto !important;
-        margin-bottom: 16px !important
+        margin-bottom: 16px !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen h3.notion-heading:not(.toggle) {
         font-size: 16px !important;
         font-weight: 240 !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen .notion-semantic-string .link {
@@ -2634,6 +2641,7 @@ PRINT Style für Bewerbungsschreiben etc.
         text-underline-offset: 4px;
         opacity: .8;
         padding-bottom: 6px !important;
+        color: black !important;
     }
 
     main.parent-page__bewerbungen .notion-divider {
@@ -2660,19 +2668,13 @@ PRINT Style für Bewerbungsschreiben etc.
     margin-left: 2.3cm;
     margin-right: 2.3cm;
     color: black !important;
-}
 
-@page: first {
-    margin-top: 1cm;
-}
-
-@page {
     @bottom-right {
         content: "Seite "counter(page);
         font-family: "Dosis", var(--primary-font) !important;
         font-optical-sizing: auto;
         font-size: 11px;
-        olor: black !important;
+        color: black !important;
     }
 
     @bottom-left {
@@ -2682,4 +2684,8 @@ PRINT Style für Bewerbungsschreiben etc.
         font-size: 11px;
         color: black !important;
     }
+}
+
+@page:first {
+    margin-top: 1cm;
 }
