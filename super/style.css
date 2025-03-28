@@ -1,4 +1,4 @@
-/* style 423 v.R 6.0 */
+/* style 423 v.R 6.1 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -2556,15 +2556,17 @@ PRINT Style für Bewerbungsschreiben etc.
 */
 
 @media print {
-    body {
-        font-size: 13pt;
-        background-color: white;
-        color: black !important;
-    }
+    
 
     * {
         color: black !important;
     }
+   
+    body:has(.parent-page__bewerbungen) {
+        font-size: 13px !important;
+        background-color: white;
+        color: black !important;
+    } 
 
     /* Pagebreaks */
 
