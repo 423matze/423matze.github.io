@@ -1,4 +1,4 @@
-/* style 423 v.R 5.8 */
+/* style 423 v.R 6.0 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -514,7 +514,7 @@ span.highlighted-color.color-green {
 
 /* TEXTBLOCK FULL WIDTH BG PINK */
 .notion-text.bg-pink {
-    background-color: rgba(0,0,0,.042);
+    background-color: rgba(0, 0, 0, .042);
     padding: 2rem 0 2rem 0;
 }
 
@@ -640,7 +640,7 @@ blockquote {
 .notion-collection.inline {
     width: calc(100% - var(--m423-radius) * 2) !important;
     max-width: calc(var(--content-xl) - var(--m423-radius)) !important;
-/*     padding-left: var(--padding-left);
+    /*     padding-left: var(--padding-left);
     padding-right: var(--padding-right); */
     margin: auto;
     display: block !important;
@@ -751,7 +751,7 @@ blockquote {
 .notion-text.bg-yellow:has(.notion-collection-gallery) {
     width: 100% !important;
     margin: auto;
-    max-width: unset;    
+    max-width: unset;
     background-color: transparent !important;
 }
 
@@ -796,19 +796,19 @@ blockquote {
         width: calc(100% - var(--m423-radius) * 2) !important
     }
 
-    .notion-text.bg-blue .notion-collection-gallery.large, 
-    .notion-text.bg-yellow .notion-collection-gallery.large, 
+    .notion-text.bg-blue .notion-collection-gallery.large,
+    .notion-text.bg-yellow .notion-collection-gallery.large,
     .notion-text.bg-purple .notion-collection-gallery.large {
         padding: 0 !important;
     }
 
-    .notion-text.bg-yellow .notion-collection-gallery.large{
+    .notion-text.bg-yellow .notion-collection-gallery.large {
         width: 100% !important;
     }
 
     .notion-collection-gallery.large,
     .page__index .notion-collection-gallery.large {
-        padding: 0 var(--m423-radius)!important;
+        padding: 0 var(--m423-radius) !important;
         grid-template-columns: auto !important;
         grid-auto-rows: auto;
     }
@@ -1211,7 +1211,7 @@ blockquote {
 
 /* TOGGLE creative journey */
 
-.page__kreativelaufbahn .notion-toggle{
+.page__kreativelaufbahn .notion-toggle {
     padding-bottom: 1rem;
 }
 
@@ -1219,10 +1219,11 @@ blockquote {
     margin: 0 0 0 32px;
 }
 
-.page__kreativelaufbahn .notion-toggle.closed::before{
+.page__kreativelaufbahn .notion-toggle.closed::before {
     margin: -2px 0 0 0;
 }
-.page__kreativelaufbahn .notion-toggle.open::before{
+
+.page__kreativelaufbahn .notion-toggle.open::before {
     margin: -1.5px 0 0 0;
 }
 
@@ -1235,8 +1236,8 @@ blockquote {
     padding: 0 0 0 32px;
 }
 
-@media (max-width:546px){
-    .page__kreativelaufbahn .notion-bulleted-list{
+@media (max-width:546px) {
+    .page__kreativelaufbahn .notion-bulleted-list {
         margin: 0 !important
     }
 }
@@ -1724,7 +1725,7 @@ div.notion-image:nth-child(5) {
         padding: 1rem 0 0 0 !important;
     }
 
-    .page__index .notion-column-list .notion-bulleted-list{
+    .page__index .notion-column-list .notion-bulleted-list {
         margin: auto calc(var(--padding-mob) + 2px) !important;
     }
 
@@ -1917,6 +1918,7 @@ div.notion-image:nth-child(5) {
     width: calc(100% - 40px);
     max-width: calc(var(--content-md) - 40px) !important;
 }
+
 /* denke ich brauche es nicht zurückzusetzten
 .notion-toggle__content .notion-bulleted-list {
     padding: 0 !important;
@@ -1935,6 +1937,7 @@ div.notion-image:nth-child(5) {
     .notion-bulleted-list {
         margin: auto calc(var(--padding-mob) + 2px) !important;
     }
+
     .notion-column-list .notion-bulleted-list,
     .notion-toggle.bg-blue .notion-bulleted-list {
         margin: auto 0 !important;
@@ -1958,29 +1961,30 @@ ol.notion-numbered-list {
 }
 
 ol li {
-  counter-increment: my-awesome-counter;
+    counter-increment: my-awesome-counter;
 }
 
 ol li::before {
-  display:inline-block;
-  min-width: 2rem;
-  content:  counter(my-awesome-counter)".";
-  font-weight: bold;
-  font-size: 2rem;
-  margin-right: 0.5rem;
-  line-height: 1;
-  text-align:center;
+    display: inline-block;
+    min-width: 2rem;
+    content: counter(my-awesome-counter)".";
+    font-weight: bold;
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    line-height: 1;
+    text-align: center;
 }
+
 ol li:first-child::before {
-  display:inline-block;
-  min-width: 2rem;
-  content:  counter(my-awesome-counter)".";
-  font-weight: bold;
-  font-size: 2rem;
-  left: .42rem;
-  margin-right: 0.6rem;
-  line-height: 1;
-  text-align:center;
+    display: inline-block;
+    min-width: 2rem;
+    content: counter(my-awesome-counter)".";
+    font-weight: bold;
+    font-size: 2rem;
+    left: .42rem;
+    margin-right: 0.6rem;
+    line-height: 1;
+    text-align: center;
 }
 
 @media(max-width: 546px) {
@@ -2552,117 +2556,128 @@ PRINT Style für Bewerbungsschreiben etc.
 */
 
 @media print {
-	body {
-		font-size: 13pt;
+    body {
+        font-size: 13pt;
         background-color: white;
         color: black !important;
-	}
-    *{
-      color: black !important;
+    }
+
+    * {
+        color: black !important;
+    }
+
+    /* Pagebreaks */
+
+    div#block-1c3b6d59e38d8086b89cca5b94a969c6 {
+        page-break-before: always;
+    }
+
+    /* Styles */
+
+    main.parent-page__bewerbungen.super-content {
+        margin: 0;
+        padding: 0 !important;
+    }
+
+    main.parent-page__bewerbungen .notion-callout.color-default {
+        page-break-inside: avoid;
+        border: 0 !important;
+        padding: 0 !important;
+        margin: 0 0 14px 0;
+        width: 100%;
+        border-radius: 0 !important;
+    }
+
+    main.parent-page__bewerbungen .notion-callout.color-default .notion-column-list {
+        margin: 0 auto;
+    }
+
+    main.parent-page__bewerbungen .notion-semantic-string {
+        line-height: 18px !important;
+        letter-spacing: 0.05rem;
+        white-space: break-spaces;
+        word-break: normal;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    main.parent-page__bewerbungen .notion-heading.notion-semantic-string {
+        padding: 0 !important
+    }
+
+    main.parent-page__bewerbungen h1.notion-heading:not(.toggle) {
+        font-size: 23px !important;
+        margin: 0 auto !important;
+        margin-bottom: 16px !important;
+    }
+
+    main.parent-page__bewerbungen h2.notion-heading:not(.toggle) {
+        font-size: 23px !important;
+        margin: 0 auto !important;
+        margin-bottom: 16px !important
+    }
+
+    main.parent-page__bewerbungen h3.notion-heading:not(.toggle) {
+        font-size: 16px !important;
+        font-weight: 240 !important;
+    }
+
+    main.parent-page__bewerbungen .notion-semantic-string .link {
+        color: var(--link-text);
+        line-height: 26px;
+        height: 82px;
+        -webkit-text-decoration-color: black;
+        text-decoration-color: black;
+        text-decoration-thickness: 1.42px;
+        text-underline-offset: 4px;
+        opacity: .8;
+        padding-bottom: 6px !important;
+    }
+
+    main.parent-page__bewerbungen .notion-divider {
+        margin: 14px auto !important;
+        height: 0;
+        border-top: 0.0023px solid black !important;
+        max-width: var(--content-md) !important;
+    }
+
+    /* page break - Ausbildung */
+    div#block-1c3b6d59e38d8078b69dc235be790877 {
+        page-break-before: always;
     }
 }
 
-body:has(.parent-page__bewerbungen){
-  font-size: 13px !important;
+/* body:has(.parent-page__bewerbungen) {
+    font-size: 13px !important;
+} */
+
+@page {
+    size: a4;
+    margin-top: 2.3cm;
+    margin-bottom: 2.3cm;
+    margin-left: 2.3cm;
+    margin-right: 2.3cm;
+    color: black !important;
+}
+
+@page: first {
+    margin-top: 1cm;
 }
 
 @page {
- size: a4;
- margin-top: 2.3cm;
- margin-bottom: 2.3cm;
- margin-left: 2.3cm;
- margin-right: 2.3cm;
- color: black !important;
-}
-@page:first { 
-  margin-top: 1cm;
-}
+    @bottom-right {
+        content: "Seite "counter(page);
+        font-family: "Dosis", var(--primary-font) !important;
+        font-optical-sizing: auto;
+        font-size: 11px;
+        olor: black !important;
+    }
 
-@page{
-	@bottom-right {
-	    content: "Seite " counter(page);
-		font-family: "Dosis", var(--primary-font) !important;
-	    font-optical-sizing: auto;
-		font-size: 11px;
-		olor: black !important;
-	}
-	@bottom-left {
-	    content: "Circulum Vitales - Matze Lenz 2025";
-		font-family: "Dosis", var(--primary-font) !important;
-	    font-optical-sizing: auto;
-		font-size: 11px;
-		color: black !important;
-	}  
-}
-/* Pagebreaks */
-
-div#block-1c3b6d59e38d8086b89cca5b94a969c6 {
-    page-break-before: always;
-}
-
-/* Styles */
-
-main.parent-page__bewerbungen.super-content{
-  margin: 0;
-  padding: 0 !important;!i;!;
-}
-
-main.parent-page__bewerbungen .notion-callout.color-default{
-  page-break-inside: avoid;
-  border: 0 !important;
-  padding: 0 !important;!i;!;
-  margin: 0 0 14px 0;
-  width: 100%;
-  border-radius: 0 !important;!i;!ik;!i;!;
-}
-main.parent-page__bewerbungen .notion-callout.color-default .notion-column-list{margin: 0 auto;}
-
-main.parent-page__bewerbungen .notion-semantic-string {
-    line-height: 18px!important;
-    letter-spacing: 0.05rem;
-    white-space: break-spaces;
-    word-break: normal;
-    margin: 0 !important;!i;!;
-    padding: 0 !important;!im;!imo;!i;!;
-}
-main.parent-page__bewerbungen .notion-heading.notion-semantic-string {
-  padding: 0 !important
-}
-main.parent-page__bewerbungen h1.notion-heading:not(.toggle) {
-    font-size: 23px !important;
-    margin: 0 auto !important;
-    margin-bottom: 16px !important;
-}
-main.parent-page__bewerbungen h2.notion-heading:not(.toggle) {
-  font-size: 23px !important;
-  margin: 0 auto !important;
-  margin-bottom: 16px !important
-}
-main.parent-page__bewerbungen h3.notion-heading:not(.toggle) {
-  font-size: 16px !important;
-  font-weight: 240 !important;
-}
-
-main.parent-page__bewerbungen .notion-semantic-string .link {
-    color: var(--link-text);
-    line-height: 26px;
-    height: 82px;
-    -webkit-text-decoration-color: black;
-    text-decoration-color: black;
-    text-decoration-thickness: 1.42px;
-    text-underline-offset: 4px;
-    opacity: .8;
-    padding-bottom: 6px !important;
-}
-
-main.parent-page__bewerbungen .notion-divider {
-    margin: 14px auto !important;
-    height: 0;
-    border-top: 0.0023px solid black !important;
-    max-width: var(--content-md) !important;
-}
-
-/* page break - Ausbildung */
-div#block-1c3b6d59e38d8078b69dc235be790877 {
-    page-break-before: always;
+    @bottom-left {
+        content: "Circulum Vitales - Matze Lenz 2025";
+        font-family: "Dosis", var(--primary-font) !important;
+        font-optical-sizing: auto;
+        font-size: 11px;
+        color: black !important;
+    }
 }
