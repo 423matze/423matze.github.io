@@ -44,6 +44,10 @@ const getColorPreference = () => {
       localStorage.setItem(storageKey, theme.value);
     }
   }
+  if(localStorage.getItem(userKey) == null){
+    theme.value = 'dark';
+    localStorage.setItem(storageKey, theme.value);
+  }
   theme.value = localStorage.getItem(storageKey);
   console.log("Pref set on load", theme.value);
 
