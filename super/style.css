@@ -1947,8 +1947,8 @@ div.notion-image:nth-child(5) {
 /* NOTION MY NUMBERED LIST ---------------------------------------*/
 
 ol.notion-numbered-list .notion-list-item {
-    padding-left: 10px;
-    margin-left: -10px;
+    padding-left: 12px;
+    margin-left: 24px;
 }
 
 ol.notion-numbered-list {
@@ -1956,7 +1956,7 @@ ol.notion-numbered-list {
     counter-reset: my-awesome-counter;
     width: var(--content-max-desktop);
     margin: 0 auto;
-    padding: 0;
+    padding: 0 calc(var(--m423-radius));
 
 }
 
@@ -1965,23 +1965,28 @@ ol li {
 }
 
 ol li::before {
-    display: inline-block;
+    display: block;
+    position: absolute;
     min-width: 2rem;
-    content: counter(my-awesome-counter)".";
+    content: counter(my-awesome-counter) ".";
     font-weight: bold;
     font-size: 2rem;
-    margin-right: 0.5rem;
+    left: 1.5rem;
+    transform: translateY(-0.3em);
+    margin-right: 0.6rem;
     line-height: 1;
     text-align: center;
 }
 
 ol li:first-child::before {
-    display: inline-block;
+    display: block;
+    position: absolute;
     min-width: 2rem;
-    content: counter(my-awesome-counter)".";
+    content: counter(my-awesome-counter) ".";
     font-weight: bold;
     font-size: 2rem;
-    left: .42rem;
+    left: 1.5rem;
+    transform: translateY(-0.3em);
     margin-right: 0.6rem;
     line-height: 1;
     text-align: center;
