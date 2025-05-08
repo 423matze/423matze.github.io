@@ -783,9 +783,9 @@ blockquote {
 .notion-text.bg-blue p.notion-text__content,
 .notion-text.bg-yellow p.notion-text__content,
 .notion-text.bg-purple p.notion-text__content {
-    color: var(--link-text);
-    font-size: calc(var(--heading2-size) - .023rem);
-    padding-bottom: 0.8rem !important;
+    /*color: var(--link-text);
+    font-size: calc(var(--heading2-size) - .023rem);*/
+    padding-bottom: 4rem !important;
 }
 
 @media (max-width:880px) {
