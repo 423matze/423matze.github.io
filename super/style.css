@@ -1618,7 +1618,7 @@ div.notion-image:nth-child(5) {
     overflow:hidden;
 
 }
-super-embed:has(> var) iframe {
+.super-embed:has(> var) iframe {
     position: relative;
     height: 800px;
     width: 100%;
