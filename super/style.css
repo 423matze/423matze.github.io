@@ -1,4 +1,4 @@
-/* style 423 v.R 6.2 */
+/* style 423 v.R 7 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1618,7 +1618,16 @@ div.notion-image:nth-child(5) {
     overflow:hidden;
 
 }
-.super-embed iframe {
+super-embed:has(> var) iframe {
+    position: relative;
+    height: 800px;
+    width: 100%;
+    max-width: var(--content-md) !important;
+    border-radius: var(--m423-radius);
+    margin: 0 calc((100vw - 840px) / 2 - 12.5px) !important;
+}
+
+.super-embed:has(:not(> var)) iframe {
     --videoWidth: 800px;
     position: relative;
     width: var(--videoWidth);
@@ -1980,8 +1989,8 @@ ol li::before {
     content: counter(my-awesome-counter) ".";
     font-weight: bold;
     font-size: 2rem;
-    left: 1.5rem;
-    transform: translateY(-0.3em);
+    left: calc((100% - var(--content-md)) / 2 + 1rem);
+    transform: translateY(-0.12em);
     margin-right: 0.6rem;
     line-height: 1;
     text-align: center;
@@ -1994,11 +2003,22 @@ ol li:first-child::before {
     content: counter(my-awesome-counter) ".";
     font-weight: bold;
     font-size: 2rem;
-    left: 1.5rem;
-    transform: translateY(-0.3em);
+    left: calc((100% - var(--content-md)) / 2 + 1rem );
+    transform: translateY(-0.12em);
     margin-right: 0.6rem;
     line-height: 1;
     text-align: center;
+}
+
+@media (max-width: 880px) {
+    
+    ol li:first-child::before,
+    ol li::before {
+        font-size: 2rem;
+        left: 1.5rem;
+        transform: translateY(-0.12em);
+
+    }
 }
 
 @media(max-width: 546px) {
