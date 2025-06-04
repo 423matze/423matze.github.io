@@ -1,0 +1,341 @@
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body.body-styles {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-image: linear-gradient(to bottom right, #0f172a, #334155); /* from-slate-900 to-slate-700 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem; /* p-4 (1rem = 16px) */
+  margin: 0;
+  color: white;
+  overflow-x: hidden;
+}
+
+body.body-styles::selection {
+  background-color: #38bdf8; /* sky-400 */
+  color: #0c4a6e; /* sky-900 */
+}
+
+/* App Structure */
+.app-container {
+  width: 100%;
+  max-width: 1024px; /* max-w-screen-lg */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-header {
+  margin-bottom: 2rem; /* mb-8 */
+  text-align: center;
+}
+
+.app-title {
+  font-size: 2.25rem; /* text-4xl */
+  line-height: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.025em; /* tracking-tight */
+}
+
+.app-subtitle {
+  margin-top: 0.5rem; /* mt-2 */
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  color: #cbd5e1; /* text-slate-300 */
+}
+
+.app-footer {
+  margin-top: 2rem; /* mt-8 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #94a3b8; /* text-slate-400 */
+}
+
+/* Image Display Area */
+.image-display-container {
+  background-color: white;
+  padding: 0.25rem; /* p-1 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.image-display-area {
+  background-color: black;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* Aspect ratio and max-width are set by JS */
+}
+
+/* Controls Section */
+.controls-container {
+  margin-top: 1.5rem; /* mt-6 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 28rem; /* max-w-md (448px) */
+}
+
+.controls-container > * + * { /* space-y-4 equivalent */
+  margin-top: 1rem;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-group > * + * { /* space-x-3 equivalent */
+  margin-left: 0.75rem;
+}
+
+.image-info-text {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #cbd5e1; /* text-slate-300 */
+  white-space: nowrap;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem; /* mt-4 (if not covered by space-y) - already covered by .controls-container > * + * */
+}
+
+.slider-label {
+  margin-bottom: 0.25rem; /* mb-1 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  color: #cbd5e1; /* text-slate-300 */
+}
+
+.slider-input {
+  width: 100%;
+  height: 0.5rem; /* h-2 */
+  background-color: #334155; /* bg-slate-700 */
+  border-radius: 0.5rem; /* rounded-lg */
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background: #0ea5e9; /* sky-500 */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.slider-input::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  background: #0ea5e9; /* sky-500 */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+/* Basic button styling */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.15s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-sky {
+  background-color: #0ea5e9; /* sky-500 */
+}
+
+.btn-sky:hover {
+  background-color: #0284c7; /* sky-600 */
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dynamically generated content styles from script.js */
+
+/* Status messages (loading, error) */
+.status-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05); /* shadow-inner */
+  width: 100%;
+  height: 100%;
+  padding: 1rem; /* p-4 / p-6 approx */
+}
+
+.status-loading {
+  background-color: #e2e8f0; /* bg-slate-200 */
+  color: #475569; /* text-slate-600 */
+}
+
+.status-error {
+  background-color: #fef2f2; /* bg-red-50 */
+  color: #b91c1c; /* text-red-700 */
+  text-align: center;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  border-radius: 9999px; /* rounded-full */
+  height: 2.5rem; /* h-10 */
+  width: 2.5rem; /* w-10 */
+  border-top-width: 4px;
+  border-top-style: solid;
+  border-top-color: #0284c7; /* border-sky-600 */
+  border-right-color: transparent; /* To make it look like Tailwind's spinner */
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+.status-text {
+  margin-top: 1rem; /* mt-4 or mt-1 */
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+}
+.status-error .status-text { /* specific to error paragraph */
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem;
+    margin-top: 0.25rem; /* mt-1 */
+}
+
+
+.status-icon {
+  height: 2.5rem; /* h-10 */
+  width: 2.5rem; /* w-10 */
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+.error-icon {
+  color: #ef4444; /* text-red-500 */
+}
+
+.status-title { /* For error H3 */
+  font-weight: bold;
+  font-size: 1rem; /* text-base */
+  line-height: 1.5rem;
+}
+
+/* No content messages */
+.no-content-message {
+  width: 100%;
+  /* max-width: 1024px; /* max-w-screen-lg */ /* Already on parent if it's in .app-container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem; /* p-8 */
+  color: white; /* Default, for inside the main dark area */
+}
+.image-display-container > .no-content-message { /* If injected into white container */
+    color: #0f172a; /* Dark text if on light background */
+}
+
+
+.no-content-title { /* Same as .app-title */
+  font-size: 2.25rem; /* text-4xl */
+  line-height: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.025em; /* tracking-tight */
+}
+
+.no-content-text { /* Similar to .app-subtitle */
+  margin-top: 1rem; /* mt-4 */
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.75rem;
+  color: #cbd5e1; /* text-slate-300 */
+}
+.image-display-container > .no-content-message .no-content-text {
+    color: #475569; /* text-slate-600 for example if on light background */
+}
+
+
+.no-content-text.error-text {
+  color: #f87171; /* text-red-400 */
+}
+.image-display-container > .no-content-message .no-content-text.error-text {
+  color: #ef4444; /* text-red-500 or similar, for better contrast on white */
+}
+
+
+/* Responsive Styles */
+@media (min-width: 640px) { /* sm breakpoint */
+  .app-title, .no-content-title {
+    font-size: 3rem; /* sm:text-5xl */
+    line-height: 1;
+  }
+  .app-subtitle, .no-content-text {
+    font-size: 1.25rem; /* sm:text-xl */
+    line-height: 1.75rem;
+  }
+  .image-display-container {
+    padding: 0.5rem; /* sm:p-2 */
+  }
+  .button-group > * + * { /* sm:space-x-4 */
+    margin-left: 1rem;
+  }
+  .image-info-text {
+    font-size: 1rem; /* sm:text-base */
+    line-height: 1.5rem;
+  }
+  .spinner {
+    height: 3rem; /* sm:h-12 */
+    width: 3rem; /* sm:w-12 */
+  }
+  .status-icon {
+    height: 3rem; /* sm:h-12 */
+    width: 3rem; /* sm:w-12 */
+  }
+  .status-loading .status-text, 
+  .status-error .status-title { /* for error title and loading text */
+    font-size: 1rem; /* sm:text-base */
+    line-height: 1.5rem;
+  }
+   .status-error .status-text { /* for error paragraph */
+     font-size: 0.875rem; /* sm:text-sm */
+     line-height: 1.25rem;
+   }
+
+  .status-message-container {
+     padding: 1.5rem; /* sm:p-6 */
+  }
+}
