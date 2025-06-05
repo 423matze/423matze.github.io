@@ -135,6 +135,7 @@ body.body-styles::selection {
   width: 100%;
   height: 1.5rem; /* h-2 */
   border-radius: 0.75rem;
+  padding: 0 0.31rem;
   background-color: #61615e; /* bg-slate-700 */
   border-radius: 0.75rem; /* rounded-lg */
   -webkit-appearance: none;
