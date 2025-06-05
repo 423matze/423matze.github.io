@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.2-debug-01
+// Interactive Scratch Image Script Version 4.2-debug-02
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -536,17 +536,17 @@ function processTouchMoveRAF() {
     if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
         touchMoveScheduledFrame = false;
         lastTouchEventForRAF = null; // Clear if no longer active
-        // console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
+        console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
         return;
     }
 
     const touch = lastTouchEventForRAF.changedTouches[0];
-    // console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
+    console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
 
     const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
 
     if (quadData && isQuadInteractable(quadData)) {
-        // console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
+        console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
         handleQuadInteraction(quadData.id);
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else if (quadData) {
@@ -562,9 +562,9 @@ function processTouchMoveRAF() {
 }
 
 function handleTouchMove(event) {
-  // console.log('[TouchMove] Raw event:', event);
+  console.log('[TouchMove] Raw event:', event);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
-    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
+    console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
@@ -599,10 +599,10 @@ function handleTouchEnd(event) {
   const deltaY = touchEndY - touchStartY;
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    // console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
+    console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
     const quadData = getQuadUnderTouch(touchEndX, touchEndY);
     if (quadData && isQuadInteractable(quadData)) {
-      // console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
+      console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
       handleQuadInteraction(quadData.id);
     } else if (quadData) {
       // console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
