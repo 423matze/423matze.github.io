@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.2-debug-02
+// Interactive Scratch Image Script Version 4.2 - debug 3
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -514,6 +514,10 @@ function handleTouchStart(event) {
     return;
   }
   
+  // If we intend to handle this gesture, prevent default browser actions (like scrolling).
+  event.preventDefault();
+  console.log('[TouchStart] Preventing default browser action.');
+
   isActiveTouchInteraction = true;
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
@@ -526,7 +530,7 @@ function handleTouchStart(event) {
     handleQuadInteraction(quadData.id);
     lastProcessedQuadIdDuringDrag = quadData.id;
   } else if (quadData) {
-   console.log('[TouchStart] Quad found but not interactable:', quadData.id);
+    console.log('[TouchStart] Quad found but not interactable:', quadData.id);
   } else {
     console.log('[TouchStart] No quad found under initial touch.');
   }
@@ -536,17 +540,17 @@ function processTouchMoveRAF() {
     if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
         touchMoveScheduledFrame = false;
         lastTouchEventForRAF = null; // Clear if no longer active
-        console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
+        // console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
         return;
     }
 
     const touch = lastTouchEventForRAF.changedTouches[0];
-    console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
+    // console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
 
     const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
 
     if (quadData && isQuadInteractable(quadData)) {
-        console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
+        // console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
         handleQuadInteraction(quadData.id);
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else if (quadData) {
@@ -564,21 +568,21 @@ function processTouchMoveRAF() {
 function handleTouchMove(event) {
   console.log('[TouchMove] Raw event:', event);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
-    console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
+    console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading. isActive:', isActiveTouchInteraction, 'touches:', event.touches.length, 'isLoading:', isLoading);
     return;
   }
   
-   console.log('[TouchMove] Preventing default browser action.');
+  console.log('[TouchMove] Preventing default browser action (already called in touchstart usually for active gestures, but can be here too).');
   event.preventDefault(); 
 
   lastTouchEventForRAF = event; // Store the latest event
 
   if (!touchMoveScheduledFrame) {
     touchMoveScheduledFrame = true;
-    console.log('[TouchMove] Scheduling RAF for processing.');
+    // console.log('[TouchMove] Scheduling RAF for processing.');
     requestAnimationFrame(processTouchMoveRAF);
   } else {
-    console.log('[TouchMove] RAF already scheduled, event updated.');
+    // console.log('[TouchMove] RAF already scheduled, event updated.');
   }
 }
 
@@ -586,47 +590,49 @@ function handleTouchEnd(event) {
   console.log('[TouchEnd] Event:', event);
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
     isActiveTouchInteraction = false; 
-    // console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
+    console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
 
   const touch = event.changedTouches[0];
   const touchEndX = touch.clientX;
   const touchEndY = touch.clientY;
-  // console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
+  console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
 
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
     console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
+    // For a tap, re-check quad at touch end, as the initial one might have been processed,
+    // or if it was a very quick tap without move, this ensures it's handled.
     const quadData = getQuadUnderTouch(touchEndX, touchEndY);
     if (quadData && isQuadInteractable(quadData)) {
       console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
       handleQuadInteraction(quadData.id);
     } else if (quadData) {
-      // console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
+      console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
     } else {
-      // console.log('[TouchEnd] TAP: No quad found under touch.');
+      console.log('[TouchEnd] TAP: No quad found under touch.');
     }
   } else {
-    // console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
+    console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
   }
 
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null; // Clear any pending RAF event on touch end
   touchMoveScheduledFrame = false;
-  // console.log('[TouchEnd] Interaction INACTIVE.');
+  console.log('[TouchEnd] Interaction INACTIVE.');
 }
 
 function handleTouchCancel(event) {
-  // console.log('[TouchCancel] Event:', event);
+  console.log('[TouchCancel] Event:', event);
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
-  // console.log('[TouchCancel] Interaction INACTIVE.');
+  console.log('[TouchCancel] Interaction INACTIVE.');
 }
 
 
@@ -663,7 +669,7 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
-    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); // Changed to active
     scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
     scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
     scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel);
