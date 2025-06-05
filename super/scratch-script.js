@@ -1,7 +1,8 @@
+// Version 1.2 - interactive scratch image
 // --- Configuration Constants ---
-const TARGET_IMAGE_WIDTH = 1280;
-const TARGET_IMAGE_HEIGHT = 720;
-const INITIAL_GRID_COLS = 5;
+const TARGET_IMAGE_WIDTH = 1024;
+const TARGET_IMAGE_HEIGHT = 768;
+const INITIAL_GRID_COLS = 4;
 const INITIAL_GRID_ROWS = 3;
 const INITIAL_QUAD_WIDTH = TARGET_IMAGE_WIDTH / INITIAL_GRID_COLS;
 const INITIAL_QUAD_HEIGHT = TARGET_IMAGE_HEIGHT / INITIAL_GRID_ROWS;
@@ -206,7 +207,7 @@ function renderQuadsDOM() {
     quadEl.setAttribute('tabindex', '0');
     quadEl.style.position = 'absolute';
     quadEl.style.boxSizing = 'border-box';
-    quadEl.style.border = '0px solid rgba(255,255,255,0.05)';
+    quadEl.style.border = '1px solid rgba(255,255,255,0.05)';
     quadEl.style.overflow = 'hidden';
     quadEl.style.transition = 'border-radius 0.2s ease-out';
 
@@ -426,4 +427,12 @@ function initApp() {
   updateDisplayOnResize(); // Initial dimension calculation
 }
 
-window.addEventListener('DOMContentLoaded', initApp);
+window.addEventListener('load', () => {
+  // Wait for the next animation frame
+  requestAnimationFrame(() => {
+    // Wait for one more animation frame
+    requestAnimationFrame(() => {
+      initApp();
+    });
+  });
+});
