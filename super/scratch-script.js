@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 3.1
+// Interactive Scratch Image Script Version 3.2
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality.
@@ -422,7 +422,7 @@ function handleTouchStart(event) {
   touchStartX = event.changedTouches[0].clientX;
   touchStartY = event.changedTouches[0].clientY;
   isActiveTouchInteraction = true;
-  lastProcessedQuadIdDuringDrag = null;
+  lastProcessedQuadIdDuringDrag = null; // Reset for new touch interaction
 
   const touch = event.changedTouches[0];
   const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -433,7 +433,7 @@ function handleTouchStart(event) {
       const quadData = findQuadDataById(topLevelQuads, quadId);
       if (quadData && isQuadInteractable(quadData)) {
          handleQuadInteraction(quadId);
-         lastProcessedQuadIdDuringDrag = quadId;
+         lastProcessedQuadIdDuringDrag = quadId; // Mark as processed for this touch start
       }
     }
   }
@@ -449,29 +449,22 @@ function handleTouchMove(event) {
 
   const touch = event.changedTouches[0];
   const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+  let currentQuadIdUnderTouch = null;
 
   if (targetElement) {
     const quadElement = targetElement.closest('[role="button"]');
     if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
-      const quadId = quadElement.id;
-      if (quadId !== lastProcessedQuadIdDuringDrag) {
-        const quadData = findQuadDataById(topLevelQuads, quadId);
-        if (quadData && isQuadInteractable(quadData)) {
-          handleQuadInteraction(quadId);
-          lastProcessedQuadIdDuringDrag = quadId;
-        } else if (!quadData || !isQuadInteractable(quadData)){
-          // If dragged onto a non-interactive part or a non-quad, reset to allow re-interaction with previous if dragged back
-          lastProcessedQuadIdDuringDrag = null; 
-        }
+      currentQuadIdUnderTouch = quadElement.id;
+      const quadData = findQuadDataById(topLevelQuads, currentQuadIdUnderTouch);
+      if (quadData && isQuadInteractable(quadData)) {
+        // Call interaction if interactable, regardless of whether it's a "new" quad in this drag
+        handleQuadInteraction(currentQuadIdUnderTouch);
       }
-    } else {
-      // Dragged off a quad element onto the background of display area
-      lastProcessedQuadIdDuringDrag = null;
     }
-  } else {
-    // Dragged outside the display area entirely
-    lastProcessedQuadIdDuringDrag = null;
   }
+  // Update lastProcessedQuadIdDuringDrag to reflect the quad currently under the touch (or null if not over a quad).
+  // This helps in knowing which quad the finger is currently on.
+  lastProcessedQuadIdDuringDrag = currentQuadIdUnderTouch;
 }
 
 function handleTouchEnd(event) {
@@ -487,19 +480,17 @@ function handleTouchEnd(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  // If it was a tap (minimal movement) and no quad was processed during a drag
+  // If it was a tap (minimal movement)
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    // It's a tap. The initial touchstart might have handled it.
-    // This ensures interaction if touchstart didn't (e.g., if it started on non-interactive part then tapped on interactive).
-    // Or if it was a very quick tap where touchstart processing wasn't "enough".
+    // The initial touchstart might have handled it if it started on an interactable quad.
+    // This ensures interaction for a tap even if touchstart didn't process it,
+    // or if it's a very quick tap on an already processed (but still interactable) quad.
+    // `elementFromPoint` at `touchEndX, touchEndY` gets the element at the lift-off point.
     const targetElement = document.elementFromPoint(touchEndX, touchEndY);
     if (targetElement) {
       const quadElement = targetElement.closest('[role="button"]');
       if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
         const quadId = quadElement.id;
-        // Check if this specific quad needs interaction, in case it wasn't the one processed by touchstart
-        // or if its state could have changed by other means (unlikely in this setup).
-        // handleQuadInteraction itself is idempotent for already processed states.
         const quadData = findQuadDataById(topLevelQuads, quadId);
         if (quadData && isQuadInteractable(quadData)) {
              handleQuadInteraction(quadId);
@@ -507,10 +498,10 @@ function handleTouchEnd(event) {
       }
     }
   }
-  // For drags, interaction is handled by handleTouchMove. No specific action here.
+  // For drags, interaction is handled by handleTouchMove. No specific additional action here.
 
   isActiveTouchInteraction = false;
-  lastProcessedQuadIdDuringDrag = null;
+  lastProcessedQuadIdDuringDrag = null; // Reset for the next touch interaction
 }
 
 function handleTouchCancel(event) {
@@ -552,7 +543,10 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
+    // passive: true for touchstart can improve scroll perf if not calling preventDefault.
+    // We call preventDefault in touchmove, so touchstart is fine with passive:true.
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+    // passive: false for touchmove because we call preventDefault to stop page scroll during scratch.
     scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
     scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
     scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel);
