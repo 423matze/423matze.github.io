@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.2
+// Interactive Scratch Image Script Version 4.2-debug-01
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -496,21 +496,21 @@ function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
 
 // --- Touch Event Handlers for Scratching Quads (Geometry-based with rAF) ---
 function handleTouchStart(event) {
-  // console.log('[TouchStart] Event:', event);
+  console.log('[TouchStart] Event:', event);
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl) {
     isActiveTouchInteraction = false;
-    // console.log('[TouchStart] Aborted: Invalid touch count, loading, or no display element.');
+    console.log('[TouchStart] Aborted: Invalid touch count, loading, or no display element.');
     return;
   }
 
   const touch = event.changedTouches[0];
-  // console.log('[TouchStart] Touch details: clientX:', touch.clientX, 'clientY:', touch.clientY);
+  console.log('[TouchStart] Touch details: clientX:', touch.clientX, 'clientY:', touch.clientY);
   
   const rect = scratchImageDisplayEl.getBoundingClientRect();
   if (touch.clientX < rect.left || touch.clientX > rect.right || 
       touch.clientY < rect.top || touch.clientY > rect.bottom) {
     isActiveTouchInteraction = false;
-    // console.log('[TouchStart] Touch is outside display element bounds.');
+    console.log('[TouchStart] Touch is outside display element bounds.');
     return;
   }
   
@@ -518,17 +518,17 @@ function handleTouchStart(event) {
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null;
-  // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
+  console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
-    // console.log('[TouchStart] Quad interactable at start:', quadData.id);
+    console.log('[TouchStart] Quad interactable at start:', quadData.id);
     handleQuadInteraction(quadData.id);
     lastProcessedQuadIdDuringDrag = quadData.id;
   } else if (quadData) {
-    // console.log('[TouchStart] Quad found but not interactable:', quadData.id);
+   console.log('[TouchStart] Quad found but not interactable:', quadData.id);
   } else {
-    // console.log('[TouchStart] No quad found under initial touch.');
+    console.log('[TouchStart] No quad found under initial touch.');
   }
 }
 
@@ -568,22 +568,22 @@ function handleTouchMove(event) {
     return;
   }
   
-  // console.log('[TouchMove] Preventing default browser action.');
+   console.log('[TouchMove] Preventing default browser action.');
   event.preventDefault(); 
 
   lastTouchEventForRAF = event; // Store the latest event
 
   if (!touchMoveScheduledFrame) {
     touchMoveScheduledFrame = true;
-    // console.log('[TouchMove] Scheduling RAF for processing.');
+    console.log('[TouchMove] Scheduling RAF for processing.');
     requestAnimationFrame(processTouchMoveRAF);
   } else {
-    // console.log('[TouchMove] RAF already scheduled, event updated.');
+    console.log('[TouchMove] RAF already scheduled, event updated.');
   }
 }
 
 function handleTouchEnd(event) {
-  // console.log('[TouchEnd] Event:', event);
+  console.log('[TouchEnd] Event:', event);
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
     isActiveTouchInteraction = false; 
     // console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
