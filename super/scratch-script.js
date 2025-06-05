@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.2 - debug 3
+// Interactive Scratch Image Script Version 4.3 - debug 4
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -503,37 +503,44 @@ function handleTouchStart(event) {
     return;
   }
 
-  const touch = event.changedTouches[0];
-  console.log('[TouchStart] Touch details: clientX:', touch.clientX, 'clientY:', touch.clientY);
-  
-  const rect = scratchImageDisplayEl.getBoundingClientRect();
-  if (touch.clientX < rect.left || touch.clientX > rect.right || 
-      touch.clientY < rect.top || touch.clientY > rect.bottom) {
+  let targetElement = event.target;
+  let isTouchOnInteractiveArea = false;
+  while (targetElement && targetElement !== document.body) {
+    if (targetElement === scratchImageDisplayEl) {
+      isTouchOnInteractiveArea = true;
+      break;
+    }
+    targetElement = targetElement.parentElement;
+  }
+
+  if (!isTouchOnInteractiveArea) {
     isActiveTouchInteraction = false;
-    console.log('[TouchStart] Touch is outside display element bounds.');
+    console.log('[TouchStart] Touch did not originate on the interactive display area.');
     return;
   }
-  
-  // If we intend to handle this gesture, prevent default browser actions (like scrolling).
+  console.log('[TouchStart] Touch originated on the interactive display area.');
+
+  // We are sure the touch is on our component. Take control.
   event.preventDefault();
-  console.log('[TouchStart] Preventing default browser action.');
+  console.log('[TouchStart] Successfully called event.preventDefault().');
 
   isActiveTouchInteraction = true;
+  const touch = event.changedTouches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null;
-  console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
+  // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
-    console.log('[TouchStart] Quad interactable at start:', quadData.id);
+    // console.log('[TouchStart] Quad interactable at start:', quadData.id);
     handleQuadInteraction(quadData.id);
     lastProcessedQuadIdDuringDrag = quadData.id;
-  } else if (quadData) {
-    console.log('[TouchStart] Quad found but not interactable:', quadData.id);
-  } else {
-    console.log('[TouchStart] No quad found under initial touch.');
-  }
+  } // else if (quadData) {
+    // console.log('[TouchStart] Quad found but not interactable:', quadData.id);
+  // } else {
+    // console.log('[TouchStart] No quad found under initial touch.');
+  // }
 }
 
 function processTouchMoveRAF() {
@@ -566,14 +573,14 @@ function processTouchMoveRAF() {
 }
 
 function handleTouchMove(event) {
-  console.log('[TouchMove] Raw event:', event);
+  console.log('[TouchMove] Raw event:', event); // Critical log
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
-    console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading. isActive:', isActiveTouchInteraction, 'touches:', event.touches.length, 'isLoading:', isLoading);
+    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading. isActive:', isActiveTouchInteraction, 'touches:', event.touches.length, 'isLoading:', isLoading);
     return;
   }
   
-  console.log('[TouchMove] Preventing default browser action (already called in touchstart usually for active gestures, but can be here too).');
-  event.preventDefault(); 
+  // console.log('[TouchMove] Preventing default browser action (already called in touchstart usually for active gestures, but can be here too).');
+  event.preventDefault(); // Keep this here as well for good measure if touchstart's preventDefault was somehow missed or overridden
 
   lastTouchEventForRAF = event; // Store the latest event
 
@@ -587,52 +594,50 @@ function handleTouchMove(event) {
 }
 
 function handleTouchEnd(event) {
-  console.log('[TouchEnd] Event:', event);
+  console.log('[TouchEnd] Event:', event); // Critical log
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
     isActiveTouchInteraction = false; 
-    console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
+    // console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
 
   const touch = event.changedTouches[0];
   const touchEndX = touch.clientX;
   const touchEndY = touch.clientY;
-  console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
+  // console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
 
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
-    // For a tap, re-check quad at touch end, as the initial one might have been processed,
-    // or if it was a very quick tap without move, this ensures it's handled.
+    // console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
     const quadData = getQuadUnderTouch(touchEndX, touchEndY);
     if (quadData && isQuadInteractable(quadData)) {
-      console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
+      // console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
       handleQuadInteraction(quadData.id);
-    } else if (quadData) {
-      console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
-    } else {
-      console.log('[TouchEnd] TAP: No quad found under touch.');
-    }
-  } else {
-    console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
-  }
+    } // else if (quadData) {
+      // console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
+    // } else {
+      // console.log('[TouchEnd] TAP: No quad found under touch.');
+    // }
+  } // else {
+    // console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
+  // }
 
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null; // Clear any pending RAF event on touch end
   touchMoveScheduledFrame = false;
-  console.log('[TouchEnd] Interaction INACTIVE.');
+  // console.log('[TouchEnd] Interaction INACTIVE.');
 }
 
 function handleTouchCancel(event) {
-  console.log('[TouchCancel] Event:', event);
+  console.log('[TouchCancel] Event:', event); // Critical log
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
-  console.log('[TouchCancel] Interaction INACTIVE.');
+  // console.log('[TouchCancel] Interaction INACTIVE.');
 }
 
 
@@ -669,10 +674,10 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
-    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); // Changed to active
+    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); 
     scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
-    scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
-    scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel);
+    scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd); // passive: true (default) is fine for end/cancel
+    scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel); // passive: true (default) is fine for end/cancel
   }
 
   const resizeObserver = new ResizeObserver(updateDisplayOnResize);
