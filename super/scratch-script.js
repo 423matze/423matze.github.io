@@ -1,7 +1,8 @@
-// Interactive Scratch Image Script Version 3.0
-// This script provides an interactive image display with quad subdivision and swipe gestures.
+
+// Interactive Scratch Image Script Version 3.1
+// This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
-// It also supports swipe gestures for navigation between images.
+// Optimized for touch devices with "scratch-to-reveal" functionality.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -12,6 +13,7 @@ const INITIAL_QUAD_WIDTH = TARGET_IMAGE_WIDTH / INITIAL_GRID_COLS;
 const INITIAL_QUAD_HEIGHT = TARGET_IMAGE_HEIGHT / INITIAL_GRID_ROWS;
 const MAX_QUAD_DEPTH = 6;
 const MIN_QUAD_SIZE_CONFIG = 2;
+const TAP_MOVEMENT_THRESHOLD = 10; // Minimum pixels to differentiate a tap from a drag
 
 // --- Application State ---
 let imageUrls = [];
@@ -26,11 +28,12 @@ let displayDimensions = null; // { width, height }
 // --- DOM Element References ---
 let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl;
 
-// --- Swipe Gesture State ---
+// --- Touch Interaction State ---
 let touchStartX = 0;
 let touchStartY = 0;
-let isPotentialSwipe = false;
-const SWIPE_THRESHOLD = 50; // Minimum pixels for a swipe
+let isActiveTouchInteraction = false;
+let lastProcessedQuadIdDuringDrag = null;
+
 
 // --- Utility Functions ---
 function getAverageColor(sourceImageData, sourceImageWidth, regionX, regionY, regionWidth, regionHeight) {
@@ -85,7 +88,7 @@ function loadImageAndSetupQuads(imageUrl) {
   error = null;
   topLevelQuads = null;
   originalImage = null;
-  renderApp(); // Show loading state for display area
+  renderApp(); 
 
   const img = new Image();
   img.crossOrigin = 'Anonymous';
@@ -165,26 +168,52 @@ function loadImageAndSetupQuads(imageUrl) {
   img.src = imageUrl;
 }
 
-function handleQuadInteraction(quadId) {
-  if (!originalImage || !topLevelQuads) return;
+function findQuadDataById(quads, id) {
+  if (!quads) return null;
+  for (const quad of quads) {
+    if (quad.id === id) return quad;
+    if (quad.isDivided && quad.children) {
+      const foundInChild = findQuadDataById(quad.children, id);
+      if (foundInChild) return foundInChild;
+    }
+  }
+  return null;
+}
 
+function isQuadInteractable(quad) {
+    if (!quad) return false;
+    // Mirroring logic from handleQuadInteraction for when a quad can be interacted with
+    const canReveal = quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed;
+    const canSubdivide = quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && !quad.isRevealed &&
+                         quad.width / 2 >= MIN_QUAD_SIZE_CONFIG && quad.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
+                         quad.width >= 1 && quad.height >= 1;
+    return canReveal || canSubdivide;
+}
+
+function handleQuadInteraction(quadId) {
+  if (!originalImage || !topLevelQuads || isLoading) return;
+
+  let quadChanged = false;
   const findAndProcessQuadRecursive = (quads, targetId) => {
     return quads.map(q => {
       if (q.id === targetId) {
         if (q.depth === MAX_QUAD_DEPTH && !q.isRevealed) {
+          quadChanged = true;
           return { ...q, isRevealed: true, isDivided: false };
         }
         if (q.depth < MAX_QUAD_DEPTH && !q.isDivided && !q.isRevealed &&
             q.width / 2 >= MIN_QUAD_SIZE_CONFIG && q.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
             q.width >= 1 && q.height >= 1) {
+          quadChanged = true;
           return subdivideQuadLogic(q, originalImage.data, originalImage.width);
         }
-        return q;
+        return q; // No change to this quad if conditions not met
       }
       if (q.isDivided && q.children) {
+        const originalChildren = q.children;
         const newChildren = findAndProcessQuadRecursive(q.children, targetId);
-        if (newChildren.some((nc, i) => nc !== q.children[i])) { 
-            return { ...q, children: newChildren };
+        if (newChildren !== originalChildren) { // Check if children array instance changed
+             return { ...q, children: newChildren };
         }
       }
       return q;
@@ -192,7 +221,8 @@ function handleQuadInteraction(quadId) {
   };
   
   const newTopLevelQuads = findAndProcessQuadRecursive(topLevelQuads, quadId);
-  if (newTopLevelQuads.some((nq, i) => nq !== topLevelQuads[i])) {
+  
+  if (quadChanged) { // Only update and re-render if an actual subdivision or reveal happened
       topLevelQuads = newTopLevelQuads;
       renderQuadsDOM(); 
   }
@@ -212,6 +242,7 @@ function renderQuadsDOM() {
     }
 
     const quadEl = document.createElement('div');
+    quadEl.id = quad.id; // Set ID on the element for easier targeting
     quadEl.setAttribute('role', 'button');
     quadEl.setAttribute('tabindex', '0');
     quadEl.style.position = 'absolute';
@@ -232,22 +263,18 @@ function renderQuadsDOM() {
     quadEl.style.width = `${scaledWidth}px`;
     quadEl.style.height = `${scaledHeight}px`;
     
-    const canReveal = quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed;
-    const canSubdivide = quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && !quad.isRevealed &&
-                         quad.width / 2 >= MIN_QUAD_SIZE_CONFIG && quad.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
-                         quad.width >=1 && quad.height >= 1;
-    const isInteractable = canReveal || canSubdivide;
-    quadEl.style.cursor = isInteractable ? 'pointer' : 'default';
-     if (!isInteractable) quadEl.setAttribute('tabindex', '-1');
+    const interactable = isQuadInteractable(quad);
+    quadEl.style.cursor = interactable ? 'pointer' : 'default';
+     if (!interactable) quadEl.setAttribute('tabindex', '-1');
 
 
     let ariaLabel = `Image segment at depth ${quad.depth}.`;
     if (quad.isRevealed) {
         ariaLabel = `Image segment detail revealed (Depth ${quad.depth}).`;
-    } else if (canReveal) {
-        ariaLabel = `Reveal image detail for segment (Depth ${quad.depth}). Click, hover, or focus.`;
-    } else if (canSubdivide) {
-        ariaLabel = `Refine image segment (Depth ${quad.depth}). Click, hover, or focus.`;
+    } else if (interactable && quad.depth === MAX_QUAD_DEPTH) {
+        ariaLabel = `Reveal image detail for segment (Depth ${quad.depth}). Click, hover, focus, or tap.`;
+    } else if (interactable) {
+        ariaLabel = `Refine image segment (Depth ${quad.depth}). Click, hover, focus, or tap.`;
     } else {
         ariaLabel = `Image segment (Depth ${quad.depth}). Fully refined or too small.`;
     }
@@ -266,7 +293,7 @@ function renderQuadsDOM() {
       quadEl.style.borderRadius = `${quadBorderRadius}%`;
     }
 
-    if (isInteractable) {
+    if (interactable) {
       quadEl.addEventListener('click', () => handleQuadInteraction(quad.id));
       quadEl.addEventListener('mouseenter', () => handleQuadInteraction(quad.id));
       quadEl.addEventListener('focus', () => handleQuadInteraction(quad.id));
@@ -385,67 +412,110 @@ function updateDisplayOnResize() {
     }
 }
 
-// --- Touch Event Handlers for Swipe Gestures ---
+// --- Touch Event Handlers for Scratching Quads ---
 function handleTouchStart(event) {
-  if (!scratchImageDisplayEl.contains(event.target) || event.touches.length !== 1) {
-    isPotentialSwipe = false;
+  if (!scratchImageDisplayEl.contains(event.target) || event.touches.length !== 1 || isLoading) {
+    isActiveTouchInteraction = false;
     return;
   }
-  // Only consider swipes if not interacting with a quad directly that might have its own handlers
-  const targetQuad = event.target.closest('[role="button"]'); // Check if touch is on a quad button
-  if (targetQuad && scratchImageDisplayEl.contains(targetQuad)) {
-      isPotentialSwipe = false; // Don't interfere with quad clicks/focus
-      return;
-  }
 
-  touchStartX = event.changedTouches[0].screenX;
-  touchStartY = event.changedTouches[0].screenY;
-  isPotentialSwipe = true;
+  touchStartX = event.changedTouches[0].clientX;
+  touchStartY = event.changedTouches[0].clientY;
+  isActiveTouchInteraction = true;
+  lastProcessedQuadIdDuringDrag = null;
+
+  const touch = event.changedTouches[0];
+  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (targetElement) {
+    const quadElement = targetElement.closest('[role="button"]'); // Quads have role="button" and an ID
+    if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
+      const quadId = quadElement.id;
+      const quadData = findQuadDataById(topLevelQuads, quadId);
+      if (quadData && isQuadInteractable(quadData)) {
+         handleQuadInteraction(quadId);
+         lastProcessedQuadIdDuringDrag = quadId;
+      }
+    }
+  }
 }
 
 function handleTouchMove(event) {
-  if (!isPotentialSwipe || event.touches.length !== 1) {
+  if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
     return;
   }
+  
+  // Prevent default scroll/zoom behavior when scratching
+  event.preventDefault();
 
-  const currentX = event.changedTouches[0].screenX;
-  const currentY = event.changedTouches[0].screenY;
-  const deltaX = Math.abs(currentX - touchStartX);
-  const deltaY = Math.abs(currentY - touchStartY);
+  const touch = event.changedTouches[0];
+  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
 
-  // Prevent default scrolling if the swipe is primarily horizontal and has moved a bit
-  // This allows vertical page scrolling if the user intends that.
-  if (deltaX > deltaY && deltaX > 10) { // 10px is a small threshold to confirm horizontal intent
-    event.preventDefault();
+  if (targetElement) {
+    const quadElement = targetElement.closest('[role="button"]');
+    if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
+      const quadId = quadElement.id;
+      if (quadId !== lastProcessedQuadIdDuringDrag) {
+        const quadData = findQuadDataById(topLevelQuads, quadId);
+        if (quadData && isQuadInteractable(quadData)) {
+          handleQuadInteraction(quadId);
+          lastProcessedQuadIdDuringDrag = quadId;
+        } else if (!quadData || !isQuadInteractable(quadData)){
+          // If dragged onto a non-interactive part or a non-quad, reset to allow re-interaction with previous if dragged back
+          lastProcessedQuadIdDuringDrag = null; 
+        }
+      }
+    } else {
+      // Dragged off a quad element onto the background of display area
+      lastProcessedQuadIdDuringDrag = null;
+    }
+  } else {
+    // Dragged outside the display area entirely
+    lastProcessedQuadIdDuringDrag = null;
   }
 }
 
 function handleTouchEnd(event) {
-  if (!isPotentialSwipe || event.changedTouches.length !== 1) {
-    isPotentialSwipe = false;
+  if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
+    isActiveTouchInteraction = false; // Ensure reset
     return;
   }
-  isPotentialSwipe = false;
 
-  if (isLoading) return; // Don't process swipe if an image is loading
-
-  const touchEndX = event.changedTouches[0].screenX;
-  const touchEndY = event.changedTouches[0].screenY;
+  const touch = event.changedTouches[0];
+  const touchEndX = touch.clientX;
+  const touchEndY = touch.clientY;
 
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  // Check if it's a clear horizontal swipe
-  if (Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) { // Horizontal movement is significantly greater
-    if (deltaX < 0) { // Swipe Left
-      handleNextImage();
-    } else { // Swipe Right
-      handlePrevImage();
+  // If it was a tap (minimal movement) and no quad was processed during a drag
+  if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
+    // It's a tap. The initial touchstart might have handled it.
+    // This ensures interaction if touchstart didn't (e.g., if it started on non-interactive part then tapped on interactive).
+    // Or if it was a very quick tap where touchstart processing wasn't "enough".
+    const targetElement = document.elementFromPoint(touchEndX, touchEndY);
+    if (targetElement) {
+      const quadElement = targetElement.closest('[role="button"]');
+      if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
+        const quadId = quadElement.id;
+        // Check if this specific quad needs interaction, in case it wasn't the one processed by touchstart
+        // or if its state could have changed by other means (unlikely in this setup).
+        // handleQuadInteraction itself is idempotent for already processed states.
+        const quadData = findQuadDataById(topLevelQuads, quadId);
+        if (quadData && isQuadInteractable(quadData)) {
+             handleQuadInteraction(quadId);
+        }
+      }
     }
   }
-  // Reset for next potential swipe (though they are re-read on touchstart)
-  touchStartX = 0;
-  touchStartY = 0;
+  // For drags, interaction is handled by handleTouchMove. No specific action here.
+
+  isActiveTouchInteraction = false;
+  lastProcessedQuadIdDuringDrag = null;
+}
+
+function handleTouchCancel(event) {
+  isActiveTouchInteraction = false;
+  lastProcessedQuadIdDuringDrag = null;
 }
 
 
@@ -481,12 +551,11 @@ function initApp() {
   nextImageBtnEl.addEventListener('click', handleNextImage);
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
-  // Add touch listeners for swipe gestures to the image display area
   if (scratchImageDisplayEl) {
-    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true }); // passive:true for touchstart initially to allow scroll unless move makes it swipe
-    scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive:false for touchmove as we might preventDefault
+    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+    scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
     scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
-    scratchImageDisplayEl.addEventListener('touchcancel', () => { isPotentialSwipe = false; }); // Reset on cancel
+    scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel);
   }
 
   const resizeObserver = new ResizeObserver(updateDisplayOnResize);
