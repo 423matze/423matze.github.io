@@ -1,10 +1,9 @@
 
-// Interactive Scratch Image Script Version 6.1
+// Interactive Scratch Image Script Version 7.0
 // This script provides an interactive image display with quad subdivision.
-// It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
-// Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
-// Includes rAF throttling for touchmove and uses a dedicated touch overlay with event capturing.
-// Introduces an Initial Call to Action (CTA) overlay to improve perceived smoothness of the first touch interaction.
+// Implements "Area/Pencil Reveal" for touch and mouse interactions.
+// Includes rAF throttling and uses a dedicated touch overlay with event capturing for touch.
+// Features an Initial Call to Action (CTA) overlay.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -15,7 +14,8 @@ const INITIAL_QUAD_WIDTH = TARGET_IMAGE_WIDTH / INITIAL_GRID_COLS;
 const INITIAL_QUAD_HEIGHT = TARGET_IMAGE_HEIGHT / INITIAL_GRID_ROWS;
 const MAX_QUAD_DEPTH = 6;
 const MIN_QUAD_SIZE_CONFIG = 2;
-const TAP_MOVEMENT_THRESHOLD = 10; // Minimum pixels to differentiate a tap from a drag
+const TAP_MOVEMENT_THRESHOLD = 10; 
+const PENCIL_REVEAL_RADIUS_LOGICAL = 25; // Radius for area reveal
 
 // --- Application State ---
 let imageUrls = [];
@@ -23,21 +23,23 @@ let currentImageIndex = 0;
 let isLoading = true;
 let error = null;
 let quadBorderRadius = 0;
-let topLevelQuads = null; // Array of QuadData objects
-let originalImage = null; // { element, data, width, height }
-let displayDimensions = null; // { width, height }
-let isInitialCtaDismissed = false; // New state for CTA
+let topLevelQuads = null; 
+let originalImage = null; 
+let displayDimensions = null; 
+let isInitialCtaDismissed = false; 
 
 // --- DOM Element References ---
-let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, touchEventOverlayEl, initialCtaOverlayEl; // Added initialCtaOverlayEl
+let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, touchEventOverlayEl, initialCtaOverlayEl;
 
-// --- Touch Interaction State ---
+// --- Interaction State ---
 let touchStartX = 0;
 let touchStartY = 0;
 let isActiveTouchInteraction = false;
-let lastProcessedQuadIdDuringDrag = null;
 let touchMoveScheduledFrame = false;
 let lastTouchEventForRAF = null;
+let mouseMoveScheduledFrame = false;
+let lastMouseEventForRAF = null;
+let isMouseInteractionActive = false; // For mouse move
 
 
 // --- Utility Functions ---
@@ -93,7 +95,7 @@ function loadImageAndSetupQuads(imageUrl) {
   error = null;
   topLevelQuads = null;
   originalImage = null;
-  isInitialCtaDismissed = false; // Reset CTA for new image
+  isInitialCtaDismissed = false; 
   if (initialCtaOverlayEl) {
     initialCtaOverlayEl.classList.remove('fade-out'); 
   }
@@ -177,18 +179,6 @@ function loadImageAndSetupQuads(imageUrl) {
   img.src = imageUrl;
 }
 
-function findQuadDataById(quads, id) {
-  if (!quads) return null;
-  for (const quad of quads) {
-    if (quad.id === id) return quad;
-    if (quad.isDivided && quad.children) {
-      const foundInChild = findQuadDataById(quad.children, id);
-      if (foundInChild) return foundInChild;
-    }
-  }
-  return null;
-}
-
 function isQuadInteractable(quad) {
     if (!quad) return false;
     const canReveal = quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed;
@@ -199,35 +189,45 @@ function isQuadInteractable(quad) {
 }
 
 function handleQuadInteraction(quadId) {
-  console.log('[Interaction] Attempting interaction for quadId:', quadId);
+  // console.log('[Interaction] Attempting interaction for quadId:', quadId);
   if (!originalImage || !topLevelQuads || isLoading) {
-    console.log('[Interaction] Aborted: No original image, topLevelQuads, or is loading.');
-    return;
+    // console.log('[Interaction] Aborted: No original image, topLevelQuads, or is loading.');
+    return false; // No change
   }
 
-  let quadChanged = false;
+  let quadChangedInThisCall = false;
   const findAndProcessQuadRecursive = (quads, targetId) => {
     return quads.map(q => {
       if (q.id === targetId) {
         if (q.depth === MAX_QUAD_DEPTH && !q.isRevealed) {
-          console.log('[Interaction] Revealing quad:', q.id);
-          quadChanged = true;
+          // console.log('[Interaction] Revealing quad:', q.id);
+          quadChangedInThisCall = true;
           return { ...q, isRevealed: true, isDivided: false };
         }
         if (q.depth < MAX_QUAD_DEPTH && !q.isDivided && !q.isRevealed &&
             q.width / 2 >= MIN_QUAD_SIZE_CONFIG && q.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
             q.width >= 1 && q.height >= 1) {
-          console.log('[Interaction] Subdividing quad:', q.id);
-          quadChanged = true;
+          // console.log('[Interaction] Subdividing quad:', q.id);
+          quadChangedInThisCall = true;
           return subdivideQuadLogic(q, originalImage.data, originalImage.width);
         }
-        console.log('[Interaction] Quad not interactable or already interacted:', q.id, q);
+        // console.log('[Interaction] Quad not interactable or already interacted:', q.id, q);
         return q; 
       }
       if (q.isDivided && q.children) {
         const originalChildren = q.children;
         const newChildren = findAndProcessQuadRecursive(q.children, targetId);
-        if (newChildren !== originalChildren) { 
+        // Check if children array instance or content has changed
+        let childrenChanged = originalChildren.length !== newChildren.length;
+        if (!childrenChanged) {
+            for (let i = 0; i < originalChildren.length; i++) {
+                if (originalChildren[i] !== newChildren[i]) { // Shallow comparison, but effective if findAndProcessQuadRecursive returns new objects for changes
+                    childrenChanged = true;
+                    break;
+                }
+            }
+        }
+        if (childrenChanged) { 
              return { ...q, children: newChildren };
         }
       }
@@ -237,13 +237,13 @@ function handleQuadInteraction(quadId) {
   
   const newTopLevelQuads = findAndProcessQuadRecursive(topLevelQuads, quadId);
   
-  if (quadChanged) { 
-      console.log('[Interaction] Quad changed. Updating topLevelQuads and re-rendering.');
+  if (quadChangedInThisCall) { 
+      // console.log('[Interaction] Quad changed. Updating topLevelQuads.');
       topLevelQuads = newTopLevelQuads;
-      renderQuadsDOM();
   } else {
-      console.log('[Interaction] No change to quad state for ID:', quadId);
+      // console.log('[Interaction] No change to quad state for ID:', quadId);
   }
+  return quadChangedInThisCall; // Return whether this specific quad interaction led to a change
 }
 
 // --- DOM Rendering Functions ---
@@ -252,12 +252,10 @@ function renderQuadsDOM() {
     console.log('[RenderDOM] Aborted: Missing required elements for rendering quads.');
     return; 
   }
-  console.log('[RenderDOM] Rendering quads. CTA is managed by renderDisplayAreaContent.');
+  // console.log('[RenderDOM] Rendering quads. CTA is managed by renderDisplayAreaContent.');
 
-  // Remove previous quad elements, leaving CTA intact
   Array.from(scratchImageDisplayEl.children).forEach(child => {
-    // Quads are identified by having role="button" and not being the CTA overlay
-    if (child.id !== 'initial-cta-overlay' && child.getAttribute('role') === 'button') {
+    if (child.id !== 'initial-cta-overlay' && child.getAttribute('role') === 'button') { // Quads have role="button"
         scratchImageDisplayEl.removeChild(child);
     }
   });
@@ -270,8 +268,8 @@ function renderQuadsDOM() {
 
     const quadEl = document.createElement('div');
     quadEl.id = quad.id;
-    quadEl.setAttribute('role', 'button');
-    quadEl.setAttribute('tabindex', '0');
+    quadEl.setAttribute('role', 'button'); // Still useful for semantics, even if direct listeners are removed
+    // quadEl.setAttribute('tabindex', '0'); // Removed for area interaction
     quadEl.style.position = 'absolute';
     quadEl.style.boxSizing = 'border-box';
     quadEl.style.border = '1px solid rgba(255,255,255,0.05)';
@@ -290,18 +288,17 @@ function renderQuadsDOM() {
     quadEl.style.width = `${scaledWidth}px`;
     quadEl.style.height = `${scaledHeight}px`;
     
-    const interactable = isQuadInteractable(quad);
-    quadEl.style.cursor = interactable ? 'pointer' : 'default';
-     if (!interactable) quadEl.setAttribute('tabindex', '-1');
-
+    // const interactable = isQuadInteractable(quad); // Not needed for styling cursor here anymore
+    // quadEl.style.cursor = interactable ? 'pointer' : 'default'; // Removed for area interaction
+    // if (!interactable) quadEl.setAttribute('tabindex', '-1'); // Removed
 
     let ariaLabel = `Image segment at depth ${quad.depth}.`;
     if (quad.isRevealed) {
         ariaLabel = `Image segment detail revealed (Depth ${quad.depth}).`;
-    } else if (interactable && quad.depth === MAX_QUAD_DEPTH) {
-        ariaLabel = `Reveal image detail for segment (Depth ${quad.depth}). Click, hover, focus, or tap.`;
-    } else if (interactable) {
-        ariaLabel = `Refine image segment (Depth ${quad.depth}). Click, hover, focus, or tap.`;
+    } else if (isQuadInteractable(quad) && quad.depth === MAX_QUAD_DEPTH) {
+        ariaLabel = `Reveal image detail for segment (Depth ${quad.depth}).`;
+    } else if (isQuadInteractable(quad)) {
+        ariaLabel = `Refine image segment (Depth ${quad.depth}).`;
     } else {
         ariaLabel = `Image segment (Depth ${quad.depth}). Fully refined or too small.`;
     }
@@ -320,17 +317,7 @@ function renderQuadsDOM() {
       quadEl.style.borderRadius = `${quadBorderRadius}%`;
     }
 
-    if (interactable) {
-      quadEl.addEventListener('click', () => handleQuadInteraction(quad.id));
-      quadEl.addEventListener('mouseenter', () => handleQuadInteraction(quad.id));
-      quadEl.addEventListener('focus', () => handleQuadInteraction(quad.id));
-      quadEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleQuadInteraction(quad.id);
-        }
-      });
-    }
+    // Event listeners (click, mouseenter, focus, keydown) are removed for area interaction
     scratchImageDisplayEl.appendChild(quadEl);
   };
 
@@ -343,15 +330,9 @@ function renderDisplayAreaContent() {
   scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
   scratchImageDisplayEl.style.maxWidth = `${TARGET_IMAGE_WIDTH}px`;
 
-  // Default: hide CTA initially, will be shown if conditions met
   if (initialCtaOverlayEl && initialCtaOverlayEl.parentNode === scratchImageDisplayEl) {
     initialCtaOverlayEl.style.display = 'none';
-  } else if (initialCtaOverlayEl && initialCtaOverlayEl.parentNode !== scratchImageDisplayEl) {
-    // This case should ideally not happen if initialCtaOverlayEl is always a child of scratchImageDisplayEl from HTML.
-    // If it was somehow detached, we might need to ensure it's hidden or handle it.
-    // For now, we assume it's either a child or not, and only style if it's a child.
   }
-
 
   if (isLoading && imageUrls.length > 0) {
     scratchImageDisplayEl.innerHTML = `
@@ -359,7 +340,6 @@ function renderDisplayAreaContent() {
         <div class="spinner"></div>
         <p class="status-text">Loading Image...</p>
       </div>`;
-    // CTA is removed by innerHTML, which is fine for loading/error states.
   } else if (error && imageUrls.length > 0) {
     scratchImageDisplayEl.innerHTML = `
       <div class="status-message-container status-error">
@@ -369,10 +349,9 @@ function renderDisplayAreaContent() {
         <h3 class="status-title">Oops! Image failed to load.</h3>
         <p class="status-text">${error}</p>
       </div>`;
-    // CTA is removed by innerHTML.
   } else if (topLevelQuads && originalImage && displayDimensions) {
-    scratchImageDisplayEl.innerHTML = ''; // Clear for quads and CTA
-    if (initialCtaOverlayEl) { // Ensure original CTA element is re-appended
+    scratchImageDisplayEl.innerHTML = ''; 
+    if (initialCtaOverlayEl) { 
         scratchImageDisplayEl.appendChild(initialCtaOverlayEl);
         if (!isInitialCtaDismissed) {
             initialCtaOverlayEl.style.display = 'flex'; 
@@ -381,7 +360,7 @@ function renderDisplayAreaContent() {
             initialCtaOverlayEl.style.display = 'none';
         }
     }
-    renderQuadsDOM(); // Renders quads, leaving CTA (if appended) intact
+    renderQuadsDOM(); 
   } else if (imageUrls.length === 0 && !isLoading && !error) {
      const parentContainer = scratchImageDisplayEl.parentElement;
      if (parentContainer) {
@@ -391,7 +370,6 @@ function renderDisplayAreaContent() {
                 <p class="no-content-text">No images configured. Please add image URLs to the 'image-sources' script tag in index.html.</p>
             </div>`;
      }
-    // CTA is effectively gone if parentContainer is replaced
   } else if (imageUrls.length === 0 && error && !isLoading) {
       const parentContainer = scratchImageDisplayEl.parentElement;
       if (parentContainer) {
@@ -401,7 +379,6 @@ function renderDisplayAreaContent() {
                 <p class="no-content-text error-text">Error: ${error}</p>
             </div>`;
       }
-    // CTA is effectively gone
   }
 }
 
@@ -434,17 +411,13 @@ function renderApp() {
 
 // --- Event Handlers & Initialization ---
 function handlePrevImage() {
-  if (isLoading || currentImageIndex <= 0) {
-    return;
-  }
+  if (isLoading || currentImageIndex <= 0) return;
   currentImageIndex--;
   loadImageAndSetupQuads(imageUrls[currentImageIndex]);
 }
 
 function handleNextImage() {
-  if (isLoading || currentImageIndex >= imageUrls.length - 1) {
-    return;
-  }
+  if (isLoading || currentImageIndex >= imageUrls.length - 1) return;
   currentImageIndex++;
   loadImageAndSetupQuads(imageUrls[currentImageIndex]);
 }
@@ -461,7 +434,7 @@ function updateDisplayOnResize() {
         if (currentWidth > 0 && currentHeight > 0) {
             if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
                 displayDimensions = { width: currentWidth, height: currentHeight };
-                console.log('[Resize] Display dimensions updated:', displayDimensions);
+                // console.log('[Resize] Display dimensions updated:', displayDimensions);
                 if (topLevelQuads && originalImage) { 
                     renderQuadsDOM();
                 }
@@ -470,66 +443,51 @@ function updateDisplayOnResize() {
     }
 }
 
-// --- Geometry-based Touch Interaction Helpers ---
-function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY, _depthForLog = 0) {
-  if (!quads) {
-    // console.log(`[FindQuad @${_depthForLog}] No quads to check at this level.`);
-    return null;
-  }
-  // console.log(`[FindQuad @${_depthForLog}] Searching at logicalX: ${logicalX.toFixed(2)}, logicalY: ${logicalY.toFixed(2)} among ${quads.length} quads.`);
+// --- Geometry-based Interaction Helpers ---
 
-  for (const quad of quads) {
-    const qx = quad.x;
-    const qy = quad.y;
-    const qw = quad.width;
-    const qh = quad.height;
+// Utility to check if a rectangle intersects a circle
+function rectangleIntersectsCircle(rectX, rectY, rectWidth, rectHeight, circleX, circleY, circleRadius) {
+    // Find the closest point to the circle within the rectangle
+    const closestX = Math.max(rectX, Math.min(circleX, rectX + rectWidth));
+    const closestY = Math.max(rectY, Math.min(circleY, rectY + rectHeight));
 
-    // console.log(`[FindQuad @${_depthForLog}] Checking quad: ${quad.id} (X:${qx.toFixed(0)}-${(qx+qw).toFixed(0)}, Y:${qy.toFixed(0)}-${(qy+qh).toFixed(0)})`);
-    if (logicalX >= qx && logicalX < qx + qw && logicalY >= qy && logicalY < qy + qh) {
-      // console.log(`[FindQuad @${_depthForLog}] Point is within quad: ${quad.id}`);
-      if (quad.isDivided && quad.children && quad.children.length > 0) {
-        // console.log(`[FindQuad @${_depthForLog}] Quad ${quad.id} is divided, searching children.`);
-        const deeperMatch = findDeepestQuadAtLogicalPoint(quad.children, logicalX, logicalY, _depthForLog + 1);
-        if (deeperMatch) {
-          // console.log(`[FindQuad @${_depthForLog}] Deeper match found in children of ${quad.id}: ${deeperMatch.id}`);
-          return deeperMatch; 
+    // Calculate the distance between the circle's center and this closest point
+    const distanceX = circleX - closestX;
+    const distanceY = circleY - closestY;
+    const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+    // If the distance is less than the circle's radius, an intersection occurs
+    return distanceSquared < (circleRadius * circleRadius);
+}
+
+function findQuadsInLogicalArea(quadsToSearch, logicalCenterX, logicalCenterY, logicalRadius, foundInteractableQuadIdsSet, _depth = 0) {
+    if (!quadsToSearch) return;
+
+    for (const quad of quadsToSearch) {
+        if (rectangleIntersectsCircle(quad.x, quad.y, quad.width, quad.height, logicalCenterX, logicalCenterY, logicalRadius)) {
+            if (quad.isDivided && quad.children && quad.children.length > 0) {
+                findQuadsInLogicalArea(quad.children, logicalCenterX, logicalCenterY, logicalRadius, foundInteractableQuadIdsSet, _depth + 1);
+            } else { // It's a leaf node in terms of structure (not divided or no children means it's as far as it goes)
+                if (isQuadInteractable(quad)) {
+                    foundInteractableQuadIdsSet.add(quad.id);
+                }
+            }
         }
-        // console.log(`[FindQuad @${_depthForLog}] No deeper match in children of ${quad.id}, returning current quad.`);
-      }
-      // console.log(`[FindQuad @${_depthForLog}] Match found: ${quad.id}. Not divided or no deeper match.`);
-      return quad; 
     }
-  }
-  // console.log(`[FindQuad @${_depthForLog}] Point not in any quad at this level.`);
-  return null; 
 }
 
-function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
-  // console.log('[GetQuad] Called with clientX:', touchEventClientX, 'clientY:', touchEventClientY);
-  if (!scratchImageDisplayEl || !displayDimensions || displayDimensions.width === 0 || displayDimensions.height === 0 || !topLevelQuads) {
-    // console.log('[GetQuad] Aborted: Missing display element, dimensions, or topLevelQuads.');
-    return null;
-  }
-
-  const rect = scratchImageDisplayEl.getBoundingClientRect(); 
-  // console.log('[GetQuad] DisplayEl rect:', rect);
-  const relativeX = touchEventClientX - rect.left;
-  const relativeY = touchEventClientY - rect.top;
-  // console.log('[GetQuad] Relative Coords: X:', relativeX, 'Y:', relativeY);
-  
-  const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
-  const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
-  // console.log('[GetQuad] Logical Coords: X:', logicalX, 'Y:', logicalY);
-
-  const foundQuad = findDeepestQuadAtLogicalPoint(topLevelQuads, logicalX, logicalY);
-  // if (foundQuad) {
-    // console.log('[GetQuad] Found quad data:', foundQuad.id);
-  // } else {
-    // console.log('[GetQuad] No quad found at logical coordinates (or touch is outside image bounds).');
-  // }
-  return foundQuad;
+function getLogicalCoordinates(clientX, clientY) {
+    if (!scratchImageDisplayEl || !displayDimensions || displayDimensions.width === 0 || displayDimensions.height === 0) {
+        return null;
+    }
+    const rect = scratchImageDisplayEl.getBoundingClientRect();
+    const relativeX = clientX - rect.left;
+    const relativeY = clientY - rect.top;
+    
+    const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
+    const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
+    return { logicalX, logicalY };
 }
-
 
 // --- Touch Event Handlers (using a dedicated Overlay with Event Capturing) ---
 
@@ -539,11 +497,11 @@ function dismissInitialCta() {
         initialCtaOverlayEl.classList.add('fade-out');
         
         const onTransitionEnd = () => {
-            if (initialCtaOverlayEl.classList.contains('fade-out')) { // Ensure it's still meant to be hidden
+            if (initialCtaOverlayEl.classList.contains('fade-out')) { 
                 initialCtaOverlayEl.style.display = 'none';
             }
             initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd);
-            console.log('[CTA] Dismissed and hidden after fade.');
+            // console.log('[CTA] Dismissed and hidden after fade.');
         };
         initialCtaOverlayEl.addEventListener('transitionend', onTransitionEnd);
         
@@ -551,23 +509,23 @@ function dismissInitialCta() {
             if (initialCtaOverlayEl.classList.contains('fade-out') && initialCtaOverlayEl.style.display !== 'none') {
                  initialCtaOverlayEl.style.display = 'none';
                  initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd); 
-                 console.log('[CTA] Dismissed and hidden via fallback timeout.');
+                 // console.log('[CTA] Dismissed and hidden via fallback timeout.');
             }
         }, 350); 
     }
 }
 
 function handleTouchStart(event) {
-  console.log('[TouchStart] Event on scratchImageDisplayEl:', event);
+  // console.log('[TouchStart] Event on scratchImageDisplayEl:', event);
 
   if (!isInitialCtaDismissed && initialCtaOverlayEl && initialCtaOverlayEl.style.display !== 'none') {
-    console.log('[TouchStart] CTA is visible, dismissing it.');
+    // console.log('[TouchStart] CTA is visible, dismissing it.');
     dismissInitialCta();
   }
   
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl || !touchEventOverlayEl) {
     isActiveTouchInteraction = false;
-    console.log('[TouchStart] Aborted: Invalid touch count, loading, or missing elements.');
+    // console.log('[TouchStart] Aborted: Invalid touch count, loading, or missing elements.');
     return;
   }
 
@@ -583,70 +541,80 @@ function handleTouchStart(event) {
 
   if (!isTouchOnInteractiveArea) {
     isActiveTouchInteraction = false;
-    console.log('[TouchStart] Touch did not originate on the interactive display area or its children.');
+    // console.log('[TouchStart] Touch did not originate on the interactive display area or its children.');
     return;
   }
-  console.log('[TouchStart] Touch originated on the interactive display area or its children.');
+  // console.log('[TouchStart] Touch originated on the interactive display area or its children.');
 
   event.preventDefault(); 
-  console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
+  // console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
 
   scratchImageDisplayEl.style.pointerEvents = 'none';
-  console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
+  // console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
   void scratchImageDisplayEl.offsetHeight; 
-  console.log('[TouchStart] Forced reflow after setting pointer-events.');
+  // console.log('[TouchStart] Forced reflow after setting pointer-events.');
 
   isActiveTouchInteraction = true;
   const touch = event.changedTouches[0]; 
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
-  lastProcessedQuadIdDuringDrag = null;
-  console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
+  // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
   touchEventOverlayEl.style.display = 'block';
   touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
   touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
   touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
-  console.log('[TouchStart] Main touch overlay activated and CAPTURE listeners added to it.');
+  // console.log('[TouchStart] Main touch overlay activated and CAPTURE listeners added to it.');
 
   requestAnimationFrame(() => {
     if (!isActiveTouchInteraction) { 
-        console.log('[TouchStart-RAF] Interaction no longer active, skipping initial tap processing.');
+        // console.log('[TouchStart-RAF] Interaction no longer active, skipping initial tap processing.');
         return;
     }
-    console.log('[TouchStart-RAF] Processing initial tap via RAF for touch at StartX, StartY.');
-    const quadData = getQuadUnderTouch(touchStartX, touchStartY); 
-    if (quadData && isQuadInteractable(quadData)) {
-      console.log('[TouchStart-RAF] Quad interactable at start:', quadData.id);
-      handleQuadInteraction(quadData.id);
-      lastProcessedQuadIdDuringDrag = quadData.id; 
-    } else if (quadData) {
-      console.log('[TouchStart-RAF] Quad found at start but not interactable:', quadData.id);
-    } else {
-      console.log('[TouchStart-RAF] No quad found at start.');
+    // console.log('[TouchStart-RAF] Processing initial tap via RAF for touch at StartX, StartY.');
+    const coords = getLogicalCoordinates(touchStartX, touchStartY);
+    if (coords && topLevelQuads) {
+        const interactableQuadsInArea = new Set();
+        findQuadsInLogicalArea(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, interactableQuadsInArea);
+        
+        let anyQuadChanged = false;
+        interactableQuadsInArea.forEach(quadId => {
+            if (handleQuadInteraction(quadId)) {
+                anyQuadChanged = true;
+            }
+        });
+
+        if (anyQuadChanged) {
+            renderQuadsDOM();
+        }
     }
   });
 }
 
 function processTouchMoveRAF() {
-    if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
+    if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading || !topLevelQuads) {
         touchMoveScheduledFrame = false;
         lastTouchEventForRAF = null;
         return;
     }
 
     const touch = lastTouchEventForRAF.changedTouches[0];
-    const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
+    const coords = getLogicalCoordinates(touch.clientX, touch.clientY);
 
-    if (quadData && isQuadInteractable(quadData)) {
-        if (quadData.id !== lastProcessedQuadIdDuringDrag || lastProcessedQuadIdDuringDrag === null) {
-          handleQuadInteraction(quadData.id);
+    if (coords) {
+        const interactableQuadsInArea = new Set();
+        findQuadsInLogicalArea(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, interactableQuadsInArea);
+        
+        let anyQuadChanged = false;
+        interactableQuadsInArea.forEach(quadId => {
+            if (handleQuadInteraction(quadId)) {
+                anyQuadChanged = true;
+            }
+        });
+
+        if (anyQuadChanged) {
+            renderQuadsDOM();
         }
-        lastProcessedQuadIdDuringDrag = quadData.id;
-    } else if (quadData) {
-        lastProcessedQuadIdDuringDrag = quadData.id;
-    } else {
-        lastProcessedQuadIdDuringDrag = null;
     }
     
     lastTouchEventForRAF = null;
@@ -674,52 +642,127 @@ function removeOverlayListenersAndHide() {
     touchEventOverlayEl.removeEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
     touchEventOverlayEl.removeEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
     touchEventOverlayEl.style.display = 'none';
-    console.log('[Cleanup] Main touch overlay hidden and CAPTURE listeners removed.');
+    // console.log('[Cleanup] Main touch overlay hidden and CAPTURE listeners removed.');
   }
   if (scratchImageDisplayEl) { 
     scratchImageDisplayEl.style.pointerEvents = 'auto';
-    console.log('[Cleanup] Reset scratchImageDisplayEl pointer-events to auto.');
+    // console.log('[Cleanup] Reset scratchImageDisplayEl pointer-events to auto.');
   }
 }
 
 function handleTouchEnd(event) { 
-  console.log('[TouchEnd] Event (from overlay CAPTURE):', event.target.id);
+  // console.log('[TouchEnd] Event (from overlay CAPTURE):', event.target.id);
   if (!isActiveTouchInteraction) { 
-    console.log('[TouchEnd] Aborted: Not active.');
+    // console.log('[TouchEnd] Aborted: Not active.');
     removeOverlayListenersAndHide(); 
     return;
   }
-
-  const touch = event.changedTouches[0];
-  const touchEndX = touch.clientX;
-  const touchEndY = touch.clientY;
-  console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
-
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
-
-  if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
-  } else {
-    console.log('[TouchEnd] Detected as DRAG end.');
-  }
-
   isActiveTouchInteraction = false;
-  lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
-  console.log('[TouchEnd] Interaction INACTIVE.');
+  // console.log('[TouchEnd] Interaction INACTIVE.');
   removeOverlayListenersAndHide();
 }
 
 function handleTouchCancel(event) { 
-  console.log('[TouchCancel] Event (from overlay CAPTURE):', event.target.id);
+  // console.log('[TouchCancel] Event (from overlay CAPTURE):', event.target.id);
   isActiveTouchInteraction = false;
-  lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
-  console.log('[TouchCancel] Interaction INACTIVE.');
+  // console.log('[TouchCancel] Interaction INACTIVE.');
   removeOverlayListenersAndHide();
+}
+
+// --- Mouse Event Handlers for Area Reveal ---
+function processMouseMoveRAF() {
+    if (!lastMouseEventForRAF || !isMouseInteractionActive || isLoading || !topLevelQuads) {
+        mouseMoveScheduledFrame = false;
+        lastMouseEventForRAF = null;
+        return;
+    }
+
+    const coords = getLogicalCoordinates(lastMouseEventForRAF.clientX, lastMouseEventForRAF.clientY);
+    if (coords) {
+        const interactableQuadsInArea = new Set();
+        findQuadsInLogicalArea(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, interactableQuadsInArea);
+        
+        let anyQuadChanged = false;
+        interactableQuadsInArea.forEach(quadId => {
+            if (handleQuadInteraction(quadId)) {
+                anyQuadChanged = true;
+            }
+        });
+
+        if (anyQuadChanged) {
+            renderQuadsDOM();
+        }
+    }
+    
+    lastMouseEventForRAF = null;
+    mouseMoveScheduledFrame = false;
+}
+
+function handleMouseMove(event) {
+    if (isLoading || !scratchImageDisplayEl || !isMouseInteractionActive) { // isMouseInteractionActive controls if drag-reveal is on
+        return;
+    }
+    event.preventDefault(); // Prevent text selection etc. during drag
+    lastMouseEventForRAF = event;
+
+    if (!mouseMoveScheduledFrame) {
+        mouseMoveScheduledFrame = true;
+        requestAnimationFrame(processMouseMoveRAF);
+    }
+}
+
+function handleMouseDown(event) {
+    if (event.button !== 0 || isLoading || !scratchImageDisplayEl ) return; // Only main button
+    
+    if (!isInitialCtaDismissed && initialCtaOverlayEl && initialCtaOverlayEl.style.display !== 'none') {
+        dismissInitialCta();
+    }
+
+    isMouseInteractionActive = true;
+    // console.log('[MouseDown] Mouse interaction ACTIVE.');
+    
+    // Process initial click point immediately
+    const coords = getLogicalCoordinates(event.clientX, event.clientY);
+    if (coords && topLevelQuads) {
+        const interactableQuadsInArea = new Set();
+        findQuadsInLogicalArea(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, interactableQuadsInArea);
+        
+        let anyQuadChanged = false;
+        interactableQuadsInArea.forEach(quadId => {
+            if (handleQuadInteraction(quadId)) {
+                anyQuadChanged = true;
+            }
+        });
+        if (anyQuadChanged) {
+            renderQuadsDOM();
+        }
+    }
+     // Add move/up listeners to window to capture drag outside element
+    window.addEventListener('mousemove', handleMouseMove, { capture: true });
+    window.addEventListener('mouseup', handleMouseUp, { capture: true });
+}
+
+function handleMouseUp(event) {
+    if (event.button !== 0 || !isMouseInteractionActive) return;
+    isMouseInteractionActive = false;
+    // console.log('[MouseUp] Mouse interaction INACTIVE.');
+    lastMouseEventForRAF = null;
+    mouseMoveScheduledFrame = false;
+    window.removeEventListener('mousemove', handleMouseMove, { capture: true });
+    window.removeEventListener('mouseup', handleMouseUp, { capture: true });
+}
+
+function handleMouseLeaveDisplay() {
+    // If mouse leaves the display area, and interaction was active, stop it.
+    // This is more for if mousemove was directly on scratchImageDisplayEl.
+    // With window listeners for mousemove during drag, this might be less critical for drag,
+    // but good for resetting state if the mouse just leaves without dragging.
+    // For now, primary drag control is mouseup on window.
+    // console.log('[MouseLeave] Mouse left display area.');
 }
 
 
@@ -732,7 +775,7 @@ function initApp() {
   borderRadiusSliderEl = document.getElementById('border-radius-slider');
   borderRadiusLabelEl = document.getElementById('border-radius-label');
   touchEventOverlayEl = document.getElementById('touch-event-overlay');
-  initialCtaOverlayEl = document.getElementById('initial-cta-overlay'); // This is the original DOM element
+  initialCtaOverlayEl = document.getElementById('initial-cta-overlay');
 
 
   const imageSourcesScriptTag = document.getElementById('image-sources');
@@ -760,6 +803,10 @@ function initApp() {
 
   if (scratchImageDisplayEl) {
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); 
+    // Mouse listeners for area reveal
+    scratchImageDisplayEl.addEventListener('mousedown', handleMouseDown);
+    // mousemove and mouseup are added to window during mousedown
+    scratchImageDisplayEl.addEventListener('mouseleave', handleMouseLeaveDisplay);
   } else {
     console.error("Scratch image display element not found!");
   }
@@ -770,8 +817,10 @@ function initApp() {
     initialCtaOverlayEl.addEventListener('click', (e) => {
         e.stopPropagation(); 
         if (!isInitialCtaDismissed) {
-            console.log('[CTA] Clicked, dismissing.');
+            // console.log('[CTA] Clicked, dismissing.');
             dismissInitialCta();
+            // For mouse, the mousedown on scratchImageDisplayEl will handle the first interaction
+            // if the click on CTA propagates. If it doesn't, this dismissal is enough.
         }
     });
   } else {
@@ -799,4 +848,3 @@ window.addEventListener('load', () => {
     });
   });
 });
-    
