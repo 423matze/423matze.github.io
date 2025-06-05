@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 3.3
+// Interactive Scratch Image Script Version 3.4
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality.
@@ -418,27 +418,36 @@ function updateDisplayOnResize() {
 
 // --- Touch Event Handlers for Scratching Quads ---
 function handleTouchStart(event) {
-  if (!scratchImageDisplayEl.contains(event.target) || event.touches.length !== 1 || isLoading) {
-    isActiveTouchInteraction = false;
+  const touch = event.changedTouches[0];
+  // Use document.elementFromPoint to get the element at the actual touch coordinates
+  const elementAtTouchStart = document.elementFromPoint(touch.clientX, touch.clientY);
+
+  // If the touch doesn't start within the scratch area, or multiple touches, or loading, bail.
+  if (!elementAtTouchStart || 
+      !scratchImageDisplayEl.contains(elementAtTouchStart) || 
+      event.touches.length !== 1 || 
+      isLoading) {
+    isActiveTouchInteraction = false; // Ensure it's false if we bail early
     return;
   }
 
-  touchStartX = event.changedTouches[0].clientX;
-  touchStartY = event.changedTouches[0].clientY;
-  isActiveTouchInteraction = true;
+  // If we're here, the touch is valid to start an interaction
+  isActiveTouchInteraction = true; // Set this flag *before* any potential DOM modification
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null; // Reset for new touch interaction
 
-  const touch = event.changedTouches[0];
-  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-  if (targetElement) {
-    const quadElement = targetElement.closest('[role="button"]'); // Quads have role="button" and an ID
-    if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
-      const quadId = quadElement.id;
-      const quadData = findQuadDataById(topLevelQuads, quadId);
-      if (quadData && isQuadInteractable(quadData)) {
-         handleQuadInteraction(quadId);
-         lastProcessedQuadIdDuringDrag = quadId; // Mark as processed for this touch start
-      }
+  // Now, attempt to interact with the quad at the touch start point (for tap-like feel)
+  // elementAtTouchStart is the element directly under the finger at the start of the touch.
+  const quadElement = elementAtTouchStart.closest('[role="button"]'); 
+  if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
+    const quadId = quadElement.id;
+    const quadData = findQuadDataById(topLevelQuads, quadId);
+    if (quadData && isQuadInteractable(quadData)) {
+       handleQuadInteraction(quadId);
+       // Mark as processed for this touch start, primarily for tracking if needed,
+       // though handleTouchMove will re-evaluate independently.
+       lastProcessedQuadIdDuringDrag = quadId; 
     }
   }
 }
@@ -467,13 +476,12 @@ function handleTouchMove(event) {
     }
   }
   // Update lastProcessedQuadIdDuringDrag to reflect the quad currently under the touch (or null if not over a quad).
-  // This helps in knowing which quad the finger is currently on.
   lastProcessedQuadIdDuringDrag = currentQuadIdUnderTouch;
 }
 
 function handleTouchEnd(event) {
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
-    isActiveTouchInteraction = false; // Ensure reset
+    isActiveTouchInteraction = false; // Ensure reset if conditions not met
     return;
   }
 
