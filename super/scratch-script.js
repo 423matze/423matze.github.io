@@ -1,8 +1,8 @@
 
-// Interactive Scratch Image Script Version 3.4
+// Interactive Scratch Image Script Version 4.1
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
-// Optimized for touch devices with "scratch-to-reveal" functionality.
+// Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -182,7 +182,6 @@ function findQuadDataById(quads, id) {
 
 function isQuadInteractable(quad) {
     if (!quad) return false;
-    // Mirroring logic from handleQuadInteraction for when a quad can be interacted with
     const canReveal = quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed;
     const canSubdivide = quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && !quad.isRevealed &&
                          quad.width / 2 >= MIN_QUAD_SIZE_CONFIG && quad.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
@@ -207,12 +206,12 @@ function handleQuadInteraction(quadId) {
           quadChanged = true;
           return subdivideQuadLogic(q, originalImage.data, originalImage.width);
         }
-        return q; // No change to this quad if conditions not met
+        return q; 
       }
       if (q.isDivided && q.children) {
         const originalChildren = q.children;
         const newChildren = findAndProcessQuadRecursive(q.children, targetId);
-        if (newChildren !== originalChildren) { // Check if children array instance changed
+        if (newChildren !== originalChildren) { 
              return { ...q, children: newChildren };
         }
       }
@@ -225,9 +224,6 @@ function handleQuadInteraction(quadId) {
   if (quadChanged) { 
       topLevelQuads = newTopLevelQuads;
       renderQuadsDOM();
-      // Force a synchronous reflow. This might help ensure that newly added/changed DOM elements
-      // are immediately and reliably detectable by document.elementFromPoint in subsequent
-      // touchmove events, especially on platforms like iOS.
       if (scratchImageDisplayEl) void scratchImageDisplayEl.offsetHeight;
   }
 }
@@ -246,7 +242,7 @@ function renderQuadsDOM() {
     }
 
     const quadEl = document.createElement('div');
-    quadEl.id = quad.id; // Set ID on the element for easier targeting
+    quadEl.id = quad.id;
     quadEl.setAttribute('role', 'button');
     quadEl.setAttribute('tabindex', '0');
     quadEl.style.position = 'absolute';
@@ -404,11 +400,13 @@ function handleBorderRadiusChange(event) {
 function updateDisplayOnResize() {
     if (scratchImageDisplayEl) {
         const currentWidth = scratchImageDisplayEl.offsetWidth;
+        // Ensure aspect ratio is maintained for height calculation
         const currentHeight = currentWidth / (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT); 
         if (currentWidth > 0 && currentHeight > 0) {
+            // Only update if dimensions actually changed to avoid unnecessary re-renders
             if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
                 displayDimensions = { width: currentWidth, height: currentHeight };
-                if (topLevelQuads && originalImage) { 
+                if (topLevelQuads && originalImage) { // Only re-render quads if they exist
                     renderQuadsDOM();
                 }
             }
@@ -416,39 +414,77 @@ function updateDisplayOnResize() {
     }
 }
 
-// --- Touch Event Handlers for Scratching Quads ---
-function handleTouchStart(event) {
-  const touch = event.changedTouches[0];
-  // Use document.elementFromPoint to get the element at the actual touch coordinates
-  const elementAtTouchStart = document.elementFromPoint(touch.clientX, touch.clientY);
+// --- Geometry-based Touch Interaction Helpers ---
+function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY) {
+  if (!quads) return null;
 
-  // If the touch doesn't start within the scratch area, or multiple touches, or loading, bail.
-  if (!elementAtTouchStart || 
-      !scratchImageDisplayEl.contains(elementAtTouchStart) || 
-      event.touches.length !== 1 || 
-      isLoading) {
-    isActiveTouchInteraction = false; // Ensure it's false if we bail early
+  for (const quad of quads) {
+    const qx = quad.x;
+    const qy = quad.y;
+    const qw = quad.width;
+    const qh = quad.height;
+
+    if (logicalX >= qx && logicalX < qx + qw && logicalY >= qy && logicalY < qy + qh) {
+      // Point is within this quad's bounds
+      if (quad.isDivided && quad.children && quad.children.length > 0) {
+        const deeperMatch = findDeepestQuadAtLogicalPoint(quad.children, logicalX, logicalY);
+        if (deeperMatch) {
+          return deeperMatch; // Return the deepest match from children
+        }
+      }
+      return quad; // No deeper children or point not in children, so this is the one
+    }
+  }
+  return null; // Point not in any quad at this level
+}
+
+function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
+  if (!scratchImageDisplayEl || !displayDimensions || displayDimensions.width === 0 || displayDimensions.height === 0 || !topLevelQuads) {
+    return null;
+  }
+
+  const rect = scratchImageDisplayEl.getBoundingClientRect();
+  const relativeX = touchEventClientX - rect.left;
+  const relativeY = touchEventClientY - rect.top;
+
+  // Ensure touch is within the calculated display dimensions
+  if (relativeX < 0 || relativeX > displayDimensions.width || relativeY < 0 || relativeY > displayDimensions.height) {
+    return null;
+  }
+  
+  const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
+  const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
+
+  return findDeepestQuadAtLogicalPoint(topLevelQuads, logicalX, logicalY);
+}
+
+
+// --- Touch Event Handlers for Scratching Quads (Geometry-based) ---
+function handleTouchStart(event) {
+  if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl) {
+    isActiveTouchInteraction = false;
     return;
   }
 
-  // If we're here, the touch is valid to start an interaction
-  isActiveTouchInteraction = true; // Set this flag *before* any potential DOM modification
+  const touch = event.changedTouches[0];
+  
+  // Basic boundary check against the display element's current rect
+  const rect = scratchImageDisplayEl.getBoundingClientRect();
+  if (touch.clientX < rect.left || touch.clientX > rect.right || 
+      touch.clientY < rect.top || touch.clientY > rect.bottom) {
+    isActiveTouchInteraction = false;
+    return;
+  }
+  
+  isActiveTouchInteraction = true;
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
-  lastProcessedQuadIdDuringDrag = null; // Reset for new touch interaction
+  lastProcessedQuadIdDuringDrag = null;
 
-  // Now, attempt to interact with the quad at the touch start point (for tap-like feel)
-  // elementAtTouchStart is the element directly under the finger at the start of the touch.
-  const quadElement = elementAtTouchStart.closest('[role="button"]'); 
-  if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
-    const quadId = quadElement.id;
-    const quadData = findQuadDataById(topLevelQuads, quadId);
-    if (quadData && isQuadInteractable(quadData)) {
-       handleQuadInteraction(quadId);
-       // Mark as processed for this touch start, primarily for tracking if needed,
-       // though handleTouchMove will re-evaluate independently.
-       lastProcessedQuadIdDuringDrag = quadId; 
-    }
+  const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
+  if (quadData && isQuadInteractable(quadData)) {
+    handleQuadInteraction(quadData.id);
+    lastProcessedQuadIdDuringDrag = quadData.id;
   }
 }
 
@@ -457,31 +493,27 @@ function handleTouchMove(event) {
     return;
   }
   
-  // Prevent default scroll/zoom behavior when scratching
-  event.preventDefault();
+  event.preventDefault(); // Prevent scroll/zoom during scratching
 
   const touch = event.changedTouches[0];
-  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
-  let currentQuadIdUnderTouch = null;
+  const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
 
-  if (targetElement) {
-    const quadElement = targetElement.closest('[role="button"]');
-    if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
-      currentQuadIdUnderTouch = quadElement.id;
-      const quadData = findQuadDataById(topLevelQuads, currentQuadIdUnderTouch);
-      if (quadData && isQuadInteractable(quadData)) {
-        // Call interaction if interactable, regardless of whether it's a "new" quad in this drag
-        handleQuadInteraction(currentQuadIdUnderTouch);
-      }
-    }
+  if (quadData && isQuadInteractable(quadData)) {
+    // Call interaction if interactable, this makes "scratching" more responsive.
+    // `handleQuadInteraction` is idempotent enough for repeated calls on the same quad.
+    handleQuadInteraction(quadData.id);
+    lastProcessedQuadIdDuringDrag = quadData.id;
+  } else {
+    // If not over an interactable quad, clear the last processed ID.
+    // This isn't strictly necessary if handleQuadInteraction doesn't use it,
+    // but good for state clarity if we were to add optimizations later.
+    lastProcessedQuadIdDuringDrag = null;
   }
-  // Update lastProcessedQuadIdDuringDrag to reflect the quad currently under the touch (or null if not over a quad).
-  lastProcessedQuadIdDuringDrag = currentQuadIdUnderTouch;
 }
 
 function handleTouchEnd(event) {
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
-    isActiveTouchInteraction = false; // Ensure reset if conditions not met
+    isActiveTouchInteraction = false; 
     return;
   }
 
@@ -492,28 +524,18 @@ function handleTouchEnd(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  // If it was a tap (minimal movement)
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    // The initial touchstart might have handled it if it started on an interactable quad.
-    // This ensures interaction for a tap even if touchstart didn't process it,
-    // or if it's a very quick tap on an already processed (but still interactable) quad.
-    // `elementFromPoint` at `touchEndX, touchEndY` gets the element at the lift-off point.
-    const targetElement = document.elementFromPoint(touchEndX, touchEndY);
-    if (targetElement) {
-      const quadElement = targetElement.closest('[role="button"]');
-      if (quadElement && quadElement.id && scratchImageDisplayEl.contains(quadElement)) {
-        const quadId = quadElement.id;
-        const quadData = findQuadDataById(topLevelQuads, quadId);
-        if (quadData && isQuadInteractable(quadData)) {
-             handleQuadInteraction(quadId);
-        }
-      }
+    // This was a tap. Attempt interaction at the lift-off point.
+    // `getQuadUnderTouch` will find the quad at the final touch point.
+    const quadData = getQuadUnderTouch(touchEndX, touchEndY);
+    if (quadData && isQuadInteractable(quadData)) {
+      handleQuadInteraction(quadData.id);
     }
   }
-  // For drags, interaction is handled by handleTouchMove. No specific additional action here.
+  // For drags, interaction is handled by handleTouchMove.
 
   isActiveTouchInteraction = false;
-  lastProcessedQuadIdDuringDrag = null; // Reset for the next touch interaction
+  lastProcessedQuadIdDuringDrag = null;
 }
 
 function handleTouchCancel(event) {
@@ -555,10 +577,7 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
-    // passive: true for touchstart can improve scroll perf if not calling preventDefault.
-    // We call preventDefault in touchmove, so touchstart is fine with passive:true.
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true });
-    // passive: false for touchmove because we call preventDefault to stop page scroll during scratch.
     scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
     scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
     scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel);
@@ -574,7 +593,7 @@ function initApp() {
   } else {
       renderApp(); 
   }
-  updateDisplayOnResize(); 
+  updateDisplayOnResize(); // Initial call to set displayDimensions
 }
 
 window.addEventListener('load', () => {
