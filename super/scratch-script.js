@@ -1,4 +1,3 @@
-
 // Interactive Scratch Image Script Version 6.0
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
