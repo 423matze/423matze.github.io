@@ -2405,6 +2405,10 @@ M O B I LE  R E S P O N S I V E
         left: -12px;
     }
 
+    .super-embed {
+        pointer-events: none;
+    }
+
     .notion-callout.bg-pink-light {
         min-width: 240px;
         width: 90%;
