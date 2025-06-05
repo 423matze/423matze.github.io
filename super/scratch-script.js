@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 5.0
+// Interactive Scratch Image Script Version 5.1
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -235,7 +235,6 @@ function handleQuadInteraction(quadId) {
       console.log('[Interaction] Quad changed. Updating topLevelQuads and re-rendering.');
       topLevelQuads = newTopLevelQuads;
       renderQuadsDOM();
-      // No need to force reflow on scratchImageDisplayEl if using overlay for touch
   } else {
       console.log('[Interaction] No change to quad state for ID:', quadId);
   }
@@ -469,14 +468,11 @@ function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
     return null;
   }
 
-  const rect = scratchImageDisplayEl.getBoundingClientRect(); // This is key for transforming screen coords to local
+  const rect = scratchImageDisplayEl.getBoundingClientRect(); 
   console.log('[GetQuad] DisplayEl rect:', rect);
   const relativeX = touchEventClientX - rect.left;
   const relativeY = touchEventClientY - rect.top;
   console.log('[GetQuad] Relative Coords: X:', relativeX, 'Y:', relativeY);
-
-  // No need to check if outside displayDimensions here, as the overlay covers the screen
-  // and getBoundingClientRect() gives us the correct reference for scratchImageDisplayEl.
   
   const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
   const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
@@ -501,9 +497,6 @@ function handleTouchStart(event) {
     return;
   }
 
-  // Check if touch originated directly on scratchImageDisplayEl or its children (quads)
-  // This check might be less critical if we always proceed to use the overlay,
-  // but good for confirming intent.
   let targetElement = event.target;
   let isTouchOnInteractiveArea = false;
   while (targetElement && targetElement !== document.body) {
@@ -521,30 +514,41 @@ function handleTouchStart(event) {
   }
   console.log('[TouchStart] Touch originated on the interactive display area.');
 
-  event.preventDefault(); // Prevent default actions like scrolling IF gesture starts on our interactive element
+  event.preventDefault(); 
   console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
 
   isActiveTouchInteraction = true;
-  const touch = event.changedTouches[0];
+  const touch = event.changedTouches[0]; // Capture the touch object here for RAF
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null;
   console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
-  // Activate the overlay and attach listeners to it
   touchEventOverlayEl.style.display = 'block';
   touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { passive: false });
   touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { passive: true });
   touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { passive: true });
   console.log('[TouchStart] Overlay activated and listeners added to overlay.');
 
-  // Process initial tap on the scratch area
-  const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
-  if (quadData && isQuadInteractable(quadData)) {
-    console.log('[TouchStart] Quad interactable at start:', quadData.id);
-    handleQuadInteraction(quadData.id);
-    lastProcessedQuadIdDuringDrag = quadData.id;
-  }
+  // Schedule the processing of the initial tap to allow the overlay to settle
+  requestAnimationFrame(() => {
+    if (!isActiveTouchInteraction) { 
+        console.log('[TouchStart-RAF] Interaction no longer active, skipping initial tap processing.');
+        return;
+    }
+    // Use the originally captured touch object's clientX/Y for consistency
+    console.log('[TouchStart-RAF] Processing initial tap via RAF for touch at StartX, StartY.');
+    const quadData = getQuadUnderTouch(touchStartX, touchStartY); 
+    if (quadData && isQuadInteractable(quadData)) {
+      console.log('[TouchStart-RAF] Quad interactable at start:', quadData.id);
+      handleQuadInteraction(quadData.id);
+      lastProcessedQuadIdDuringDrag = quadData.id; 
+    } else if (quadData) {
+      console.log('[TouchStart-RAF] Quad found at start but not interactable:', quadData.id);
+    } else {
+      console.log('[TouchStart-RAF] No quad found at start.');
+    }
+  });
 }
 
 function processTouchMoveRAF() {
@@ -562,7 +566,10 @@ function processTouchMoveRAF() {
 
     if (quadData && isQuadInteractable(quadData)) {
         console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
-        handleQuadInteraction(quadData.id);
+        // Only interact if it's a new quad or the very first drag move
+        if (quadData.id !== lastProcessedQuadIdDuringDrag || lastProcessedQuadIdDuringDrag === null) {
+          handleQuadInteraction(quadData.id);
+        }
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else if (quadData) {
         console.log('[ProcessTouchMoveRAF] Quad found but not interactable:', quadData.id);
@@ -576,14 +583,14 @@ function processTouchMoveRAF() {
     touchMoveScheduledFrame = false;
 }
 
-function handleTouchMove(event) { // This event now comes from touchEventOverlayEl
+function handleTouchMove(event) { 
   console.log('[TouchMove] Raw event (from overlay), active:', isActiveTouchInteraction);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
     console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
-  event.preventDefault(); // Prevent default actions for the overlay as well
+  event.preventDefault(); 
   console.log('[TouchMove] Called event.preventDefault() on overlay listener.');
 
   lastTouchEventForRAF = event;
@@ -607,7 +614,7 @@ function removeOverlayListenersAndHide() {
   }
 }
 
-function handleTouchEnd(event) { // This event now comes from touchEventOverlayEl
+function handleTouchEnd(event) { 
   console.log('[TouchEnd] Event (from overlay):', event);
   if (!isActiveTouchInteraction) { 
     console.log('[TouchEnd] Aborted: Not active.');
@@ -623,14 +630,19 @@ function handleTouchEnd(event) { // This event now comes from touchEventOverlayE
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
+  // Check if the initial RAF for touchstart tap is still pending or if it's a genuine drag end
+  // The RAF for tap is already scheduled. If this touchend is very quick, it might be part of that tap.
+  // If it was a drag, lastProcessedQuadIdDuringDrag would likely be set by processTouchMoveRAF.
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
     console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
-    // For tap, we still use getQuadUnderTouch relative to scratchImageDisplayEl
-    const quadData = getQuadUnderTouch(touchEndX, touchEndY);
-    if (quadData && isQuadInteractable(quadData)) {
-      console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
-      handleQuadInteraction(quadData.id);
-    }
+    // The initial tap is already handled by the RAF in handleTouchStart.
+    // We don't need to do it again here unless the RAF was somehow missed or
+    // if we want to ensure it happens even if RAF in start didn't fire (e.g. cancellation).
+    // For simplicity, the RAF in handleTouchStart should cover the tap.
+    // If this is a *very quick* lift after a *very slight* move that didn't trigger processTouchMoveRAF,
+    // the RAF in handleTouchStart should still reflect the *original* tap point.
+  } else {
+    console.log('[TouchEnd] Detected as DRAG end.');
   }
 
   isActiveTouchInteraction = false;
@@ -641,7 +653,7 @@ function handleTouchEnd(event) { // This event now comes from touchEventOverlayE
   removeOverlayListenersAndHide();
 }
 
-function handleTouchCancel(event) { // This event now comes from touchEventOverlayEl
+function handleTouchCancel(event) { 
   console.log('[TouchCancel] Event (from overlay):', event);
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
@@ -687,7 +699,6 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
-    // Only touchstart is needed directly on the display element to initiate the overlay
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); 
   } else {
     console.error("Scratch image display element not found!");
