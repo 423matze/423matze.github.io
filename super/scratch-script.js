@@ -222,9 +222,13 @@ function handleQuadInteraction(quadId) {
   
   const newTopLevelQuads = findAndProcessQuadRecursive(topLevelQuads, quadId);
   
-  if (quadChanged) { // Only update and re-render if an actual subdivision or reveal happened
+  if (quadChanged) { 
       topLevelQuads = newTopLevelQuads;
-      renderQuadsDOM(); 
+      renderQuadsDOM();
+      // Force a synchronous reflow. This might help ensure that newly added/changed DOM elements
+      // are immediately and reliably detectable by document.elementFromPoint in subsequent
+      // touchmove events, especially on platforms like iOS.
+      if (scratchImageDisplayEl) void scratchImageDisplayEl.offsetHeight;
   }
 }
 
