@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.4 - debug
+// Interactive Scratch Image Script Version 4.5
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -536,6 +536,12 @@ function handleTouchStart(event) {
   window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
   console.log('[TouchStart] Added window listeners for move, end, cancel.');
 
+  // Make the display element non-blocking for pointer events during drag
+  if (scratchImageDisplayEl) {
+    scratchImageDisplayEl.style.pointerEvents = 'none';
+    console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
+  }
+
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
     // console.log('[TouchStart] Quad interactable at start:', quadData.id);
@@ -599,13 +605,19 @@ function removeWindowListeners() {
   window.removeEventListener('touchend', handleTouchEnd, { passive: true });
   window.removeEventListener('touchcancel', handleTouchCancel, { passive: true });
   console.log('[Cleanup] Removed window listeners for move, end, cancel.');
+
+  // Reset pointer-events on the display element
+  if (scratchImageDisplayEl) {
+    scratchImageDisplayEl.style.pointerEvents = 'auto';
+    console.log('[Cleanup] Reset scratchImageDisplayEl pointer-events to auto.');
+  }
 }
 
 function handleTouchEnd(event) {
   console.log('[TouchEnd] Event (from window):', event);
-  if (!isActiveTouchInteraction) { // No need to check changedTouches.length or isLoading here if we only care about isActive
+  if (!isActiveTouchInteraction) { 
     // console.log('[TouchEnd] Aborted: Not active.');
-    removeWindowListeners(); // Ensure cleanup even if aborted early
+    removeWindowListeners(); 
     return;
   }
 
@@ -678,8 +690,6 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
-    // Only touchstart is directly on the element.
-    // move, end, and cancel will be added to window dynamically.
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); 
   }
 
@@ -703,3 +713,4 @@ window.addEventListener('load', () => {
     });
   });
 });
+    
