@@ -121,11 +121,17 @@ body.body-styles::selection {
 }
 
 .initial-cta-content {
-  text-align: center;
-  color: #e2e8f0; /* slate-200 */
-  padding: 1rem;
-  border-radius: 0.5rem; /* rounded-lg */
-  background-color: rgba(51, 65, 85, 0.7); /* slate-700 with 70% opacity */
+  display: flex;
+    height: 60%;
+    aspect-ratio: 1;
+    text-align: center;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 50%;
+    background-color: rgba(51, 65, 85, 0.7);
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
 }
 
 .initial-cta-icon {
