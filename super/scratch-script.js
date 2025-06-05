@@ -1,8 +1,9 @@
 
-// Interactive Scratch Image Script Version 4.1
+// Interactive Scratch Image Script Version 4.2
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
+// Includes rAF throttling for touchmove and extensive logging for debugging.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -33,6 +34,8 @@ let touchStartX = 0;
 let touchStartY = 0;
 let isActiveTouchInteraction = false;
 let lastProcessedQuadIdDuringDrag = null;
+let touchMoveScheduledFrame = false;
+let lastTouchEventForRAF = null;
 
 
 // --- Utility Functions ---
@@ -190,22 +193,29 @@ function isQuadInteractable(quad) {
 }
 
 function handleQuadInteraction(quadId) {
-  if (!originalImage || !topLevelQuads || isLoading) return;
+  // console.log('[Interaction] Attempting interaction for quadId:', quadId);
+  if (!originalImage || !topLevelQuads || isLoading) {
+    // console.log('[Interaction] Aborted: No original image, topLevelQuads, or is loading.');
+    return;
+  }
 
   let quadChanged = false;
   const findAndProcessQuadRecursive = (quads, targetId) => {
     return quads.map(q => {
       if (q.id === targetId) {
         if (q.depth === MAX_QUAD_DEPTH && !q.isRevealed) {
+          // console.log('[Interaction] Revealing quad:', q.id);
           quadChanged = true;
           return { ...q, isRevealed: true, isDivided: false };
         }
         if (q.depth < MAX_QUAD_DEPTH && !q.isDivided && !q.isRevealed &&
             q.width / 2 >= MIN_QUAD_SIZE_CONFIG && q.height / 2 >= MIN_QUAD_SIZE_CONFIG &&
             q.width >= 1 && q.height >= 1) {
+          // console.log('[Interaction] Subdividing quad:', q.id);
           quadChanged = true;
           return subdivideQuadLogic(q, originalImage.data, originalImage.width);
         }
+        // console.log('[Interaction] Quad not interactable or already interacted:', q.id, q);
         return q; 
       }
       if (q.isDivided && q.children) {
@@ -222,17 +232,22 @@ function handleQuadInteraction(quadId) {
   const newTopLevelQuads = findAndProcessQuadRecursive(topLevelQuads, quadId);
   
   if (quadChanged) { 
+      // console.log('[Interaction] Quad changed. Updating topLevelQuads and re-rendering.');
       topLevelQuads = newTopLevelQuads;
       renderQuadsDOM();
-      if (scratchImageDisplayEl) void scratchImageDisplayEl.offsetHeight;
+      if (scratchImageDisplayEl) void scratchImageDisplayEl.offsetHeight; // Force reflow
+  } else {
+      // console.log('[Interaction] No change to quad state for ID:', quadId);
   }
 }
 
 // --- DOM Rendering Functions ---
 function renderQuadsDOM() {
   if (!scratchImageDisplayEl || !topLevelQuads || !originalImage || !displayDimensions) {
+    // console.log('[RenderDOM] Aborted: Missing required elements for rendering quads.');
     return; 
   }
+  // console.log('[RenderDOM] Clearing and re-rendering quads.');
   scratchImageDisplayEl.innerHTML = ''; 
 
   const renderRecursive = (quad) => {
@@ -400,13 +415,12 @@ function handleBorderRadiusChange(event) {
 function updateDisplayOnResize() {
     if (scratchImageDisplayEl) {
         const currentWidth = scratchImageDisplayEl.offsetWidth;
-        // Ensure aspect ratio is maintained for height calculation
         const currentHeight = currentWidth / (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT); 
         if (currentWidth > 0 && currentHeight > 0) {
-            // Only update if dimensions actually changed to avoid unnecessary re-renders
             if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
                 displayDimensions = { width: currentWidth, height: currentHeight };
-                if (topLevelQuads && originalImage) { // Only re-render quads if they exist
+                // console.log('[Resize] Display dimensions updated:', displayDimensions);
+                if (topLevelQuads && originalImage) { 
                     renderQuadsDOM();
                 }
             }
@@ -415,8 +429,12 @@ function updateDisplayOnResize() {
 }
 
 // --- Geometry-based Touch Interaction Helpers ---
-function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY) {
-  if (!quads) return null;
+function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY, _depthForLog = 0) {
+  if (!quads) {
+    // console.log(`[FindQuad @${_depthForLog}] No quads to check at this level.`);
+    return null;
+  }
+  // console.log(`[FindQuad @${_depthForLog}] Searching at logicalX: ${logicalX.toFixed(2)}, logicalY: ${logicalY.toFixed(2)} among ${quads.length} quads.`);
 
   for (const quad of quads) {
     const qx = quad.x;
@@ -424,55 +442,75 @@ function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY) {
     const qw = quad.width;
     const qh = quad.height;
 
+    // console.log(`[FindQuad @${_depthForLog}] Checking quad: ${quad.id} (X:${qx.toFixed(0)}-${(qx+qw).toFixed(0)}, Y:${qy.toFixed(0)}-${(qy+qh).toFixed(0)})`);
     if (logicalX >= qx && logicalX < qx + qw && logicalY >= qy && logicalY < qy + qh) {
-      // Point is within this quad's bounds
+      // console.log(`[FindQuad @${_depthForLog}] Point is within quad: ${quad.id}`);
       if (quad.isDivided && quad.children && quad.children.length > 0) {
-        const deeperMatch = findDeepestQuadAtLogicalPoint(quad.children, logicalX, logicalY);
+        // console.log(`[FindQuad @${_depthForLog}] Quad ${quad.id} is divided, searching children.`);
+        const deeperMatch = findDeepestQuadAtLogicalPoint(quad.children, logicalX, logicalY, _depthForLog + 1);
         if (deeperMatch) {
-          return deeperMatch; // Return the deepest match from children
+          // console.log(`[FindQuad @${_depthForLog}] Deeper match found in children of ${quad.id}: ${deeperMatch.id}`);
+          return deeperMatch; 
         }
+        // console.log(`[FindQuad @${_depthForLog}] No deeper match in children of ${quad.id}, returning current quad.`);
       }
-      return quad; // No deeper children or point not in children, so this is the one
+      // console.log(`[FindQuad @${_depthForLog}] Match found: ${quad.id}. Not divided or no deeper match.`);
+      return quad; 
     }
   }
-  return null; // Point not in any quad at this level
+  // console.log(`[FindQuad @${_depthForLog}] Point not in any quad at this level.`);
+  return null; 
 }
 
 function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
+  // console.log('[GetQuad] Called with clientX:', touchEventClientX, 'clientY:', touchEventClientY);
   if (!scratchImageDisplayEl || !displayDimensions || displayDimensions.width === 0 || displayDimensions.height === 0 || !topLevelQuads) {
+    // console.log('[GetQuad] Aborted: Missing display element, dimensions, or topLevelQuads.');
     return null;
   }
 
   const rect = scratchImageDisplayEl.getBoundingClientRect();
+  // console.log('[GetQuad] DisplayEl rect:', rect);
   const relativeX = touchEventClientX - rect.left;
   const relativeY = touchEventClientY - rect.top;
+  // console.log('[GetQuad] Relative Coords: X:', relativeX, 'Y:', relativeY);
 
-  // Ensure touch is within the calculated display dimensions
   if (relativeX < 0 || relativeX > displayDimensions.width || relativeY < 0 || relativeY > displayDimensions.height) {
+    // console.log('[GetQuad] Touch is outside calculated display dimensions.');
     return null;
   }
   
   const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
   const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
+  // console.log('[GetQuad] Logical Coords: X:', logicalX, 'Y:', logicalY);
 
-  return findDeepestQuadAtLogicalPoint(topLevelQuads, logicalX, logicalY);
+  const foundQuad = findDeepestQuadAtLogicalPoint(topLevelQuads, logicalX, logicalY);
+  // if (foundQuad) {
+  //   console.log('[GetQuad] Found quad data:', foundQuad.id);
+  // } else {
+  //   console.log('[GetQuad] No quad found at logical coordinates.');
+  // }
+  return foundQuad;
 }
 
 
-// --- Touch Event Handlers for Scratching Quads (Geometry-based) ---
+// --- Touch Event Handlers for Scratching Quads (Geometry-based with rAF) ---
 function handleTouchStart(event) {
+  // console.log('[TouchStart] Event:', event);
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl) {
     isActiveTouchInteraction = false;
+    // console.log('[TouchStart] Aborted: Invalid touch count, loading, or no display element.');
     return;
   }
 
   const touch = event.changedTouches[0];
+  // console.log('[TouchStart] Touch details: clientX:', touch.clientX, 'clientY:', touch.clientY);
   
-  // Basic boundary check against the display element's current rect
   const rect = scratchImageDisplayEl.getBoundingClientRect();
   if (touch.clientX < rect.left || touch.clientX > rect.right || 
       touch.clientY < rect.top || touch.clientY > rect.bottom) {
     isActiveTouchInteraction = false;
+    // console.log('[TouchStart] Touch is outside display element bounds.');
     return;
   }
   
@@ -480,67 +518,115 @@ function handleTouchStart(event) {
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null;
+  // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
+    // console.log('[TouchStart] Quad interactable at start:', quadData.id);
     handleQuadInteraction(quadData.id);
     lastProcessedQuadIdDuringDrag = quadData.id;
+  } else if (quadData) {
+    // console.log('[TouchStart] Quad found but not interactable:', quadData.id);
+  } else {
+    // console.log('[TouchStart] No quad found under initial touch.');
   }
 }
 
+function processTouchMoveRAF() {
+    if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
+        touchMoveScheduledFrame = false;
+        lastTouchEventForRAF = null; // Clear if no longer active
+        // console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
+        return;
+    }
+
+    const touch = lastTouchEventForRAF.changedTouches[0];
+    // console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
+
+    const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
+
+    if (quadData && isQuadInteractable(quadData)) {
+        // console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
+        handleQuadInteraction(quadData.id);
+        lastProcessedQuadIdDuringDrag = quadData.id;
+    } else if (quadData) {
+        // console.log('[ProcessTouchMoveRAF] Quad found but not interactable:', quadData.id);
+        lastProcessedQuadIdDuringDrag = quadData.id; // Still update for context
+    } else {
+        // console.log('[ProcessTouchMoveRAF] No quad found under touch.');
+        lastProcessedQuadIdDuringDrag = null;
+    }
+    
+    lastTouchEventForRAF = null; // Clear the event after processing
+    touchMoveScheduledFrame = false; // Allow new frame to be scheduled
+}
+
 function handleTouchMove(event) {
+  // console.log('[TouchMove] Raw event:', event);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
+    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
-  event.preventDefault(); // Prevent scroll/zoom during scratching
+  // console.log('[TouchMove] Preventing default browser action.');
+  event.preventDefault(); 
 
-  const touch = event.changedTouches[0];
-  const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
+  lastTouchEventForRAF = event; // Store the latest event
 
-  if (quadData && isQuadInteractable(quadData)) {
-    // Call interaction if interactable, this makes "scratching" more responsive.
-    // `handleQuadInteraction` is idempotent enough for repeated calls on the same quad.
-    handleQuadInteraction(quadData.id);
-    lastProcessedQuadIdDuringDrag = quadData.id;
+  if (!touchMoveScheduledFrame) {
+    touchMoveScheduledFrame = true;
+    // console.log('[TouchMove] Scheduling RAF for processing.');
+    requestAnimationFrame(processTouchMoveRAF);
   } else {
-    // If not over an interactable quad, clear the last processed ID.
-    // This isn't strictly necessary if handleQuadInteraction doesn't use it,
-    // but good for state clarity if we were to add optimizations later.
-    lastProcessedQuadIdDuringDrag = null;
+    // console.log('[TouchMove] RAF already scheduled, event updated.');
   }
 }
 
 function handleTouchEnd(event) {
+  // console.log('[TouchEnd] Event:', event);
   if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
     isActiveTouchInteraction = false; 
+    // console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
 
   const touch = event.changedTouches[0];
   const touchEndX = touch.clientX;
   const touchEndY = touch.clientY;
+  // console.log('[TouchEnd] Touch ended at clientX:', touchEndX, 'clientY:', touchEndY);
 
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
-    // This was a tap. Attempt interaction at the lift-off point.
-    // `getQuadUnderTouch` will find the quad at the final touch point.
+    // console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
     const quadData = getQuadUnderTouch(touchEndX, touchEndY);
     if (quadData && isQuadInteractable(quadData)) {
+      // console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
       handleQuadInteraction(quadData.id);
+    } else if (quadData) {
+      // console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
+    } else {
+      // console.log('[TouchEnd] TAP: No quad found under touch.');
     }
+  } else {
+    // console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
   }
-  // For drags, interaction is handled by handleTouchMove.
 
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
+  lastTouchEventForRAF = null; // Clear any pending RAF event on touch end
+  touchMoveScheduledFrame = false;
+  // console.log('[TouchEnd] Interaction INACTIVE.');
 }
 
 function handleTouchCancel(event) {
+  // console.log('[TouchCancel] Event:', event);
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
+  lastTouchEventForRAF = null;
+  touchMoveScheduledFrame = false;
+  // console.log('[TouchCancel] Interaction INACTIVE.');
 }
 
 
@@ -593,7 +679,7 @@ function initApp() {
   } else {
       renderApp(); 
   }
-  updateDisplayOnResize(); // Initial call to set displayDimensions
+  updateDisplayOnResize(); 
 }
 
 window.addEventListener('load', () => {
