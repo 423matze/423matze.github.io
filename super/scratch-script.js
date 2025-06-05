@@ -1,9 +1,10 @@
 
-// Interactive Scratch Image Script Version 5.3
+// Interactive Scratch Image Script Version 6.0
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
-// Includes rAF throttling for touchmove and uses a dedicated touch overlay with event capturing for robust iOS/Chrome touch handling.
+// Includes rAF throttling for touchmove and uses a dedicated touch overlay with event capturing.
+// Introduces an Initial Call to Action (CTA) overlay to improve perceived smoothness of the first touch interaction.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -25,9 +26,10 @@ let quadBorderRadius = 0;
 let topLevelQuads = null; // Array of QuadData objects
 let originalImage = null; // { element, data, width, height }
 let displayDimensions = null; // { width, height }
+let isInitialCtaDismissed = false; // New state for CTA
 
 // --- DOM Element References ---
-let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, touchEventOverlayEl;
+let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, touchEventOverlayEl, initialCtaOverlayEl; // Added initialCtaOverlayEl
 
 // --- Touch Interaction State ---
 let touchStartX = 0;
@@ -91,6 +93,11 @@ function loadImageAndSetupQuads(imageUrl) {
   error = null;
   topLevelQuads = null;
   originalImage = null;
+  isInitialCtaDismissed = false; // Reset CTA for new image
+  if (initialCtaOverlayEl) {
+    initialCtaOverlayEl.classList.remove('fade-out'); // Ensure it's not faded if re-shown
+    // Visibility handled by renderApp -> renderDisplayAreaContent
+  }
   renderApp(); 
 
   const img = new Image();
@@ -246,8 +253,15 @@ function renderQuadsDOM() {
     console.log('[RenderDOM] Aborted: Missing required elements for rendering quads.');
     return; 
   }
-  console.log('[RenderDOM] Clearing and re-rendering quads.');
-  scratchImageDisplayEl.innerHTML = ''; 
+  console.log('[RenderDOM] Clearing and re-rendering quads (excluding CTA).');
+  
+  // Preserve CTA if it exists and needs to be there, or handle its removal separately
+  const ctaElement = scratchImageDisplayEl.querySelector('#initial-cta-overlay');
+  scratchImageDisplayEl.innerHTML = ''; // Clear previous quads
+  if (ctaElement) {
+    scratchImageDisplayEl.appendChild(ctaElement); // Re-add CTA if it was cleared
+  }
+
 
   const renderRecursive = (quad) => {
     if (quad.isDivided && quad.children) {
@@ -326,7 +340,18 @@ function renderQuadsDOM() {
 
 function renderDisplayAreaContent() {
   if (!scratchImageDisplayEl) return;
+  
+  // Clear only non-CTA content if CTA is managed separately
+  let ctaWasPresent = false;
+  if (initialCtaOverlayEl && initialCtaOverlayEl.parentNode === scratchImageDisplayEl) {
+    ctaWasPresent = true;
+  }
   scratchImageDisplayEl.innerHTML = ''; 
+  if (ctaWasPresent && initialCtaOverlayEl) { // Re-attach CTA if it was cleared
+    scratchImageDisplayEl.appendChild(initialCtaOverlayEl);
+  }
+
+
   scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
   scratchImageDisplayEl.style.maxWidth = `${TARGET_IMAGE_WIDTH}px`;
 
@@ -336,6 +361,7 @@ function renderDisplayAreaContent() {
         <div class="spinner"></div>
         <p class="status-text">Loading Image...</p>
       </div>`;
+    if(initialCtaOverlayEl) initialCtaOverlayEl.style.display = 'none';
   } else if (error && imageUrls.length > 0) {
     scratchImageDisplayEl.innerHTML = `
       <div class="status-message-container status-error">
@@ -345,20 +371,38 @@ function renderDisplayAreaContent() {
         <h3 class="status-title">Oops! Image failed to load.</h3>
         <p class="status-text">${error}</p>
       </div>`;
+    if(initialCtaOverlayEl) initialCtaOverlayEl.style.display = 'none';
   } else if (topLevelQuads && originalImage && displayDimensions) {
-    renderQuadsDOM();
+    renderQuadsDOM(); // This will re-add CTA if needed or render quads
+    if (initialCtaOverlayEl) {
+        if (!isInitialCtaDismissed) {
+            initialCtaOverlayEl.style.display = 'flex'; // Show CTA
+            initialCtaOverlayEl.classList.remove('fade-out');
+        } else {
+            initialCtaOverlayEl.style.display = 'none'; // Keep it hidden if dismissed
+        }
+    }
   } else if (imageUrls.length === 0 && !isLoading && !error) {
-     scratchImageDisplayEl.parentElement.innerHTML = `
-        <div class="no-content-message">
-            <h1 class="no-content-title">Interactive Scratch Image</h1>
-            <p class="no-content-text">No images configured. Please add image URLs to the 'image-sources' script tag in index.html.</p>
-        </div>`;
+     // If scratchImageDisplayEl's parent is what we want to modify for no images.
+     const parentContainer = scratchImageDisplayEl.parentElement;
+     if (parentContainer) {
+        parentContainer.innerHTML = `
+            <div class="no-content-message">
+                <h1 class="no-content-title">Interactive Scratch Image</h1>
+                <p class="no-content-text">No images configured. Please add image URLs to the 'image-sources' script tag in index.html.</p>
+            </div>`;
+     }
+    if(initialCtaOverlayEl) initialCtaOverlayEl.style.display = 'none';
   } else if (imageUrls.length === 0 && error && !isLoading) {
-      scratchImageDisplayEl.parentElement.innerHTML = `
-        <div class="no-content-message">
-            <h1 class="no-content-title">Interactive Scratch Image</h1>
-            <p class="no-content-text error-text">Error: ${error}</p>
-        </div>`;
+      const parentContainer = scratchImageDisplayEl.parentElement;
+      if (parentContainer) {
+          parentContainer.innerHTML = `
+            <div class="no-content-message">
+                <h1 class="no-content-title">Interactive Scratch Image</h1>
+                <p class="no-content-text error-text">Error: ${error}</p>
+            </div>`;
+      }
+    if(initialCtaOverlayEl) initialCtaOverlayEl.style.display = 'none';
   }
 }
 
@@ -430,10 +474,10 @@ function updateDisplayOnResize() {
 // --- Geometry-based Touch Interaction Helpers ---
 function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY, _depthForLog = 0) {
   if (!quads) {
-    console.log(`[FindQuad @${_depthForLog}] No quads to check at this level.`);
+    // console.log(`[FindQuad @${_depthForLog}] No quads to check at this level.`);
     return null;
   }
-  console.log(`[FindQuad @${_depthForLog}] Searching at logicalX: ${logicalX.toFixed(2)}, logicalY: ${logicalY.toFixed(2)} among ${quads.length} quads.`);
+  // console.log(`[FindQuad @${_depthForLog}] Searching at logicalX: ${logicalX.toFixed(2)}, logicalY: ${logicalY.toFixed(2)} among ${quads.length} quads.`);
 
   for (const quad of quads) {
     const qx = quad.x;
@@ -441,56 +485,89 @@ function findDeepestQuadAtLogicalPoint(quads, logicalX, logicalY, _depthForLog =
     const qw = quad.width;
     const qh = quad.height;
 
-    console.log(`[FindQuad @${_depthForLog}] Checking quad: ${quad.id} (X:${qx.toFixed(0)}-${(qx+qw).toFixed(0)}, Y:${qy.toFixed(0)}-${(qy+qh).toFixed(0)})`);
+    // console.log(`[FindQuad @${_depthForLog}] Checking quad: ${quad.id} (X:${qx.toFixed(0)}-${(qx+qw).toFixed(0)}, Y:${qy.toFixed(0)}-${(qy+qh).toFixed(0)})`);
     if (logicalX >= qx && logicalX < qx + qw && logicalY >= qy && logicalY < qy + qh) {
-      console.log(`[FindQuad @${_depthForLog}] Point is within quad: ${quad.id}`);
+      // console.log(`[FindQuad @${_depthForLog}] Point is within quad: ${quad.id}`);
       if (quad.isDivided && quad.children && quad.children.length > 0) {
-        console.log(`[FindQuad @${_depthForLog}] Quad ${quad.id} is divided, searching children.`);
+        // console.log(`[FindQuad @${_depthForLog}] Quad ${quad.id} is divided, searching children.`);
         const deeperMatch = findDeepestQuadAtLogicalPoint(quad.children, logicalX, logicalY, _depthForLog + 1);
         if (deeperMatch) {
-          console.log(`[FindQuad @${_depthForLog}] Deeper match found in children of ${quad.id}: ${deeperMatch.id}`);
+          // console.log(`[FindQuad @${_depthForLog}] Deeper match found in children of ${quad.id}: ${deeperMatch.id}`);
           return deeperMatch; 
         }
-        console.log(`[FindQuad @${_depthForLog}] No deeper match in children of ${quad.id}, returning current quad.`);
+        // console.log(`[FindQuad @${_depthForLog}] No deeper match in children of ${quad.id}, returning current quad.`);
       }
-      console.log(`[FindQuad @${_depthForLog}] Match found: ${quad.id}. Not divided or no deeper match.`);
+      // console.log(`[FindQuad @${_depthForLog}] Match found: ${quad.id}. Not divided or no deeper match.`);
       return quad; 
     }
   }
-  console.log(`[FindQuad @${_depthForLog}] Point not in any quad at this level.`);
+  // console.log(`[FindQuad @${_depthForLog}] Point not in any quad at this level.`);
   return null; 
 }
 
 function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
-  console.log('[GetQuad] Called with clientX:', touchEventClientX, 'clientY:', touchEventClientY);
+  // console.log('[GetQuad] Called with clientX:', touchEventClientX, 'clientY:', touchEventClientY);
   if (!scratchImageDisplayEl || !displayDimensions || displayDimensions.width === 0 || displayDimensions.height === 0 || !topLevelQuads) {
-    console.log('[GetQuad] Aborted: Missing display element, dimensions, or topLevelQuads.');
+    // console.log('[GetQuad] Aborted: Missing display element, dimensions, or topLevelQuads.');
     return null;
   }
 
   const rect = scratchImageDisplayEl.getBoundingClientRect(); 
-  console.log('[GetQuad] DisplayEl rect:', rect);
+  // console.log('[GetQuad] DisplayEl rect:', rect);
   const relativeX = touchEventClientX - rect.left;
   const relativeY = touchEventClientY - rect.top;
-  console.log('[GetQuad] Relative Coords: X:', relativeX, 'Y:', relativeY);
+  // console.log('[GetQuad] Relative Coords: X:', relativeX, 'Y:', relativeY);
   
   const logicalX = (relativeX / displayDimensions.width) * TARGET_IMAGE_WIDTH;
   const logicalY = (relativeY / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
-  console.log('[GetQuad] Logical Coords: X:', logicalX, 'Y:', logicalY);
+  // console.log('[GetQuad] Logical Coords: X:', logicalX, 'Y:', logicalY);
 
   const foundQuad = findDeepestQuadAtLogicalPoint(topLevelQuads, logicalX, logicalY);
-  if (foundQuad) {
-    console.log('[GetQuad] Found quad data:', foundQuad.id);
-  } else {
-    console.log('[GetQuad] No quad found at logical coordinates (or touch is outside image bounds).');
-  }
+  // if (foundQuad) {
+    // console.log('[GetQuad] Found quad data:', foundQuad.id);
+  // } else {
+    // console.log('[GetQuad] No quad found at logical coordinates (or touch is outside image bounds).');
+  // }
   return foundQuad;
 }
 
 
 // --- Touch Event Handlers (using a dedicated Overlay with Event Capturing) ---
+
+function dismissInitialCta() {
+    if (!isInitialCtaDismissed && initialCtaOverlayEl) {
+        isInitialCtaDismissed = true;
+        initialCtaOverlayEl.classList.add('fade-out');
+        
+        const onTransitionEnd = () => {
+            initialCtaOverlayEl.style.display = 'none';
+            initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd);
+            console.log('[CTA] Dismissed and hidden after fade.');
+        };
+        initialCtaOverlayEl.addEventListener('transitionend', onTransitionEnd);
+        
+        // If transition doesn't fire (e.g. display:none already or no transition defined), fallback
+        setTimeout(() => {
+            if (initialCtaOverlayEl.style.display !== 'none') {
+                 initialCtaOverlayEl.style.display = 'none';
+                 initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd); // cleanup
+                 console.log('[CTA] Dismissed and hidden via fallback timeout.');
+            }
+        }, 350); // A bit longer than transition
+    }
+}
+
 function handleTouchStart(event) {
   console.log('[TouchStart] Event on scratchImageDisplayEl:', event);
+
+  // --- CTA Dismissal Logic ---
+  if (!isInitialCtaDismissed && initialCtaOverlayEl && initialCtaOverlayEl.style.display !== 'none') {
+    console.log('[TouchStart] CTA is visible, dismissing it.');
+    dismissInitialCta();
+    // The rest of this function will "use up" the first problematic gesture
+  }
+  
+  // --- Standard Touch Start Logic ---
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl || !touchEventOverlayEl) {
     isActiveTouchInteraction = false;
     console.log('[TouchStart] Aborted: Invalid touch count, loading, or missing elements.');
@@ -499,6 +576,7 @@ function handleTouchStart(event) {
 
   let targetElement = event.target;
   let isTouchOnInteractiveArea = false;
+  // Check if touch originated on scratchImageDisplayEl or its child (like CTA if not yet fully hidden)
   while (targetElement && targetElement !== document.body) {
     if (targetElement === scratchImageDisplayEl) {
       isTouchOnInteractiveArea = true;
@@ -509,10 +587,10 @@ function handleTouchStart(event) {
 
   if (!isTouchOnInteractiveArea) {
     isActiveTouchInteraction = false;
-    console.log('[TouchStart] Touch did not originate on the interactive display area.');
+    console.log('[TouchStart] Touch did not originate on the interactive display area or its children.');
     return;
   }
-  console.log('[TouchStart] Touch originated on the interactive display area.');
+  console.log('[TouchStart] Touch originated on the interactive display area or its children.');
 
   event.preventDefault(); 
   console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
@@ -533,8 +611,9 @@ function handleTouchStart(event) {
   touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
   touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
   touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
-  console.log('[TouchStart] Overlay activated and CAPTURE listeners added to overlay.');
+  console.log('[TouchStart] Main touch overlay activated and CAPTURE listeners added to it.');
 
+  // Defer initial tap's DOM interaction
   requestAnimationFrame(() => {
     if (!isActiveTouchInteraction) { 
         console.log('[TouchStart-RAF] Interaction no longer active, skipping initial tap processing.');
@@ -558,26 +637,26 @@ function processTouchMoveRAF() {
     if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
         touchMoveScheduledFrame = false;
         lastTouchEventForRAF = null;
-        console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
+        // console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
         return;
     }
 
     const touch = lastTouchEventForRAF.changedTouches[0];
-    console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
+    // console.log('[ProcessTouchMoveRAF] Processing touch at clientX:', touch.clientX, 'clientY:', touch.clientY);
 
     const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
 
     if (quadData && isQuadInteractable(quadData)) {
-        console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
+        // console.log('[ProcessTouchMoveRAF] Interactable quad found:', quadData.id);
         if (quadData.id !== lastProcessedQuadIdDuringDrag || lastProcessedQuadIdDuringDrag === null) {
           handleQuadInteraction(quadData.id);
         }
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else if (quadData) {
-        console.log('[ProcessTouchMoveRAF] Quad found but not interactable:', quadData.id);
+        // console.log('[ProcessTouchMoveRAF] Quad found but not interactable:', quadData.id);
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else {
-        console.log('[ProcessTouchMoveRAF] No quad found under touch.');
+        // console.log('[ProcessTouchMoveRAF] No quad found under touch.');
         lastProcessedQuadIdDuringDrag = null;
     }
     
@@ -586,24 +665,24 @@ function processTouchMoveRAF() {
 }
 
 function handleTouchMove(event) { 
-  console.log('[TouchMove] Raw event (from overlay CAPTURE), active:', isActiveTouchInteraction, 'target:', event.target.id);
+  // console.log('[TouchMove] Raw event (from overlay CAPTURE), active:', isActiveTouchInteraction, 'target:', event.target.id);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
-    console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
+    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
   event.preventDefault(); 
-  event.stopPropagation(); // Added stopPropagation
-  console.log('[TouchMove] Called event.preventDefault() & event.stopPropagation() on overlay CAPTURE listener.');
+  event.stopPropagation(); 
+  // console.log('[TouchMove] Called event.preventDefault() & event.stopPropagation() on overlay CAPTURE listener.');
 
   lastTouchEventForRAF = event;
 
   if (!touchMoveScheduledFrame) {
     touchMoveScheduledFrame = true;
-    console.log('[TouchMove] Scheduling RAF for processing.');
+    // console.log('[TouchMove] Scheduling RAF for processing.');
     requestAnimationFrame(processTouchMoveRAF);
   } else {
-    console.log('[TouchMove] RAF already scheduled, event updated for next frame.');
+    // console.log('[TouchMove] RAF already scheduled, event updated for next frame.');
   }
 }
 
@@ -613,7 +692,7 @@ function removeOverlayListenersAndHide() {
     touchEventOverlayEl.removeEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
     touchEventOverlayEl.removeEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
     touchEventOverlayEl.style.display = 'none';
-    console.log('[Cleanup] Overlay hidden and CAPTURE listeners removed.');
+    console.log('[Cleanup] Main touch overlay hidden and CAPTURE listeners removed.');
   }
   if (scratchImageDisplayEl) { 
     scratchImageDisplayEl.style.pointerEvents = 'auto';
@@ -639,8 +718,6 @@ function handleTouchEnd(event) {
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
     console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
-    // Initial tap is already handled by requestAnimationFrame in handleTouchStart
-    // No need to re-process here unless specific tap-end logic is required.
   } else {
     console.log('[TouchEnd] Detected as DRAG end.');
   }
@@ -673,6 +750,7 @@ function initApp() {
   borderRadiusSliderEl = document.getElementById('border-radius-slider');
   borderRadiusLabelEl = document.getElementById('border-radius-label');
   touchEventOverlayEl = document.getElementById('touch-event-overlay');
+  initialCtaOverlayEl = document.getElementById('initial-cta-overlay');
 
 
   const imageSourcesScriptTag = document.getElementById('image-sources');
@@ -704,7 +782,20 @@ function initApp() {
     console.error("Scratch image display element not found!");
   }
   if (!touchEventOverlayEl) {
-      console.error("Touch event overlay element not found!");
+      console.error("Main touch event overlay element not found!");
+  }
+  if (initialCtaOverlayEl) {
+    initialCtaOverlayEl.addEventListener('click', (e) => {
+        // This click is primarily for mouse users to dismiss the CTA.
+        // Touch users will dismiss it via handleTouchStart.
+        e.stopPropagation(); // Prevent click from bubbling to scratchImageDisplayEl if needed
+        if (!isInitialCtaDismissed) {
+            console.log('[CTA] Clicked, dismissing.');
+            dismissInitialCta();
+        }
+    });
+  } else {
+      console.error("Initial CTA overlay element not found!");
   }
 
 
