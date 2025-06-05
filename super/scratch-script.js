@@ -1,9 +1,9 @@
 
-// Interactive Scratch Image Script Version 4.3 - debug 4
+// Interactive Scratch Image Script Version 4.4 - debug
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
-// Includes rAF throttling for touchmove and extensive logging for debugging.
+// Includes rAF throttling for touchmove and dynamic window event listeners for robust iOS touch handling.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -494,7 +494,7 @@ function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
 }
 
 
-// --- Touch Event Handlers for Scratching Quads (Geometry-based with rAF) ---
+// --- Touch Event Handlers (using Window listeners for move/end/cancel) ---
 function handleTouchStart(event) {
   console.log('[TouchStart] Event:', event);
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl) {
@@ -520,7 +520,6 @@ function handleTouchStart(event) {
   }
   console.log('[TouchStart] Touch originated on the interactive display area.');
 
-  // We are sure the touch is on our component. Take control.
   event.preventDefault();
   console.log('[TouchStart] Successfully called event.preventDefault().');
 
@@ -529,24 +528,26 @@ function handleTouchStart(event) {
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
   lastProcessedQuadIdDuringDrag = null;
-  // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
+  console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
+
+  // Add window listeners for the duration of this gesture
+  window.addEventListener('touchmove', handleTouchMove, { passive: false });
+  window.addEventListener('touchend', handleTouchEnd, { passive: true });
+  window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
+  console.log('[TouchStart] Added window listeners for move, end, cancel.');
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
     // console.log('[TouchStart] Quad interactable at start:', quadData.id);
     handleQuadInteraction(quadData.id);
     lastProcessedQuadIdDuringDrag = quadData.id;
-  } // else if (quadData) {
-    // console.log('[TouchStart] Quad found but not interactable:', quadData.id);
-  // } else {
-    // console.log('[TouchStart] No quad found under initial touch.');
-  // }
+  }
 }
 
 function processTouchMoveRAF() {
     if (!lastTouchEventForRAF || !isActiveTouchInteraction || isLoading) {
         touchMoveScheduledFrame = false;
-        lastTouchEventForRAF = null; // Clear if no longer active
+        lastTouchEventForRAF = null;
         // console.log('[ProcessTouchMoveRAF] Aborted or no longer active.');
         return;
     }
@@ -562,42 +563,49 @@ function processTouchMoveRAF() {
         lastProcessedQuadIdDuringDrag = quadData.id;
     } else if (quadData) {
         // console.log('[ProcessTouchMoveRAF] Quad found but not interactable:', quadData.id);
-        lastProcessedQuadIdDuringDrag = quadData.id; // Still update for context
+        lastProcessedQuadIdDuringDrag = quadData.id;
     } else {
         // console.log('[ProcessTouchMoveRAF] No quad found under touch.');
         lastProcessedQuadIdDuringDrag = null;
     }
     
-    lastTouchEventForRAF = null; // Clear the event after processing
-    touchMoveScheduledFrame = false; // Allow new frame to be scheduled
+    lastTouchEventForRAF = null;
+    touchMoveScheduledFrame = false;
 }
 
 function handleTouchMove(event) {
-  console.log('[TouchMove] Raw event:', event); // Critical log
+  console.log('[TouchMove] Raw event (from window):', event);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
-    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading. isActive:', isActiveTouchInteraction, 'touches:', event.touches.length, 'isLoading:', isLoading);
+    // console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
-  // console.log('[TouchMove] Preventing default browser action (already called in touchstart usually for active gestures, but can be here too).');
-  event.preventDefault(); // Keep this here as well for good measure if touchstart's preventDefault was somehow missed or overridden
+  event.preventDefault(); // Prevent default actions while dragging, as this is a window listener
+  // console.log('[TouchMove] Called event.preventDefault() on window listener.');
 
-  lastTouchEventForRAF = event; // Store the latest event
+  lastTouchEventForRAF = event;
 
   if (!touchMoveScheduledFrame) {
     touchMoveScheduledFrame = true;
     // console.log('[TouchMove] Scheduling RAF for processing.');
     requestAnimationFrame(processTouchMoveRAF);
   } else {
-    // console.log('[TouchMove] RAF already scheduled, event updated.');
+    // console.log('[TouchMove] RAF already scheduled, event updated for next frame.');
   }
 }
 
+function removeWindowListeners() {
+  window.removeEventListener('touchmove', handleTouchMove, { passive: false });
+  window.removeEventListener('touchend', handleTouchEnd, { passive: true });
+  window.removeEventListener('touchcancel', handleTouchCancel, { passive: true });
+  console.log('[Cleanup] Removed window listeners for move, end, cancel.');
+}
+
 function handleTouchEnd(event) {
-  console.log('[TouchEnd] Event:', event); // Critical log
-  if (!isActiveTouchInteraction || event.changedTouches.length !== 1 || isLoading) {
-    isActiveTouchInteraction = false; 
-    // console.log('[TouchEnd] Aborted: Not active, invalid touch count, or loading.');
+  console.log('[TouchEnd] Event (from window):', event);
+  if (!isActiveTouchInteraction) { // No need to check changedTouches.length or isLoading here if we only care about isActive
+    // console.log('[TouchEnd] Aborted: Not active.');
+    removeWindowListeners(); // Ensure cleanup even if aborted early
     return;
   }
 
@@ -615,29 +623,25 @@ function handleTouchEnd(event) {
     if (quadData && isQuadInteractable(quadData)) {
       // console.log('[TouchEnd] TAP: Interactable quad found:', quadData.id);
       handleQuadInteraction(quadData.id);
-    } // else if (quadData) {
-      // console.log('[TouchEnd] TAP: Quad found but not interactable:', quadData.id);
-    // } else {
-      // console.log('[TouchEnd] TAP: No quad found under touch.');
-    // }
-  } // else {
-    // console.log('[TouchEnd] Detected as DRAG/SWIPE. Interaction handled by TouchMove (RAF). DeltaX:', deltaX, 'DeltaY:', deltaY);
-  // }
+    }
+  }
 
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
-  lastTouchEventForRAF = null; // Clear any pending RAF event on touch end
+  lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
   // console.log('[TouchEnd] Interaction INACTIVE.');
+  removeWindowListeners();
 }
 
 function handleTouchCancel(event) {
-  console.log('[TouchCancel] Event:', event); // Critical log
+  console.log('[TouchCancel] Event (from window):', event);
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
   touchMoveScheduledFrame = false;
   // console.log('[TouchCancel] Interaction INACTIVE.');
+  removeWindowListeners();
 }
 
 
@@ -674,10 +678,9 @@ function initApp() {
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
   if (scratchImageDisplayEl) {
+    // Only touchstart is directly on the element.
+    // move, end, and cancel will be added to window dynamically.
     scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false }); 
-    scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); 
-    scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd); // passive: true (default) is fine for end/cancel
-    scratchImageDisplayEl.addEventListener('touchcancel', handleTouchCancel); // passive: true (default) is fine for end/cancel
   }
 
   const resizeObserver = new ResizeObserver(updateDisplayOnResize);
