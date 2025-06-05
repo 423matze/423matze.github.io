@@ -1,4 +1,8 @@
-// Version 2 - interactive scratch image
+// Interactive Scratch Image Script Version 3.0
+// This script provides an interactive image display with quad subdivision and swipe gestures.
+// It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
+// It also supports swipe gestures for navigation between images.
+
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
 const TARGET_IMAGE_HEIGHT = 720;
@@ -21,6 +25,12 @@ let displayDimensions = null; // { width, height }
 
 // --- DOM Element References ---
 let scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl;
+
+// --- Swipe Gesture State ---
+let touchStartX = 0;
+let touchStartY = 0;
+let isPotentialSwipe = false;
+const SWIPE_THRESHOLD = 50; // Minimum pixels for a swipe
 
 // --- Utility Functions ---
 function getAverageColor(sourceImageData, sourceImageWidth, regionX, regionY, regionWidth, regionHeight) {
@@ -173,7 +183,6 @@ function handleQuadInteraction(quadId) {
       }
       if (q.isDivided && q.children) {
         const newChildren = findAndProcessQuadRecursive(q.children, targetId);
-        // Check if children actually changed to avoid unnecessary re-renders of parent
         if (newChildren.some((nc, i) => nc !== q.children[i])) { 
             return { ...q, children: newChildren };
         }
@@ -185,16 +194,16 @@ function handleQuadInteraction(quadId) {
   const newTopLevelQuads = findAndProcessQuadRecursive(topLevelQuads, quadId);
   if (newTopLevelQuads.some((nq, i) => nq !== topLevelQuads[i])) {
       topLevelQuads = newTopLevelQuads;
-      renderQuadsDOM(); // Only re-render quads if state actually changed
+      renderQuadsDOM(); 
   }
 }
 
 // --- DOM Rendering Functions ---
 function renderQuadsDOM() {
   if (!scratchImageDisplayEl || !topLevelQuads || !originalImage || !displayDimensions) {
-    return; // Essential elements or data not ready
+    return; 
   }
-  scratchImageDisplayEl.innerHTML = ''; // Clear previous quads
+  scratchImageDisplayEl.innerHTML = ''; 
 
   const renderRecursive = (quad) => {
     if (quad.isDivided && quad.children) {
@@ -215,7 +224,7 @@ function renderQuadsDOM() {
     const scaledY = (quad.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
     let scaledWidth = (quad.width / TARGET_IMAGE_WIDTH) * displayDimensions.width;
     let scaledHeight = (quad.height / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
-    scaledWidth = Math.max(0.5, scaledWidth); // Ensure min dimensions for visibility
+    scaledWidth = Math.max(0.5, scaledWidth); 
     scaledHeight = Math.max(0.5, scaledHeight);
 
     quadEl.style.left = `${scaledX}px`;
@@ -251,7 +260,7 @@ function renderQuadsDOM() {
       quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
       quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
       quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-      quadEl.style.borderRadius = '0%'; // Revealed quads are rectangular
+      quadEl.style.borderRadius = '0%'; 
     } else {
       quadEl.style.backgroundColor = `rgb(${quad.color.r}, ${quad.color.g}, ${quad.color.b})`;
       quadEl.style.borderRadius = `${quadBorderRadius}%`;
@@ -276,7 +285,7 @@ function renderQuadsDOM() {
 
 function renderDisplayAreaContent() {
   if (!scratchImageDisplayEl) return;
-  scratchImageDisplayEl.innerHTML = ''; // Clear previous content
+  scratchImageDisplayEl.innerHTML = ''; 
   scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
   scratchImageDisplayEl.style.maxWidth = `${TARGET_IMAGE_WIDTH}px`;
 
@@ -298,8 +307,6 @@ function renderDisplayAreaContent() {
   } else if (topLevelQuads && originalImage && displayDimensions) {
     renderQuadsDOM();
   } else if (imageUrls.length === 0 && !isLoading && !error) {
-     // The parent element is scratch-image-display-container
-     // So we are replacing the content of scratch-image-display-container
      scratchImageDisplayEl.parentElement.innerHTML = `
         <div class="no-content-message">
             <h1 class="no-content-title">Interactive Scratch Image</h1>
@@ -319,7 +326,7 @@ function updateControlsUI() {
     if (imageControlsContainerEl) imageControlsContainerEl.style.display = 'none';
     return;
   }
-  imageControlsContainerEl.style.display = 'flex'; // This is handled by .controls-container class
+  imageControlsContainerEl.style.display = 'flex';
 
   prevImageBtnEl.disabled = currentImageIndex === 0 || isLoading;
   nextImageBtnEl.disabled = currentImageIndex === imageUrls.length - 1 || isLoading;
@@ -343,33 +350,34 @@ function renderApp() {
 
 // --- Event Handlers & Initialization ---
 function handlePrevImage() {
-  if (currentImageIndex > 0) {
-    currentImageIndex--;
-    loadImageAndSetupQuads(imageUrls[currentImageIndex]);
+  if (isLoading || currentImageIndex <= 0) {
+    return;
   }
+  currentImageIndex--;
+  loadImageAndSetupQuads(imageUrls[currentImageIndex]);
 }
 
 function handleNextImage() {
-  if (currentImageIndex < imageUrls.length - 1) {
-    currentImageIndex++;
-    loadImageAndSetupQuads(imageUrls[currentImageIndex]);
+  if (isLoading || currentImageIndex >= imageUrls.length - 1) {
+    return;
   }
+  currentImageIndex++;
+  loadImageAndSetupQuads(imageUrls[currentImageIndex]);
 }
 
 function handleBorderRadiusChange(event) {
   quadBorderRadius = parseInt(event.target.value, 10);
-  renderApp(); // Re-render quads with new border radius
+  renderApp(); 
 }
 
 function updateDisplayOnResize() {
     if (scratchImageDisplayEl) {
         const currentWidth = scratchImageDisplayEl.offsetWidth;
-        // Height will be determined by aspect ratio CSS
         const currentHeight = currentWidth / (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT); 
         if (currentWidth > 0 && currentHeight > 0) {
             if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
                 displayDimensions = { width: currentWidth, height: currentHeight };
-                if (topLevelQuads && originalImage) { // Only re-render quads if they exist
+                if (topLevelQuads && originalImage) { 
                     renderQuadsDOM();
                 }
             }
@@ -377,8 +385,71 @@ function updateDisplayOnResize() {
     }
 }
 
+// --- Touch Event Handlers for Swipe Gestures ---
+function handleTouchStart(event) {
+  if (!scratchImageDisplayEl.contains(event.target) || event.touches.length !== 1) {
+    isPotentialSwipe = false;
+    return;
+  }
+  // Only consider swipes if not interacting with a quad directly that might have its own handlers
+  const targetQuad = event.target.closest('[role="button"]'); // Check if touch is on a quad button
+  if (targetQuad && scratchImageDisplayEl.contains(targetQuad)) {
+      isPotentialSwipe = false; // Don't interfere with quad clicks/focus
+      return;
+  }
+
+  touchStartX = event.changedTouches[0].screenX;
+  touchStartY = event.changedTouches[0].screenY;
+  isPotentialSwipe = true;
+}
+
+function handleTouchMove(event) {
+  if (!isPotentialSwipe || event.touches.length !== 1) {
+    return;
+  }
+
+  const currentX = event.changedTouches[0].screenX;
+  const currentY = event.changedTouches[0].screenY;
+  const deltaX = Math.abs(currentX - touchStartX);
+  const deltaY = Math.abs(currentY - touchStartY);
+
+  // Prevent default scrolling if the swipe is primarily horizontal and has moved a bit
+  // This allows vertical page scrolling if the user intends that.
+  if (deltaX > deltaY && deltaX > 10) { // 10px is a small threshold to confirm horizontal intent
+    event.preventDefault();
+  }
+}
+
+function handleTouchEnd(event) {
+  if (!isPotentialSwipe || event.changedTouches.length !== 1) {
+    isPotentialSwipe = false;
+    return;
+  }
+  isPotentialSwipe = false;
+
+  if (isLoading) return; // Don't process swipe if an image is loading
+
+  const touchEndX = event.changedTouches[0].screenX;
+  const touchEndY = event.changedTouches[0].screenY;
+
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+
+  // Check if it's a clear horizontal swipe
+  if (Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) { // Horizontal movement is significantly greater
+    if (deltaX < 0) { // Swipe Left
+      handleNextImage();
+    } else { // Swipe Right
+      handlePrevImage();
+    }
+  }
+  // Reset for next potential swipe (though they are re-read on touchstart)
+  touchStartX = 0;
+  touchStartY = 0;
+}
+
+
 function initApp() {
-  // Get DOM elements
   scratchImageDisplayEl = document.getElementById('scratch-image-display');
   imageControlsContainerEl = document.getElementById('image-controls-container');
   prevImageBtnEl = document.getElementById('prev-image-btn');
@@ -387,7 +458,6 @@ function initApp() {
   borderRadiusSliderEl = document.getElementById('border-radius-slider');
   borderRadiusLabelEl = document.getElementById('border-radius-label');
 
-  // Load image URLs
   const imageSourcesScriptTag = document.getElementById('image-sources');
   if (imageSourcesScriptTag?.textContent) {
     try {
@@ -405,32 +475,35 @@ function initApp() {
     error = "Image sources script tag not found or empty.";
   }
   
-  isLoading = false; // Initial loading of URLs is done
+  isLoading = false; 
 
-  // Setup event listeners
   prevImageBtnEl.addEventListener('click', handlePrevImage);
   nextImageBtnEl.addEventListener('click', handleNextImage);
   borderRadiusSliderEl.addEventListener('input', handleBorderRadiusChange);
 
-  // Setup ResizeObserver
+  // Add touch listeners for swipe gestures to the image display area
+  if (scratchImageDisplayEl) {
+    scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: true }); // passive:true for touchstart initially to allow scroll unless move makes it swipe
+    scratchImageDisplayEl.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive:false for touchmove as we might preventDefault
+    scratchImageDisplayEl.addEventListener('touchend', handleTouchEnd);
+    scratchImageDisplayEl.addEventListener('touchcancel', () => { isPotentialSwipe = false; }); // Reset on cancel
+  }
+
   const resizeObserver = new ResizeObserver(updateDisplayOnResize);
   if (scratchImageDisplayEl) {
       resizeObserver.observe(scratchImageDisplayEl);
   }
   
-  // Initial render and load first image if available
   if (imageUrls.length > 0) {
     loadImageAndSetupQuads(imageUrls[currentImageIndex]);
   } else {
-      renderApp(); // Render error or no images message
+      renderApp(); 
   }
-  updateDisplayOnResize(); // Initial dimension calculation
+  updateDisplayOnResize(); 
 }
 
 window.addEventListener('load', () => {
-  // Wait for the next animation frame
   requestAnimationFrame(() => {
-    // Wait for one more animation frame
     requestAnimationFrame(() => {
       initApp();
     });
