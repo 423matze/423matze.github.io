@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 4.5
+// Interactive Scratch Image Script Version 4.6 - debug
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
@@ -520,6 +520,10 @@ function handleTouchStart(event) {
   }
   console.log('[TouchStart] Touch originated on the interactive display area.');
 
+  // Set pointer-events to none EARLY
+  scratchImageDisplayEl.style.pointerEvents = 'none';
+  console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
+
   event.preventDefault();
   console.log('[TouchStart] Successfully called event.preventDefault().');
 
@@ -535,12 +539,6 @@ function handleTouchStart(event) {
   window.addEventListener('touchend', handleTouchEnd, { passive: true });
   window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
   console.log('[TouchStart] Added window listeners for move, end, cancel.');
-
-  // Make the display element non-blocking for pointer events during drag
-  if (scratchImageDisplayEl) {
-    scratchImageDisplayEl.style.pointerEvents = 'none';
-    console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
-  }
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
@@ -713,4 +711,3 @@ window.addEventListener('load', () => {
     });
   });
 });
-    
