@@ -1,10 +1,10 @@
 
-// Interactive Scratch Image Script Version 4.8 - debug
+// Interactive Scratch Image Script Version 4.9 - debug
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
 // Includes rAF throttling for touchmove and dynamic window event listeners for robust iOS touch handling.
-// Added reflow trigger after pointer-events change and uncommented all debug logs in touch geometry helpers.
+// Reordered operations in handleTouchStart for potentially better gesture claiming.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -521,13 +521,7 @@ function handleTouchStart(event) {
   }
   console.log('[TouchStart] Touch originated on the interactive display area.');
 
-  scratchImageDisplayEl.style.pointerEvents = 'none';
-  console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
-
-  // Force reflow to attempt to make the pointer-events change effective immediately
-  void scratchImageDisplayEl.offsetHeight; 
-  console.log('[TouchStart] Forced reflow after setting pointer-events.');
-
+  // --- REORDERED OPERATIONS ---
   event.preventDefault();
   console.log('[TouchStart] Successfully called event.preventDefault().');
 
@@ -542,6 +536,14 @@ function handleTouchStart(event) {
   window.addEventListener('touchend', handleTouchEnd, { passive: true });
   window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
   console.log('[TouchStart] Added window listeners for move, end, cancel.');
+
+  scratchImageDisplayEl.style.pointerEvents = 'none';
+  console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
+
+  void scratchImageDisplayEl.offsetHeight; 
+  console.log('[TouchStart] Forced reflow after setting pointer-events.');
+  // --- END REORDERED OPERATIONS ---
+
 
   const quadData = getQuadUnderTouch(touch.clientX, touch.clientY);
   if (quadData && isQuadInteractable(quadData)) {
