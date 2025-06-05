@@ -1,8 +1,8 @@
-// Version 1.2 - interactive scratch image
+// Version 2 - interactive scratch image
 // --- Configuration Constants ---
-const TARGET_IMAGE_WIDTH = 1024;
-const TARGET_IMAGE_HEIGHT = 768;
-const INITIAL_GRID_COLS = 4;
+const TARGET_IMAGE_WIDTH = 1280;
+const TARGET_IMAGE_HEIGHT = 720;
+const INITIAL_GRID_COLS = 5;
 const INITIAL_GRID_ROWS = 3;
 const INITIAL_QUAD_WIDTH = TARGET_IMAGE_WIDTH / INITIAL_GRID_COLS;
 const INITIAL_QUAD_HEIGHT = TARGET_IMAGE_HEIGHT / INITIAL_GRID_ROWS;
