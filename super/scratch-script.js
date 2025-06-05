@@ -1,9 +1,9 @@
 
-// Interactive Scratch Image Script Version 5.2
+// Interactive Scratch Image Script Version 5.3
 // This script provides an interactive image display with quad subdivision.
 // It allows users to explore images by subdividing them into smaller quads, revealing details on interaction.
 // Optimized for touch devices with "scratch-to-reveal" functionality using geometry-based touch detection.
-// Includes rAF throttling for touchmove and uses a dedicated touch overlay for robust iOS touch handling.
+// Includes rAF throttling for touchmove and uses a dedicated touch overlay with event capturing for robust iOS/Chrome touch handling.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -488,7 +488,7 @@ function getQuadUnderTouch(touchEventClientX, touchEventClientY) {
 }
 
 
-// --- Touch Event Handlers (using a dedicated Overlay for move/end/cancel) ---
+// --- Touch Event Handlers (using a dedicated Overlay with Event Capturing) ---
 function handleTouchStart(event) {
   console.log('[TouchStart] Event on scratchImageDisplayEl:', event);
   if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl || !touchEventOverlayEl) {
@@ -517,10 +517,9 @@ function handleTouchStart(event) {
   event.preventDefault(); 
   console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
 
-  // Make original target non-interactive FIRST
   scratchImageDisplayEl.style.pointerEvents = 'none';
   console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
-  void scratchImageDisplayEl.offsetHeight; // Force reflow
+  void scratchImageDisplayEl.offsetHeight; 
   console.log('[TouchStart] Forced reflow after setting pointer-events.');
 
   isActiveTouchInteraction = true;
@@ -531,10 +530,10 @@ function handleTouchStart(event) {
   console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
   touchEventOverlayEl.style.display = 'block';
-  touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { passive: false });
-  touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { passive: true });
-  touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { passive: true });
-  console.log('[TouchStart] Overlay activated and listeners added to overlay.');
+  touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
+  touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
+  touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
+  console.log('[TouchStart] Overlay activated and CAPTURE listeners added to overlay.');
 
   requestAnimationFrame(() => {
     if (!isActiveTouchInteraction) { 
@@ -587,14 +586,15 @@ function processTouchMoveRAF() {
 }
 
 function handleTouchMove(event) { 
-  console.log('[TouchMove] Raw event (from overlay), active:', isActiveTouchInteraction);
+  console.log('[TouchMove] Raw event (from overlay CAPTURE), active:', isActiveTouchInteraction, 'target:', event.target.id);
   if (!isActiveTouchInteraction || event.touches.length !== 1 || isLoading) {
     console.log('[TouchMove] Aborted: Not active, invalid touch count, or loading.');
     return;
   }
   
   event.preventDefault(); 
-  console.log('[TouchMove] Called event.preventDefault() on overlay listener.');
+  event.stopPropagation(); // Added stopPropagation
+  console.log('[TouchMove] Called event.preventDefault() & event.stopPropagation() on overlay CAPTURE listener.');
 
   lastTouchEventForRAF = event;
 
@@ -609,20 +609,20 @@ function handleTouchMove(event) {
 
 function removeOverlayListenersAndHide() {
   if (touchEventOverlayEl) {
-    touchEventOverlayEl.removeEventListener('touchmove', handleTouchMove, { passive: false });
-    touchEventOverlayEl.removeEventListener('touchend', handleTouchEnd, { passive: true });
-    touchEventOverlayEl.removeEventListener('touchcancel', handleTouchCancel, { passive: true });
+    touchEventOverlayEl.removeEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
+    touchEventOverlayEl.removeEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
+    touchEventOverlayEl.removeEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
     touchEventOverlayEl.style.display = 'none';
-    console.log('[Cleanup] Overlay hidden and listeners removed.');
+    console.log('[Cleanup] Overlay hidden and CAPTURE listeners removed.');
   }
-  if (scratchImageDisplayEl) { // Reset pointer-events on the original element
+  if (scratchImageDisplayEl) { 
     scratchImageDisplayEl.style.pointerEvents = 'auto';
     console.log('[Cleanup] Reset scratchImageDisplayEl pointer-events to auto.');
   }
 }
 
 function handleTouchEnd(event) { 
-  console.log('[TouchEnd] Event (from overlay):', event);
+  console.log('[TouchEnd] Event (from overlay CAPTURE):', event.target.id);
   if (!isActiveTouchInteraction) { 
     console.log('[TouchEnd] Aborted: Not active.');
     removeOverlayListenersAndHide(); 
@@ -639,6 +639,8 @@ function handleTouchEnd(event) {
 
   if (Math.abs(deltaX) < TAP_MOVEMENT_THRESHOLD && Math.abs(deltaY) < TAP_MOVEMENT_THRESHOLD) {
     console.log('[TouchEnd] Detected as TAP. DeltaX:', deltaX, 'DeltaY:', deltaY);
+    // Initial tap is already handled by requestAnimationFrame in handleTouchStart
+    // No need to re-process here unless specific tap-end logic is required.
   } else {
     console.log('[TouchEnd] Detected as DRAG end.');
   }
@@ -652,7 +654,7 @@ function handleTouchEnd(event) {
 }
 
 function handleTouchCancel(event) { 
-  console.log('[TouchCancel] Event (from overlay):', event);
+  console.log('[TouchCancel] Event (from overlay CAPTURE):', event.target.id);
   isActiveTouchInteraction = false;
   lastProcessedQuadIdDuringDrag = null;
   lastTouchEventForRAF = null;
