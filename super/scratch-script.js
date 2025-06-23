@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 9.0 (Targeted DOM Updates)
+// Interactive Scratch Image Script Version 9.1 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
@@ -685,7 +685,9 @@ function handleMouseLeaveDisplay() {
 }
 
 function initApp() {
+    console.log("Initializing Interactive Scratch Image App...");
     scratchImageDisplayEl = document.getElementById('scratch-image-display');
+    console.log(scratchImageDisplayEl);
     imageControlsContainerEl = document.getElementById('image-controls-container');
     prevImageBtnEl = document.getElementById('prev-image-btn');
     nextImageBtnEl = document.getElementById('next-image-btn');
