@@ -1,9 +1,10 @@
 
-// Interactive Scratch Image Script Version 8.0 (Targeted DOM Updates)
+// Interactive Scratch Image Script Version 9.0 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
 // **PERFORMANCE OPTIMIZATION: Targeted DOM updates instead of full re-renders.**
+// Optimized loading and error handling for image display.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -75,9 +76,8 @@ function subdivideQuadLogic(quadToDivide, imgData, imgWidth) {
     const childHeight = quadToDivide.height / 2;
 
     if (childWidth < 0.5 || childHeight < 0.5) {
-        // console.log('[SubdivideLogic] Quad too small to subdivide:', quadToDivide.id);
-        quadToDivide.isDivided = false; // Ensure it's marked as not divided if it can't be
-        return; // No changes, quad not subdivided
+        quadToDivide.isDivided = false; 
+        return; 
     }
 
     quadToDivide.isDivided = true;
@@ -87,7 +87,6 @@ function subdivideQuadLogic(quadToDivide, imgData, imgWidth) {
         { id: `${quadToDivide.id}-2`, x: quadToDivide.x, y: quadToDivide.y + childHeight, width: childWidth, height: childHeight, depth: quadToDivide.depth + 1, color: getAverageColor(imgData, imgWidth, quadToDivide.x, quadToDivide.y + childHeight, childWidth, childHeight), isDivided: false, isRevealed: false, parentId: quadToDivide.id },
         { id: `${quadToDivide.id}-3`, x: quadToDivide.x + childWidth, y: quadToDivide.y + childHeight, width: childWidth, height: childHeight, depth: quadToDivide.depth + 1, color: getAverageColor(imgData, imgWidth, quadToDivide.x + childWidth, quadToDivide.y + childHeight, childWidth, childHeight), isDivided: false, isRevealed: false, parentId: quadToDivide.id },
     ];
-    // console.log('[SubdivideLogic] Subdivided quad:', quadToDivide.id, 'New children:', quadToDivide.children.map(c=>c.id));
 }
 
 
@@ -171,7 +170,7 @@ function loadImageAndSetupQuads(imageUrl) {
         }
         topLevelQuads = initialGrid;
         isLoading = false;
-        renderApp(); // This will call initialFullRenderQuadsDOM via renderDisplayAreaContent
+        renderApp(); 
     };
     img.onerror = () => {
         error = `Failed to load image: ${imageUrl}. Check browser console.`;
@@ -192,16 +191,14 @@ function isQuadInteractable(quad) {
 
 // --- DOM Rendering Functions ---
 
-// NEW: Renders a single quad element and appends it.
 function renderSingleQuadElement(quadData) {
     if (!scratchImageDisplayEl || !originalImage || !displayDimensions) {
-        // console.warn('[RenderSingle] Aborted: Missing required elements for rendering quad:', quadData.id);
         return null;
     }
 
     const quadEl = document.createElement('div');
     quadEl.id = quadData.id;
-    quadEl.setAttribute('role', 'button'); // Semantic, even if direct interaction changes
+    quadEl.setAttribute('role', 'button'); 
     quadEl.style.position = 'absolute';
     quadEl.style.boxSizing = 'border-box';
     quadEl.style.border = '1px solid rgba(255,255,255,0.05)';
@@ -212,7 +209,7 @@ function renderSingleQuadElement(quadData) {
     const scaledY = (quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
     let scaledWidth = (quadData.width / TARGET_IMAGE_WIDTH) * displayDimensions.width;
     let scaledHeight = (quadData.height / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
-    scaledWidth = Math.max(0.5, scaledWidth); // Ensure minimum renderable size
+    scaledWidth = Math.max(0.5, scaledWidth); 
     scaledHeight = Math.max(0.5, scaledHeight);
 
     quadEl.style.left = `${scaledX}px`;
@@ -248,15 +245,11 @@ function renderSingleQuadElement(quadData) {
     return quadEl;
 }
 
-// RENAMED & MODIFIED: Only for full initial render or full image change.
 function initialFullRenderQuadsDOM() {
     if (!scratchImageDisplayEl || !topLevelQuads || !originalImage || !displayDimensions) {
-        // console.log('[InitialFullRender] Aborted: Missing required elements for rendering quads.');
         return;
     }
-    // console.log('[InitialFullRender] Performing full render. CTA is managed by renderDisplayAreaContent.');
-
-    // Remove only existing quad elements (role="button"), leave CTA.
+    
     Array.from(scratchImageDisplayEl.children).forEach(child => {
         if (child.id !== 'initial-cta-overlay' && child.getAttribute('role') === 'button') {
             scratchImageDisplayEl.removeChild(child);
@@ -268,23 +261,24 @@ function initialFullRenderQuadsDOM() {
             quad.children.forEach(child => renderRecursive(child));
             return;
         }
-        renderSingleQuadElement(quad); // Use the new function
+        renderSingleQuadElement(quad);
     };
 
     topLevelQuads.forEach(quad => renderRecursive(quad));
 }
 
-// MODIFIED: Manages CTA and calls initialFullRenderQuadsDOM
 function renderDisplayAreaContent() {
     if (!scratchImageDisplayEl) return;
 
     scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
     scratchImageDisplayEl.style.maxWidth = `${TARGET_IMAGE_WIDTH}px`;
 
-    // Ensure initialCtaOverlayEl's display is 'none' before clearing innerHTML, if it's managed externally
-    if (initialCtaOverlayEl && initialCtaOverlayEl.parentElement === scratchImageDisplayEl) {
-      initialCtaOverlayEl.style.display = 'none'; // Temporarily hide if it's about to be cleared
+    // Clear a dimension-specific error from previous render pass, it will be re-evaluated.
+    if (error === "Display area has zero width or invalid dimensions. Cannot render image.") {
+        error = null;
     }
+
+    let contentRendered = false;
 
     if (isLoading && imageUrls.length > 0) {
         scratchImageDisplayEl.innerHTML = `
@@ -292,29 +286,50 @@ function renderDisplayAreaContent() {
         <div class="spinner"></div>
         <p class="status-text">Loading Image...</p>
       </div>`;
-    } else if (error && imageUrls.length > 0) {
+        contentRendered = true;
+    } else if (error && imageUrls.length > 0) { // Catches image load errors first
         scratchImageDisplayEl.innerHTML = `
       <div class="status-message-container status-error">
         <svg xmlns="http://www.w3.org/2000/svg" class="status-icon error-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
         </svg>
-        <h3 class="status-title">Oops! Image failed to load.</h3>
+        <h3 class="status-title">Oops! Image Problem.</h3>
         <p class="status-text">${error}</p>
       </div>`;
-    } else if (topLevelQuads && originalImage && displayDimensions) {
-        scratchImageDisplayEl.innerHTML = ''; // Clear previous status messages
-
-        if (initialCtaOverlayEl) {
-            scratchImageDisplayEl.appendChild(initialCtaOverlayEl); // Re-attach the original CTA
-            if (!isInitialCtaDismissed) {
-                initialCtaOverlayEl.style.display = 'flex';
-                initialCtaOverlayEl.classList.remove('fade-out');
-            } else {
-                initialCtaOverlayEl.style.display = 'none';
+        contentRendered = true;
+    } else if (topLevelQuads && originalImage) { // Image data is loaded successfully
+        if (displayDimensions && displayDimensions.width > 0 && displayDimensions.height > 0) {
+            // All good, render quads
+            scratchImageDisplayEl.innerHTML = ''; // Clear status messages
+            if (initialCtaOverlayEl) {
+                scratchImageDisplayEl.appendChild(initialCtaOverlayEl);
+                if (!isInitialCtaDismissed) {
+                    initialCtaOverlayEl.style.display = 'flex';
+                    initialCtaOverlayEl.classList.remove('fade-out');
+                } else {
+                    initialCtaOverlayEl.style.display = 'none';
+                }
             }
+            initialFullRenderQuadsDOM();
+        } else {
+            // Image data is ready, but display area has no valid dimensions.
+            const dimensionErrorMsg = "Display area has zero width or invalid dimensions. Cannot render image.";
+            if (!error) { // Set this specific error only if no other critical error is already present
+                error = dimensionErrorMsg;
+            }
+            // Display the current error (which might be the dimensionErrorMsg or a pre-existing one like image load failure)
+            const messageToDisplay = error || dimensionErrorMsg; // Should prioritize the global error if set
+            scratchImageDisplayEl.innerHTML = `
+              <div class="status-message-container status-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="status-icon error-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <h3 class="status-title">Display Issue</h3>
+                <p class="status-text">${messageToDisplay}</p>
+              </div>`;
         }
-        initialFullRenderQuadsDOM(); // Call the full render
-    } else if (imageUrls.length === 0 && !isLoading && !error) {
+        contentRendered = true;
+    } else if (imageUrls.length === 0 && !isLoading && !error) { // No images defined
         const parentContainer = scratchImageDisplayEl.parentElement;
         if (parentContainer) {
             parentContainer.innerHTML = `
@@ -323,7 +338,8 @@ function renderDisplayAreaContent() {
                 <p class="no-content-text">No images configured. Please add image URLs to the 'image-sources' script tag in index.html.</p>
             </div>`;
         }
-    } else if (imageUrls.length === 0 && error && !isLoading) {
+        contentRendered = true;
+    } else if (imageUrls.length === 0 && error && !isLoading) { // Error during init, like JSON parse
         const parentContainer = scratchImageDisplayEl.parentElement;
         if (parentContainer) {
             parentContainer.innerHTML = `
@@ -332,8 +348,16 @@ function renderDisplayAreaContent() {
                 <p class="no-content-text error-text">Error: ${error}</p>
             </div>`;
         }
+        contentRendered = true;
+    }
+
+    if (!contentRendered && scratchImageDisplayEl.parentElement) {
+         // Fallback: if no specific content was rendered in scratchImageDisplayEl,
+         // ensure it's at least cleared or show a generic message if its parent is the target
+        if (scratchImageDisplayEl.innerHTML.trim() !== '') scratchImageDisplayEl.innerHTML = '';
     }
 }
+
 
 function updateControlsUI() {
     if (!imageUrls || imageUrls.length === 0 || !imageControlsContainerEl) {
@@ -377,9 +401,7 @@ function handleNextImage() {
 
 function handleBorderRadiusChange(event) {
     quadBorderRadius = parseInt(event.target.value, 10);
-    // For targeted DOM, we need to update all non-revealed quads
     if (topLevelQuads && !isLoading && !error && displayDimensions) {
-        // console.log('[BorderRadiusChange] Updating border radius for visible quads.');
         const updateRadiusRecursive = (quads) => {
             quads.forEach(q => {
                 if (q.isDivided && q.children) {
@@ -394,30 +416,41 @@ function handleBorderRadiusChange(event) {
         };
         updateRadiusRecursive(topLevelQuads);
     }
-    // Update label
     if (borderRadiusLabelEl) {
       borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius}%`;
     }
 }
 
 function updateDisplayOnResize() {
-    if (scratchImageDisplayEl) {
-        const currentWidth = scratchImageDisplayEl.offsetWidth;
-        // Ensure aspect ratio is maintained for height calculation if width changes
-        const currentHeight = currentWidth / (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT);
+    if (!scratchImageDisplayEl) return;
 
-        if (currentWidth > 0 && currentHeight > 0) {
-            if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
-                displayDimensions = { width: currentWidth, height: currentHeight };
-                // console.log('[Resize] Display dimensions updated:', displayDimensions);
-                if (topLevelQuads && originalImage && !isLoading && !error) {
-                    // console.log('[Resize] Re-rendering quads due to resize.');
-                    initialFullRenderQuadsDOM(); // Full re-render on resize is safest for positions
-                }
-            }
+    let dimensionsChangedStatus = false;
+
+    const currentWidth = scratchImageDisplayEl.offsetWidth;
+    // Protect against division by zero if constants are 0, default to 1:1 aspect ratio.
+    const aspectRatio = (TARGET_IMAGE_WIDTH > 0 && TARGET_IMAGE_HEIGHT > 0) ? (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT) : 1;
+    const currentHeight = Math.floor(currentWidth / aspectRatio); // Use Math.floor for integer pixel values
+
+    if (currentWidth > 0 && currentHeight > 0) {
+        // Valid dimensions obtained
+        if (!displayDimensions || displayDimensions.width !== currentWidth || displayDimensions.height !== currentHeight) {
+            displayDimensions = { width: currentWidth, height: currentHeight };
+            dimensionsChangedStatus = true;
+        }
+    } else {
+        // Invalid dimensions (e.g., width is 0)
+        if (displayDimensions !== null) { // It previously had valid dimensions
+            displayDimensions = null;
+            dimensionsChangedStatus = true;
         }
     }
+
+    if (dimensionsChangedStatus) {
+        // console.log('[Resize] displayDimensions status changed or values updated, re-rendering. New Dims:', displayDimensions);
+        renderApp(); // Let renderApp re-evaluate everything with new dimensions (or lack thereof)
+    }
 }
+
 
 // --- Geometry-based Interaction Helpers ---
 function rectangleIntersectsCircle(rectX, rectY, rectWidth, rectHeight, circleX, circleY, circleRadius) {
@@ -429,8 +462,6 @@ function rectangleIntersectsCircle(rectX, rectY, rectWidth, rectHeight, circleX,
     return distanceSquared < (circleRadius * circleRadius);
 }
 
-// NEW: Recursive interaction function that mutates data and directly updates DOM
-// Returns true if any quad's data or DOM was changed.
 function interactWithQuadsInAreaRecursive(quadsToSearch, logicalCenterX, logicalCenterY, logicalRadius) {
     let anyChangeMade = false;
     if (!quadsToSearch || !originalImage || !displayDimensions) return false;
@@ -443,33 +474,31 @@ function interactWithQuadsInAreaRecursive(quadsToSearch, logicalCenterX, logical
                 if (interactWithQuadsInAreaRecursive(quad.children, logicalCenterX, logicalCenterY, logicalRadius)) {
                     anyChangeMade = true;
                 }
-            } else { // It's a leaf node for interaction purposes
+            } else { 
                 if (isQuadInteractable(quad)) {
                     const existingQuadEl = document.getElementById(quad.id);
 
                     if (quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed) {
-                        // console.log('[AreaInteract] Revealing quad:', quad.id);
-                        quad.isRevealed = true; // Mutate data
-                        if (existingQuadEl) { // Update DOM
+                        quad.isRevealed = true; 
+                        if (existingQuadEl) { 
                             const bgPosX = -((quad.x / TARGET_IMAGE_WIDTH) * displayDimensions.width);
                             const bgPosY = -((quad.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height);
                             existingQuadEl.style.backgroundImage = `url(${originalImage.element.src})`;
                             existingQuadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
                             existingQuadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
                             existingQuadEl.style.borderRadius = '0%';
-                            existingQuadEl.style.backgroundColor = ''; // Clear background color
+                            existingQuadEl.style.backgroundColor = ''; 
                             existingQuadEl.setAttribute('aria-label', `Image segment detail revealed (Depth ${quad.depth}).`);
-                        } else { /* console.warn('[AreaInteract] DOM el for reveal not found:', quad.id); */ }
+                        }
                         anyChangeMade = true;
                     } else if (quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && !quad.isRevealed) {
-                        // console.log('[AreaInteract] Subdividing quad:', quad.id);
-                        subdivideQuadLogic(quad, originalImage.data, originalImage.width); // Mutates 'quad' in place
+                        subdivideQuadLogic(quad, originalImage.data, originalImage.width); 
 
-                        if (existingQuadEl) { // Remove old DOM
+                        if (existingQuadEl) { 
                             existingQuadEl.remove();
-                        } else { /* console.warn('[AreaInteract] DOM el for subdivide not found:', quad.id); */ }
+                        }
                         
-                        if (quad.children && quad.children.length > 0) { // Render new children
+                        if (quad.children && quad.children.length > 0) { 
                             quad.children.forEach(child => renderSingleQuadElement(child));
                         }
                         anyChangeMade = true;
@@ -507,24 +536,21 @@ function dismissInitialCta() {
             initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd);
         };
         initialCtaOverlayEl.addEventListener('transitionend', onTransitionEnd);
-        setTimeout(() => { // Fallback if transitionend doesn't fire
+        setTimeout(() => { 
             if (initialCtaOverlayEl.classList.contains('fade-out') && initialCtaOverlayEl.style.display !== 'none') {
                 initialCtaOverlayEl.style.display = 'none';
                 initialCtaOverlayEl.removeEventListener('transitionend', onTransitionEnd);
             }
-        }, 350); // A bit longer than transition duration
+        }, 350); 
     }
 }
 
 function handleTouchStart(event) {
-    // console.log('[TouchStart] Event on scratchImageDisplayEl:', event);
     if (!isInitialCtaDismissed && initialCtaOverlayEl && initialCtaOverlayEl.style.display !== 'none') {
-        // console.log('[TouchStart] CTA is visible, dismissing it.');
         dismissInitialCta();
     }
     if (event.touches.length !== 1 || isLoading || !scratchImageDisplayEl || !touchEventOverlayEl) {
         isActiveTouchInteraction = false; 
-        // console.log('[TouchStart] Aborted: Invalid touch count, loading, or missing elements.');
         return;
     }
     let targetElement = event.target;
@@ -535,42 +561,30 @@ function handleTouchStart(event) {
     }
     if (!isTouchOnInteractiveArea) { 
         isActiveTouchInteraction = false; 
-        // console.log('[TouchStart] Touch did not originate on the interactive display area or its children.');
         return; 
     }
-    // console.log('[TouchStart] Touch originated on the interactive display area or its children.');
 
     event.preventDefault();
-    // console.log('[TouchStart] Successfully called event.preventDefault() on scratchImageDisplayEl.');
     scratchImageDisplayEl.style.pointerEvents = 'none';
-    // console.log('[TouchStart] Set scratchImageDisplayEl pointer-events to none.');
     void scratchImageDisplayEl.offsetHeight;
-    // console.log('[TouchStart] Forced reflow after setting pointer-events.');
 
     isActiveTouchInteraction = true;
     const touch = event.changedTouches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-    // console.log('[TouchStart] Interaction ACTIVE. StartX:', touchStartX, 'StartY:', touchStartY);
 
     touchEventOverlayEl.style.display = 'block';
     touchEventOverlayEl.addEventListener('touchmove', handleTouchMove, { capture: true, passive: false });
     touchEventOverlayEl.addEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
     touchEventOverlayEl.addEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
-    // console.log('[TouchStart] Main touch overlay activated and CAPTURE listeners added to it.');
 
-    requestAnimationFrame(() => { // Defer initial tap processing
+    requestAnimationFrame(() => { 
         if (!isActiveTouchInteraction) {
-            // console.log('[TouchStart-RAF] Interaction no longer active, skipping initial tap processing.');
             return;
         }
-        // console.log('[TouchStart-RAF] Processing initial tap via RAF for touch at StartX, StartY.');
         const coords = getLogicalCoordinates(touchStartX, touchStartY);
         if (coords && topLevelQuads) {
-             if (interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL)) {
-                // DOM changes were handled by interactWithQuadsInAreaRecursive itself.
-                // No need to call initialFullRenderQuadsDOM() here.
-             }
+             interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL);
         }
     });
 }
@@ -582,9 +596,7 @@ function processTouchMoveRAF() {
     const touch = lastTouchEventForRAF.changedTouches[0];
     const coords = getLogicalCoordinates(touch.clientX, touch.clientY);
     if (coords) {
-        if (interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL)) {
-             // DOM changes handled by interactWithQuadsInAreaRecursive itself.
-        }
+        interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL);
     }
     lastTouchEventForRAF = null; touchMoveScheduledFrame = false;
 }
@@ -604,28 +616,21 @@ function removeOverlayListenersAndHide() {
         touchEventOverlayEl.removeEventListener('touchend', handleTouchEnd, { capture: true, passive: true });
         touchEventOverlayEl.removeEventListener('touchcancel', handleTouchCancel, { capture: true, passive: true });
         touchEventOverlayEl.style.display = 'none';
-        // console.log('[Cleanup] Main touch overlay hidden and CAPTURE listeners removed.');
     }
     if (scratchImageDisplayEl) { 
         scratchImageDisplayEl.style.pointerEvents = 'auto';
-        // console.log('[Cleanup] Reset scratchImageDisplayEl pointer-events to auto.');
     }
 }
 
 function handleTouchEnd(event) {
-    // console.log('[TouchEnd] Event (from overlay CAPTURE):', event.target.id);
     if (!isActiveTouchInteraction) { 
-        // console.log('[TouchEnd] Aborted: Not active.');
         removeOverlayListenersAndHide(); return; 
     }
     isActiveTouchInteraction = false; lastTouchEventForRAF = null; touchMoveScheduledFrame = false;
-    // console.log('[TouchEnd] Interaction INACTIVE.');
     removeOverlayListenersAndHide();
 }
 function handleTouchCancel(event) {
-    // console.log('[TouchCancel] Event (from overlay CAPTURE):', event.target.id);
     isActiveTouchInteraction = false; lastTouchEventForRAF = null; touchMoveScheduledFrame = false;
-    // console.log('[TouchCancel] Interaction INACTIVE.');
     removeOverlayListenersAndHide();
 }
 
@@ -636,9 +641,7 @@ function processMouseMoveRAF() {
     }
     const coords = getLogicalCoordinates(lastMouseEventForRAF.clientX, lastMouseEventForRAF.clientY);
     if (coords) {
-        if (interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL)) {
-            // DOM changes handled by interactWithQuadsInAreaRecursive itself.
-        }
+        interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL);
     }
     lastMouseEventForRAF = null; mouseMoveScheduledFrame = false;
 }
@@ -653,23 +656,18 @@ function handleMouseMove(event) {
 }
 
 function handleMouseDown(event) {
-    if (event.button !== 0 || isLoading || !scratchImageDisplayEl) return; // Only main button
+    if (event.button !== 0 || isLoading || !scratchImageDisplayEl) return; 
     
     if (!isInitialCtaDismissed && initialCtaOverlayEl && initialCtaOverlayEl.style.display !== 'none') {
         dismissInitialCta();
     }
 
     isMouseInteractionActive = true;
-    // console.log('[MouseDown] Mouse interaction ACTIVE.');
     
-    // Process initial click point immediately
     const coords = getLogicalCoordinates(event.clientX, event.clientY);
     if (coords && topLevelQuads) {
-         if (interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL)) {
-            // DOM changes handled
-         }
+         interactWithQuadsInAreaRecursive(topLevelQuads, coords.logicalX, coords.logicalY, PENCIL_REVEAL_RADIUS_LOGICAL);
     }
-     // Add move/up listeners to window to capture drag outside element
     window.addEventListener('mousemove', handleMouseMove, { capture: true });
     window.addEventListener('mouseup', handleMouseUp, { capture: true });
 }
@@ -677,18 +675,13 @@ function handleMouseDown(event) {
 function handleMouseUp(event) {
     if (event.button !== 0 || !isMouseInteractionActive) return;
     isMouseInteractionActive = false;
-    // console.log('[MouseUp] Mouse interaction INACTIVE.');
     lastMouseEventForRAF = null; mouseMoveScheduledFrame = false;
     window.removeEventListener('mousemove', handleMouseMove, { capture: true });
     window.removeEventListener('mouseup', handleMouseUp, { capture: true });
 }
 
 function handleMouseLeaveDisplay() { 
-    /* console.log('[MouseLeave] Mouse left display area.'); */ 
-    // If we wanted to stop interaction if mouse leaves without button up:
-    // if (isMouseInteractionActive) {
-    //    handleMouseUp({ button: 0 }); // Simulate a mouse up
-    // }
+    // Intentionally left blank for now, mouseup on window handles drag-out better.
 }
 
 function initApp() {
@@ -712,7 +705,7 @@ function initApp() {
         } catch (e) { console.error("Failed to parse image sources from HTML:", e); error = "Could not load image list. Check JSON in 'image-sources' script tag."; }
     } else { error = "Image sources script tag not found or empty."; }
     
-    isLoading = false; // Initial state before first load
+    isLoading = false; 
 
     prevImageBtnEl.addEventListener('click', handlePrevImage);
     nextImageBtnEl.addEventListener('click', handleNextImage);
@@ -721,14 +714,12 @@ function initApp() {
     if (scratchImageDisplayEl) {
         scratchImageDisplayEl.addEventListener('touchstart', handleTouchStart, { passive: false });
         scratchImageDisplayEl.addEventListener('mousedown', handleMouseDown);
-        // scratchImageDisplayEl.addEventListener('mouseleave', handleMouseLeaveDisplay); // Can be noisy, mousedown/up on window handles drag better
     } else { console.error("Scratch image display element not found!"); }
     if (!touchEventOverlayEl) { console.error("Main touch event overlay element not found!"); }
     if (initialCtaOverlayEl) {
         initialCtaOverlayEl.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent click from immediately triggering mousedown on displayEl
+            e.stopPropagation(); 
             if (!isInitialCtaDismissed) {
-                // console.log('[CTA] Clicked, dismissing.');
                 dismissInitialCta();
             }
         });
@@ -737,13 +728,16 @@ function initApp() {
     const resizeObserver = new ResizeObserver(updateDisplayOnResize);
     if (scratchImageDisplayEl) { resizeObserver.observe(scratchImageDisplayEl); }
     
-    if (imageUrls.length > 0) { loadImageAndSetupQuads(imageUrls[currentImageIndex]); } 
-    else { renderApp(); } // Render even if no images to show "No images" message
-    updateDisplayOnResize(); // Initial call to set displayDimensions
+    // Initial call to set displayDimensions and render based on current state
+    updateDisplayOnResize(); 
+
+    if (imageUrls.length > 0 && !error) { // Only load if URLs are present and no initial error
+        loadImageAndSetupQuads(imageUrls[currentImageIndex]); 
+    } else { // No images or initial error (like JSON parse error)
+        renderApp(); // Render to show appropriate message (no images/error)
+    }
 }
 
 window.addEventListener('load', () => {
-    // Double rAF to wait for React/Super.so if present, and initial layout.
     requestAnimationFrame(() => { requestAnimationFrame(() => { initApp(); }); });
 });
-
