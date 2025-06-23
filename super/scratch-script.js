@@ -1,5 +1,5 @@
 
-// Interactive Scratch Image Script Version 9.3 (Targeted DOM Updates)
+// Interactive Scratch Image Script Version 9.0 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
@@ -204,17 +204,25 @@ function renderSingleQuadElement(quadData) {
     quadEl.style.overflow = 'hidden';
     quadEl.style.transition = 'border-radius 0.2s ease-out';
 
-    const scaledX = (quadData.x / TARGET_IMAGE_WIDTH) * displayDimensions.width;
-    const scaledY = (quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
-    let scaledWidth = (quadData.width / TARGET_IMAGE_WIDTH) * displayDimensions.width;
-    let scaledHeight = (quadData.height / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
-    scaledWidth = Math.max(0.5, scaledWidth); 
-    scaledHeight = Math.max(0.5, scaledHeight);
+    // Calculate precise floating point values for position and size
+    const preciseScaledX = (quadData.x / TARGET_IMAGE_WIDTH) * displayDimensions.width;
+    const preciseScaledY = (quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
+    const preciseScaledWidth = (quadData.width / TARGET_IMAGE_WIDTH) * displayDimensions.width;
+    const preciseScaledHeight = (quadData.height / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
 
-    quadEl.style.left = `${scaledX}px`;
-    quadEl.style.top = `${scaledY}px`;
-    quadEl.style.width = `${scaledWidth}px`;
-    quadEl.style.height = `${scaledHeight}px`;
+    // Determine element's pixel geometry by rounding the start and end points
+    const elementLeft = Math.round(preciseScaledX);
+    const elementTop = Math.round(preciseScaledY);
+    const elementRight = Math.round(preciseScaledX + preciseScaledWidth);
+    const elementBottom = Math.round(preciseScaledY + preciseScaledHeight);
+
+    const elementWidth = Math.max(1, elementRight - elementLeft); // Ensure at least 1px
+    const elementHeight = Math.max(1, elementBottom - elementTop); // Ensure at least 1px
+
+    quadEl.style.left = `${elementLeft}px`;
+    quadEl.style.top = `${elementTop}px`;
+    quadEl.style.width = `${elementWidth}px`;
+    quadEl.style.height = `${elementHeight}px`;
     
     let ariaLabel = `Image segment at depth ${quadData.depth}.`;
     if (quadData.isRevealed) {
@@ -229,15 +237,21 @@ function renderSingleQuadElement(quadData) {
     quadEl.setAttribute('aria-label', ariaLabel);
 
     if (quadData.isRevealed) {
-        const bgPosX = -((quadData.x / TARGET_IMAGE_WIDTH) * displayDimensions.width);
-        const bgPosY = -((quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height);
+        // Use precise (unrounded) scaled coordinates for background position relative to the overall image.
+        const bgPosX = -preciseScaledX;
+        const bgPosY = -preciseScaledY;
+        
         quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
+        // The background image is sized to the total display area of the scratch image
         quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
+        // And positioned so the correct segment appears within this quad
         quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-        quadEl.style.borderRadius = '0%';
+        quadEl.style.borderRadius = '0%'; // Revealed quads should not have rounded corners from the slider
+        quadEl.style.border = 'none'; // Remove border for revealed quads
     } else {
         quadEl.style.backgroundColor = `rgb(${quadData.color.r}, ${quadData.color.g}, ${quadData.color.b})`;
         quadEl.style.borderRadius = `${quadBorderRadius}%`;
+        quadEl.style.border = '1px solid rgba(255,255,255,0.05)'; // Keep border for non-revealed
     }
 
     scratchImageDisplayEl.appendChild(quadEl);
@@ -428,7 +442,7 @@ function updateDisplayOnResize() {
     const currentWidth = scratchImageDisplayEl.offsetWidth;
     // Protect against division by zero if constants are 0, default to 1:1 aspect ratio.
     const aspectRatio = (TARGET_IMAGE_WIDTH > 0 && TARGET_IMAGE_HEIGHT > 0) ? (TARGET_IMAGE_WIDTH / TARGET_IMAGE_HEIGHT) : 1;
-    const currentHeight = Math.floor(currentWidth / aspectRatio); // Use Math.floor for integer pixel values
+    const currentHeight = Math.round(currentWidth / aspectRatio); // Use Math.round for consistency
 
     if (currentWidth > 0 && currentHeight > 0) {
         // Valid dimensions obtained
@@ -480,13 +494,16 @@ function interactWithQuadsInAreaRecursive(quadsToSearch, logicalCenterX, logical
                     if (quad.depth === MAX_QUAD_DEPTH && !quad.isRevealed) {
                         quad.isRevealed = true; 
                         if (existingQuadEl) { 
-                            const bgPosX = -((quad.x / TARGET_IMAGE_WIDTH) * displayDimensions.width);
-                            const bgPosY = -((quad.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height);
+                            const preciseScaledX = (quad.x / TARGET_IMAGE_WIDTH) * displayDimensions.width;
+                            const preciseScaledY = (quad.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
+                            const bgPosX = -preciseScaledX;
+                            const bgPosY = -preciseScaledY;
                             existingQuadEl.style.backgroundImage = `url(${originalImage.element.src})`;
                             existingQuadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
                             existingQuadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
                             existingQuadEl.style.borderRadius = '0%';
                             existingQuadEl.style.backgroundColor = ''; 
+                            existingQuadEl.style.border = 'none';
                             existingQuadEl.setAttribute('aria-label', `Image segment detail revealed (Depth ${quad.depth}).`);
                         }
                         anyChangeMade = true;
