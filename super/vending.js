@@ -1,7 +1,10 @@
-// rive prototype: 0.1.0
+// rive prototype: 0.1.1
 // vending machine prototype
 
 function initVendingPrototype() {
+  
+  console.log("Init Rive");
+  
   const r = new rive.Rive({
     src: "https://423matze.github.io/super/ttrays-003.riv", // Ensure this file name is correct
     canvas: document.getElementById("rivecanvas"),
@@ -17,6 +20,6 @@ function initVendingPrototype() {
       console.error("Rive error:", e);
     },
   });
-}
+};
 // Ensure the canvas is ready before initializing
 requestAnimationFrame(initVendingPrototype);
