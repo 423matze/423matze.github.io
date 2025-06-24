@@ -1,8 +1,6 @@
-// rive prototype: 0.1.1
+// rive prototype: 0.1.2
 // vending machine prototype
 
-function initVendingPrototype() {
-  
   console.log("Init Rive");
   
   const r = new rive.Rive({
@@ -20,6 +18,6 @@ function initVendingPrototype() {
       console.error("Rive error:", e);
     },
   });
-};
+
 // Ensure the canvas is ready before initializing
 requestAnimationFrame(initVendingPrototype);
