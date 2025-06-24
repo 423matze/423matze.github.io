@@ -19,5 +19,3 @@
     },
   });
 
-// Ensure the canvas is ready before initializing
-requestAnimationFrame(initVendingPrototype);
