@@ -1,6 +1,6 @@
 //
-// MALSuper Custom Script v2.7 – Debug (by SUPERSTAR)
-// Event Delegation, smart MutationObserver, bulletproof Storage-Handling
+// MALSuper Custom Script v2.6 – FINAL SMART (by SUPERSTAR)
+// Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 //
 
 window.MALSuper = (function () {
@@ -15,11 +15,9 @@ window.MALSuper = (function () {
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
     }
-
     function getThemePref() {
         return localStorage.getItem(storageKey);
     }
-
     function initTheme() {
         let userPref = getThemePref();
         if (!userPref) {
@@ -35,8 +33,8 @@ window.MALSuper = (function () {
             }
         });
     }
-
-    function theme_toggle() {
+    function theme_toggle(event) {
+        if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -44,7 +42,8 @@ window.MALSuper = (function () {
     }
 
     // MENU TOGGLE
-    function menu_toggle() {
+    function menu_toggle(event) {
+        if(event) event.preventDefault();
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
         let state = toggle_state ? "menu-open" : "menu-closed";
@@ -52,19 +51,17 @@ window.MALSuper = (function () {
         document.querySelector("#backdrop")?.setAttribute("visible", toggle_state);
     }
 
-    // HOME BUTTON LOGIC (Public!)
+    // HOME BUTTON
     function gotoHome(event) {
-        event.preventDefault();
+        if(event) event.preventDefault();
         const ENTRY_KEY = 'homeEntryUrl';
         const DEFAULT_HOME = '/';
         const target = sessionStorage.getItem(ENTRY_KEY) || DEFAULT_HOME;
         window.location.href = target;
     }
-
     function setupHomeButton() {
         const ENTRY_KEY = 'homeEntryUrl';
         const DEFAULT_HOME = '/';
-
         function setEntryUrl() {
             if (!sessionStorage.getItem(ENTRY_KEY)) {
                 const path = window.location.pathname + window.location.search;
@@ -78,9 +75,7 @@ window.MALSuper = (function () {
                 }
             }
         }
-
         setEntryUrl();
-        // Kein Einzel-Binding mehr nötig, läuft alles über Event Delegation!
     }
 
     // EMBEDS & CODEBLOCKS
@@ -89,7 +84,6 @@ window.MALSuper = (function () {
         if (node) node.innerHTML = "";
         return node;
     }
-
     function setupEmbeds() {
         document.querySelectorAll(SELECTOR).forEach((node) => {
             node.setAttribute("super-embed-seen", 1);
@@ -116,6 +110,7 @@ window.MALSuper = (function () {
                 }
             }
         });
+        bindUIEvents();
     }
 
     // NOTION-TOGGLE OBSERVER (SMART!)
@@ -131,7 +126,6 @@ window.MALSuper = (function () {
             }
         });
     });
-
     function smartInitToggleObservers() {
         const notionRoot = document.querySelector('.notion-root') || document.body;
         const addToggleObserver = new MutationObserver((mutations) => {
@@ -143,6 +137,7 @@ window.MALSuper = (function () {
                         node.classList.contains('bg-blue')
                     ) {
                         observer.observe(node, { attributes: true });
+                        bindUIEvents(); // UI-Bindings für dynamische Elemente
                     }
                 });
             });
@@ -171,21 +166,22 @@ window.MALSuper = (function () {
         });
     }
 
-    // UNIVERSAL EVENT DELEGATION: ALLE BUTTONS!
-    function setupGlobalButtonDelegation() {
-        document.body.addEventListener('click', function (event) {
-            if (event.target && event.target.matches('#my-menu-toggle')) {
-                console.log('Menu toggle clicked!');
-                menu_toggle();
-            }
-            if (event.target && event.target.matches('#my-theme-toggle')) {
-                console.log('Theme toggle clicked!');
-                theme_toggle();
-            }
-            if (event.target && event.target.matches('[data-js="home-button"]')) {
-                console.log('Home button clicked!');
-                gotoHome(event);
-            }
+    // SMARTESTE LÖSUNG: DIREKTES BINDEN an alle Buttons (nach jedem DOM-Change!)
+    function bindUIEvents() {
+        document.querySelectorAll('#my-menu-toggle').forEach(btn => {
+            console.log('Binding menu toggle button');
+            btn.removeEventListener('click', menu_toggle);
+            btn.addEventListener('click', menu_toggle);
+        });
+        document.querySelectorAll('#my-theme-toggle').forEach(btn => {
+            console
+            btn.removeEventListener('click', theme_toggle);
+            btn.addEventListener('click', theme_toggle);
+        });
+        document.querySelectorAll('[data-js="home-button"]').forEach(btn => {
+            console.log('Binding home button');
+            btn.removeEventListener('click', gotoHome);
+            btn.addEventListener('click', gotoHome);
         });
     }
 
@@ -197,7 +193,7 @@ window.MALSuper = (function () {
             smartInitToggleObservers();
             setupGSAPBgFade();
             setupHomeButton();
-            setupGlobalButtonDelegation();
+            bindUIEvents();
         } catch (e) {
             console.error('Error initializing MALSuper:', e);
         }
@@ -216,13 +212,8 @@ window.MALSuper = (function () {
 })();
 
 // === AUTO-INIT bei DOM-Ready ===
-/*
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.MALSuper.init);
 } else {
     window.MALSuper.init();
-}*/
-window.addEventListener('load', function () {
-  window.MALSuper.init();
-});
-
+}
