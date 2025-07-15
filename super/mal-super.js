@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.6 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.7 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 //
 
