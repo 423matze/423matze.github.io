@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.5 – SMART FINAL (by SUPERSTAR)
+// MALSuper Custom Script v2.6 – Debug (by SUPERSTAR)
 // Event Delegation, smart MutationObserver, bulletproof Storage-Handling
 //
 
@@ -175,12 +175,15 @@ window.MALSuper = (function () {
     function setupGlobalButtonDelegation() {
         document.body.addEventListener('click', function (event) {
             if (event.target && event.target.matches('#my-menu-toggle')) {
+                console.log('Menu toggle clicked!');
                 menu_toggle();
             }
             if (event.target && event.target.matches('#my-theme-toggle')) {
+                console.log('Theme toggle clicked!');
                 theme_toggle();
             }
             if (event.target && event.target.matches('[data-js="home-button"]')) {
+                console.log('Home button clicked!');
                 gotoHome(event);
             }
         });
