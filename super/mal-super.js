@@ -106,6 +106,7 @@ window.MALSuper = (function () {
                     });
                 }
             }
+            bindUIEvents();
         });
     }
 
@@ -181,6 +182,12 @@ window.MALSuper = (function () {
         }
     }
 
+    // === UI Event toggle Menu & Mode ===
+    function bindUIEvents() {
+        document.querySelector('#my-menu-toggle')?.addEventListener('click', menu_toggle);
+        document.querySelector('#my-theme-toggle')?.addEventListener('click', theme_toggle);
+    }
+
     // === INIT ===
     function init() {
         try {
@@ -189,9 +196,7 @@ window.MALSuper = (function () {
             setTimeout(() => { initToggleObservers(); }, 1500);
             setupGSAPBgFade();
             setupHomeButton();
-            // === Menü- und Theme-Toggle über JS verbinden ===
-            document.querySelector('#my-menu-toggle')?.addEventListener('click', menu_toggle);
-            document.querySelector('#my-theme-toggle')?.addEventListener('click', theme_toggle);
+            bindUIEvents();
 
         } catch (e) {
             console.error('Error initializing MALSuper:', e);
