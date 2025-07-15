@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.11 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.12 DEBUG – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 //
 
@@ -34,6 +34,7 @@ window.MALSuper = (function () {
         });
     }
     function theme_toggle(event) {
+        if(event) console.log('Theme TOGGLE EVENT:', event.type);
         if (event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
@@ -43,6 +44,7 @@ window.MALSuper = (function () {
 
     // MENU TOGGLE
     function menu_toggle(event) {
+        if(event) console.log('Menu TOGGLE EVENT:', event.type);
         if (event) event.preventDefault();
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
