@@ -1,6 +1,6 @@
 //
-// MALSuper Custom Script v2.12 DEBUG – FINAL SMART (by SUPERSTAR)
-// Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
+// MALSuper Custom Script v2.14 – HYBRID (by SUPERSTAR)
+// Kombiniert globale Methoden + klassische onclick-Attribute für 100% Super.so/iOS-Kompatibilität
 //
 
 window.MALSuper = (function () {
@@ -34,8 +34,7 @@ window.MALSuper = (function () {
         });
     }
     function theme_toggle(event) {
-        if(event) console.log('Theme TOGGLE EVENT:', event.type);
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -44,8 +43,7 @@ window.MALSuper = (function () {
 
     // MENU TOGGLE
     function menu_toggle(event) {
-        if(event) console.log('Menu TOGGLE EVENT:', event.type);
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
         let state = toggle_state ? "menu-open" : "menu-closed";
@@ -55,7 +53,7 @@ window.MALSuper = (function () {
 
     // HOME BUTTON
     function gotoHome(event) {
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         const ENTRY_KEY = 'homeEntryUrl';
         const DEFAULT_HOME = '/';
         const target = sessionStorage.getItem(ENTRY_KEY) || DEFAULT_HOME;
@@ -63,7 +61,6 @@ window.MALSuper = (function () {
     }
     function setupHomeButton() {
         const ENTRY_KEY = 'homeEntryUrl';
-        const DEFAULT_HOME = '/';
         function setEntryUrl() {
             if (!sessionStorage.getItem(ENTRY_KEY)) {
                 const path = window.location.pathname + window.location.search;
@@ -112,7 +109,6 @@ window.MALSuper = (function () {
                 }
             }
         });
-        bindUIEvents();
     }
 
     // NOTION-TOGGLE OBSERVER (SMART!)
@@ -139,7 +135,6 @@ window.MALSuper = (function () {
                         node.classList.contains('bg-blue')
                     ) {
                         observer.observe(node, { attributes: true });
-                        bindUIEvents(); // UI-Bindings für dynamische Elemente
                     }
                 });
             });
@@ -168,31 +163,6 @@ window.MALSuper = (function () {
         });
     }
 
-    // SMARTESTE LÖSUNG: DIREKTES BINDEN an alle Buttons (nach jedem DOM-Change!)
-    function bindUIEvents() {
-        // Menü-Button
-        document.querySelectorAll('#my-menu-toggle').forEach(btn => {
-            btn.removeEventListener('click', menu_toggle);
-            btn.removeEventListener('touchend', menu_toggle);
-            btn.addEventListener('click', menu_toggle);
-            btn.addEventListener('touchend', menu_toggle);
-        });
-        // Theme-Button
-        document.querySelectorAll('#my-theme-toggle').forEach(btn => {
-            btn.removeEventListener('click', theme_toggle);
-            btn.removeEventListener('touchend', theme_toggle);
-            btn.addEventListener('click', theme_toggle);
-            btn.addEventListener('touchend', theme_toggle);
-        });
-        // Home-Button
-        document.querySelectorAll('[data-js="home-button"]').forEach(btn => {
-            btn.removeEventListener('click', gotoHome);
-            btn.removeEventListener('touchend', gotoHome);
-            btn.addEventListener('click', gotoHome);
-            btn.addEventListener('touchend', gotoHome);
-        });
-    }
-
     // INIT
     function init() {
         try {
@@ -201,7 +171,6 @@ window.MALSuper = (function () {
             smartInitToggleObservers();
             setupGSAPBgFade();
             setupHomeButton();
-            bindUIEvents();
         } catch (e) {
             console.error('Error initializing MALSuper:', e);
         }
@@ -219,9 +188,12 @@ window.MALSuper = (function () {
 
 })();
 
-// === AUTO-INIT bei DOM-Ready ===
-// Fallback für ältere Browser and super
+// === AUTO-INIT bei window.onload (maximale Kompatibilität) ===
 window.addEventListener('load', function () {
-        window.MALSuper.init();
+    window.MALSuper.init();
 });
 
+// === Funktionen global machen für onclick im HTML ===
+window.menu_toggle = function(e){ window.MALSuper.menu_toggle(e); };
+window.theme_toggle = function(e){ window.MALSuper.theme_toggle(e); };
+window.gotoHome = function(e){ window.MALSuper.gotoHome(e); };
