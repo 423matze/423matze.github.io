@@ -1,6 +1,8 @@
 //
-// MALSuper Custom Script v2.0 – Refactored by SUPERSTAR
+// MALSuper Custom Script v2.1 – FINAL (by SUPERSTAR)
+// Alles in EINEM Namespace, ready für Super.so/Notion, GSAP & Co.
 //
+
 window.MALSuper = (function() {
   // === PRIVATE VARIABLEN & FUNKTIONEN ===
 
@@ -113,7 +115,7 @@ window.MALSuper = (function() {
     });
   }
 
-  // === NOTION-TOGGLE OBSERVER (refactored) ===
+  // === NOTION-TOGGLE OBSERVER ===
   let yPos = 0;
   const observer = new MutationObserver(function(mutationsList) {
     mutationsList.forEach((mutation) => {
@@ -152,6 +154,39 @@ window.MALSuper = (function() {
     });
   }
 
+  // === HOME BUTTON LOGIK ===
+  function setupHomeButton() {
+    const ENTRY_KEY = 'homeEntryUrl';
+    const DEFAULT_HOME = '/';
+
+    function setEntryUrl() {
+      if (!sessionStorage.getItem(ENTRY_KEY)) {
+        const path = window.location.pathname + window.location.search;
+        // Home & spezielle Seiten ignorieren!
+        if (
+          path !== "/" &&
+          path !== "/about-matze-lenz" &&
+          path !== "/think" &&
+          path !== "/projects"
+        ) {
+          sessionStorage.setItem(ENTRY_KEY, path);
+        }
+      }
+    }
+
+    function gotoHome(event) {
+      event.preventDefault();
+      const target = sessionStorage.getItem(ENTRY_KEY) || DEFAULT_HOME;
+      window.location.href = target;
+    }
+
+    setEntryUrl();
+    const btn = document.querySelector('[data-js="home-button"]');
+    if (btn) {
+      btn.addEventListener('click', gotoHome);
+    }
+  }
+
   // === INIT ===
   function init() {
     try {
@@ -159,7 +194,8 @@ window.MALSuper = (function() {
       setupEmbeds();
       setTimeout(() => { initToggleObservers(); }, 1500);
       setupGSAPBgFade();
-      // Optionale: Mehr Event Listener oder Init-Calls
+      setupHomeButton();
+      // Hier weitere Initializer, falls du ausbauen willst
     } catch (e) {
       console.error('Error initializing MALSuper:', e);
     }
@@ -170,13 +206,14 @@ window.MALSuper = (function() {
     init,
     setupGSAPBgFade,
     menu_toggle,
-    theme_toggle
-    // Weitere Methoden nach Bedarf exportieren!
+    theme_toggle,
+    setupHomeButton
+    // ...hier kannst du weitere Methoden publizieren!
   };
 
 })();
 
-// Auto-Init bei DOM-Ready
+// === AUTO-INIT bei DOM-Ready ===
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', window.MALSuper.init);
 } else {
