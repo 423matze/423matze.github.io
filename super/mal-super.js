@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.9 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.10 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 //
 
@@ -224,9 +224,9 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 } else if (document.readyState === 'loading') {
     // DOM ist noch nicht geladen
     document.addEventListener('DOMContentLoaded', window.MALSuper.init);
-} else {
-    // Fallback für ältere Browser
-    window.addEventListener('load', function () {
+};
+// Fallback für ältere Browser
+window.addEventListener('load', function () {
         window.MALSuper.init();
-    });
-}
+});
+
