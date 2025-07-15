@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.2 – FINAL (by SUPERSTAR)
+// MALSuper Custom Script v2.3 – FINAL (by SUPERSTAR)
 // Alles in EINEM Namespace, ready für Super.so/Notion, GSAP & Co.
 // Add event listeners, theme_toggle, menu_togggle
 
@@ -104,9 +104,10 @@ window.MALSuper = (function () {
                             script.remove();
                         }
                     });
-                }
+                };
+                bindUIEvents();
             }
-            bindUIEvents();
+
         });
     }
 
