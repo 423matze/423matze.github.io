@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.6 – Debug (by SUPERSTAR)
+// MALSuper Custom Script v2.7 – Debug (by SUPERSTAR)
 // Event Delegation, smart MutationObserver, bulletproof Storage-Handling
 //
 
