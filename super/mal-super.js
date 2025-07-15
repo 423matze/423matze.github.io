@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.8 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.9 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 //
 
@@ -34,7 +34,7 @@ window.MALSuper = (function () {
         });
     }
     function theme_toggle(event) {
-        if(event) event.preventDefault();
+        if (event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -43,7 +43,7 @@ window.MALSuper = (function () {
 
     // MENU TOGGLE
     function menu_toggle(event) {
-        if(event) event.preventDefault();
+        if (event) event.preventDefault();
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
         let state = toggle_state ? "menu-open" : "menu-closed";
@@ -53,7 +53,7 @@ window.MALSuper = (function () {
 
     // HOME BUTTON
     function gotoHome(event) {
-        if(event) event.preventDefault();
+        if (event) event.preventDefault();
         const ENTRY_KEY = 'homeEntryUrl';
         const DEFAULT_HOME = '/';
         const target = sessionStorage.getItem(ENTRY_KEY) || DEFAULT_HOME;
@@ -168,20 +168,26 @@ window.MALSuper = (function () {
 
     // SMARTESTE LÖSUNG: DIREKTES BINDEN an alle Buttons (nach jedem DOM-Change!)
     function bindUIEvents() {
+        // Menü-Button
         document.querySelectorAll('#my-menu-toggle').forEach(btn => {
-            console.log('Binding menu toggle button');
             btn.removeEventListener('click', menu_toggle);
+            btn.removeEventListener('touchend', menu_toggle);
             btn.addEventListener('click', menu_toggle);
+            btn.addEventListener('touchend', menu_toggle);
         });
+        // Theme-Button
         document.querySelectorAll('#my-theme-toggle').forEach(btn => {
-            console
             btn.removeEventListener('click', theme_toggle);
+            btn.removeEventListener('touchend', theme_toggle);
             btn.addEventListener('click', theme_toggle);
+            btn.addEventListener('touchend', theme_toggle);
         });
+        // Home-Button
         document.querySelectorAll('[data-js="home-button"]').forEach(btn => {
-            console.log('Binding home button');
             btn.removeEventListener('click', gotoHome);
+            btn.removeEventListener('touchend', gotoHome);
             btn.addEventListener('click', gotoHome);
+            btn.addEventListener('touchend', gotoHome);
         });
     }
 
@@ -212,13 +218,15 @@ window.MALSuper = (function () {
 })();
 
 // === AUTO-INIT bei DOM-Ready ===
-/*
-if (document.readyState === 'loading') {
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    // DOM ist bereits geladen
+    window.MALSuper.init();
+} else if (document.readyState === 'loading') {
+    // DOM ist noch nicht geladen
     document.addEventListener('DOMContentLoaded', window.MALSuper.init);
 } else {
-    window.MALSuper.init();
-}*/
-window.addEventListener('load', function () {
-  window.MALSuper.init();
-});
-
+    // Fallback für ältere Browser
+    window.addEventListener('load', function () {
+        window.MALSuper.init();
+    });
+}
