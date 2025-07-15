@@ -216,8 +216,13 @@ window.MALSuper = (function () {
 })();
 
 // === AUTO-INIT bei DOM-Ready ===
+/*
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.MALSuper.init);
 } else {
     window.MALSuper.init();
-}
+}*/
+window.addEventListener('load', function () {
+  window.MALSuper.init();
+});
+
