@@ -1,70 +1,51 @@
 //
-// MALSuper Custom Script v2.3 – FINAL (by SUPERSTAR)
-// Alles in EINEM Namespace, ready für Super.so/Notion, GSAP & Co.
-// Add event listeners, theme_toggle, menu_togggle
+// MALSuper Custom Script v2.4 – by SUPERSTAR
+// Event Delegation, bulletproof theme management, robust dynamic UI binding
+//
 
 window.MALSuper = (function () {
     // === PRIVATE VARIABLEN & FUNKTIONEN ===
 
     const SELECTOR = "code:not([super-embed-seen])";
     const storageKey = "color-preference";
-    const userKey = "user-preference";
     let toggle_state = false;
-    let device = "";
 
-    // === DARK/LIGHT MODE ===
-    const theme = { value: "dark" };
-
-    function getColorPreference() {
-        try {
-            if (localStorage.getItem(userKey) === 'false') {
-                theme.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                localStorage.setItem(storageKey, theme.value);
-            }
-            if (localStorage.getItem(userKey) == null) {
-                theme.value = 'dark';
-                localStorage.setItem(storageKey, theme.value);
-            }
-            theme.value = localStorage.getItem(storageKey);
-            setPreference('sys');
-
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({ matches: isDark }) => {
-                theme.value = isDark ? 'dark' : 'light';
-                setPreference('sys');
-            });
-        } catch (e) {
-            console.error('Error in getColorPreference:', e);
-        }
+    // === THEME-LOGIK (User-Pref > System-Pref, immer via <html> gesetzt) ===
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.className = 'theme-' + theme;
+        document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
     }
 
-    function setPreference(val) {
-        try {
-            localStorage.setItem(storageKey, theme.value);
-            if (val === 'user') localStorage.setItem(userKey, 'true');
-            else if (val !== 'sys') localStorage.setItem(userKey, 'false');
-            reflectPreference();
-        } catch (e) {
-            console.error('Error in setPreference:', e);
-        }
+    function getThemePref() {
+        return localStorage.getItem(storageKey);
     }
 
-    function reflectPreference() {
-        try {
-            document.firstElementChild?.setAttribute('data-theme', theme.value);
-            document.querySelector('#theme-toggle')?.setAttribute('aria-label', theme.value);
-            document.documentElement.className = "theme-" + theme.value;
-        } catch (e) {
-            console.error('Error in reflectPreference:', e);
+    function initTheme() {
+        let userPref = getThemePref();
+        if (!userPref) {
+            let sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            setTheme(sysTheme);
+        } else {
+            setTheme(userPref);
         }
+        // System-Änderung nur anwenden, wenn kein User-Pref!
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!getThemePref()) {
+                let newTheme = e.matches ? 'dark' : 'light';
+                setTheme(newTheme);
+            }
+        });
     }
 
     function theme_toggle() {
-        theme.value = theme.value === 'light' ? 'dark' : 'light';
-        setPreference('user');
+        let current = document.documentElement.getAttribute('data-theme') || 'dark';
+        let newTheme = current === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem(storageKey, newTheme);
     }
 
-    // === MENU & MOBILE ===
-
+    // === MENU ===
     function menu_toggle() {
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
@@ -74,7 +55,6 @@ window.MALSuper = (function () {
     }
 
     // === EMBEDS & CODEBLOCKS ===
-
     function clearBlock(el) {
         const node = el.parentElement?.parentElement;
         if (node) node.innerHTML = "";
@@ -104,10 +84,8 @@ window.MALSuper = (function () {
                             script.remove();
                         }
                     });
-                };
-                bindUIEvents();
+                }
             }
-
         });
     }
 
@@ -183,22 +161,27 @@ window.MALSuper = (function () {
         }
     }
 
-    // === UI Event toggle Menu & Mode ===
-    function bindUIEvents() {
-        document.querySelector('#my-menu-toggle')?.addEventListener('click', menu_toggle);
-        document.querySelector('#my-theme-toggle')?.addEventListener('click', theme_toggle);
+    // === EVENT DELEGATION: Alle Buttons (Menu, Theme) ===
+    function setupGlobalButtonDelegation() {
+        document.body.addEventListener('click', function (event) {
+            if (event.target && event.target.id === 'my-menu-toggle') {
+                menu_toggle();
+            }
+            if (event.target && event.target.id === 'my-theme-toggle') {
+                theme_toggle();
+            }
+        });
     }
 
     // === INIT ===
     function init() {
         try {
-            getColorPreference();
+            initTheme();          // Nutzt jetzt die stabile neue Theme-Logik!
             setupEmbeds();
             setTimeout(() => { initToggleObservers(); }, 1500);
             setupGSAPBgFade();
             setupHomeButton();
-            bindUIEvents();
-
+            setupGlobalButtonDelegation(); // Event Delegation immer zuletzt!
         } catch (e) {
             console.error('Error initializing MALSuper:', e);
         }
@@ -211,7 +194,7 @@ window.MALSuper = (function () {
         menu_toggle,
         theme_toggle,
         setupHomeButton
-        // ...hier kannst du weitere Methoden publizieren!
+        // ...weitere Methoden je nach Bedarf!
     };
 
 })();
