@@ -1,4 +1,4 @@
-/* style 423 v.R 7 */
+/* super-custom styles 423 Version 2.0 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -337,12 +337,45 @@ h3.notion-heading:not(.toggle) {
     font-size: var(--body-font-size) !important;
 }
 
-/* ----- Display Headline big animated  (strong) ---------------- */
+/* ----- Display Headline big animated  (strong) ---------------- 
+
+
+Solle ich optimeiren - eventuell mit GSAP nutzen
+NEU: Es werden nur die grünen H1-Überschriften animiert, die anderen sind statisch.
+
+*/
 
 :-webkit-any(article, aside, nav, section) h1 {
     margin-block-start: 0rem;
     margin-block-end: 0rem;
 }
+
+h1.notion-heading.color-green.notion-semantic-string {
+    overflow: visible;
+    padding: 3rem 24px;
+    transform: translateX(-6px);
+    mix-blend-mode: var(--blend-mode) !important;
+    color: transparent !important;
+    font-size: 9rem !important;
+    font-weight: 900;
+    line-height: 0.68em !important;
+    letter-spacing: -.023em !important;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    color: transparent;
+    background: radial-gradient(circle at 50%, var(--cta-background) 10%, var(--color-bg-transparent) 42%, var(--color-bg-transparent) 60%, var(--cta-background) 100%);
+    background-clip: text;
+    background-size: 200% auto;
+    -webkit-text-fill-color: transparent !important;
+    -webkit-background-clip: text;
+    -webkit-text-stroke: var(--link-text);
+    -webkit-text-stroke-width: .42px;
+    animation: animatedHeadline 42.3s ease-in-out infinite alternate;
+}
+
+/* Die alten definitionen können denke ich weck - einfacherere Selktion */
 
 .page__index h1.notion-heading,
 .page__about-matze-lenz h1.notion-heading,
@@ -376,20 +409,6 @@ h3.notion-heading:not(.toggle) {
     animation: animatedHeadline 42.3s ease-in-out infinite alternate;
 }
 
-@media(max-width: 546px) {
-
-    .page__think h1.notion-heading strong,
-    .page__index h1.notion-heading strong {
-        font-size: 96px !important;
-        line-height: 33%;
-    }
-
-    .page__projects h1.notion-heading strong,
-    .page__about-matze-lenz h1.notion-heading strong {
-        font-size: 83px !important;
-        line-height: 33%;
-    }
-}
 
 @keyframes animatedHeadline {
     0% {
@@ -402,6 +421,21 @@ h3.notion-heading:not(.toggle) {
 
     100% {
         background-position: 0% center;
+    }
+}
+
+@media(max-width: 546px) {
+
+    .page__think h1.notion-heading strong,
+    .page__index h1.notion-heading strong {
+        font-size: 96px !important;
+        line-height: 33%;
+    }
+
+    .page__projects h1.notion-heading strong,
+    .page__about-matze-lenz h1.notion-heading strong {
+        font-size: 83px !important;
+        line-height: 33%;
     }
 }
 
@@ -1612,12 +1646,13 @@ div.notion-image:nth-child(5) {
 
 /* alternative video über code embed */
 
-.super-embed:has(> iframe){
+.super-embed:has(> iframe) {
     margin: 4px;
     border-radius: var(--m423-radius);
-    overflow:hidden;
+    overflow: hidden;
 
 }
+
 .super-embed:has(> var) iframe {
     position: relative;
     height: 800px;
@@ -1848,7 +1883,8 @@ div.notion-image:nth-child(5) {
     width: 100%;
 }
 
-.notion-table td, .notion-table th {
+.notion-table td,
+.notion-table th {
     width: 50%;
     padding: 0 !important;
     overflow: hidden !important;
@@ -2003,7 +2039,7 @@ ol li:first-child::before {
     content: counter(my-awesome-counter) ".";
     font-weight: bold;
     font-size: 2rem;
-    left: calc((100% - var(--content-md)) / 2 + 1rem );
+    left: calc((100% - var(--content-md)) / 2 + 1rem);
     transform: translateY(-0.12em);
     margin-right: 0.6rem;
     line-height: 1;
@@ -2011,7 +2047,7 @@ ol li:first-child::before {
 }
 
 @media (max-width: 880px) {
-    
+
     ol li:first-child::before,
     ol li::before {
         font-size: 2rem;
@@ -2404,6 +2440,7 @@ M O B I LE  R E S P O N S I V E
         position: relative;
         left: -12px;
     }
+
     /*
     .super-embed {
         pointer-events: none;
@@ -2724,6 +2761,6 @@ PRINT Style für Bewerbungsschreiben etc.
     }
 }
 
-@page:first {
+@page: first {
     margin-top: 1cm;
 }
