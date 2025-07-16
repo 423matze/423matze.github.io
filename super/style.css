@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.0 */
+/* super-custom styles 423 Version 2.1 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -218,11 +218,6 @@ body {
 
 .super-conten.page__index {
     margin-top: 11vh;
-}
-
-div#block-98667ca7aebf4dfdb339cd7c0a9d84e6 {
-    /* above headline */
-    margin-bottom: 8rem;
 }
 
 /* BLOG */
