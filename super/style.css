@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.4 */
+/* super-custom styles 423 Version 2.6 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -24,8 +24,8 @@
     --color-primary-100-light: rgba(226, 0, 177, 1);
     --color-primary-dark: 165, 100%, 44%;
     --color-primary-light: 313, 100%, 44%;
-    --color-secundary-dark: 0, 0%, 92%;
-    --color-secundary-light: 0, 0%, 8%;
+    --color-secundary-dark: 60, 3%, 17%;
+    --color-secundary-light: 0, 0%, 98%;
 
     /* -- */
     --color-text-default: rgba(240, 238, 239, 1) !important;
@@ -356,7 +356,7 @@ NEU: Es werden nur die grünen H1-Überschriften animiert, die anderen sind stat
     margin-block-end: 0rem;
 }
 
-h1.notion-heading.color-green.notion-semantic-string {
+h1.notion-heading.color-green.notion-semantic-string strong {
     overflow: visible;
     padding: 3rem 24px;
     transform: translateX(-6px);
@@ -395,7 +395,7 @@ h1.notion-heading.color-green.notion-semantic-string {
     }
 }
 
-/* Die alten definitionen können denke ich weck - einfacherere Selktion */
+/* Die alten definitionen können denke ich weck - einfacherere Selktion 
 
 .page__index h1.notion-heading,
 .page__about-matze-lenz h1.notion-heading,
@@ -429,19 +429,22 @@ h1.notion-heading.color-green.notion-semantic-string {
     animation: animatedHeadline 42.3s ease-in-out infinite alternate;
 }
 
-
+*/
 
 
 @media(max-width: 546px) {
 
     /* NEU - Headline H1 green animated */
 
-    h1.notion-heading.color-green.notion-semantic-string {
-        font-size: 5.4rem !important;
+    h1.notion-heading.color-green.notion-semantic-string strong {
+        font-size: 6rem !important;
         line-height: 0.68em !important;
     }
+    .page__about-matze-lenz .notion-heading.color-green.notion-semantic-string strong {
+        font-size: 5.4rem !important;
+    }
 
-    /* Display Headline big animated  (strong) - KANN Gelöscht werden nach dem Test ---------------- */
+    /* Display Headline big animated  (strong) - KANN Gelöscht werden nach dem Test ---------------- 
 
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
@@ -454,6 +457,7 @@ h1.notion-heading.color-green.notion-semantic-string {
         font-size: 83px !important;
         line-height: 33%;
     }
+    */
 }
 
 
