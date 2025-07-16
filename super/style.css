@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.2 */
+/* super-custom styles 423 Version 2.4 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1002,16 +1002,16 @@ blockquote {
 }
 
 /* Pills - reset colors to defaul */
-.notion-pill.color-default,
-.notion-pill.color-gray,
-.notion-pill.color-brown,
-.notion-pill.color-orange,
-.notion-pill.color-yellow,
-.notion-pill.color-green,
-.notion-pill.color-blue,
-.notion-pill.color-purple,
-.notion-pill.color-pink,
-.notion-pill.color-red {
+.notion-pill.pill-default,
+.notion-pill.pill-gray,
+.notion-pill.pill-brown,
+.notion-pill.pill-orange,
+.notion-pill.pill-yellow,
+.notion-pill.pill-green,
+.notion-pill.pill-blue,
+.notion-pill.pill-purple,
+.notion-pill.pill-pink,
+.notion-pill.pill-red {
     background-color: var(--pill-bg-color-default) !important;
     color: var(--pill-text-color-default) !important;
     border: none !important;
