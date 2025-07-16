@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.1 */
+/* super-custom styles 423 Version 2.3 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -22,6 +22,11 @@
     /* Colors */
     --color-primary-100-dark: rgba(0, 226, 171, 1);
     --color-primary-100-light: rgba(226, 0, 177, 1);
+    --color-primary-dark: 165, 100%, 44%;
+    --color-primary-light: 313, 100%, 44%;
+    --color-secundary-dark: 0, 0%, 92%;
+    --color-secundary-light: 0, 0%, 8%;
+
     /* -- */
     --color-text-default: rgba(240, 238, 239, 1) !important;
     --color-card-bg: var(--color-bg-defaul) !important;
@@ -80,6 +85,9 @@ html.theme-light {
     --blend-mode: darken;
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
+    /* Pills & Tags */
+    --pill-bg-color-default: hsla(var(--color-primary-light, 0.8));
+    --pill-text-color-default: hsla(var(--color-secundary-dark) 0.9);
 }
 
 html.theme-dark {
@@ -98,6 +106,9 @@ html.theme-dark {
     --blend-mode: lighten;
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
+    /* Pills & Tags */
+    --pill-bg-color-default: hsla(var(--color-primary-dark, 0.8));
+    --pill-text-color-default: hsla(var(--color-secundary-light) 0.9);
 }
 
 @supports (font: -apple-system-body) {
@@ -332,7 +343,7 @@ h3.notion-heading:not(.toggle) {
     font-size: var(--body-font-size) !important;
 }
 
-/* ----- Display Headline big animated  (strong) ---------------- 
+/* ----- Super Headline ---------------- 
 
 
 Solle ich optimeiren - eventuell mit GSAP nutzen
@@ -370,6 +381,20 @@ h1.notion-heading.color-green.notion-semantic-string {
     animation: animatedHeadline 42.3s ease-in-out infinite alternate;
 }
 
+@keyframes animatedHeadline {
+    0% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 180% 23%;
+    }
+
+    100% {
+        background-position: 0% center;
+    }
+}
+
 /* Die alten definitionen können denke ich weck - einfacherere Selktion */
 
 .page__index h1.notion-heading,
@@ -405,21 +430,18 @@ h1.notion-heading.color-green.notion-semantic-string {
 }
 
 
-@keyframes animatedHeadline {
-    0% {
-        background-position: 0% center;
-    }
 
-    50% {
-        background-position: 180% 23%;
-    }
-
-    100% {
-        background-position: 0% center;
-    }
-}
 
 @media(max-width: 546px) {
+
+    /* NEU - Headline H1 green animated */
+
+    h1.notion-heading.color-green.notion-semantic-string {
+        font-size: 5.4rem !important;
+        line-height: 0.68em !important;
+    }
+
+    /* Display Headline big animated  (strong) - KANN Gelöscht werden nach dem Test ---------------- */
 
     .page__think h1.notion-heading strong,
     .page__index h1.notion-heading strong {
@@ -962,6 +984,8 @@ blockquote {
     text-overflow: ellipsis;
 }
 
+/* Pills */
+
 .notion-pill {
     --pill-height: 2.3rem;
     display: block;
@@ -975,6 +999,23 @@ blockquote {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+/* Pills - reset colors to defaul */
+.notion-pill.color-default,
+.notion-pill.color-gray,
+.notion-pill.color-brown,
+.notion-pill.color-orange,
+.notion-pill.color-yellow,
+.notion-pill.color-green,
+.notion-pill.color-blue,
+.notion-pill.color-purple,
+.notion-pill.color-pink,
+.notion-pill.color-red {
+    background-color: var(--pill-bg-color-default) !important;
+    color: var(--pill-text-color-default) !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Collection Switch ---------*/
