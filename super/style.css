@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.8 */
+/* super-custom styles 423 Version 2.9 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -400,11 +400,11 @@ h1.notion-heading.color-green.notion-semantic-string strong {
     /* NEU - Headline H1 green animated */
 
     h1.notion-heading.color-green.notion-semantic-string strong {
-        font-size: 6rem !important;
+        font-size: 3.8rem !important;
     }
 
-    .page__about-matze-lenz .notion-heading.color-green.notion-semantic-string strong {
-        font-size: 5.4rem !important;
+    .page__index .notion-heading.color-green.notion-semantic-string strong {
+        font-size: 5.8rem !important;
     }
 
 }
