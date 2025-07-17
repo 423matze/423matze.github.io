@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.9 */
+/* super-custom styles 423 Version 2.10 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -817,6 +817,11 @@ blockquote {
     .notion-collection-gallery.medium {
         width: 100% !important;
         grid-template-columns: auto !important;
+    }
+
+    .notion-collection-gallery.large,
+    .page__index .notion-collection-gallery.large {
+        padding: 0 0 !important;
     }
 }
 
