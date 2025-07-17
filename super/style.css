@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.6 */
+/* super-custom styles 423 Version 2.8 */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -86,8 +86,8 @@ html.theme-light {
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
     /* Pills & Tags */
-    --pill-bg-color-default: hsla(var(--color-primary-light, 0.8));
-    --pill-text-color-default: hsla(var(--color-secundary-dark) 0.9);
+    --pill-bg-color-default: hsla(var(--color-primary-light), 0.8);
+    --pill-text-color-default: hsla(var(--color-secundary-dark), 0.9);
 }
 
 html.theme-dark {
@@ -107,8 +107,8 @@ html.theme-dark {
     --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
     /* Pills & Tags */
-    --pill-bg-color-default: hsla(var(--color-primary-dark, 0.8));
-    --pill-text-color-default: hsla(var(--color-secundary-light) 0.9);
+    --pill-bg-color-default: hsla(var(--color-primary-dark), 0.8);
+    --pill-text-color-default: hsla(var(--color-secundary-light), 0.9);
 }
 
 @supports (font: -apple-system-body) {
@@ -358,7 +358,6 @@ NEU: Es werden nur die grünen H1-Überschriften animiert, die anderen sind stat
 
 h1.notion-heading.color-green.notion-semantic-string strong {
     overflow: visible;
-    padding: 3rem 24px;
     transform: translateX(-6px);
     mix-blend-mode: var(--blend-mode) !important;
     color: transparent !important;
@@ -395,42 +394,6 @@ h1.notion-heading.color-green.notion-semantic-string strong {
     }
 }
 
-/* Die alten definitionen können denke ich weck - einfacherere Selktion 
-
-.page__index h1.notion-heading,
-.page__about-matze-lenz h1.notion-heading,
-.page__think h1.notion-heading,
-.page__projects h1.notion-heading {
-    transform: translateX(-6px);
-    mix-blend-mode: var(--blend-mode) !important;
-    color: transparent !important;
-}
-
-.page__about-matze-lenz h1.notion-heading strong,
-.page__think h1.notion-heading strong,
-.page__projects h1.notion-heading strong,
-.page__index h1.notion-heading strong {
-    font-size: 9rem !important;
-    font-weight: 900;
-    line-height: 33%;
-    letter-spacing: -.023em !important;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    hyphens: auto;
-    color: transparent;
-    background: radial-gradient(circle at 50%, var(--cta-background) 10%, var(--color-bg-transparent) 42%, var(--color-bg-transparent) 60%, var(--cta-background) 100%);
-    background-clip: text;
-    background-size: 200% auto;
-    -webkit-text-fill-color: transparent !important;
-    -webkit-background-clip: text;
-    -webkit-text-stroke: var(--link-text);
-    -webkit-text-stroke-width: .42px;
-    animation: animatedHeadline 42.3s ease-in-out infinite alternate;
-}
-
-*/
-
 
 @media(max-width: 546px) {
 
@@ -438,36 +401,19 @@ h1.notion-heading.color-green.notion-semantic-string strong {
 
     h1.notion-heading.color-green.notion-semantic-string strong {
         font-size: 6rem !important;
-        line-height: 0.68em !important;
     }
+
     .page__about-matze-lenz .notion-heading.color-green.notion-semantic-string strong {
         font-size: 5.4rem !important;
     }
 
-    /* Display Headline big animated  (strong) - KANN Gelöscht werden nach dem Test ---------------- 
-
-    .page__think h1.notion-heading strong,
-    .page__index h1.notion-heading strong {
-        font-size: 96px !important;
-        line-height: 33%;
-    }
-
-    .page__projects h1.notion-heading strong,
-    .page__about-matze-lenz h1.notion-heading strong {
-        font-size: 83px !important;
-        line-height: 33%;
-    }
-    */
 }
 
 
 /* Display Headline subline -------------------------------*/
 
-.page__index h1.notion-heading+.notion-text,
-.page__about-matze-lenz h1.notion-heading+.notion-text,
-.page__projects h1.notion-heading+.notion-text,
-.page__think h1.notion-heading+.notion-text {
-    margin-top: 1.23rem !important;
+h1.notion-heading.color-green+.notion-text {
+    margin-top: 3.23rem !important;
     color: var(--link-text);
 }
 
@@ -835,13 +781,6 @@ blockquote {
 
 /* GALLERY GLOBALS */
 
-.notion-text.bg-blue p.notion-text__content,
-.notion-text.bg-yellow p.notion-text__content,
-.notion-text.bg-purple p.notion-text__content {
-    /*color: var(--link-text);
-    font-size: calc(var(--heading2-size) - .023rem);*/
-    padding-bottom: 4rem !important;
-}
 
 @media (max-width:880px) {
 
