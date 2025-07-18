@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.15 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.16 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 // Added scrollToY for Notion-Toggle, improved embed handling, and theme management
 
@@ -265,15 +265,9 @@ window.MALSuper = (function () {
 })();
 
 // === AUTO-INIT bei DOM-Ready ===
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    // DOM ist bereits geladen
+
+// Fallback für ältere Browser
+window.addEventListener('load', function () {
     window.MALSuper.init();
-} else if (document.readyState === 'loading') {
-    // DOM ist noch nicht geladen
-    document.addEventListener('DOMContentLoaded', window.MALSuper.init);
-} else {
-    // Fallback für ältere Browser
-    window.addEventListener('load', function () {
-        window.MALSuper.init();
-    });
-}
+});
+
