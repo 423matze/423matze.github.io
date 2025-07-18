@@ -1,4 +1,4 @@
-/* super-custom styles 423 Version 2.11 */
+/* super-custom styles 423 Version 2.12  */
 
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
 @import url('https://unpkg.com/open-props/easings.min.css');
@@ -1506,7 +1506,7 @@ div.notion-image:nth-child(5) {
     max-width: 100%;
 }
 
-/* MY PORTRAIT */
+/* My Backraound Potrait */
 
 .my_background_portrait {
     content: '';
@@ -1521,6 +1521,20 @@ div.notion-image:nth-child(5) {
     background-size: auto 100%;
     background-position: right;
     z-index: -1;
+}
+
+.gsap-bg {
+    will-change: opacity;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    transform: translateZ(0);
 }
 
 
