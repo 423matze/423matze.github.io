@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.17 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.18 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 // Added scrollToY for Notion-Toggle, improved embed handling, and theme management
 
@@ -151,6 +151,7 @@ window.MALSuper = (function () {
 
     // Toggle-Observer auf alle bestehenden und künftigen .notion-toggle.bg-blue setzen
     function smartInitToggleObservers() {
+        console.log('Observer started');
         const notionRoot = document.querySelector('.notion-root') || document.body;
         const addToggleObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
@@ -178,7 +179,9 @@ window.MALSuper = (function () {
             console.warn("GSAP not found! Please include https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js");
             return;
         }
+        console.log('GSAP Background Fade Setup Initiated');
         document.querySelectorAll('.gsap-bg').forEach(function (bgDiv) {
+
             let ticking = false;
             function forceRepaint(element) {
                 // Optional: Safari-Hack, nur aktivieren wenn nötig!
