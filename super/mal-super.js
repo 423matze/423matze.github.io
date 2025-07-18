@@ -1,12 +1,16 @@
 //
-// MALSuper Custom Script v2.23 – FINAL SMART (by SUPERSTAR)
-// Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
-// Added scrollToY for Notion-Toggle, improved embed handling, and theme management
+// MALSuper Custom Script v3.0 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+//
 
 window.MALSuper = (function () {
     const SELECTOR = "code:not([super-embed-seen])";
     const storageKey = "color-preference";
     let toggle_state = false;
+    let yPos = 0;
+
+    // SPA/Observer State
+    let observer = null;            // Toggle-Status-Observer
+    let addToggleObserver = null;   // DOM-Change-Observer für neue Toggles
 
     // THEME MANAGEMENT
     function setTheme(theme) {
@@ -33,7 +37,7 @@ window.MALSuper = (function () {
         });
     }
     function theme_toggle(event) {
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
@@ -42,7 +46,7 @@ window.MALSuper = (function () {
 
     // MENU TOGGLE
     function menu_toggle(event) {
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         toggle_state = !toggle_state;
         document.querySelector("#my-menu-toggle")?.setAttribute("aria-expanded", toggle_state);
         let state = toggle_state ? "menu-open" : "menu-closed";
@@ -52,7 +56,7 @@ window.MALSuper = (function () {
 
     // HOME BUTTON
     function gotoHome(event) {
-        if (event) event.preventDefault();
+        if(event) event.preventDefault();
         const ENTRY_KEY = 'homeEntryUrl';
         const DEFAULT_HOME = '/';
         const target = sessionStorage.getItem(ENTRY_KEY) || DEFAULT_HOME;
@@ -60,7 +64,6 @@ window.MALSuper = (function () {
     }
     function setupHomeButton() {
         const ENTRY_KEY = 'homeEntryUrl';
-        const DEFAULT_HOME = '/';
         function setEntryUrl() {
             if (!sessionStorage.getItem(ENTRY_KEY)) {
                 const path = window.location.pathname + window.location.search;
@@ -109,75 +112,9 @@ window.MALSuper = (function () {
                 }
             }
         });
-        bindUIEvents();
     }
 
-    // NOTION-TOGGLE OBSERVER (SMART!)
-    // Debounce-Delay, um Rendering nach Toggle zu berücksichtigen
-    let yPos = 0;
-    let scrollTimeout = null;
-
-    function scrollToY(y) {
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            window.scrollTo({ top: y, left: 0, behavior: "smooth" });
-            scrollTimeout = null;
-            console.log("Toggle closed → zu yPos scrollen:", y);
-        }, 60); // 60ms Delay: testen, ggf. anpassen!
-    }
-
-    // Smarter Observer: prüft Attributänderung NUR für .class
-    const observer = new MutationObserver(function (mutationsList) {
-        mutationsList.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                const el = mutation.target;
-                const cls = el.className || "";
-                // Interner Toggle-State tracken, um mehrfaches Scrollen zu verhindern
-                if (!el._lastToggleState) el._lastToggleState = '';
-                if (cls.includes("notion-toggle") && cls.includes("bg-blue")) {
-                    if (cls.includes("open") && el._lastToggleState !== "open") {
-                        yPos = window.scrollY;
-                        el._lastToggleState = "open";
-                        console.log("Toggle open → yPos gespeichert:", yPos);
-                    }
-                    if (cls.includes("closed") && el._lastToggleState !== "closed") {
-                        el._lastToggleState = "closed";
-                        scrollToY(yPos);
-                    }
-                }
-            }
-        });
-    });
-
-    // Toggle-Observer auf alle bestehenden und künftigen .notion-toggle.bg-blue setzen
-    function smartInitToggleObservers() {
-        console.log("smartInitToggleObservers: started");
-        const notionRoot = document.querySelector('.notion-root') || document.body;
-        const addToggleObserver = new MutationObserver((mutations) => {
-            console.log("Mutation detected in notionRoot!");
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (
-                        node.nodeType === 1 &&
-                        node.classList.contains('notion-toggle') &&
-                        node.classList.contains('bg-blue')
-                    ) {
-                        console.log("Observer set on new toggle:", node);
-                        observer.observe(node, { attributes: true, attributeFilter: ['class'] });
-                    }
-                });
-            });
-        });
-        document.querySelectorAll('.notion-toggle.bg-blue').forEach((el) => {
-            console.log("Observer set on existing toggle:", el);
-            observer.observe(el, { attributes: true, attributeFilter: ['class'] });
-        });
-        addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
-        console.log("addToggleObserver activated on notionRoot/body");
-    }
-
-
-    // GSAP BACKGROUND FADE ANIMATION
+    // GSAP BACKGROUND FADE (mobile-proof, fadefix)
     function setupGSAPBgFade() {
         if (typeof gsap === "undefined") {
             console.warn("GSAP not found! Please include https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js");
@@ -185,12 +122,6 @@ window.MALSuper = (function () {
         }
         document.querySelectorAll('.gsap-bg').forEach(function (bgDiv) {
             let ticking = false;
-            function forceRepaint(element) {
-                // Optional: Safari-Hack, nur aktivieren wenn nötig!
-                element.style.display = 'none';
-                element.offsetHeight; // Trigger reflow
-                element.style.display = '';
-            }
             function fadeBg() {
                 if (!ticking) {
                     window.requestAnimationFrame(function () {
@@ -201,11 +132,7 @@ window.MALSuper = (function () {
                             opacity,
                             duration: 0.3,
                             overwrite: "auto",
-                            ease: "power2.out",
-                            onUpdate: function () {
-                                // Optional: Nur für Safari/iOS aktivieren wenn nötig!
-                                // forceRepaint(bgDiv);
-                            }
+                            ease: "power2.out"
                         });
                         ticking = false;
                     });
@@ -214,47 +141,90 @@ window.MALSuper = (function () {
             }
             window.addEventListener("scroll", fadeBg, { passive: true });
             fadeBg();
-            console.log("GSAP background fade setup for:", bgDiv);
-        });
-    }
-    // SMARTESTE LÖSUNG: DIREKTES BINDEN an alle Buttons (nach jedem DOM-Change!)
-    function bindUIEvents() {
-        // Menü-Button
-        document.querySelectorAll('#my-menu-toggle').forEach(btn => {
-            btn.removeEventListener('click', menu_toggle);
-            btn.removeEventListener('touchend', menu_toggle);
-            btn.addEventListener('click', menu_toggle);
-            btn.addEventListener('touchend', menu_toggle);
-        });
-        // Theme-Button
-        document.querySelectorAll('#my-theme-toggle').forEach(btn => {
-            btn.removeEventListener('click', theme_toggle);
-            btn.removeEventListener('touchend', theme_toggle);
-            btn.addEventListener('click', theme_toggle);
-            btn.addEventListener('touchend', theme_toggle);
-        });
-        // Home-Button
-        document.querySelectorAll('[data-js="home-button"]').forEach(btn => {
-            btn.removeEventListener('click', gotoHome);
-            btn.removeEventListener('touchend', gotoHome);
-            btn.addEventListener('click', gotoHome);
-            btn.addEventListener('touchend', gotoHome);
         });
     }
 
-    // INIT
-    function init() {
-        try {
-            initTheme();
-            setupEmbeds();
-            smartInitToggleObservers();
-            setupGSAPBgFade();
-            setupHomeButton();
-            bindUIEvents();
-            console.log("MALSuper initialized successfully.");
-        } catch (e) {
-            console.error('Error initializing MALSuper:', e);
+    // toggleSAFE: Robuster Toggle-Observer mit Reset auf SPA
+    function smartInitToggleObservers() {
+        // Vorherige Observer disconnecten!
+        if(observer) observer.disconnect();
+        if(addToggleObserver) addToggleObserver.disconnect();
+
+        let scrollTimeout = null;
+        function scrollToY(y) {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                window.scrollTo({ top: y, left: 0, behavior: "smooth" });
+                scrollTimeout = null;
+            }, 60);
         }
+
+        observer = new MutationObserver(function (mutationsList) {
+            mutationsList.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const el = mutation.target;
+                    const cls = el.className || "";
+                    if (!el._lastToggleState) el._lastToggleState = '';
+                    if (cls.includes("notion-toggle") && cls.includes("bg-blue")) {
+                        if (cls.includes("open") && el._lastToggleState !== "open") {
+                            yPos = window.scrollY;
+                            el._lastToggleState = "open";
+                        }
+                        if (cls.includes("closed") && el._lastToggleState !== "closed") {
+                            el._lastToggleState = "closed";
+                            scrollToY(yPos);
+                        }
+                    }
+                }
+            });
+        });
+
+        addToggleObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (
+                        node.nodeType === 1 &&
+                        node.classList.contains('notion-toggle') &&
+                        node.classList.contains('bg-blue')
+                    ) {
+                        observer.observe(node, { attributes: true, attributeFilter: ['class'] });
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.notion-toggle.bg-blue').forEach((el) => {
+            observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+        });
+        const notionRoot = document.querySelector('.notion-root') || document.body;
+        addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
+    }
+
+    // SPA: Nach jedem RouteChange oder popstate alles re-initialisieren
+    function registerSPARouteHooks() {
+        window.addEventListener('popstate', function () {
+            setTimeout(() => {
+                window.MALSuper.init();
+                // console.log("SPA popstate erkannt → MALSuper.init() ausgeführt");
+            }, 150);
+        });
+        window.addEventListener('super:routeChange', function () {
+            setTimeout(() => {
+                window.MALSuper.init();
+                // console.log("Super.so-RouteChange erkannt → MALSuper.init() ausgeführt");
+            }, 150);
+        });
+    }
+
+    // INIT (wird jetzt bei Start UND nach jedem SPA-Routenwechsel gefeuert)
+    function init() {
+        // console.log("MALSuper INIT fired!");
+        initTheme();
+        setupEmbeds();
+        smartInitToggleObservers();
+        setupGSAPBgFade();
+        setupHomeButton();
+        registerSPARouteHooks();
     }
 
     // PUBLIC API
@@ -264,18 +234,17 @@ window.MALSuper = (function () {
         menu_toggle,
         theme_toggle,
         gotoHome,
-        setupHomeButton,
-        smartInitToggleObservers,
-        bindUIEvents
+        setupHomeButton
     };
 
 })();
-// === Funktionen global machen für onclick im HTML ===
-window.menu_toggle = function (e) { window.MALSuper.menu_toggle(e); };
-window.theme_toggle = function (e) { window.MALSuper.theme_toggle(e); };
-window.gotoHome = function (e) { window.MALSuper.gotoHome(e); };
 
-// === AUTO-INIT bei window.onload (maximale Kompatibilität) ===
+// === SPA-proof: Initialisieren bei window.onload, danach bei jedem SPA-Route-Wechsel ===
 window.addEventListener('load', function () {
     window.MALSuper.init();
 });
+
+// === Funktionen global machen für onclick im HTML (Hybrid-Pattern, garantiert mobile-kompatibel) ===
+window.menu_toggle = function(e){ window.MALSuper.menu_toggle(e); };
+window.theme_toggle = function(e){ window.MALSuper.theme_toggle(e); };
+window.gotoHome = function(e){ window.MALSuper.gotoHome(e); };
