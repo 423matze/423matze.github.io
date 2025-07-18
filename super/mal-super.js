@@ -387,22 +387,49 @@ window.MALSuper = (function () {
         });
     }
 
-    // NOTION-TOGGLE OBSERVER (SMART!)
+    // Debounce-Delay, um Rendering nach Toggle zu berücksichtigen
+    let yPos = 0;
+    let scrollTimeout = null;
+
+    function scrollToY(y) {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            window.scrollTo({ top: y, left: 0, behavior: "smooth" });
+            scrollTimeout = null;
+            console.log("Toggle closed → zu yPos scrollen:", y);
+        }, 60); // 60ms Delay: testen, ggf. anpassen!
+    }
+
+    // Smarter Observer: prüft Attributänderung NUR für .class
     const observer = new MutationObserver(function (mutationsList) {
         mutationsList.forEach((mutation) => {
-            const cls = mutation.target.className || "";
-            if (cls.includes("notion-toggle") && cls.includes("bg-blue")) {
-                if (cls.includes("open")) {
-                    yPos = window.scrollY;
-                } else if (cls.includes("closed")) {
-                    window.scrollTo({ top: yPos, left: 0, behavior: "smooth" });
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const el = mutation.target;
+                const cls = el.className || "";
+                // Interner Toggle-State tracken, um mehrfaches Scrollen zu verhindern
+                if (!el._lastToggleState) el._lastToggleState = '';
+                if (cls.includes("notion-toggle") && cls.includes("bg-blue")) {
+                    if (cls.includes("open") && el._lastToggleState !== "open") {
+                        yPos = window.scrollY;
+                        el._lastToggleState = "open";
+                        console.log("Toggle open → yPos gespeichert:", yPos);
+                    }
+                    if (cls.includes("closed") && el._lastToggleState !== "closed") {
+                        el._lastToggleState = "closed";
+                        scrollToY(yPos);
+                    }
                 }
             }
         });
     });
+    // Toggle-Observer auf alle bestehenden und künftigen .notion-toggle.bg-blue setzen
+    // Debounce-Delay, um Rendering nach Toggle zu berücksichtigen
     function smartInitToggleObservers() {
+        // Smart Observer: prüft Attributänderung NUR für .class
+        console.log("smartInitToggleObservers: started");
         const notionRoot = document.querySelector('.notion-root') || document.body;
         const addToggleObserver = new MutationObserver((mutations) => {
+            console.log("Mutation detected in notionRoot!");
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
                     if (
@@ -410,15 +437,18 @@ window.MALSuper = (function () {
                         node.classList.contains('notion-toggle') &&
                         node.classList.contains('bg-blue')
                     ) {
-                        observer.observe(node, { attributes: true });
+                        console.log("Observer set on new toggle:", node);
+                        observer.observe(node, { attributes: true, attributeFilter: ['class'] });
                     }
                 });
             });
         });
         document.querySelectorAll('.notion-toggle.bg-blue').forEach((el) => {
-            observer.observe(el, { attributes: true });
+            console.log("Observer set on existing toggle:", el);
+            observer.observe(el, { attributes: true, attributeFilter: ['class'] });
         });
         addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
+        console.log("addToggleObserver activated on notionRoot/body");
     }
 
     // GSAP BACKGROUND FADE ANIMATION
@@ -428,14 +458,37 @@ window.MALSuper = (function () {
             return;
         }
         document.querySelectorAll('.gsap-bg').forEach(function (bgDiv) {
-            function fadeBg() {
-                const scroll = window.scrollY;
-                const vh = window.innerHeight;
-                const opacity = 1 - Math.min(scroll / vh, 1);
-                gsap.to(bgDiv, { opacity, duration: 0.4, overwrite: "auto", ease: "power2.out" });
+            let ticking = false;
+            function forceRepaint(element) {
+                // Optional: Safari-Hack, nur aktivieren wenn nötig!
+                element.style.display = 'none';
+                element.offsetHeight; // Trigger reflow
+                element.style.display = '';
             }
-            window.addEventListener("scroll", fadeBg);
+            function fadeBg() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        const scroll = window.scrollY;
+                        const vh = window.innerHeight;
+                        const opacity = 1 - Math.min(scroll / vh, 1);
+                        gsap.to(bgDiv, {
+                            opacity,
+                            duration: 0.3,
+                            overwrite: "auto",
+                            ease: "power2.out",
+                            onUpdate: function () {
+                                // Optional: Nur für Safari/iOS aktivieren wenn nötig!
+                                // forceRepaint(bgDiv);
+                            }
+                        });
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+            window.addEventListener("scroll", fadeBg, { passive: true });
             fadeBg();
+            console.log("GSAP background fade setup for:", bgDiv);
         });
     }
 
@@ -447,6 +500,8 @@ window.MALSuper = (function () {
             smartInitToggleObservers();
             setupGSAPBgFade();
             setupHomeButton();
+            console.log("MALSuper initialized successfully.");
+
         } catch (e) {
             console.error('Error initializing MALSuper:', e);
         }
@@ -463,19 +518,12 @@ window.MALSuper = (function () {
     };
 
 })();
-
-// === AUTO-INIT bei window.onload (maximale Kompatibilität) ===
-window.addEventListener('load', function () {
-    window.MALSuper.init();
-});
-
 // === Funktionen global machen für onclick im HTML ===
 window.menu_toggle = function (e) { window.MALSuper.menu_toggle(e); };
 window.theme_toggle = function (e) { window.MALSuper.theme_toggle(e); };
 window.gotoHome = function (e) { window.MALSuper.gotoHome(e); };
 
-// Fallback für ältere Browser
+// === AUTO-INIT bei window.onload (maximale Kompatibilität) ===
 window.addEventListener('load', function () {
     window.MALSuper.init();
 });
-
