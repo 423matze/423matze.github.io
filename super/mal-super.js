@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v2.18 – FINAL SMART (by SUPERSTAR)
+// MALSuper Custom Script v2.19 – FINAL SMART (by SUPERSTAR)
 // Robust Button-Binding (bindUIEvents), GSAP, Theme, Home-Button, Notion-Toggle Observer
 // Added scrollToY for Notion-Toggle, improved embed handling, and theme management
 
@@ -151,9 +151,10 @@ window.MALSuper = (function () {
 
     // Toggle-Observer auf alle bestehenden und künftigen .notion-toggle.bg-blue setzen
     function smartInitToggleObservers() {
-        console.log('Observer started');
+        console.log("smartInitToggleObservers: started");
         const notionRoot = document.querySelector('.notion-root') || document.body;
         const addToggleObserver = new MutationObserver((mutations) => {
+            console.log("Mutation detected in notionRoot!");
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((node) => {
                     if (
@@ -161,15 +162,18 @@ window.MALSuper = (function () {
                         node.classList.contains('notion-toggle') &&
                         node.classList.contains('bg-blue')
                     ) {
+                        console.log("Observer set on new toggle:", node);
                         observer.observe(node, { attributes: true, attributeFilter: ['class'] });
                     }
                 });
             });
         });
         document.querySelectorAll('.notion-toggle.bg-blue').forEach((el) => {
+            console.log("Observer set on existing toggle:", el);
             observer.observe(el, { attributes: true, attributeFilter: ['class'] });
         });
         addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
+        console.log("addToggleObserver activated on notionRoot/body");
     }
 
 
@@ -179,9 +183,7 @@ window.MALSuper = (function () {
             console.warn("GSAP not found! Please include https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js");
             return;
         }
-        console.log('GSAP Background Fade Setup Initiated');
         document.querySelectorAll('.gsap-bg').forEach(function (bgDiv) {
-
             let ticking = false;
             function forceRepaint(element) {
                 // Optional: Safari-Hack, nur aktivieren wenn nötig!
@@ -214,6 +216,7 @@ window.MALSuper = (function () {
             fadeBg();
         });
     }
+
 
 
     // SMARTESTE LÖSUNG: DIREKTES BINDEN an alle Buttons (nach jedem DOM-Change!)
@@ -262,7 +265,9 @@ window.MALSuper = (function () {
         menu_toggle,
         theme_toggle,
         gotoHome,
-        setupHomeButton
+        setupHomeButton,
+        smartInitToggleObservers,
+        bindUIEvents
     };
 
 })();
