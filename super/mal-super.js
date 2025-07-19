@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 05 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 06 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -155,7 +155,8 @@ window.MALSuper = (function () {
 
     // toggleSAFE: Robuster Toggle-Observer mit Reset auf SPA
     function smartInitToggleObservers() {
-        // Vorherige Observer disconnecten!
+        // Vorherige Observer disconnected!
+        console.log("smartInitToggleObservers: started");
         if(observer) observer.disconnect();
         if(addToggleObserver) addToggleObserver.disconnect();
 
@@ -169,19 +170,23 @@ window.MALSuper = (function () {
         }
 
         observer = new MutationObserver(function (mutationsList) {
+            console.log("Mutation detected in notionRoot!");
             mutationsList.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const el = mutation.target;
                     const cls = el.className || "";
+                    console.log("Observer set on new toggle:", el);
                     if (!el._lastToggleState) el._lastToggleState = '';
                     if (cls.includes("notion-toggle") && cls.includes("bg-blue")) {
                         if (cls.includes("open") && el._lastToggleState !== "open") {
                             yPos = window.scrollY;
                             el._lastToggleState = "open";
+                            console.log("Toggle OPEN:", el, yPos);
                         }
                         if (cls.includes("closed") && el._lastToggleState !== "closed") {
                             el._lastToggleState = "closed";
                             scrollToY(yPos);
+                            console.log("Toggle CLOSE:", el, yPos);
                         }
                     }
                 }
