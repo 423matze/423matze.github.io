@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 07 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 08 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -14,10 +14,11 @@ window.MALSuper = (function () {
 
     if (window.events && window.events.on) {
     window.events.on('routeChangeComplete', function () {
+        console.log('Super.so: routeChangeComplete  FIRED');
         setTimeout(() => {
             window.MALSuper.init();
-            // console.log('Super.so: routeChangeComplete → init!');
-        }, 800); // 180ms für DOM-Finish, ggf. anpassen!
+            console.log('Super.so: routeChangeComplete → init!');
+        }, 1423 ); // 180ms für DOM-Finish, ggf. anpassen!
     });
     }
 
