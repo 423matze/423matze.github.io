@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 16 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v4.1 - desktop und mobile optimiert
 //
 
 window.MALSuper = (function () {
@@ -68,7 +68,6 @@ window.MALSuper = (function () {
             if (!sessionStorage.getItem(ENTRY_KEY)) {
                 const path = window.location.pathname + window.location.search;
                 if (
-                    path !== "/" &&
                     path !== "/about-matze-lenz" &&
                     path !== "/think" &&
                     path !== "/projects"
