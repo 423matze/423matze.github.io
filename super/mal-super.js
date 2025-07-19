@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 08 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 09 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -10,17 +10,7 @@ window.MALSuper = (function () {
 
     // SPA/Observer State
     let observer = null;            // Toggle-Status-Observer
-    let addToggleObserver = null;   // DOM-Change-Observer für neue Toggles
-
-    if (window.events && window.events.on) {
-    window.events.on('routeChangeComplete', function () {
-        console.log('Super.so: routeChangeComplete  FIRED');
-        setTimeout(() => {
-            window.MALSuper.init();
-            console.log('Super.so: routeChangeComplete → init!');
-        }, 1423 ); // 180ms für DOM-Finish, ggf. anpassen!
-    });
-    }
+    let addToggleObserver = null;   // DOM-Change-Observer für neue Toggles  
 
     // THEME MANAGEMENT
     function setTheme(theme) {
@@ -264,6 +254,15 @@ window.MALSuper = (function () {
 window.addEventListener('load', function () {
     window.MALSuper.init();
 });
+if (window.events && window.events.on) {
+    window.events.on('routeChangeComplete', function () {
+        console.log('Super.so: routeChangeComplete  FIRED');
+        setTimeout(() => {
+            window.MALSuper.init();
+            console.log('Super.so: routeChangeComplete → init!');
+        }, 1423 ); // 180ms für DOM-Finish, ggf. anpassen!
+    });
+}
 
 // === Funktionen global machen für onclick im HTML (Hybrid-Pattern, garantiert mobile-kompatibel) ===
 window.menu_toggle = function(e){ window.MALSuper.menu_toggle(e); };
