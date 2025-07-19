@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.0 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -205,20 +205,34 @@ window.MALSuper = (function () {
         window.addEventListener('popstate', function () {
             setTimeout(() => {
                 window.MALSuper.init();
-                // console.log("SPA popstate erkannt → MALSuper.init() ausgeführt");
+                console.log("SPA popstate erkannt → MALSuper.init() ausgeführt");
             }, 150);
         });
         window.addEventListener('super:routeChange', function () {
             setTimeout(() => {
                 window.MALSuper.init();
-                // console.log("Super.so-RouteChange erkannt → MALSuper.init() ausgeführt");
+                console.log("Super.so-RouteChange erkannt → MALSuper.init() ausgeführt");
             }, 150);
         });
+        if (typeof next !== 'undefined' && next.router && next.router.events) {
+            // Old method using 'next'
+            window.MALSuper.init();
+            next.router.events.on('routeChangeComplete', routeChangeHandler);
+            console.log("Next.js route change listener set up.");
+        } else if (window.events) {
+            // New method using 'window.events'
+            window.MALSuper.init();
+            window.events.on('routeChangeComplete', routeChangeHandler);
+            console.log("Window events route change listener set up.");
+        } else {
+            console.error("The platform doesn't support the required event listeners for route changes.");
+        }
+
     }
 
     // INIT (wird jetzt bei Start UND nach jedem SPA-Routenwechsel gefeuert)
     function init() {
-        // console.log("MALSuper INIT fired!");
+        console.log("MALSuper INIT fired!");
         initTheme();
         setupEmbeds();
         smartInitToggleObservers();
