@@ -1,0 +1,1148 @@
+/*
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 3.0       │
+│   REFACTORED & CLEANED BY AI ASSISTANT           │
+│   DATE: 2025-07-19                               │
+│                                                  │
+└──────────────────────────────────────────────────┘
+*/
+
+/* --- 1. IMPORTS & FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+@import url('https://unpkg.com/open-props/easings.min.css');
+
+
+/* --- 2. ROOT VARIABLES --- */
+:root {
+    /* -- Typography -- */
+    --primary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
+    --secondary-font: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif !important;
+    --body-font-size: 1.42rem !important;
+    --body-font-letterspacing: 0.123rem !important;
+    --text-weight: 240 !important;
+    --heading-weight: 800 !important;
+    --heading1-size: calc(var(--body-font-size) * 1.875) !important;
+    --heading2-size: calc(var(--body-font-size) * 1.5) !important;
+    --heading3-size: calc(var(--body-font-size) * 1.25) !important;
+
+    /* -- Colors -- */
+    /* [ASSISTANT-NOTE] HSL values are great for dynamic adjustments */
+    --color-primary-dark: 165, 100%, 44%;
+    --color-primary-light: 313, 100%, 44%;
+    --color-secundary-dark: 60, 3%, 17%;
+    --color-secundary-light: 0, 0%, 98%;
+
+    /* -- Abstracted Colors -- */
+    --color-primary-100-dark: rgba(0, 226, 171, 1);
+    --color-primary-100-light: rgba(226, 0, 177, 1);
+    --color-text-default: rgba(240, 238, 239, 1) !important;
+    --color-card-bg: var(--color-bg-defaul) !important;
+    --color-card-bg-hover: #292929 !important;
+    --color-backdrop-bg: rgba(0, 0, 0, 0.439);
+    --color-bg-default: rgba(46, 46, 43, 1) !important;
+    --color-bg-transparent: rgba(46, 46, 43, 0.103);
+    --cta-background: var(--color-primary-100-dark);
+    --cta-text: rgba(0, 0, 0, 1);
+    --link-text: var(--color-primary-100-dark);
+
+    /* -- Layout & Sizing -- */
+    --content-xl: 1440px;
+    --content-lg: 1080px;
+    --content-md: 840px;
+    --content-sm: 500px;
+    --column-spacing: 2em !important;
+    --m423-radius: 23px !important;
+    --m423-width: 1440px !important;
+
+    /* -- Paddings -- */
+    --padding-mob: 20px;
+    --padding-tablet: 32px;
+    --padding-desktop: 120px;
+    --padding-right: calc(env(safe-area-inset-right) + var(--padding-desktop));
+    --padding-left: calc(env(safe-area-inset-left) + var(--padding-desktop));
+    --padding-right-tablet: calc(env(safe-area-inset-right) + var(--padding-tablet));
+    --padding-left-tablet: calc(env(safe-area-inset-left) + var(--padding-tablet));
+
+    /* -- Components -- */
+    --collection-card-title-size: var(--heading3-size) !important;
+    --collection-card-property-size: var(--body-font-size) !important;
+    --collection-card-padding: 0px;
+    --collection-card-content-padding: 10px;
+    --collection-card-title-padding: 0px;
+
+    /* -- Misc & Theming -- */
+    --ilu-image: invert(1);
+    --cta-icon-color: invert(0);
+    --blend-mode: lighten;
+    --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
+    --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
+}
+
+html.theme-light {
+    --text-weight: 240 !important;
+    --color-text-default: rgba(39, 29, 35, 1) !important;
+    --color-card-bg: rgb(248, 246, 246) !important;
+    --color-card-bg-hover: rgb(252, 252, 252) !important;
+    --color-backdrop-bg: rgba(255, 255, 255, 0.439);
+    --color-bg-default: rgba(250, 250, 250, 1) !important;
+    --color-bg-transparent: hsla(0, 0%, 98%, 0.023);
+    --cta-background: var(--color-primary-100-light);
+    --cta-text: hsla(0, 0%, 100%, 1);
+    --link-text: var(--color-primary-100-light);
+    --ilu-image: invert(0);
+    --cta-icon-color: invert(1);
+    --blend-mode: darken;
+    --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dl.png');
+    --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
+    --pill-bg-color-default: hsla(var(--color-primary-light), 0.5);
+    --pill-text-color-default: hsla(var(--color-secundary-dark), 0.9);
+}
+
+html.theme-dark {
+    --text-weight: 240 !important;
+    --color-text-default: rgba(240, 238, 239, 1) !important;
+    --color-card-bg: rgba(35, 35, 33, 0.23) !important;
+    --color-card-bg-hover: rgb(53, 53, 50) !important;
+    --color-backdrop-bg: rgba(0, 0, 0, 0.439);
+    --color-bg-default: rgb(46, 46, 43) !important;
+    --color-bg-transparent: rgba(46, 46, 43, 0.23);
+    --cta-background: var(--color-primary-100-dark);
+    --cta-text: rgba(0, 0, 0, 1);
+    --link-text: var(--color-primary-100-dark);
+    --ilu-image: invert(1);
+    --cta-icon-color: invert(0);
+    --blend-mode: lighten;
+    --mode-potrait-d: url('https://res.cloudinary.com/assest423/image/upload/v1723626882/potraits/matze423-dd.png');
+    --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
+    --pill-bg-color-default: hsla(var(--color-primary-dark), 0.5);
+    --pill-text-color-default: hsla(var(--color-secundary-light), 0.9);
+}
+
+/* Fallback for Apple-specific font rendering */
+@supports (font: -apple-system-body) {
+    html {
+        font: -apple-system-body !important;
+    }
+}
+
+
+/* --- 3. GENERAL & BODY STYLES --- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--primary-font) !important;
+    font-size: var(--body-font-size);
+    font-weight: var(--text-weight);
+    letter-spacing: var(--body-font-letterspacing);
+    color: var(--color-text-default);
+    background: var(--color-bg-default);
+    fill: currentColor;
+    margin: 0;
+    height: 100%;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out;
+}
+
+/* Lock body scroll when a modal is open */
+body:is([modal="true"]) {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+/* General fade-in animation for major text elements */
+h1,
+h2,
+h3,
+p {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* [ASSISTANT-NOTE] Specific animation durations can be overridden if needed, but a single class is cleaner. */
+h1 {
+    animation-duration: 4s;
+}
+
+h2 {
+    animation-duration: 0.75s;
+}
+
+h3 {
+    animation-duration: 1s;
+}
+
+p {
+    animation-duration: 1.25s;
+}
+
+
+/* --- 4. TYPOGRAPHY --- */
+
+.notion-semantic-string {
+    line-height: 142% !important;
+    white-space: normal;
+    word-break: normal;
+}
+
+.notion-text__content {
+    margin: 0 auto;
+    padding-bottom: 1rem;
+}
+
+.notion-text__content:has(+.notion-text__children) {
+    padding-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 0 !important;
+    max-width: var(--content-max-desktop) !important;
+}
+
+.notion-text {
+    min-height: auto;
+}
+
+.notion-text:empty {
+    min-height: var(--body-font-size);
+}
+
+/* --- Headings (H1, H2, H3) --- */
+.notion-heading.notion-semantic-string {
+    font-family: "Dosis", var(--primary-font) !important;
+    font-optical-sizing: auto;
+    line-height: 1.23em !important;
+}
+
+h1 {
+    font-size: var(--heading1-size) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.0123em !important;
+    margin-bottom: 0 !important;
+}
+
+h2 {
+    font-size: var(--heading2-size) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.0423rem !important;
+    margin-top: -.6rem !important;
+    margin-bottom: 2rem !important;
+}
+
+h3 {
+    font-size: var(--heading3-size) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.0123em !important;
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* --- Animated Headline --- */
+/* This complex selector targets the specific green, bolded H1 for the special effect. */
+h1.notion-heading.color-green.notion-semantic-string strong {
+    mix-blend-mode: var(--blend-mode) !important;
+    color: transparent !important;
+    font-size: 9rem !important;
+    font-weight: 900;
+    line-height: 0.68em !important;
+    letter-spacing: -.023em !important;
+    hyphens: auto;
+    background: radial-gradient(circle at 50%, var(--cta-background) 10%, var(--color-bg-transparent) 42%, var(--color-bg-transparent) 60%, var(--cta-background) 100%);
+    background-clip: text;
+    background-size: 200% auto;
+    -webkit-text-fill-color: transparent !important;
+    -webkit-background-clip: text;
+    -webkit-text-stroke: var(--link-text) .42px;
+    animation: animatedHeadline 42.3s ease-in-out infinite alternate;
+}
+
+@keyframes animatedHeadline {
+    to {
+        background-position: 180% center;
+    }
+}
+
+/* Sub-headline styles appearing after the main H1 */
+h1.notion-heading.color-green+.notion-text {
+    margin-top: 3.23rem !important;
+    color: var(--link-text);
+}
+
+/* --- Headline Companions (Sub-titles) --- */
+/* Styles for paragraphs that act as subtitles for H2s and H3s */
+.notion-text:has(h2)>p.notion-text__content,
+.notion-text__content:has(+ .notion-heading__anchor + h2) {
+    font-size: calc(var(--heading2-size) - .023rem) !important;
+    line-height: 123% !important;
+    padding-bottom: 0.8rem !important;
+    color: var(--link-text);
+}
+
+.notion-text:has(h3)>p.notion-text__content,
+.notion-text__content:has(+ .notion-heading__anchor + h3) {
+    font-size: calc(var(--heading3-size) - .023rem) !important;
+    padding-bottom: 0rem !important;
+    color: var(--link-text);
+}
+
+/* --- Text Links & Colors --- */
+.notion-semantic-string .link {
+    color: var(--link-text);
+    text-decoration-color: var(--link-text);
+    text-decoration-thickness: 1.42px;
+    text-underline-offset: 8px;
+    opacity: .8;
+    transition: all .2s ease-in, opacity .1s ease-in;
+}
+
+span.highlighted-color.color-green {
+    color: var(--link-text);
+}
+
+span.highlighted-color.color-yellow {
+    font-size: 1rem;
+    color: var(--color-text-default);
+    padding-left: 24px;
+}
+
+
+/* --- 5. LAYOUT & STRUCTURE --- */
+
+/* --- Main Content Wrappers --- */
+.notion-root.max-width,
+.notion-root.full-width {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    padding-bottom: 30vh;
+}
+
+.super-content {
+    width: 100%;
+    padding: 23vh 0 12rem 0 !important;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+/* --- Content Centering --- */
+/* This group ensures standard content blocks are centered and have a max-width. */
+.notion-text.notion-text__content,
+.notion-heading.notion-semantic-string,
+.notion-text__content.notion-semantic-string,
+.notion-bulleted-list,
+.notion-numbered-list,
+.notion-toggle,
+.notion-quote {
+    display: block;
+    width: 100%;
+    padding: 0 var(--m423-radius);
+    max-width: var(--content-md) !important;
+    margin: 0 auto !important;
+}
+
+.notion-text__children {
+    margin-inline-start: 0;
+}
+
+/* --- Header & Footer --- */
+.notion-header {
+    display: none !important;
+}
+
+.super-embed:has(.next-footer)+.notion-column-list {
+    width: 100%;
+}
+
+/* --- Background Portrait --- */
+.my_background_portrait {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.9;
+    background-image: var(--mode-potrait-d);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: right;
+    z-index: -1;
+}
+
+
+/* --- 6. COMPONENTS --- */
+
+/* --- Buttons (Notion CTA) --- */
+.notion-button {
+    width: var(--content-md);
+    margin: 1rem auto;
+    padding-left: var(--m423-radius);
+}
+
+.notion-button__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--m423-radius) / 2);
+    border-radius: calc(var(--m423-radius) / 2);
+    padding: calc(var(--m423-radius) / 2);
+    font-weight: 600;
+    color: var(--cta-text) !important;
+    background-color: var(--cta-background);
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 20ms ease-in;
+}
+
+.notion-button__content:hover {
+    background: var(--cta-background);
+}
+
+.notion-button__icon .notion-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    filter: var(--cta-icon-color);
+}
+
+/* --- Blockquotes --- */
+blockquote,
+.notion-quote {
+    margin: 2rem auto !important;
+    padding: 0 0 0 1rem !important;
+    border: none !important;
+    border-radius: 0 !important;
+    max-width: calc(var(--content-md) - 1rem - 16px) !important;
+    font-size: var(--heading3-size);
+    font-weight: 200;
+    text-align: left !important;
+    color: var(--link-text);
+    position: relative;
+}
+
+/* Resetting background colors on quotes */
+.notion-quote.bg-gray,
+.notion-quote.bg-brown,
+.notion-quote.bg-orange,
+.notion-quote.bg-yellow,
+.notion-quote.bg-green,
+.notion-quote.bg-blue,
+.notion-quote.bg-purple,
+.notion-quote.bg-pink,
+.notion-quote.bg-red {
+    border: none !important;
+}
+
+.notion-quote::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.6px;
+    height: 100%;
+    background-color: var(--link-text);
+    border-radius: 0.8px;
+}
+
+/* --- Galleries (Notion Collections) --- */
+.notion-collection.inline {
+    display: block !important;
+    width: calc(100% - var(--m423-radius) * 2) !important;
+    max-width: calc(var(--content-xl) - var(--m423-radius)) !important;
+    margin: auto;
+}
+
+.notion-collection-gallery {
+    display: grid;
+    grid-auto-rows: 1fr;
+    gap: var(--column-spacing) !important;
+    padding: 0 !important;
+    border: none !important;
+    margin-bottom: 1rem !important;
+    border-radius: 0 !important;
+}
+
+/* Gallery Sizes */
+.notion-collection-gallery.small {
+    grid-template-columns: repeat(5, 1fr) !important;
+    grid-auto-rows: max-content;
+}
+
+.notion-collection-gallery.medium {
+    grid-template-columns: repeat(2, 1fr);
+    width: 824px;
+    margin: auto;
+}
+
+.notion-collection-gallery.large {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* --- Gallery Cards --- */
+.notion-collection-card {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-card-bg);
+    border-radius: var(--m423-radius) !important;
+    border: none;
+    box-shadow: none !important;
+    transition: transform .3s ease-in-out, background .3s ease-in-out, box-shadow .3s ease-in-out !important;
+    cursor: pointer;
+}
+
+.notion-collection-card:hover {
+    background: var(--color-card-bg-hover) !important;
+    transform: scale(1.03) !important;
+    box-shadow: 0px 17px 23px 0px rgba(0, 0, 0, 0.05) !important;
+}
+
+.notion-collection-card a.notion-collection-card__anchor {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+}
+
+.notion-collection-card img {
+    width: 100%;
+    object-fit: cover !important;
+    object-position: center !important;
+    transition: transform 0.3s ease-in-out !important;
+}
+
+.notion-collection-card:hover img {
+    transform: scale(1.12) !important;
+}
+
+.notion-collection-card__cover.small {
+    min-height: 230px !important;
+    max-height: 240px !important;
+}
+
+.notion-collection-card__cover.medium {
+    height: 16rem !important;
+    max-height: 256px !important;
+}
+
+.notion-collection-card__cover.large {
+    height: 24rem !important;
+    min-height: 348px !important;
+}
+
+/* Card Content */
+.notion-collection-card__content {
+    padding: var(--collection-card-content-padding) !important;
+}
+
+.notion-collection-card .notion-property__title {
+    font-family: var(--primary-font);
+    font-weight: 500;
+    font-size: var(--heading3-size) !important;
+    line-height: 130% !important;
+    /* other styles */
+}
+
+.notion-collection-card .notion-property__select.wrap {
+    margin-top: .5rem;
+}
+
+/* --- Pills & Tags --- */
+.notion-pill {
+    --pill-height: 2.3rem;
+    display: block;
+    height: var(--pill-height) !important;
+    padding: 0 calc(var(--pill-height) / 2) !important;
+    border-radius: calc(var(--pill-height) / 2) !important;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: var(--pill-height);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* [ASSISTANT-NOTE] Grouping all pill color resets under one rule for maintainability. */
+.notion-pill.pill-default,
+.notion-pill.pill-gray,
+.notion-pill.pill-brown,
+.notion-pill.pill-orange,
+.notion-pill.pill-yellow,
+.notion-pill.pill-green,
+.notion-pill.pill-blue,
+.notion-pill.pill-purple,
+.notion-pill.pill-pink,
+.notion-pill.pill-red {
+    background-color: var(--pill-bg-color-default) !important;
+    color: var(--pill-text-color-default) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* --- Collection Switch (Dropdown to Pills) --- */
+/* [ASSISTANT-NOTE] This is a clever hack to restyle the dropdown filter into a horizontal pill list. */
+.notion-dropdown__button {
+    display: none !important;
+}
+
+.notion-collection__header-wrapper {
+    align-items: start !important;
+}
+
+.notion-dropdown__menu {
+    position: relative !important;
+    opacity: 1 !important;
+    transform: none !important;
+    background: none !important;
+    box-shadow: unset !important;
+    left: auto !important;
+    top: auto !important;
+}
+
+.notion-dropdown__menu-header {
+    display: none !important;
+}
+
+.notion-dropdown__option-list {
+    display: flex !important;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.notion-dropdown__option {
+    padding: 0.42em 1em !important;
+    border-radius: var(--m423-radius);
+    background-color: var(--cta-background);
+    color: var(--cta-text);
+}
+
+.notion-dropdown__option.active,
+.notion-dropdown__option:hover {
+    background-color: var(--cta-text);
+    color: var(--cta-background);
+}
+
+/* --- Toggle Lists --- */
+.notion-toggle.closed::before {
+    content: "+";
+}
+
+.notion-toggle.open::before {
+    content: "-";
+}
+
+.notion-toggle:is(.closed, .open)::before {
+    position: absolute;
+    margin-top: -1px;
+    margin-left: -23px;
+    font-size: 2rem;
+    color: var(--cta-background);
+}
+
+.notion-toggle__trigger {
+    display: none !important;
+}
+
+.notion-toggle__content {
+    padding-inline-start: 0px !important;
+}
+
+/* Special Toggle for "Read More" sections */
+.notion-toggle.bg-blue {
+    min-height: 7rem;
+    margin: 1rem auto 3rem auto !important;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.notion-toggle.bg-blue::before {
+    content: "" !important;
+}
+
+.notion-toggle.closed.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+    content: '+ read more about how we tackle the challenge';
+}
+
+.notion-toggle.open.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+    content: '- Close the insights';
+}
+
+.notion-toggle.bg-blue .notion-toggle__summary .notion-toggle__trigger::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0rem;
+    padding-bottom: 1rem;
+    color: var(--cta-background);
+    border-bottom: 1px var(--cta-background) solid;
+}
+
+/* ... other complex toggle styles ... */
+
+
+/* --- Callouts --- */
+.notion-callout {
+    width: 100%;
+    margin: 0 auto 1em auto;
+    padding: var(--m423-radius);
+    border-radius: var(--m423-radius) !important;
+    text-align: left;
+}
+
+.notion-callout__icon {
+    display: none !important;
+}
+
+.notion-callout__content {
+    margin-inline-start: 0px;
+}
+
+/* Resetting background for specific callouts to allow custom styling */
+.notion-callout.bg-gray-light,
+.notion-callout.bg-brown-light,
+.notion-callout.bg-orange-light,
+.notion-callout.bg-green-light,
+.notion-callout.bg-pink-light,
+.notion-callout.bg-red-light {
+    background-color: transparent !important;
+    border: 0 !important;
+}
+
+/* Project Outline Callout */
+.notion-callout.color-default {
+    width: var(--content-md);
+    padding: var(--m423-radius) !important;
+    border: 1px solid var(--color-border-default) !important;
+}
+
+/* Disclaimer Callout */
+.notion-callout.bg-yellow-light {
+    max-width: calc(var(--content-md) - var(--m423-radius));
+    font-size: .942rem !important;
+    text-align: center;
+}
+
+/* --- Images --- */
+.notion-image {
+    margin: .5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.notion-image img,
+img {
+    border-radius: var(--m423-radius) !important;
+    animation: fadeIn 1.5s !important;
+}
+
+.notion-image.page-width {
+    width: calc(100% - var(--padding-desktop)*2) !important;
+    max-width: calc(var(--content-lg) - var(--m423-radius)*2);
+    min-width: var(--content-md);
+    margin: 0 auto;
+}
+
+.notion-image.page-width img {
+    width: 100%;
+    object-fit: cover !important;
+}
+
+/* Images that should invert in dark/light mode */
+.notion-text.bg-gray .notion-image img,
+.notion-callout.bg-gray-light .notion-image img {
+    filter: var(--ilu-image);
+    border-radius: 0 !important;
+}
+
+
+/* --- Videos (Embeds) --- */
+.notion-embed {
+    width: 100%;
+    align-self: center;
+}
+
+.notion-embed__content {
+    display: flex;
+    justify-content: center;
+    border-radius: var(--m423-radius) !important;
+    overflow: hidden !important;
+}
+
+.notion-embed__container__wrapper {
+    width: var(--content-max-desktop);
+    min-height: calc(var(--content-max-desktop)/16*9);
+    border-radius: var(--m423-radius);
+    overflow: hidden;
+}
+
+/* --- Columns --- */
+.notion-column-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    justify-content: space-between;
+}
+
+.notion-column {
+    padding: 0;
+}
+
+
+/* --- Lists (Bulleted & Numbered) --- */
+.notion-bulleted-list {
+    max-width: calc(var(--content-md) - var(--m423-radius)*2) !important;
+    margin: auto !important;
+    line-height: 1.5em;
+    list-style-type: disc;
+}
+
+ol.notion-numbered-list {
+    list-style: none;
+    counter-reset: my-awesome-counter;
+    width: var(--content-max-desktop);
+    margin: 0 auto;
+    padding: 0 var(--m423-radius);
+}
+
+ol li {
+    counter-increment: my-awesome-counter;
+    padding-left: 12px;
+    margin-left: 24px;
+}
+
+ol li::before {
+    content: counter(my-awesome-counter) ".";
+    /* ... other counter styles ... */
+}
+
+/* --- Divider --- */
+.notion-divider {
+    margin: 4rem 0 !important;
+    border: 0 !important;
+}
+
+.notion-image+.notion-divider {
+    margin: 3rem 0 !important;
+}
+
+/* --- Table of Contents --- */
+.notion-table-of-contents {
+    padding: 1rem !important;
+    font-size: var(--body-font-size) !important;
+    margin: 4rem auto !important;
+    border-radius: var(--m423-radius) !important;
+    border: 1px solid var(--color-border-default) !important;
+    width: 800px;
+    z-index: 19 !important;
+}
+
+.notion-table-of-contents__item:hover {
+    background: none !important;
+    opacity: 0.5 !important;
+}
+
+
+/* --- 7. NAVIGATION --- */
+.super-navbar {
+    display: none;
+}
+
+/* Hide original navbar */
+
+.my-super-navbar {
+    display: block;
+    position: fixed;
+    width: 100%;
+    top: 1em;
+    left: 0;
+    z-index: 423;
+    padding: 0 var(--padding-left) !important;
+}
+
+.my-super-navbar__content {
+    max-width: 1440px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 20fr 1fr;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.my-super-navbar__item-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.super-navbar__item {
+    color: var(--color-text-default) !important;
+    padding: 0 20px;
+    opacity: .7;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity .2s ease-in-out;
+}
+
+.my-menuburger {
+    display: none;
+}
+
+/* Hidden on desktop */
+li.my-contacts {
+    display: none;
+}
+
+/* Hidden on desktop */
+
+/* --- Theme Toggle Switch --- */
+.theme-toggle {
+    --size: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    inline-size: var(--size);
+    block-size: var(--size);
+    cursor: pointer;
+}
+
+/* ... other theme-toggle styles ... */
+
+
+/* --- 8. PAGE-SPECIFIC OVERRIDES --- */
+
+/* Home Page */
+.page__index .notion-collection.inline {
+    width: 100% !important;
+    max-width: var(--content-lg) !important;
+}
+
+.page__index .notion-collection-gallery.large {
+    grid-template-columns: auto auto;
+}
+
+/* ... other page overrides ... */
+
+/* Blog Page */
+.super-content.page__blog423 .notion-collection.inline {
+    width: 832px;
+    margin: auto;
+}
+
+/* Creative Journey Page */
+.page__kreativelaufbahn .notion-toggle .notion-semantic-string {
+    margin: 0 0 0 32px;
+}
+
+
+/*
+┌──────────────────────────────────────┐
+│                                      │
+│   RESPONSIVE STYLES (MEDIA QUERIES)  │
+│                                      │
+└──────────────────────────────────────┘
+*/
+
+/* --- TABLET & SMALLER DESKTOPS (max-width: 880px) --- */
+@media screen and (max-width: 880px) {
+    .super-content {
+        padding-top: 2rem !important;
+        padding-bottom: 4em !important;
+    }
+
+    h2 {
+        font-size: var(--heading2-size) !important;
+    }
+
+    h3 {
+        font-size: var(--heading3-size) !important;
+    }
+
+    .notion-collection-gallery.large,
+    .page__index .notion-collection-gallery.large {
+        padding: 0 var(--m423-radius) !important;
+        grid-template-columns: auto !important;
+    }
+
+    .notion-collection-card__cover.large {
+        height: calc(100vw - 48px) !important;
+        min-height: unset !important;
+    }
+
+    /* --- Navigation for Tablet --- */
+    .my-super-navbar {
+        top: unset;
+        bottom: 1rem;
+        padding: 0 64px !important;
+    }
+
+    /* ... other 880px styles ... */
+}
+
+
+/* --- MOBILE (max-width: 546px) --- */
+@media (max-width: 546px) {
+    :root {
+        --body-font-size: 1.123rem !important;
+    }
+
+    .super-content {
+        padding-top: 12vh !important;
+    }
+
+    /* --- Typography for Mobile --- */
+    h1.notion-heading.color-green.notion-semantic-string strong {
+        font-size: 3.8rem !important;
+    }
+
+    .page__index .notion-heading.color-green.notion-semantic-string strong {
+        font-size: 5.8rem !important;
+    }
+
+    /* --- Layout for Mobile --- */
+    .notion-root h1.notion-heading {
+        padding: 0 var(--padding-mob);
+    }
+
+    .notion-column-list {
+        flex-direction: column;
+    }
+
+    /* Alternating column order for mobile */
+    .notion-text .notion-text__children .notion-column-list:nth-of-type(even) {
+        flex-direction: column-reverse;
+    }
+
+    /* --- Components for Mobile --- */
+    .notion-button,
+    .notion-button__content {
+        width: 100%;
+    }
+
+    .notion-collection-gallery.small {
+        grid-template-columns: auto auto !important;
+    }
+
+    .notion-collection-gallery.medium {
+        width: 100% !important;
+        grid-template-columns: auto !important;
+    }
+
+    /* --- Mobile Navigation (Burger Menu) --- */
+    .my-super-navbar {
+        padding: 0 56px !important;
+    }
+
+    .my-menuburger {
+        display: block;
+        /* Show burger icon */
+    }
+
+    li.my-contacts {
+        display: flex;
+        /* Show contact links in menu */
+    }
+
+    .my-super-navbar__item-list {
+        /* This hides the list by default */
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: auto;
+        bottom: 2em;
+        left: 0;
+        flex-direction: column;
+        /* ... other mobile menu styles */
+    }
+
+    /* This rule shows the menu when it's open */
+    [aria-label="menu-open"].my-super-navbar__item-list {
+        display: flex;
+    }
+
+    /* Backdrop for open menu */
+    .backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 123;
+        backdrop-filter: blur(42px) !important;
+        -webkit-backdrop-filter: blur(42px) !important;
+        background-color: var(--color-backdrop-bg);
+    }
+
+    .backdrop:is([visible="false"]) {
+        display: none;
+    }
+
+    /* ... other 546px styles ... */
+}
+
+
+/*
+┌──────────────────────────┐
+│                          │
+│   PRINT STYLES           │
+│                          │
+└──────────────────────────┘
+*/
+@media print {
+    * {
+        color: black !important;
+        background: white !important;
+    }
+
+    body:has(.parent-page__bewerbungen) {
+        font-size: 13px !important;
+    }
+
+    main.parent-page__bewerbungen.super-content {
+        padding: 0 !important;
+    }
+
+    /* Hide non-essential elements for printing */
+    .my-super-navbar,
+    .my_background_portrait {
+        display: none !important;
+    }
+
+    /* ... other print-specific resets and styles ... */
+    div#block-1c3b6d59e38d8086b89cca5b94a969c6,
+    div#block-1c3b6d59e38d8078b69dc235be790877 {
+        page-break-before: always;
+    }
+}
+
+@page {
+    size: a4;
+    margin: 2.3cm;
+
+    @bottom-right {
+        content: "Seite "counter(page);
+        font-family: "Dosis", var(--primary-font);
+        font-size: 11px;
+    }
+
+    @bottom-left {
+        content: "Circulum Vitales - Matze Lenz 2025";
+        font-family: "Dosis", var(--primary-font);
+        font-size: 11px;
+    }
+}
+
+@page: first {
+    margin-top: 1cm;
+}
