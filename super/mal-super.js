@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 01 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 02 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -198,6 +198,11 @@ window.MALSuper = (function () {
         });
         const notionRoot = document.querySelector('.notion-root') || document.body;
         addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
+    }
+
+    // test function route change
+    function routeChangeHandler() {
+        console.log("Route Change Handler fired");
     }
 
     // SPA: Nach jedem RouteChange oder popstate alles re-initialisieren
