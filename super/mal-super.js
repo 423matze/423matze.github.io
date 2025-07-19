@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 03 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 04 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -214,7 +214,7 @@ window.MALSuper = (function () {
             next.router.events.on('routeChangeComplete', routeChangeHandler);
             console.log("Next.js route change listener set up.");
         } else if (window.events) {
-            New method using 'window.events'
+            // New method using 'window.events'
             window.events.on('routeChangeComplete', routeChangeHandler);
             console.log("Window events route change listener set up.");
         } else {
