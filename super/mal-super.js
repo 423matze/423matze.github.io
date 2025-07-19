@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 15 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 16 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -228,15 +228,32 @@ window.MALSuper = (function () {
 
     }
     */
+    // Toogle und GSAP Bg -> die nicht sauber auf Mobile initiert werden wegen Super hydration
+    function delayedInits() {
+        smartInitToggleObservers();
+        setupGSAPBgFade();
+    }
 
     // INIT (wird jetzt bei Start UND nach jedem SPA-Routenwechsel gefeuert)
     function init() {
         console.log("MALSuper INIT fired!");
         initTheme();
         setupEmbeds();
-        setupGSAPBgFade();
         setupHomeButton();
-        smartInitToggleObservers();
+        // Tricki elements
+        let runCount = 0;
+        const maxRuns = 8; // ~2 Sekunden bei 250ms Intervall
+        const interval = setInterval(() => { 
+            delayedInits();
+            runCount++;
+            if (
+                document.querySelectorAll('.notion-toggle.bg-blue').length > 0 ||
+                document.querySelectorAll('.gsap-bg').length > 0 ||
+                runCount >= maxRuns
+            ) {
+                clearInterval(interval);
+            }
+        }, 250);
         //registerSPARouteHooks();
     }
 
@@ -263,8 +280,8 @@ function waitForSuperEventsAndBindInit() {
     if (window.events && window.events.on) {
         window.events.on('routeChangeComplete', function () {
             setTimeout(() => {
-                window.MALSuper.init();
                 console.log('Super.so: routeChangeComplete → MALSuper.init() ausgeführt!');
+                window.MALSuper.init();
             }, 2000);
         });
         
