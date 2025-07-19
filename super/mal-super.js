@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 12 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 13 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -262,12 +262,12 @@ function waitForSuperEventsAndBindInit() {
             setTimeout(() => {
                 window.MALSuper.init();
                 console.log('Super.so: routeChangeComplete → MALSuper.init() ausgeführt!');
-            }, 423);
+            }, 2000);
         });
         
     } else {
         console.log('Super.so: routeChangeComplete-Hook TRY AGAIN!');
-        setTimeout(waitForSuperEventsAndBindInit, 100);
+        setTimeout(waitForSuperEventsAndBindInit, 423;
     }
 }
 waitForSuperEventsAndBindInit();
