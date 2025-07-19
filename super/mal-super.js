@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 09 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 10 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -250,21 +250,29 @@ window.MALSuper = (function () {
 
 })();
 
-// === SPA-proof: Initialisieren bei window.onload, danach bei jedem SPA-Route-Wechsel ===
+// === Initialisieren bei window.onload ===
 window.addEventListener('load', function () {
     window.MALSuper.init();
 });
-if (window.events && window.events.on) {
-    window.events.on('routeChangeComplete', function () {
-        console.log('Super.so: routeChangeComplete  FIRED');
-        setTimeout(() => {
-            window.MALSuper.init();
-            console.log('Super.so: routeChangeComplete → init!');
-        }, 1423 ); // 180ms für DOM-Finish, ggf. anpassen!
-    });
-}
 
-// === Funktionen global machen für onclick im HTML (Hybrid-Pattern, garantiert mobile-kompatibel) ===
+// === Super.so SPA: routeChangeComplete-Event (mit Polling, garantiert robust!) ===
+function waitForSuperEventsAndBindInit() {
+    if (window.events && window.events.on) {
+        window.events.on('routeChangeComplete', function () {
+            setTimeout(() => {
+                window.MALSuper.init();
+                console.log('Super.so: routeChangeComplete → MALSuper.init() ausgeführt!');
+            }, 180);
+        });
+        console.log('Super.so: routeChangeComplete-Hook gesetzt!');
+    } else {
+        setTimeout(waitForSuperEventsAndBindInit, 100);
+    }
+}
+waitForSuperEventsAndBindInit();
+
+// === Funktionen global machen für onclick im HTML (Hybrid-Pattern) ===
 window.menu_toggle = function(e){ window.MALSuper.menu_toggle(e); };
 window.theme_toggle = function(e){ window.MALSuper.theme_toggle(e); };
 window.gotoHome = function(e){ window.MALSuper.gotoHome(e); };
+
