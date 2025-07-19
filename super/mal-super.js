@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 04 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 05 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -11,6 +11,15 @@ window.MALSuper = (function () {
     // SPA/Observer State
     let observer = null;            // Toggle-Status-Observer
     let addToggleObserver = null;   // DOM-Change-Observer für neue Toggles
+
+    if (window.events && window.events.on) {
+    window.events.on('routeChangeComplete', function () {
+        setTimeout(() => {
+            window.MALSuper.init();
+            // console.log('Super.so: routeChangeComplete → init!');
+        }, 180); // 180ms für DOM-Finish, ggf. anpassen!
+    });
+    }
 
     // THEME MANAGEMENT
     function setTheme(theme) {
@@ -210,7 +219,6 @@ window.MALSuper = (function () {
     function registerSPARouteHooks() {
         if (typeof next !== 'undefined' && next.router && next.router.events) {
             // Old method using 'next'
-            window.MALSuper.init();
             next.router.events.on('routeChangeComplete', routeChangeHandler);
             console.log("Next.js route change listener set up.");
         } else if (window.events) {
@@ -231,7 +239,7 @@ window.MALSuper = (function () {
         smartInitToggleObservers();
         setupGSAPBgFade();
         setupHomeButton();
-        registerSPARouteHooks();
+        //registerSPARouteHooks();
     }
 
     // PUBLIC API
