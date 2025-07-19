@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1-debug 14 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 15 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -212,6 +212,7 @@ window.MALSuper = (function () {
     }
 
     // SPA: Nach jedem RouteChange oder popstate alles re-initialisieren
+    /*
     function registerSPARouteHooks() {
         if (typeof next !== 'undefined' && next.router && next.router.events) {
             // Old method using 'next'
@@ -226,15 +227,16 @@ window.MALSuper = (function () {
         }
 
     }
+    */
 
     // INIT (wird jetzt bei Start UND nach jedem SPA-Routenwechsel gefeuert)
     function init() {
         console.log("MALSuper INIT fired!");
         initTheme();
         setupEmbeds();
-        smartInitToggleObservers();
         setupGSAPBgFade();
         setupHomeButton();
+        smartInitToggleObservers();
         //registerSPARouteHooks();
     }
 
@@ -252,6 +254,7 @@ window.MALSuper = (function () {
 
 // === Initialisieren bei window.onload ===
 window.addEventListener('load', function () {
+    console.log("LOAD → MALSuper.init()")
     window.MALSuper.init();
 });
 
