@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v3.1 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
+// MALSuper Custom Script v3.1-debug 01 – SPA-Proof, Mobile-Proof, Toggle-Safe (by SUPERSTAR)
 //
 
 window.MALSuper = (function () {
@@ -204,24 +204,24 @@ window.MALSuper = (function () {
     function registerSPARouteHooks() {
         window.addEventListener('popstate', function () {
             setTimeout(() => {
-                window.MALSuper.init();
+                //window.MALSuper.init();
                 console.log("SPA popstate erkannt → MALSuper.init() ausgeführt");
             }, 150);
         });
         window.addEventListener('super:routeChange', function () {
             setTimeout(() => {
-                window.MALSuper.init();
+                //window.MALSuper.init();
                 console.log("Super.so-RouteChange erkannt → MALSuper.init() ausgeführt");
             }, 150);
         });
         if (typeof next !== 'undefined' && next.router && next.router.events) {
             // Old method using 'next'
-            window.MALSuper.init();
+            //window.MALSuper.init();
             next.router.events.on('routeChangeComplete', routeChangeHandler);
             console.log("Next.js route change listener set up.");
         } else if (window.events) {
             // New method using 'window.events'
-            window.MALSuper.init();
+            //window.MALSuper.init();
             window.events.on('routeChangeComplete', routeChangeHandler);
             console.log("Window events route change listener set up.");
         } else {
