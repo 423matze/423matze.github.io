@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 3.1       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 3.2       │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-19                               │
 │                                                  │
@@ -1323,9 +1323,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         font-size: var(--heading3-size) !important;
     }
 
-    .notion-collection-gallery.large,
-    .page__index .notion-collection-gallery.large {
-        padding: 0 var(--m423-radius) !important;
+    .notion-collection-gallery.large {
         grid-template-columns: auto !important;
     }
 
@@ -1457,7 +1455,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
     .notion-collection.inline {
         width: 100% !important;
-        /* max-width: var(--content-lg) !important; */
+        max-width: var(--content-lg) !important;
         padding: 0 var(--padding-mob);
     }
 
