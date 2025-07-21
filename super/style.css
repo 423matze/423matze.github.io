@@ -1330,7 +1330,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     .notion-collection-card__cover.large {
-        height: calc(100vw - 48px) !important;
+        height: 60vh !important;
         min-height: unset !important;
     }
 
