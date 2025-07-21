@@ -1632,9 +1632,9 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     /* Show the circle on touch or hover */
-    .my-menuburger:active::before,
+    /*.my-menuburger:active::before,
     .super-navbar__logo:active::before,
-    .theme-toggle:active::before,
+    .theme-toggle:active::before,*/
     .my-menuburger:hover::before,
     .super-navbar__logo:hover::before,
     .theme-toggle:hover::before {
