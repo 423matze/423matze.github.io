@@ -1,32 +1,41 @@
-/*
-┌──────────────────────────────────────────────────┐
-│                                                  │
-│   SUPER.SO SCRATCH STYLES 423 - VERSION 2.0       │
-│   REFACTORED & CLEANED BY AI ASSISTANT           │
-│   DATE: 2025-07-19                               │
-│                                                  │
-└──────────────────────────────────────────────────┘
-*/
+/* Interactive Scratch Image Script version 2.0
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
 
-/* Interactive Scratch Image Script version 3.0 */
-/* This file contains the CSS styles for the interactive image display application.
-   It is designed to be used with the HTML structure provided in the script.js file.
-   The styles are inspired by Tailwind CSS but written in plain CSS for compatibility. */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 
+body.body-styles {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-image: linear-gradient(to bottom right, #0f172a, #334155); /* from-slate-900 to-slate-700 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem; /* p-4 (1rem = 16px) */
+  margin: 0;
+  color: white;
+  overflow-x: hidden;
+}
+
+body.body-styles::selection {
+  background-color: #38bdf8; /* sky-400 */
+  color: #0c4a6e; /* sky-900 */
+}
 
 /* App Structure */
 .app-container {
-  position: relative;
-  width: calc(100% - var(--padding-desktop) * 2) !important;
-  max-width: calc(var(--m423-width));
-  min-width: 800px;
+  width: 100%;
+  max-width: 1280px; /* max-w-screen-lg */
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  background-color: black;
-  border-radius: var(--m423-radius);
-  padding: var(--m423-radius);
 }
 
 .app-header {
@@ -49,7 +58,6 @@
 }
 
 .app-footer {
-  position: relative;
   margin-top: 2rem; /* mt-8 */
   font-size: 0.875rem; /* text-sm */
   line-height: 1.25rem;
@@ -58,8 +66,11 @@
 
 /* Image Display Area */
 .image-display-container {
-  position: relative;
+   background-color: var(--cta-background);
   padding: 0.25rem; /* p-1 */
+  border-radius: var(--m423-radius); /* rounded-lg */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -67,10 +78,9 @@
 
 .image-display-area {
   background-color: black;
-  position: relative; /* Needed for absolute positioning of CTA */
+  position: relative;
   overflow: hidden;
   width: 100%;
-  border-radius: 12px;
   /* Aspect ratio and max-width are set by JS */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
@@ -80,60 +90,9 @@
   touch-action: pan-y; /* Allow vertical page scroll, we handle horizontal swipes */
 }
 
-/* Initial CTA Overlay */
-.initial-cta-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(15, 23, 42, 0.8); /* slate-900 with 80% opacity */
-  display: flex; /* Hidden by default using style="display: none;" initially in HTML, JS will control */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10; /* Above quads, below main touch overlay */
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.3s ease-out;
-  border-radius: inherit; /* Inherit from parent (.image-display-area) */
-}
-
-.initial-cta-overlay.fade-out {
-  opacity: 0;
-  pointer-events: none; /* Prevent interaction during fade out */
-}
-
-.initial-cta-content {
-  display: flex;
-    height: 60%;
-    aspect-ratio: 1;
-    text-align: center;
-    color: #e2e8f0;
-    padding: 1rem;
-    border-radius: 50%;
-    background-color: rgba(51, 65, 85, 0.7);
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-}
-
-.initial-cta-icon {
-  font-size: 2rem; /* text-3xl */
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.initial-cta-text {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 500; /* medium */
-}
-
-
 /* Controls Section */
 .controls-container {
-  position: relative;
-  margin-top: 2rem; /* mt-6 */
+  margin-top: 1.5rem; /* mt-6 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -349,13 +308,7 @@
 
 
 /* Responsive Styles */
-@media (max-width: 546px) { 
-
-  .app-container {
-    left: calc((100vw - 800px) / 2);
-  }
-  
-  /* sm breakpoint */
+@media (min-width: 640px) { /* sm breakpoint */
   .app-title, .no-content-title {
     font-size: 3rem; /* sm:text-5xl */
     line-height: 1;
@@ -395,20 +348,4 @@
   .status-message-container {
      padding: 1.5rem; /* sm:p-6 */
   }
-  .image-display-container {
-    /* left: -25vw; */
-  }
-  .controls-container {
-    /* left: -50vw; */
-}
-
-.slider-group {
-    width: 80vw;
-}
-
-.app-footer {
-    /* left: -50vw; */
-    width: 80vw;
-    text-align: center;
-}
 }
