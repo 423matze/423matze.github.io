@@ -1,6 +1,6 @@
 
 
-// Interactive Scratch Image Script Version 8.2 (Targeted DOM Updates)
+// Interactive Scratch Image Script Version 8.4 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
@@ -777,7 +777,7 @@ function pollingInitializer() {
                 console.error('Initialisierung fehlgeschlagen: Die Kern-Elemente der App konnten nicht rechtzeitig im DOM gefunden werden.');
             }
         }
-    }, 250);
+    }, 500); 
 }
 
 // Ersetze den vorherigen 'load'-Listener mit unserem neuen, robusten Initializer.
