@@ -93,7 +93,7 @@
   /* Standard */
   -webkit-touch-callout: none;
   /* iOS Safari - prevent callout on long press */
-  touch-action: pan-y;
+  touch-action: none;
   /* Allow vertical page scroll, we handle horizontal swipes */
 }
 
