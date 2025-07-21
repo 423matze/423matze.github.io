@@ -1,75 +1,76 @@
-/*
-┌──────────────────────────────────────────────────┐
-│                                                  │
-│   SUPER.SO SCRATCH STYLES 423 - VERSION 2.0       │
-│   REFACTORED & CLEANED BY AI ASSISTANT           │
-│   DATE: 2025-07-19                               │
-│                                                  │
-└──────────────────────────────────────────────────┘
-*/
 
-/* Interactive Scratch Image Script version 3.0 */
-/* This file contains the CSS styles for the interactive image display application.
-   It is designed to be used with the HTML structure provided in the script.js file.
-   The styles are inspired by Tailwind CSS but written in plain CSS for compatibility. */
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
 
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body.body-styles {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-image: linear-gradient(to bottom right, #0f172a, #334155); /* from-slate-900 to-slate-700 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem; /* p-4 (1rem = 16px) */
+  margin: 0;
+  color: white;
+  overflow-x: hidden;
+}
+
+body.body-styles::selection {
+  background-color: #38bdf8; /* sky-400 */
+  color: #0c4a6e; /* sky-900 */
+}
 
 /* App Structure */
 .app-container {
-  position: relative;
-  width: calc(100% - var(--padding-desktop) * 2) !important;
-  max-width: calc(var(--m423-width));
-  min-width: 800px;
+  width: 100%;
+  max-width: 1280px; /* max-w-screen-lg */
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  background-color: black;
-  border-radius: var(--m423-radius);
-  padding: var(--m423-radius);
 }
 
 .app-header {
-  margin-bottom: 2rem;
-  /* mb-8 */
+  margin-bottom: 2rem; /* mb-8 */
   text-align: center;
 }
 
 .app-title {
-  font-size: 2.25rem;
-  /* text-4xl */
+  font-size: 2.25rem; /* text-4xl */
   line-height: 2.5rem;
   font-weight: bold;
-  letter-spacing: -0.025em;
-  /* tracking-tight */
+  letter-spacing: -0.025em; /* tracking-tight */
 }
 
 .app-subtitle {
-  margin-top: 0.5rem;
-  /* mt-2 */
-  font-size: 1.125rem;
-  /* text-lg */
+  margin-top: 0.5rem; /* mt-2 */
+  font-size: 1.125rem; /* text-lg */
   line-height: 1.75rem;
-  color: #cbd5e1;
-  /* text-slate-300 */
+  color: #cbd5e1; /* text-slate-300 */
 }
 
 .app-footer {
-  position: relative;
-  margin-top: 2rem;
-  /* mt-8 */
-  font-size: 0.875rem;
-  /* text-sm */
+  margin-top: 2rem; /* mt-8 */
+  font-size: 0.875rem; /* text-sm */
   line-height: 1.25rem;
-  color: #94a3b8;
-  /* text-slate-400 */
+  color: #94a3b8; /* text-slate-400 */
 }
 
 /* Image Display Area */
 .image-display-container {
-  position: relative;
-  padding: 0.25rem;
-  /* p-1 */
+  background-color: var(--cta-background);
+  padding: 0.25rem; /* p-1 */
+  border-radius: var(--m423-radius); /* rounded-lg */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -77,24 +78,17 @@
 
 .image-display-area {
   background-color: black;
-  position: relative;
-  /* Needed for absolute positioning of CTA */
+  position: relative; 
   overflow: hidden;
   width: 100%;
   border-radius: 12px;
-  /* Aspect ratio and max-width are set by JS */
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE 10+ */
-  user-select: none;
-  /* Standard */
-  -webkit-touch-callout: none;
-  /* iOS Safari - prevent callout on long press */
-  touch-action: none;
-  /* Allow vertical page scroll, we handle horizontal swipes */
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
+  -webkit-touch-callout: none; 
+  touch-action: none; 
+  cursor: crosshair; /* New cursor for area interaction tool */
 }
 
 /* Initial CTA Overlay */
@@ -104,73 +98,61 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(15, 23, 42, 0.8);
-  /* slate-900 with 80% opacity */
-  display: flex;
-  /* Hidden by default using style="display: none;" initially in HTML, JS will control */
+  background-color: rgba(15, 23, 42, 0.8); 
+  display: flex; 
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  /* Above quads, below main touch overlay */
-  cursor: pointer;
+  z-index: 10; 
+  cursor: pointer; /* Remains pointer for the CTA itself */
   opacity: 1;
   transition: opacity 0.3s ease-out;
-  border-radius: inherit;
-  /* Inherit from parent (.image-display-area) */
+  border-radius: inherit; 
 }
 
 .initial-cta-overlay.fade-out {
   opacity: 0;
-  pointer-events: none;
-  /* Prevent interaction during fade out */
+  pointer-events: none; 
 }
 
 .initial-cta-content {
-  display: flex;
-  height: 60%;
-  aspect-ratio: 1;
-  text-align: center;
-  color: #e2e8f0;
-  padding: 1rem;
-  border-radius: 50%;
-  background-color: rgba(51, 65, 85, 0.7);
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
+    display: flex;
+    height: 60%;
+    aspect-ratio: 1;
+    text-align: center;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 50%;
+    background-color: rgba(51, 65, 85, 0.7);
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
 }
 
 .initial-cta-icon {
-  font-size: 2rem;
-  /* text-3xl */
+  font-size: 2rem; 
   display: block;
   margin-bottom: 0.5rem;
 }
 
 .initial-cta-text {
-  font-size: 1.125rem;
-  /* text-lg */
-  font-weight: 500;
-  /* medium */
+  font-size: 1.125rem; 
+  font-weight: 500; 
 }
 
 
 /* Controls Section */
 .controls-container {
-  position: relative;
-  margin-top: 2rem;
-  /* mt-6 */
+  margin-top: 1.5rem; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 28rem;
-  /* max-w-md (448px) */
+  max-width: 28rem; 
 }
 
-.controls-container>*+* {
-  /* space-y-4 equivalent */
+.controls-container > * + * { 
   margin-top: 1rem;
 }
 
@@ -180,17 +162,14 @@
   justify-content: center;
 }
 
-.button-group>*+* {
-  /* space-x-3 equivalent */
+.button-group > * + * { 
   margin-left: 0.75rem;
 }
 
 .image-info-text {
-  font-size: 0.875rem;
-  /* text-sm */
+  font-size: 0.875rem; 
   line-height: 1.25rem;
-  color: #cbd5e1;
-  /* text-slate-300 */
+  color: #cbd5e1; 
   white-space: nowrap;
 }
 
@@ -199,28 +178,22 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 1rem;
-  /* mt-4 (if not covered by space-y) - already covered by .controls-container > * + * */
+  margin-top: 1rem; 
 }
 
 .slider-label {
-  margin-bottom: 0.25rem;
-  /* mb-1 */
-  font-size: 0.875rem;
-  /* text-sm */
+  margin-bottom: 0.25rem; 
+  font-size: 0.875rem; 
   line-height: 1.25rem;
-  color: #cbd5e1;
-  /* text-slate-300 */
+  color: #cbd5e1; 
 }
 
 .slider-input {
   width: 100%;
-  height: 1.5rem;
-  /* h-2 */
+  height: 1.5rem; 
   border-radius: 0.75rem;
   padding: 0 0.31rem;
-  background-color: #61615e;
-  /* bg-slate-700 */
+  background-color: #61615e; 
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
@@ -232,8 +205,7 @@
   appearance: none;
   width: 1rem;
   height: 1rem;
-  background: var(--cta-background);
-  /* sky-500 */
+  background: var(--cta-background); 
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid var(--cta-background);
@@ -242,8 +214,7 @@
 .slider-input::-moz-range-thumb {
   width: 1rem;
   height: 1rem;
-  background: var(--cta-background);
-  /* sky-500 */
+  background: var(--cta-background); 
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid var(--cta-background);
@@ -282,246 +253,149 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
-  /* rounded-lg */
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
-  /* shadow-inner */
+  border-radius: 0.5rem; 
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05); 
   width: 100%;
   height: 100%;
-  padding: 1rem;
-  /* p-4 / p-6 approx */
+  padding: 1rem; 
 }
 
 .status-loading {
-  background-color: #e2e8f0;
-  /* bg-slate-200 */
-  color: #475569;
-  /* text-slate-600 */
+  background-color: #e2e8f0; 
+  color: #475569; 
 }
 
 .status-error {
-  background-color: #fef2f2;
-  /* bg-red-50 */
-  color: #b91c1c;
-  /* text-red-700 */
+  background-color: #fef2f2; 
+  color: #b91c1c; 
   text-align: center;
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .spinner {
   animation: spin 1s linear infinite;
-  border-radius: 9999px;
-  /* rounded-full */
-  height: 2.5rem;
-  /* h-10 */
-  width: 2.5rem;
-  /* w-10 */
+  border-radius: 9999px; 
+  height: 2.5rem; 
+  width: 2.5rem; 
   border-top-width: 4px;
   border-top-style: solid;
-  border-top-color: #0284c7;
-  /* border-sky-600 */
-  border-right-color: transparent;
-  /* To make it look like Tailwind's spinner */
+  border-top-color: #0284c7; 
+  border-right-color: transparent; 
   border-bottom-color: transparent;
   border-left-color: transparent;
 }
 
 .status-text {
-  margin-top: 1rem;
-  /* mt-4 or mt-1 */
-  font-size: 0.875rem;
-  /* text-sm */
+  margin-top: 1rem; 
+  font-size: 0.875rem; 
   line-height: 1.25rem;
 }
-
-.status-error .status-text {
-  /* specific to error paragraph */
-  font-size: 0.75rem;
-  /* text-xs */
-  line-height: 1rem;
-  margin-top: 0.25rem;
-  /* mt-1 */
+.status-error .status-text { 
+    font-size: 0.75rem; 
+    line-height: 1rem;
+    margin-top: 0.25rem; 
 }
 
 
 .status-icon {
-  height: 2.5rem;
-  /* h-10 */
-  width: 2.5rem;
-  /* w-10 */
-  margin-bottom: 0.75rem;
-  /* mb-3 */
+  height: 2.5rem; 
+  width: 2.5rem; 
+  margin-bottom: 0.75rem; 
 }
-
 .error-icon {
-  color: #ef4444;
-  /* text-red-500 */
+  color: #ef4444; 
 }
 
-.status-title {
-  /* For error H3 */
+.status-title { 
   font-weight: bold;
-  font-size: 1rem;
-  /* text-base */
+  font-size: 1rem; 
   line-height: 1.5rem;
 }
 
 /* No content messages */
 .no-content-message {
   width: 100%;
-  /* max-width: 1024px; /* max-w-screen-lg */
-  /* Already on parent if it's in .app-container */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2rem;
-  /* p-8 */
-  color: white;
-  /* Default, for inside the main dark area */
+  padding: 2rem; 
+  color: white; 
 }
-
-.image-display-container>.no-content-message {
-  /* If injected into white container */
-  color: #0f172a;
-  /* Dark text if on light background */
+.image-display-container > .no-content-message { 
+    color: #0f172a; 
 }
 
 
-.no-content-title {
-  /* Same as .app-title */
-  font-size: 2.25rem;
-  /* text-4xl */
+.no-content-title { 
+  font-size: 2.25rem; 
   line-height: 2.5rem;
   font-weight: bold;
-  letter-spacing: -0.025em;
-  /* tracking-tight */
+  letter-spacing: -0.025em; 
 }
 
-.no-content-text {
-  /* Similar to .app-subtitle */
-  margin-top: 1rem;
-  /* mt-4 */
-  font-size: 1.125rem;
-  /* text-lg */
+.no-content-text { 
+  margin-top: 1rem; 
+  font-size: 1.125rem; 
   line-height: 1.75rem;
-  color: #cbd5e1;
-  /* text-slate-300 */
+  color: #cbd5e1; 
 }
-
-.image-display-container>.no-content-message .no-content-text {
-  color: #475569;
-  /* text-slate-600 for example if on light background */
+.image-display-container > .no-content-message .no-content-text {
+    color: #475569; 
 }
 
 
 .no-content-text.error-text {
-  color: #f87171;
-  /* text-red-400 */
+  color: #f87171; 
 }
-
-.image-display-container>.no-content-message .no-content-text.error-text {
-  color: #ef4444;
-  /* text-red-500 or similar, for better contrast on white */
+.image-display-container > .no-content-message .no-content-text.error-text {
+  color: #ef4444; 
 }
 
 
 /* Responsive Styles */
-@media (max-width: 546px) {
-
-  .app-container {
-    left: calc((100vw - 800px) / 2);
-  }
-
-  /* sm breakpoint */
-  .app-title,
-  .no-content-title {
-    font-size: 3rem;
-    /* sm:text-5xl */
+@media (min-width: 640px) { /* sm breakpoint */
+  .app-title, .no-content-title {
+    font-size: 3rem; 
     line-height: 1;
   }
-
-  .app-subtitle,
-  .no-content-text {
-    font-size: 1.25rem;
-    /* sm:text-xl */
+  .app-subtitle, .no-content-text {
+    font-size: 1.25rem; 
     line-height: 1.75rem;
   }
-
   .image-display-container {
-    padding: 0.5rem;
-    /* sm:p-2 */
+    padding: 0.5rem; 
   }
-
-  .button-group>*+* {
-    /* sm:space-x-4 */
+  .button-group > * + * { 
     margin-left: 1rem;
   }
-
   .image-info-text {
-    font-size: 1rem;
-    /* sm:text-base */
+    font-size: 1rem; 
     line-height: 1.5rem;
   }
-
   .spinner {
-    height: 3rem;
-    /* sm:h-12 */
-    width: 3rem;
-    /* sm:w-12 */
+    height: 3rem; 
+    width: 3rem; 
   }
-
   .status-icon {
-    height: 3rem;
-    /* sm:h-12 */
-    width: 3rem;
-    /* sm:w-12 */
+    height: 3rem; 
+    width: 3rem; 
   }
-
-  .status-loading .status-text,
-  .status-error .status-title {
-    /* for error title and loading text */
-    font-size: 1rem;
-    /* sm:text-base */
+  .status-loading .status-text, 
+  .status-error .status-title { 
+    font-size: 1rem; 
     line-height: 1.5rem;
   }
-
-  .status-error .status-text {
-    /* for error paragraph */
-    font-size: 0.875rem;
-    /* sm:text-sm */
-    line-height: 1.25rem;
-  }
+   .status-error .status-text { 
+     font-size: 0.875rem; 
+     line-height: 1.25rem;
+   }
 
   .status-message-container {
-    padding: 1.5rem;
-    /* sm:p-6 */
-  }
-
-  .image-display-container {
-    /* left: -25vw; */
-  }
-
-  .controls-container {
-    /* left: -50vw; */
-  }
-
-  .slider-group {
-    width: 80vw;
-  }
-
-  .app-footer {
-    /* left: -50vw; */
-    width: 80vw;
-    text-align: center;
+     padding: 1.5rem; 
   }
 }
