@@ -1,4 +1,6 @@
-// Interactive Scratch Image Script Version 8.0 (Targeted DOM Updates)
+
+
+// Interactive Scratch Image Script Version 8.1 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
@@ -746,7 +748,37 @@ function initApp() {
     updateDisplayOnResize(); // Initial call to set displayDimensions
 }
 
-window.addEventListener('load', () => {
-    // Double rAF to wait for React/Super.so if present, and initial layout.
-    requestAnimationFrame(() => { requestAnimationFrame(() => { initApp(); }); });
-});
+// --- Polling-basierter Initializer ---
+// Diese Funktion behebt das Problem, dass Skripte von Drittanbieter-Plattformen (z.B. Super.so)
+// das Laden des DOMs verzögern. Wir prüfen wiederholt, ob die Kern-Elemente der App
+// vorhanden sind, bevor wir die Initialisierung starten.
+function pollingInitializer() {
+    const maxVersuche = 20; // Versuche es für 5 Sekunden (20 * 250ms)
+    let anzahlVersuche = 0;
+
+    const kernElementIDs = [
+        'scratch-image-display',
+        'image-controls-container',
+        'touch-event-overlay'
+    ];
+
+    const initialisierungsIntervall = setInterval(() => {
+        const alleElementeVorhanden = kernElementIDs.every(id => document.getElementById(id));
+
+        if (alleElementeVorhanden) {
+            clearInterval(initialisierungsIntervall);
+            // Wir nutzen requestAnimationFrame, um sicherzustellen, dass der Browser die
+            // Elemente gezeichnet hat, bevor wir mit der Manipulation beginnen.
+            requestAnimationFrame(initApp);
+        } else {
+            anzahlVersuche++;
+            if (anzahlVersuche >= maxVersuche) {
+                clearInterval(initialisierungsIntervall);
+                console.error('Initialisierung fehlgeschlagen: Die Kern-Elemente der App konnten nicht rechtzeitig im DOM gefunden werden.');
+            }
+        }
+    }, 250);
+}
+
+// Ersetze den vorherigen 'load'-Listener mit unserem neuen, robusten Initializer.
+window.addEventListener('load', pollingInitializer);
