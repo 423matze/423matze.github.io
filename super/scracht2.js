@@ -1,6 +1,6 @@
 
 
-// Interactive Scratch Image Script Version 8.1 (Targeted DOM Updates)
+// Interactive Scratch Image Script Version 8.2 (Targeted DOM Updates)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, dedicated touch overlay, Initial CTA, and
@@ -15,8 +15,8 @@ const INITIAL_QUAD_WIDTH = TARGET_IMAGE_WIDTH / INITIAL_GRID_COLS;
 const INITIAL_QUAD_HEIGHT = TARGET_IMAGE_HEIGHT / INITIAL_GRID_ROWS;
 const MAX_QUAD_DEPTH = 6; // Max depth for subdivision
 const MIN_QUAD_SIZE_CONFIG = 2; // Min quad dimension to allow further subdivision
-const TAP_MOVEMENT_THRESHOLD = 10; // Pixels for tap vs drag
-const PENCIL_REVEAL_RADIUS_LOGICAL = 25; // Radius for area reveal
+const TAP_MOVEMENT_THRESHOLD = 23; // Pixels for tap vs drag 10
+const PENCIL_REVEAL_RADIUS_LOGICAL = 42; // Radius for area reveal 25
 
 // --- Application State ---
 let imageUrls = [];
