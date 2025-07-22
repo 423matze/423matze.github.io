@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.1       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.2       │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -1497,7 +1497,19 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
     .notion-collection-card {
         height: fit-content;
-        width: 100% !i;
+        width: calc(100vw - 46px) !important;
+    }
+    .notion-collection-card {
+    height: 100%;
+    width: auto;
+    position: relative;
+    overflow: visible;
+    background: transparent;
+    border-radius: var(--m423-radius) !important;
+    border: 1px solid var(--color-bg-default);
+    box-shadow: none !important;
+    transition: transform .3s ease-in-out, background .3s ease-in-out, box-shadow .3s ease-in-out !important;
+    cursor: pointer;
     }
 
     /* Toggle Mobile */
