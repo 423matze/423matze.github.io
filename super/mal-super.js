@@ -1,6 +1,11 @@
-//
-// MALSuper Custom Script v4.2 - desktop und mobile optimiert
-//
+/*
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 4.3     │
+│   DATE: 2025-07-22 - Matze Lenz                  │
+│                                                  │
+└──────────────────────────────────────────────────┘
+*/
 
 window.MALSuper = (function () {
     const SELECTOR = "code:not([super-embed-seen])";
@@ -20,9 +25,11 @@ window.MALSuper = (function () {
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
     }
+    
     function getThemePref() {        
         return localStorage.getItem(storageKey);
     }
+    
     function initTheme() {
         if(logging) console.log("INIT THEME");
         
@@ -37,7 +44,7 @@ window.MALSuper = (function () {
             if(logging) console.log("Set USER Preference = " + userPref );
             setTheme(userPref);
         }
-        // Set the OS preferences
+        // Set the OS preferences on autochange
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!getThemePref()) {
                 let newTheme = e.matches ? 'dark' : 'light';
@@ -46,11 +53,13 @@ window.MALSuper = (function () {
             }
         });
     }
+
+    
     function theme_toggle(event) {
         if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
-        if(logging) console.log("Set User Preference = " + userPref );
+        if(logging) console.log("Set User Preference = " + newTheme );
         setTheme(newTheme);
         localStorage.setItem(storageKey, newTheme);
     }
