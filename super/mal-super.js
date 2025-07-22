@@ -1,5 +1,5 @@
 //
-// MALSuper Custom Script v4.1 - desktop und mobile optimiert
+// MALSuper Custom Script v4.2 - desktop und mobile optimiert
 //
 
 window.MALSuper = (function () {
@@ -7,6 +7,8 @@ window.MALSuper = (function () {
     const storageKey = "color-preference";
     let toggle_state = false;
     let yPos = 0;
+    //
+    const logging = true;
 
     // SPA/Observer State
     let observer = null;            // Toggle-Status-Observer
@@ -18,20 +20,28 @@ window.MALSuper = (function () {
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
     }
-    function getThemePref() {
+    function getThemePref() {        
         return localStorage.getItem(storageKey);
     }
     function initTheme() {
+        if(logging) console.log("INIT THEME");
+        
         let userPref = getThemePref();
-        if (!userPref) {
+        if(logging) console.log("GET Theme: " + userPref);
+        
+        if (!userPref) {            
             let sysTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            if(logging) console.log("Set SYS Theme = " + sysTheme );
             setTheme(sysTheme);
         } else {
+            if(logging) console.log("Set USER Preference = " + userPref );
             setTheme(userPref);
         }
+        // Set the OS preferences
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!getThemePref()) {
                 let newTheme = e.matches ? 'dark' : 'light';
+                if(logging) console.log("Set SYS Preference = " + newTheme );
                 setTheme(newTheme);
             }
         });
@@ -40,6 +50,7 @@ window.MALSuper = (function () {
         if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
         let newTheme = current === 'dark' ? 'light' : 'dark';
+        if(logging) console.log("Set User Preference = " + userPref );
         setTheme(newTheme);
         localStorage.setItem(storageKey, newTheme);
     }
@@ -143,7 +154,7 @@ window.MALSuper = (function () {
         });
     }
 
-    // toggleSAFE: Robuster Toggle-Observer mit Reset auf SPA
+    // ToggleSAFE: Robuster Toggle-Observer mit Reset auf SPA
     function smartInitToggleObservers() {
         // Vorherige Observer disconnected!
         console.log("smartInitToggleObservers: started");
@@ -203,30 +214,7 @@ window.MALSuper = (function () {
         const notionRoot = document.querySelector('.notion-root') || document.body;
         addToggleObserver.observe(notionRoot, { childList: true, subtree: true });
     }
-
-    // test function route change
-    function routeChangeHandler() {
-        window.MALSuper.init();
-        console.log("Route Change Handler fired > MALSuper.init()");
-    }
-
-    // SPA: Nach jedem RouteChange oder popstate alles re-initialisieren
-    /*
-    function registerSPARouteHooks() {
-        if (typeof next !== 'undefined' && next.router && next.router.events) {
-            // Old method using 'next'
-            next.router.events.on('routeChangeComplete', routeChangeHandler);
-            console.log("Next.js route change listener set up.");
-        } else if (window.events) {
-            // New method using 'window.events'
-            window.events.on('routeChangeComplete', routeChangeHandler);
-            console.log("Window events route change listener set up.");
-        } else {
-            console.error("The platform doesn't support the required event listeners for route changes.");
-        }
-
-    }
-    */
+    
     // Toogle und GSAP Bg -> die nicht sauber auf Mobile initiert werden wegen Super hydration
     function delayedInits() {
         smartInitToggleObservers();
