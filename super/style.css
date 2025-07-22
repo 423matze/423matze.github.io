@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.2       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.3       │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -1485,7 +1485,9 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     .notion-collection-gallery.small {
-        grid-template-columns: auto auto !important;
+        width: calc(100vw - var(--padding-mob)*2);
+        grid-template-columns: calc((100vw - var(--padding-mob) * 3) / 2) calc((100vw - var(--padding-mob) * 3) / 2)  !important;
+        grid-template-rows: max-content;
     }
 
     .notion-collection-gallery.medium,
@@ -1495,9 +1497,13 @@ html.theme-dark .sun-and-moon>.moon>circle {
         padding: 0 !important;
     }
 
-    .notion-collection-card {
+    .notion-collection-gallery.large .notion-collection-card {
         height: fit-content;
-        width: calc(100vw - 46px) !important;
+        width: calc(100vw - var(--padding-mob) * 2) !important;
+    }
+    .notion-collection-gallery.small .notion-collection-card {
+        height: 100%;
+        width: 100% !important;
     }
     .notion-collection-card {
     height: 100%;
@@ -1510,6 +1516,12 @@ html.theme-dark .sun-and-moon>.moon>circle {
     box-shadow: none !important;
     transition: transform .3s ease-in-out, background .3s ease-in-out, box-shadow .3s ease-in-out !important;
     cursor: pointer;
+    }
+
+    .notion-collection-card__cover.small {
+    height: 36vh !important;
+    min-height: 30vh !important;
+    max-height: 42vh !important;
     }
 
     /* Toggle Mobile */
