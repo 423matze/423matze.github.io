@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.3       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.4       │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -51,7 +51,7 @@
     --content-lg: 1080px;
     --content-md: 840px;
     --content-sm: 500px;
-    --column-spacing: 2em !important;
+    --column-spacing: 42px !important;
     --m423-radius: 23px !important;
     --m423-width: 1440px !important;
 
@@ -615,9 +615,9 @@ blockquote,
     width: 100%;
     bottom: 0;
     margin: 0;
-    border-radius: calc(var(--m423-radius) - 4px);
-    padding: var(--collection-card-content-padding) !important;
-    background: var(--color-card-bg);
+    border-radius: calc(var(--m423-radius));
+    padding: var(--padding-mob) !important;
+    background: var(--color-bg-default);
     z-index: 9;
 }
 
@@ -1365,7 +1365,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     .super-content {
-        padding-top: 12vh !important;
+        padding-top: 23px !important;
     }
 
     /* --- Typography for Mobile --- */
@@ -1488,6 +1488,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         width: calc(100vw - var(--padding-mob)*2);
         grid-template-columns: calc((100vw - var(--padding-mob) * 3) / 2) calc((100vw - var(--padding-mob) * 3) / 2)  !important;
         grid-template-rows: max-content;
+        gap: var(--padding-mob) !important;
     }
 
     .notion-collection-gallery.medium,
@@ -1519,9 +1520,14 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     .notion-collection-card__cover.small {
-    height: 36vh !important;
-    min-height: 30vh !important;
-    max-height: 42vh !important;
+        height: 36vh !important;
+        min-height: 30vh !important;
+        max-height: 42vh !important;
+    }
+
+    .notion-collection-gallery.small .notion-collection-card__property.notion-semantic-string {
+        font-size: 1rem !important;
+        letter-spacing: 0.1rem;
     }
 
     /* Toggle Mobile */
