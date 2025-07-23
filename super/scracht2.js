@@ -1,11 +1,12 @@
-// Interactive Scratch Image Script Version 16.0 (Touch State Fix)
+// Interactive Scratch Image Script Version 17.0 (Robust Touch Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version fixes a bug where subsequent swipes failed on touch devices
-// by preventing default browser actions on touch events.
+// This version fixes regressions from v16 by using a timestamp guard
+// to prevent emulated mouse events, restoring all control functionality
+// and ensuring consistent swipe detection on touch devices.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -25,7 +26,7 @@ let imageUrls = [];
 let currentImageIndex = 0;
 let isLoading = true;
 let error = null;
-let quadBorderRadius = 0;
+let quadBorderRadius = 50; // Default to 50% for circles
 let topLevelQuads = null;
 let originalImage = null;
 let displayDimensions = null;
@@ -39,6 +40,7 @@ let isActiveTouchInteraction = false;
 let isMouseInteractionActive = false;
 let scheduledFrame = false;
 let lastInteractionEvent = null;
+let lastTouchEndTime = 0; // Timestamp to guard against emulated mouse events
 
 // --- Utility Functions ---
 function getAverageColor(sourceImageData, sourceImageWidth, regionX, regionY, regionWidth, regionHeight) {
@@ -117,13 +119,12 @@ function findQuadsInRadius(logicalX, logicalY, radius, quads) {
     let foundQuads = [];
 
     function checkQuad(quad) {
-        // Geometric check: Does the interaction radius overlap with the quad's bounding box?
         const quadCenterX = quad.x + quad.width / 2;
         const quadCenterY = quad.y + quad.height / 2;
         const distX = Math.abs(logicalX - quadCenterX);
         const distY = Math.abs(logicalY - quadCenterY);
         if (distX > (quad.width / 2 + radius) || distY > (quad.height / 2 + radius)) {
-            return; // Not close enough, no need to check further or check children.
+            return;
         }
 
         const closestX = Math.max(quad.x, Math.min(logicalX, quad.x + quad.width));
@@ -131,12 +132,9 @@ function findQuadsInRadius(logicalX, logicalY, radius, quads) {
         const distanceSquared = (logicalX - closestX) ** 2 + (logicalY - closestY) ** 2;
 
         if (distanceSquared < radius ** 2) {
-            // Interaction is within this quad's area.
             if (quad.isDivided && quad.children) {
-                // If it's a parent, we must recurse to check its children.
                 quad.children.forEach(checkQuad);
             } else {
-                // If it's a leaf node, check if it's interactable and add it.
                 if (isQuadInteractable(quad)) {
                     foundQuads.push(quad);
                 }
@@ -232,11 +230,7 @@ function loadImageAndSetupQuads(imageUrl) {
 
 function isQuadInteractable(quad) {
     if (!quad || quad.isRevealed) return false;
-    // A quad is interactable if it hasn't been revealed and is either
-    // ready to be subdivided, or it's at max depth and ready to be revealed.
-    const canSubdivide = quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && quad.width / 2 >= MIN_QUAD_SIZE_CONFIG;
-    const canRevealFinal = !quad.isDivided; // At any depth, if it's a leaf, it can be acted upon.
-    
+    const canRevealFinal = !quad.isDivided;
     return !quad.isRevealed && canRevealFinal;
 }
 
@@ -262,7 +256,6 @@ function handleQuadInteraction(quad, isCascade = false) {
             quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
             quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
             quadEl.style.borderRadius = '0%';
-            // quadEl.style.backgroundColor = ''; // <<< FIX: Do not remove background color to prevent flickering.
             quadEl.setAttribute('aria-label', `Image segment detail revealed.`);
         }
         attemptToMergeParent(quad.id);
@@ -288,11 +281,12 @@ function processInteraction(e) {
 }
 
 function handlePointerDown(e) {
-    if (isLoading || error) return;
     const isTouchEvent = 'touches' in e;
-    if (isTouchEvent) {
-        e.preventDefault(); // Prevent emulated mouse events and other defaults
+    // Guard against emulated mouse events after a touch interaction.
+    if (!isTouchEvent && Date.now() - lastTouchEndTime < 500) {
+        return;
     }
+    if (isLoading || error) return;
     
     dismissInitialCta();
 
@@ -310,11 +304,6 @@ function handlePointerMove(e) {
     if ((isTouchEvent && !isActiveTouchInteraction) || (!isTouchEvent && !isMouseInteractionActive)) {
       return;
     }
-    
-    // For active touch moves, prevent default browser behavior like scrolling.
-    if (isTouchEvent) {
-        e.preventDefault();
-    }
 
     lastInteractionEvent = e;
     if (!scheduledFrame) {
@@ -324,14 +313,9 @@ function handlePointerMove(e) {
 }
 
 function handlePointerUp(e) {
-    // Prevent the default action (like firing a click event) for the touchend.
-    const isTouchEvent = 'touches' in e;
-    if (isTouchEvent) {
-        e.preventDefault();
-    }
-
     if (isActiveTouchInteraction) {
         document.body.style.overflow = ''; // Re-enable scroll
+        lastTouchEndTime = Date.now(); // Record when the touch sequence ends
     }
     isActiveTouchInteraction = false;
     isMouseInteractionActive = false;
@@ -384,10 +368,8 @@ function renderSingleQuadElement(quadData) {
 function initialFullRenderQuadsDOM() {
     if (!scratchImageDisplayEl || !topLevelQuads || !originalImage) return;
 
-    // Always get the most current dimensions of the container right before rendering.
     const rect = scratchImageDisplayEl.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) {
-        console.warn("Render container has no size. Aborting quad render.");
         return;
     }
     displayDimensions = { width: rect.width, height: rect.height };
@@ -413,7 +395,7 @@ function renderDisplayAreaContent() {
     scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
 
     if (isLoading) {
-        // No spinner, just show the black background of .image-display-area
+        // No spinner, just show the black background
     } else if (error) {
         scratchImageDisplayEl.insertAdjacentHTML('beforeend', `<div class="status-message-container status-error"><p class="status-title">Error</p><p class="status-text">${error}</p></div>`);
     } else if (topLevelQuads) {
@@ -457,7 +439,7 @@ function handleNextClick() {
 
 function handleBorderRadiusChange(e) {
     quadBorderRadius = parseInt(e.target.value, 10);
-    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius * 2}%`;
+    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius}%`;
     const quads = scratchImageDisplayEl.querySelectorAll('[role="button"]');
     quads.forEach(quadEl => {
         const { found } = findQuadAndParent(quadEl.id, topLevelQuads);
@@ -465,7 +447,6 @@ function handleBorderRadiusChange(e) {
             quadEl.style.borderRadius = `${quadBorderRadius}%`;
         }
     });
-    // Update CTA
     if (initialCtaContentEl) {
         initialCtaContentEl.style.borderRadius = `${quadBorderRadius}%`;
     }
@@ -507,6 +488,13 @@ function initApp() {
         renderApp();
         return;
     }
+    
+    // Set initial UI state from defaults
+    borderRadiusSliderEl.value = quadBorderRadius;
+    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius}%`;
+    if (initialCtaContentEl) {
+        initialCtaContentEl.style.borderRadius = `${quadBorderRadius}%`;
+    }
 
     // Event Listeners
     prevImageBtnEl.addEventListener('click', handlePrevClick);
@@ -524,14 +512,12 @@ function initApp() {
 
     initialCtaOverlayEl.addEventListener('click', dismissInitialCta);
 
-    // Debounced resize handler
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(handleResize, 100);
     });
 
-    // Initial Load
     if (imageUrls.length > 0) {
         loadImageAndSetupQuads(imageUrls[currentImageIndex]);
     } else {
