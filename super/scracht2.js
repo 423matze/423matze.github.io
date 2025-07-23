@@ -1,4 +1,4 @@
-// Interactive Scratch Image Script Version 14.0 (Flicker Fix)
+// Interactive Scratch Image Script Version 14.1 (Flicker Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
@@ -13,7 +13,7 @@ const INITIAL_GRID_COLS = 5;
 const INITIAL_GRID_ROWS = 3;
 const MAX_QUAD_DEPTH = 6;
 const MIN_QUAD_SIZE_CONFIG = 4;
-const TAP_MOVEMENT_THRESHOLD = 40;
+const TAP_MOVEMENT_THRESHOLD = 10;
 const PENCIL_REVEAL_RADIUS_LOGICAL = 23; // Radius for area reveal
 const AUTO_REVEAL_DEPTH_THRESHOLD = 6;
 const CASCADE_REVEAL_DELAY = 42;
