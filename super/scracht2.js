@@ -1,10 +1,11 @@
-// Interactive Scratch Image Script Version 15.0 (Touch Swipe Fix)
+// Interactive Scratch Image Script Version 16.0 (Touch State Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version fixes a bug where swipe gestures failed on some touch devices.
+// This version fixes a bug where subsequent swipes failed on touch devices
+// by preventing default browser actions on touch events.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -288,8 +289,13 @@ function processInteraction(e) {
 
 function handlePointerDown(e) {
     if (isLoading || error) return;
-    dismissInitialCta();
     const isTouchEvent = 'touches' in e;
+    if (isTouchEvent) {
+        e.preventDefault(); // Prevent emulated mouse events and other defaults
+    }
+    
+    dismissInitialCta();
+
     if (isTouchEvent) {
         document.body.style.overflow = 'hidden'; // Prevent scroll on iOS
         isActiveTouchInteraction = true;
@@ -304,6 +310,11 @@ function handlePointerMove(e) {
     if ((isTouchEvent && !isActiveTouchInteraction) || (!isTouchEvent && !isMouseInteractionActive)) {
       return;
     }
+    
+    // For active touch moves, prevent default browser behavior like scrolling.
+    if (isTouchEvent) {
+        e.preventDefault();
+    }
 
     lastInteractionEvent = e;
     if (!scheduledFrame) {
@@ -313,6 +324,12 @@ function handlePointerMove(e) {
 }
 
 function handlePointerUp(e) {
+    // Prevent the default action (like firing a click event) for the touchend.
+    const isTouchEvent = 'touches' in e;
+    if (isTouchEvent) {
+        e.preventDefault();
+    }
+
     if (isActiveTouchInteraction) {
         document.body.style.overflow = ''; // Re-enable scroll
     }
