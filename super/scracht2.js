@@ -1,4 +1,4 @@
-// Interactive Scratch Image Script Version 18.0 (Gesture Race Condition Fix)
+// Interactive Scratch Image Script Version 19.0 (Gesture Race Condition Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
