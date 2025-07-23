@@ -1,10 +1,10 @@
-// Interactive Scratch Image Script Version 14.1 (Flicker Fix)
+// Interactive Scratch Image Script Version 15.0 (Touch Swipe Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version fixes the black flicker when revealing the deepest quads.
+// This version fixes a bug where swipe gestures failed on some touch devices.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -12,11 +12,10 @@ const TARGET_IMAGE_HEIGHT = 720;
 const INITIAL_GRID_COLS = 5;
 const INITIAL_GRID_ROWS = 3;
 const MAX_QUAD_DEPTH = 6;
-const MIN_QUAD_SIZE_CONFIG = 4;
-const TAP_MOVEMENT_THRESHOLD = 10;
-const PENCIL_REVEAL_RADIUS_LOGICAL = 23; // Radius for area reveal
-const AUTO_REVEAL_DEPTH_THRESHOLD = 6;
-const CASCADE_REVEAL_DELAY = 42;
+const MIN_QUAD_SIZE_CONFIG = 2;
+const PENCIL_REVEAL_RADIUS_LOGICAL = 35; // Radius for area reveal
+const AUTO_REVEAL_DEPTH_THRESHOLD = 3;
+const CASCADE_REVEAL_DELAY = 10;
 const INIT_POLL_INTERVAL = 100; // ms
 const INIT_MAX_ATTEMPTS = 50; // 5 seconds total
 
@@ -35,7 +34,6 @@ let isInitialCtaDismissed = false;
 let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, initialCtaOverlayEl, initialCtaContentEl;
 
 // --- Interaction State ---
-let touchStartX = 0, touchStartY = 0;
 let isActiveTouchInteraction = false;
 let isMouseInteractionActive = false;
 let scheduledFrame = false;
@@ -277,8 +275,10 @@ function processInteraction(e) {
         return;
     }
     const rect = scratchImageDisplayEl.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const isTouchEvent = 'touches' in e && e.touches.length > 0;
+    const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
+    const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
+
     const logicalX = ((clientX - rect.left) / displayDimensions.width) * TARGET_IMAGE_WIDTH;
     const logicalY = ((clientY - rect.top) / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
     const quadsToProcess = findQuadsInRadius(logicalX, logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, topLevelQuads);
@@ -289,12 +289,10 @@ function processInteraction(e) {
 function handlePointerDown(e) {
     if (isLoading || error) return;
     dismissInitialCta();
-    const isTouchEvent = !!e.touches;
+    const isTouchEvent = 'touches' in e;
     if (isTouchEvent) {
         document.body.style.overflow = 'hidden'; // Prevent scroll on iOS
         isActiveTouchInteraction = true;
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
     } else {
         isMouseInteractionActive = true;
     }
@@ -302,7 +300,11 @@ function handlePointerDown(e) {
 }
 
 function handlePointerMove(e) {
-    if ((e.touches && !isActiveTouchInteraction) || (!e.touches && !isMouseInteractionActive)) return;
+    const isTouchEvent = 'touches' in e;
+    if ((isTouchEvent && !isActiveTouchInteraction) || (!isTouchEvent && !isMouseInteractionActive)) {
+      return;
+    }
+
     lastInteractionEvent = e;
     if (!scheduledFrame) {
         scheduledFrame = true;
