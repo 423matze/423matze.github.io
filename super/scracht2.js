@@ -1,11 +1,12 @@
-// Interactive Scratch Image Script Version 19.0 (Gesture Race Condition Fix)
+// Interactive Scratch Image Script Version 20.0 (Proper Gesture Handling)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version fixes a critical race condition on touch devices by deferring
-// initial interaction processing, ensuring swipe gestures are always recognized.
+// This version implements a robust press/drag/release gesture model that
+// separates event detection from visual processing, fixing the longstanding bug
+// where swipes would fail if started on unrevealed quads.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -38,7 +39,8 @@ let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, 
 let isActiveTouchInteraction = false;
 let isMouseInteractionActive = false;
 let scheduledFrame = false;
-let lastInteractionEvent = null;
+let interactionStartCoords = null; // Stores {x, y} on pointer down
+let hasMoved = false; // Distinguishes between a tap and a drag
 let lastTouchEndTime = 0; // Timestamp to guard against emulated mouse events
 
 // --- Utility Functions ---
@@ -262,27 +264,32 @@ function handleQuadInteraction(quad, isCascade = false) {
 }
 
 // --- Interaction Handlers ---
-function processInteraction(e) {
-    if (!topLevelQuads || (!isActiveTouchInteraction && !isMouseInteractionActive) || !displayDimensions) {
-        scheduledFrame = false;
+function getCoordsFromEvent(e) {
+    if (e.touches && e.touches.length > 0) {
+        return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+    }
+    if (e.changedTouches && e.changedTouches.length > 0) {
+        return { clientX: e.changedTouches[0].clientX, clientY: e.changedTouches[0].clientY };
+    }
+    return { clientX: e.clientX, clientY: e.clientY };
+}
+
+function processInteraction(clientX, clientY) {
+    if (!topLevelQuads || !displayDimensions) {
         return;
     }
     const rect = scratchImageDisplayEl.getBoundingClientRect();
-    const isTouchEvent = 'touches' in e && e.touches.length > 0;
-    const clientX = isTouchEvent ? e.touches[0].clientX : e.clientX;
-    const clientY = isTouchEvent ? e.touches[0].clientY : e.clientY;
-
     const logicalX = ((clientX - rect.left) / displayDimensions.width) * TARGET_IMAGE_WIDTH;
     const logicalY = ((clientY - rect.top) / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
     const quadsToProcess = findQuadsInRadius(logicalX, logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, topLevelQuads);
     quadsToProcess.forEach(quad => handleQuadInteraction(quad));
-    scheduledFrame = false;
 }
 
 function handlePointerDown(e) {
     const isTouchEvent = 'touches' in e;
     // Guard against emulated mouse events after a touch interaction.
     if (!isTouchEvent && Date.now() - lastTouchEndTime < 500) {
+        e.preventDefault();
         return;
     }
     if (isLoading || error) return;
@@ -296,14 +303,11 @@ function handlePointerDown(e) {
         isMouseInteractionActive = true;
     }
     
-    // Defer the initial interaction processing using requestAnimationFrame.
-    // This prevents a race condition on touch devices where immediate DOM manipulation
-    // can cause the browser to cancel the touch gesture.
-    lastInteractionEvent = e;
-    if (!scheduledFrame) {
-        scheduledFrame = true;
-        requestAnimationFrame(() => processInteraction(lastInteractionEvent));
-    }
+    hasMoved = false;
+    const { clientX, clientY } = getCoordsFromEvent(e);
+    interactionStartCoords = { x: clientX, y: clientY };
+
+    console.log(`Start: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
 }
 
 function handlePointerMove(e) {
@@ -312,20 +316,44 @@ function handlePointerMove(e) {
       return;
     }
 
-    lastInteractionEvent = e;
+    hasMoved = true;
+    const { clientX, clientY } = getCoordsFromEvent(e);
+
+    // Throttle with rAF
     if (!scheduledFrame) {
         scheduledFrame = true;
-        requestAnimationFrame(() => processInteraction(lastInteractionEvent));
+        requestAnimationFrame(() => {
+            // Check if interaction is still active when the frame runs
+            if (isActiveTouchInteraction || isMouseInteractionActive) {
+                processInteraction(clientX, clientY);
+                console.log(`Move: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
+            }
+            scheduledFrame = false;
+        });
     }
 }
 
 function handlePointerUp(e) {
-    if (isActiveTouchInteraction) {
-        document.body.style.overflow = ''; // Re-enable scroll
-        lastTouchEndTime = Date.now(); // Record when the touch sequence ends
+    const isTouchEvent = 'touches' in e;
+    const wasActive = isActiveTouchInteraction || isMouseInteractionActive;
+
+    const { clientX, clientY } = getCoordsFromEvent(e);
+    console.log(`End: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
+
+    // If it was an active interaction but no movement was detected, process it as a tap.
+    if (wasActive && !hasMoved && interactionStartCoords) {
+        processInteraction(interactionStartCoords.x, interactionStartCoords.y);
+    }
+    
+    // Reset state AFTER potential tap processing
+    if (isTouchEvent) {
+        document.body.style.overflow = '';
+        lastTouchEndTime = Date.now();
     }
     isActiveTouchInteraction = false;
     isMouseInteractionActive = false;
+    hasMoved = false;
+    interactionStartCoords = null;
 }
 
 function dismissInitialCta() {
