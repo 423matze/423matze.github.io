@@ -1,12 +1,11 @@
-// Interactive Scratch Image Script Version 20.0 (Proper Gesture Handling)
+// Interactive Scratch Image Script Version 21.0 (Correct Architecture)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version implements a robust press/drag/release gesture model that
-// separates event detection from visual processing, fixing the longstanding bug
-// where swipes would fail if started on unrevealed quads.
+// This version implements a robust architecture with a stable interaction overlay,
+// ensuring gestures are handled correctly regardless of where they start.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -33,7 +32,7 @@ let displayDimensions = null;
 let isInitialCtaDismissed = false;
 
 // --- DOM Element References ---
-let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, initialCtaOverlayEl, initialCtaContentEl;
+let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, initialCtaOverlayEl, initialCtaContentEl, interactionOverlayEl;
 
 // --- Interaction State ---
 let isActiveTouchInteraction = false;
@@ -373,6 +372,7 @@ function renderSingleQuadElement(quadData) {
     quadEl.style.border = '1px solid rgba(255,255,255,0.05)';
     quadEl.style.overflow = 'hidden';
     quadEl.style.transition = 'border-radius 0.2s ease-out, background-color 0.2s';
+    quadEl.style.pointerEvents = 'none'; // Quads should not interfere with the overlay
 
     const scaledX = (quadData.x / TARGET_IMAGE_WIDTH) * displayDimensions.width;
     const scaledY = (quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
@@ -497,6 +497,7 @@ function handleResize() {
 function initializeAppState() {
     appRootEl = document.getElementById('vanilla-app-root');
     scratchImageDisplayEl = document.getElementById('scratch-image-display');
+    interactionOverlayEl = document.getElementById('interaction-overlay');
     imageControlsContainerEl = document.getElementById('image-controls-container');
     prevImageBtnEl = document.getElementById('prev-image-btn');
     nextImageBtnEl = document.getElementById('next-image-btn');
@@ -505,7 +506,7 @@ function initializeAppState() {
     borderRadiusLabelEl = document.getElementById('border-radius-label');
     initialCtaOverlayEl = document.getElementById('initial-cta-overlay');
     initialCtaContentEl = document.getElementById('initial-cta-content');
-    return appRootEl && scratchImageDisplayEl && imageControlsContainerEl;
+    return appRootEl && scratchImageDisplayEl && imageControlsContainerEl && interactionOverlayEl;
 }
 
 function initApp() {
@@ -536,11 +537,13 @@ function initApp() {
     nextImageBtnEl.addEventListener('click', handleNextClick);
     borderRadiusSliderEl.addEventListener('change', handleBorderRadiusChange);
     
-    // Unified pointer events
-    scratchImageDisplayEl.addEventListener('mousedown', handlePointerDown);
+    // Unified pointer events on the stable overlay
+    interactionOverlayEl.addEventListener('mousedown', handlePointerDown);
+    interactionOverlayEl.addEventListener('touchstart', handlePointerDown, { passive: false });
+    
+    // Global listeners for move and up events
     document.addEventListener('mousemove', handlePointerMove);
     document.addEventListener('mouseup', handlePointerUp);
-    scratchImageDisplayEl.addEventListener('touchstart', handlePointerDown, { passive: false });
     document.addEventListener('touchmove', handlePointerMove, { passive: false });
     document.addEventListener('touchend', handlePointerUp);
     document.addEventListener('touchcancel', handlePointerUp);
