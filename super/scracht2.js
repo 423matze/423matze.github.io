@@ -1,12 +1,11 @@
-// Interactive Scratch Image Script Version 17.0 (Robust Touch Fix)
+// Interactive Scratch Image Script Version 18.0 (Gesture Race Condition Fix)
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version fixes regressions from v16 by using a timestamp guard
-// to prevent emulated mouse events, restoring all control functionality
-// and ensuring consistent swipe detection on touch devices.
+// This version fixes a critical race condition on touch devices by deferring
+// initial interaction processing, ensuring swipe gestures are always recognized.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
@@ -296,7 +295,15 @@ function handlePointerDown(e) {
     } else {
         isMouseInteractionActive = true;
     }
-    processInteraction(e); // Process first tap/click immediately
+    
+    // Defer the initial interaction processing using requestAnimationFrame.
+    // This prevents a race condition on touch devices where immediate DOM manipulation
+    // can cause the browser to cancel the touch gesture.
+    lastInteractionEvent = e;
+    if (!scheduledFrame) {
+        scheduledFrame = true;
+        requestAnimationFrame(() => processInteraction(lastInteractionEvent));
+    }
 }
 
 function handlePointerMove(e) {
