@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.4       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.5       │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -34,8 +34,8 @@
     --color-secundary-light: 0, 0%, 98%;
 
     /* -- Abstracted Colors -- */
-    --color-primary-100-dark: rgba(0, 226, 171, 1);
-    --color-primary-100-light: rgba(226, 0, 177, 1);
+    --color-primary-100-dark: hsl(165.4deg 100% 44.31%);
+    --color-primary-100-light: hsl(313.01deg 100% 44.31%);
     --color-text-default: rgba(240, 238, 239, 1) !important;
     --color-card-bg: var(--color-bg-default) !important;
     --color-card-bg-hover: #292929 !important;
@@ -97,6 +97,7 @@ html.theme-light {
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-ml.png');
     --pill-bg-color-default: hsla(var(--color-primary-light), 0.5);
     --pill-text-color-default: hsla(var(--color-secundary-dark), 0.9);
+    --menu-trigger: hsla(var(--color-primary-light), 0.23);
 }
 
 html.theme-dark {
@@ -117,6 +118,7 @@ html.theme-dark {
     --mode-potrait-m: url('https://res.cloudinary.com/assest423/image/upload/v1723626893/potraits/matze423-md.png');
     --pill-bg-color-default: hsla(var(--color-primary-dark), 0.5);
     --pill-text-color-default: hsla(var(--color-secundary-light), 0.9);
+    --menu-trigger: hsla(var(--color-primary-dark), 0.23);
 }
 
 /* Fallback for Apple-specific font rendering */
@@ -1369,12 +1371,24 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 
     /* --- Typography for Mobile --- */
+    
     h1.notion-heading.color-green.notion-semantic-string strong {
         font-size: 3.8rem !important;
     }
 
     .page__index .notion-heading.color-green.notion-semantic-string strong {
         font-size: 5.8rem !important;
+    }
+
+    .notion-semantic-string .link {
+        display: block;
+        color: var(--link-text);
+        text-decoration-color: var(--link-text);
+        text-decoration-thickness: 1.42px;
+        text-underline-offset: 8px;
+        opacity: .8;
+        transition: all .2s ease-in, opacity .1s ease-in;
+        margin: 1rem 0;
     }
 
     /* --- Layout for Mobile --- */
@@ -1413,7 +1427,8 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
     .notion-button,
     .notion-button__content {
-        width: 100%;
+        width: calc(100% - var(--padding-mob));
+        margin: auto;
     }
 
     blockquote,
@@ -1678,7 +1693,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         width: 62px;
         /* A good touch-target size */
         height: 62px;
-        background-color: hsl(87.77deg 100% 48.61% / 42%);
+        background-color: var(--menu-trigger);
         border-radius: 50%;
         opacity: 0;
         transition: opacity 0.15s ease-out;
@@ -1690,7 +1705,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     .my-menuburger:hover::before,
     .super-navbar__logo:hover::before,
     .theme-toggle:hover::before {
-        opacity: 1;
+        opacity: 0.4;
     }
 
 
