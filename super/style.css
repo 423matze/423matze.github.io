@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.8       │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.10      │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -617,13 +617,13 @@ blockquote,
 }
 
 .notion-collection-card__cover.medium {
-    height: 22rem !important;
-    max-height: 42rem !important;
+    height: 23vh !important;
+    max-height: 22rem !important;
 }
 
 .notion-collection-card__cover.large {
-    height: 24rem !important;
-    min-height: 32rem !important;
+    height: 33vh !important;
+    min-height: 23rem !important;
 }
 
 /* Card Content */
@@ -635,7 +635,7 @@ blockquote,
     margin: 0;
     border-radius: calc(var(--m423-radius));
     padding: var(--padding-mob) !important;
-    background: var(--color-bg-default);
+    background: transparent;
     z-index: 9;
 }
 
@@ -956,11 +956,9 @@ img {
     margin: 0;
     position: relative;
     align-items: unset;
-    background: white;
 }
 
 article>.notion-image {
-    width: calc(var(--content-lg) - var(--m423-radius)*4) !important;
 }
 
 .notion-image.normal {
@@ -970,24 +968,17 @@ article>.notion-image {
 }
 
 .notion-image.page-width {
-    width: 100% !important;
-    max-width: calc(var(--content-lg) - var(--m423-radius)*2);
+    max-width: calc(var(--content-xl) - var(--m423-radius)*2);
     margin: 2rem auto;
 }
 
-.notion-image.algin-left {}
+.notion-image.algin-left { align-items: flex-start;}
 
-.notion-image.algin-right {}
+.notion-image.algin-right {align-items: flex-end;}
 
 .notion-image.align-center {
-    align-items: flex-start;
+    align-items: center;
 }
-
-
-
-
-
-
 
 article>.notion-image.page-width:nth-child(5) {
     width: calc(100% - var(--padding-desktop) * 2) !important;
@@ -1031,9 +1022,38 @@ article>.notion-image.page-width:nth-child(5) {
 /* --- Videos (Embeds) --- */
 /* Notion embeds are used for videos YOUTUBE*/
 
-.notion-embed {
+.super-embed:has( .iframe ) {
     width: 100%;
     align-self: center;
+}
+
+/* Video Code Embeded */
+
+.super-embed:has(> iframe) {
+    width: calc(100% - var(--m423-radius) * 4);
+    max-width: calc(var(--content-xl) - var(--m423-radius) * 2);
+    display: flex;
+    margin: 2rem auto;
+    border-radius: var(--m423-radius);
+    overflow: hidden;
+}
+iframe[title="YouTube video player"] {
+    width: var(--content-xl);
+    height:auto;
+    aspect-ratio: 16/9;
+    margin: auto;
+}
+/* Notion embed Video z.b. youtube */
+
+.notion-embed__container>iframe[title="www.youtube.com"] {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: auto;
+    margin: auto !important;
 }
 
 .notion-embed__content {
@@ -1603,7 +1623,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         overflow: visible;
         background: transparent;
         border-radius: var(--m423-radius) !important;
-        border: 1px solid var(--color-bg-default);
+        border: 0;
         box-shadow: none !important;
         transition: transform .3s ease-in-out, background .3s ease-in-out, box-shadow .3s ease-in-out !important;
         cursor: pointer;
@@ -1629,6 +1649,20 @@ html.theme-dark .sun-and-moon>.moon>circle {
     .notion-toggle__content .notion-quote {
         width: 100%;
         max-width: 100% !important;
+    }
+
+    /* Images Mobile */
+
+
+    /* Video Mobile */
+
+    .super-embed:has(> iframe) {
+        width: calc(100% - var(--m423-radius) * 2);
+        max-width: calc(var(--content-xl) - var(--m423-radius) * 2);
+        display: flex;
+        margin: 2rem auto;
+        border-radius: var(--m423-radius);
+        overflow: hidden;
     }
 
     /* --- Mobile Navigation (Burger Menu) --- */
@@ -1771,20 +1805,17 @@ html.theme-dark .sun-and-moon>.moon>circle {
         background-color: var(--menu-trigger);
         border-radius: 50%;
         opacity: 0;
-        transition: opacity 0.15s ease-out;
+        transition: opacity 0.23s ease-out;
         z-index: -1;
         /* Place it behind the icon */
     }
 
     /* Show the circle on touch or hover */
-    .my-menuburger:hover::before,
-    .super-navbar__logo:hover::before,
-    .theme-toggle:hover::before {
+    .my-menuburger:active::before,
+    .super-navbar__logo:active::before,
+    .theme-toggle:active::before {
         opacity: 0.4;
     }
-
-
-
 
     /* Backdrop for open menu */
     .backdrop {
