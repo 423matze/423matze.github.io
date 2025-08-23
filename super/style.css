@@ -948,6 +948,10 @@ img {
     animation: fadeIn 1.5s !important;
 }
 
+img:has(+ figcaption){
+    border-radius: var(--m423-radius) !important;
+}
+
 .notion-image,
 .notion-image.normal,
 .notion-collection-card img {
