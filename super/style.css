@@ -308,12 +308,14 @@ h1.notion-heading.color-green+.notion-text {
     color: var(--link-text);
 }
 
+/* Nicht mehr verwendet - löschen? 
 .notion-text:has(h3)>p.notion-text__content,
 .notion-text__content:has(+ .notion-heading__anchor + h3) {
     font-size: calc(var(--heading3-size) - .023rem) !important;
     padding-bottom: 0rem !important;
     color: var(--link-text);
 }
+*/
 
 /* --- Links & Highlights --- */
 
