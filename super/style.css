@@ -1049,6 +1049,12 @@ iframe[title="YouTube video player"] {
 }
 /* Notion embed Video z.b. youtube */
 
+.notion-embed {
+    width: 100%;
+    max-width: var(--content-lg);
+    align-self: center;
+}
+
 .notion-embed__container>iframe[title="www.youtube.com"] {
     position: absolute;
     inset-inline-start: 0;
@@ -1068,8 +1074,9 @@ iframe[title="YouTube video player"] {
 }
 
 .notion-embed__container__wrapper {
-    width: var(--content-max-desktop);
-    min-height: calc(var(--content-max-desktop)/16*9);
+    padding-bottom: 56.123% !important;
+    width: var(--content-lg);
+    max-height: calc(var(--content-lg) / 16 * 9);
     border-radius: var(--m423-radius);
     overflow: hidden;
 }
