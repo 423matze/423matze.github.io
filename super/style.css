@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.10      │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.12      │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -966,7 +966,7 @@ article>.notion-image {
 }
 
 .notion-image.normal {
-    width: 100%;
+    width: auto;
     max-width: var(--content-md);
     margin: auto;
 }
