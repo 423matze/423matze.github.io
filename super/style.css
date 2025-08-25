@@ -1074,6 +1074,15 @@ iframe[title="YouTube video player"] {
     overflow: hidden;
 }
 
+/* Responsive SVGs */
+
+.super-embed:has(> svg.svg-embed-center) {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 4rem 0;
+}
+
 /* Mobile Video Content SUPER-EMEBED: */
 
 .my-video-content {
