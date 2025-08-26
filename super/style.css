@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.12      │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.14      │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -251,8 +251,8 @@ h3 {
     font-size: var(--heading3-size) !important;
     font-weight: 600 !important;
     letter-spacing: 0.0123em !important;
-    margin-top: 0 !important;
-    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: .6rem !important;
 }
 
 /* Headings with specific colors */
@@ -304,7 +304,7 @@ h1.notion-heading.color-green+.notion-text {
 .notion-text__content:has(+ .notion-heading__anchor + h2) {
     font-size: calc(var(--heading2-size) - .023rem) !important;
     line-height: 123% !important;
-    padding-bottom: 0rem !important;
+    padding-bottom: .6rem !important;
     color: var(--link-text);
 }
 
@@ -389,7 +389,8 @@ span.highlighted-color.color-yellow {
     width: 100%;
     padding: 0 var(--m423-radius);
     max-width: var(--content-md) !important;
-    margin: 0 auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 /* Resets */
@@ -975,6 +976,7 @@ article>.notion-image {
 
 .notion-image.page-width {
     max-width: calc(var(--content-xl) - var(--m423-radius)*2);
+    width: calc(100% - 46px);
     margin: 2rem auto;
 }
 
@@ -1428,8 +1430,9 @@ html.theme-dark .sun-and-moon>.moon>circle {
         font-size: var(--heading2-size) !important;
     }
 
-    h3 {
+    h3.notion-heading.notion-semantic-string {
         font-size: var(--heading3-size) !important;
+        margin-top: 2rem !important;
     }
 
     .notion-collection-gallery.large {
@@ -1510,7 +1513,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     .notion-column-list {
         flex-direction: column;
         margin: 2em auto 0 auto;
-        max-width: 100%;
+        max-width: calc(100% - 46px);
         gap: 4rem;
     }
 
@@ -1589,8 +1592,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         padding: 0;
     }
 
-    .notion-column .notion-image,
-    .notion-column .notion-image.page-width {
+    .notion-column,.notion-column {
         width: 100%;
         margin: 0 auto;
     }
