@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.14      │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.15      │
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -366,7 +366,7 @@ span.highlighted-color.color-yellow {
 }
 
 .super-content {
-    width: 100%;
+    width: 100vw;
     padding: 23vh 0 12rem 0 !important;
     position: relative;
     display: flex;
@@ -378,13 +378,7 @@ span.highlighted-color.color-yellow {
 /* --- Content Centering --- */
 /* This group ensures standard content blocks are centered and have a max-width. */
 
-.notion-text.notion-text__content,
-.notion-heading.notion-semantic-string,
-.notion-text__content.notion-semantic-string,
-.notion-bulleted-list,
-.notion-numbered-list,
-.notion-toggle,
-.notion-quote {
+.notion-text.notion-text__content, .notion-heading.notion-semantic-string, .notion-text__content.notion-semantic-string, .notion-bulleted-list, .notion-numbered-list, .notion-toggle, .notion-quote, .notion-code {
     display: block;
     width: 100%;
     padding: 0 var(--m423-radius);
@@ -447,6 +441,8 @@ span.highlighted-color.color-yellow {
     padding-left: var(--m423-radius);
 }
 
+/* Primary */
+
 .notion-button__content {
     display: inline-flex;
     align-items: center;
@@ -464,6 +460,18 @@ span.highlighted-color.color-yellow {
     text-decoration: none;
     transition: background 20ms ease-in;
 }
+
+/* Secondary */
+
+.notion-button__content.bg-gray-light {
+    background-color: var(--color-text-default);
+    color: var(--cta-text) !important;
+}
+.notion-button__content.bg-gray-light:hover {
+    background-color: var(--color-text-default);
+}
+
+
 
 .notion-button__content:hover {
     background: var(--cta-background);
@@ -962,21 +970,18 @@ img:has(+ figcaption){
     overflow: hidden;
     margin: 0;
     position: relative;
-    align-items: unset;
-}
-
-article>.notion-image {
+    /* align-items: unset; */
 }
 
 .notion-image.normal {
     width: auto;
-    max-width: var(--content-md);
+    max-width: calc(100% - var(--m423-radius)*2);
     margin: auto;
 }
 
 .notion-image.page-width {
-    max-width: calc(var(--content-xl) - var(--m423-radius)*2);
-    width: calc(100% - 46px);
+    max-width: var(--content-md);
+    width: calc(100% - var(--m423-radius)*2);
     margin: 2rem auto;
 }
 
@@ -996,10 +1001,11 @@ article>.notion-image.page-width:nth-child(5) {
 }
 
 .notion-image.page-width img {
-    width: 100%;
-    height: 100% !important;
+    width: 100% !important;
+    height:  100% !important;
     object-fit: cover !important;
-    /* margin: 10px; */
+    overflow: visible;
+    aspect-ratio: auto;
 }
 
 /* Images in columns */
@@ -1536,10 +1542,10 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
     /* --- Components for Mobile --- */
 
-    .notion-button,
-    .notion-button__content {
-        width: calc(100% - var(--padding-mob));
-        margin: auto;
+    .notion-button {
+        width: 100%;
+        margin: 1rem 23px;
+        padding-left: 0;
     }
 
     blockquote,
@@ -1584,19 +1590,35 @@ html.theme-dark .sun-and-moon>.moon>circle {
     article>.notion-image,
     article>.notion-image.normal,
     article>.notion-image.page-width {
-        width: calc(100% - var(--padding-mob) * 2) !important;
+        width: auto;
+        max-width: calc(100% - var(--padding-mob)*2);
+        min-width: calc(100% - var(--padding-mob)*2);
         margin: 2rem auto;
     }
+
+    .notion-image.normal img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 0px;
+}
 
     .notion-column .notion-callout {
         padding: 0;
     }
 
-    .notion-column,.notion-column {
+    .notion-column {
         width: 100%;
         margin: 0 auto;
     }
 
+    .notion-column .notion-text {
+        padding: 0;
+    }
+
+    .notion-column .notion-button{
+            margin: 1rem 0;
+            
+        }
     /* --- Galleries Mobile (Notion Collections) --- */
 
 
