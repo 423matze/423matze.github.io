@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.16
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.17
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -937,7 +937,7 @@ blockquote,
 
 /* Project Outline Callout */
 .notion-callout.color-default {
-    width: var(--content-md);
+    width: calc(100% - var(--padding-mob));
     padding: var(--m423-radius) !important;
     border: 1px solid var(--color-border-default) !important;
 }
@@ -979,7 +979,7 @@ img:has(+ figcaption){
 .notion-image.normal {
     width: auto;
     max-width: calc(100% - var(--m423-radius)*2);
-    margin: auto;
+    /* margin: auto; */
 }
 
 .notion-image.page-width {
@@ -997,9 +997,9 @@ img:has(+ figcaption){
 }
 
 article>.notion-image.page-width:nth-child(5) {
-    width: calc(100% - var(--padding-desktop) * 2) !important;
+    width: calc(100% - var(--padding-desktop) * 2 - var(--m423-radius) * 2) !important;
     max-width: calc(var(--m423-width) - var(--m423-radius) * 2);
-    min-width: 800px;
+    min-width: 820px;
     margin-top: 2rem;
 }
 
@@ -1500,6 +1500,18 @@ html.theme-dark .sun-and-moon>.moon>circle {
     
     .notion-column-list {
         row-gap: 4rem;
+    }
+    article>.notion-image.page-width:nth-child(5) {
+        width: calc(100% - var(--padding-mob)) !important;
+        max-width: 100%;
+        min-width: auto;
+        margin-top: 0rem;
+        height: 42vh !important;
+    }
+    notion-callout.color-default {
+        width: var(--content-md);
+        padding: var(--m423-radius) !important;
+        border: 1px solid var(--color-border-default) !important;
     }
 
    
