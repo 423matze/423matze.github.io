@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.15      │
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.16
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-07-22                               │
 │                                                  │
@@ -272,7 +272,7 @@ h1.notion-heading.color-green.notion-semantic-string strong {
     color: transparent !important;
     font-size: 9rem !important;
     font-weight: 900;
-    line-height: 0.42rem !important;
+    line-height: 1.42rem !important;
     letter-spacing: -.023em !important;
     hyphens: auto;
     background: radial-gradient(circle at 50%, var(--cta-background) 10%, var(--color-bg-transparent) 42%, var(--color-bg-transparent) 60%, var(--cta-background) 100%);
@@ -942,6 +942,12 @@ blockquote,
     border: 1px solid var(--color-border-default) !important;
 }
 
+/* Responsiv grafix */
+.notion-callout.bg-gray-light {
+    width: 100%;
+    max-width: var(--content-md) !important;
+}
+
 /* Disclaimer Callout */
 
 .notion-callout.bg-yellow-light {
@@ -964,13 +970,10 @@ img:has(+ figcaption){
 }
 
 .notion-image,
-.notion-image.normal,
-.notion-collection-card img {
-    border-radius: var(--m423-radius) !important;
+.notion-image.normal {
     overflow: hidden;
-    margin: 0;
+    /* margin: 0; */
     position: relative;
-    /* align-items: unset; */
 }
 
 .notion-image.normal {
@@ -1004,8 +1007,18 @@ article>.notion-image.page-width:nth-child(5) {
     width: 100% !important;
     height:  100% !important;
     object-fit: cover !important;
-    overflow: visible;
     aspect-ratio: auto;
+}
+.notion-image.normal img {
+    max-width: 100%;
+    border-radius: 0;
+    aspect-ratio: auto;
+}
+
+.notion-image.normal img,
+.notion-image.page-width img,
+.notion-collection-card img {
+    border-radius: var(--m423-radius) !important; 
 }
 
 /* Images in columns */
@@ -1122,10 +1135,15 @@ iframe[title="YouTube video player"] {
     justify-content: space-between;
 }
 
+
+
 .notion-column {
     padding: 0;
 }
 
+.notion-column-list > .notion-column:nth-of-type(4){
+    width: 155px !important;
+}
 
 
 
@@ -1401,6 +1419,12 @@ html.theme-dark .sun-and-moon>.moon>circle {
     }
 }
 
+/* Footer Navigation */
+
+.notion-callout.bg-brown-light.border {
+    border-color: var(--color-bg-brown-light);
+}
+
 
 /* --- 8. PAGE-SPECIFIC OVERRIDES --- */
 
@@ -1467,6 +1491,18 @@ html.theme-dark .sun-and-moon>.moon>circle {
      .my_background_portrait {
         background-image: var(--mode-potrait-m);
     }
+
+    .notion-column {
+        width: 100% !important;
+        -webkit-margin-start: 0 !important;
+        margin-inline-start: 0 !important;
+    }
+    
+    .notion-column-list {
+        row-gap: 4rem;
+    }
+
+   
 }
 
 
