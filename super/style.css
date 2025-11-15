@@ -381,6 +381,7 @@ span.highlighted-color.color-yellow {
 .notion-text.notion-text__content, .notion-heading.notion-semantic-string, .notion-text__content.notion-semantic-string, .notion-bulleted-list, .notion-numbered-list, .notion-toggle, .notion-quote, .notion-code {
     display: block;
     width: 100%;
+    max-width: var(--content-md) !important;
     padding: 0 var(--m423-radius);
     margin-left: auto !important;
     margin-right: auto !important;
