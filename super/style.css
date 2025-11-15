@@ -1,9 +1,9 @@
-.notion-callout.color-default/*
+/*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.17
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 4.18
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
-│   DATE: 2025-07-22                               │
+│   DATE: 2025-11-15                               │
 │                                                  │
 └──────────────────────────────────────────────────┘
 */
@@ -382,7 +382,6 @@ span.highlighted-color.color-yellow {
     display: block;
     width: 100%;
     padding: 0 var(--m423-radius);
-    max-width: var(--content-md) !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
