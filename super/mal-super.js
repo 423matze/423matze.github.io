@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 5.0     │
+│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 5.1     │
 │   DATE: 2026-01-27 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
@@ -176,6 +176,7 @@ window.MALSuper = (function () {
           });
         })
     }
+  // Visits tracked by application
   function setApplicationTracker() {
     // 1. Person-ID aus URL holen (einmalig)
     const urlParams = new URLSearchParams(window.location.search);
@@ -236,13 +237,13 @@ window.MALSuper = (function () {
     const scrollDepth = Math.round(
       (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
     );
-
     // Nur senden, wenn wir ein neues 25%-Bucket erreicht haben
     const bucket = Math.floor(scrollDepth / 25) * 25;
+    if(personId){
     if (bucket > lastBucket && bucket <= 100) {
       lastBucket = bucket;
       sendEvent("scroll", bucket);
-    }
+    }}
   });
     }
 
