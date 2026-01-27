@@ -1,13 +1,14 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 4.3     │
-│   DATE: 2025-07-22 - Matze Lenz                  │
+│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 5.0     │
+│   DATE: 2026-01-27 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
 */
 
 window.MALSuper = (function () {
+    const STATE = { ready: false};
     const SELECTOR = "code:not([super-embed-seen])";
     const storageKey = "color-preference";
     let toggle_state = false;
@@ -25,11 +26,9 @@ window.MALSuper = (function () {
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
     }
-    
     function getThemePref() {        
         return localStorage.getItem(storageKey);
     }
-    
     function initTheme() {
         if(logging) console.log("INIT THEME");
         
@@ -53,8 +52,6 @@ window.MALSuper = (function () {
             }
         });
     }
-
-    
     function theme_toggle(event) {
         if(event) event.preventDefault();
         let current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -131,7 +128,10 @@ window.MALSuper = (function () {
                 }
             }
         });
-    }
+        console.log("EMBEDS - ready");
+        STATE.ready = true;
+        window.dispatchEvent(new Event("EmbedsReady"));
+    }   
 
     // GSAP BACKGROUND FADE (mobile-proof, fadefix)
     function setupGSAPBgFade() {
@@ -161,7 +161,92 @@ window.MALSuper = (function () {
             window.addEventListener("scroll", fadeBg, { passive: true });
             fadeBg();
         });
+        // GSAP - play Video
+        // Videos mit GSAP ScrollTrigger automatisch abspielen
+        gsap.utils.toArray('.my-video-content').forEach((video) => {
+          ScrollTrigger.create({
+            trigger: video,
+            start: 'top 80%',  // Startet wenn das Video 80% vom top im Viewport ist
+            end: 'bottom 20%', // Endet wenn das Video 20% vom bottom im Viewport ist
+            onEnter: () => video.play(),
+            onEnterBack: () => video.play(),
+            onLeave: () => video.pause(),
+            onLeaveBack: () => video.pause(),
+            // markers: true // Aktiviere das für Debugging
+          });
+        })
     }
+  function setApplicationTracker() {
+    // 1. Person-ID aus URL holen (einmalig)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlPersonId = urlParams.get("m");
+    console.log("get ID: " + urlPersonId)
+
+  // 2. Person-ID aus localStorage holen (falls schon mal da)
+  let personId = localStorage.getItem("personId");
+        console.log("get ID from storage: " + personId)
+
+  // 3. Wenn URL eine neue/andere Person-ID bringt → übernehmen & speichern
+  if (urlPersonId != null) {
+    personId = urlPersonId;
+    localStorage.setItem("personId", personId);
+    console.log("New ID to storage: " + personId)
+  }else{
+    console.log("NO ID exist")
+  }
+
+  // 4. Session-ID aus sessionStorage holen oder neu erzeugen
+  let sessionId = sessionStorage.getItem("sessionId");
+  if (!sessionId) {
+    sessionId = (self.crypto?.randomUUID && self.crypto.randomUUID()) 
+      || Math.random().toString(36).slice(2);
+    sessionStorage.setItem("sessionId", sessionId);
+  }
+
+  const slug = window.location.pathname;
+
+  // Wenn wir keine Person-ID haben, tracken wir optional nur anonym
+  const sendEvent = (event, value = null) =>{
+    console.log("Send webhook" + event + " . " + slug + " . " + value)
+    fetch("https://hook.eu2.make.com/tvij7iok0uoa9etlh7v788259d5fy29z", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        personId: personId || null, 
+        sessionId,                 
+        event,
+        value,
+        slug,
+        timestamp: new Date().toISOString()
+      })
+    });
+  };
+
+  // Nur tracken, wenn mindestens sessionId da ist
+  // (personId ist Pflicht ich tracke nur Bewerbung in go)
+  
+  if(personId){
+      console.log("IF TRACKING : "+ personId + " : " + slug );
+	  sendEvent("page_view");
+	}
+
+  // Scroll-Tracking
+  let lastBucket = 0;
+  window.addEventListener("scroll", () => {
+    const scrollDepth = Math.round(
+      (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
+    );
+
+    // Nur senden, wenn wir ein neues 25%-Bucket erreicht haben
+    const bucket = Math.floor(scrollDepth / 25) * 25;
+    if (bucket > lastBucket && bucket <= 100) {
+      lastBucket = bucket;
+      sendEvent("scroll", bucket);
+    }
+  });
+    }
+
+    
 
     // ToggleSAFE: Robuster Toggle-Observer mit Reset auf SPA
     function smartInitToggleObservers() {
@@ -236,6 +321,7 @@ window.MALSuper = (function () {
         initTheme();
         setupEmbeds();
         setupHomeButton();
+        setApplicationTracker();
         // Tricki elements
         let runCount = 0;
         const maxRuns = 8; // ~2 Sekunden bei 250ms Intervall
@@ -250,7 +336,7 @@ window.MALSuper = (function () {
                 clearInterval(interval);
             }
         }, 250);
-        //registerSPARouteHooks();
+        //registerSPARouteHooks(); Brauche ich das noch?
     }
 
     // PUBLIC API
@@ -260,7 +346,8 @@ window.MALSuper = (function () {
         menu_toggle,
         theme_toggle,
         gotoHome,
-        setupHomeButton
+        setupHomeButton,
+        setApplicationTracker
     };
 
 })();
