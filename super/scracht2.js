@@ -1,46 +1,52 @@
-// Interactive Scratch Image Script Version 21.0 (Correct Architecture)
+/*
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.01      │
+│   DATE: 2026-02-19 - Matze Lenz                  │
+│                                                  │
+└──────────────────────────────────────────────────┘
+*/
 // This script provides an interactive image display with quad subdivision.
 // Implements "Area/Pencil Reveal" for touch and mouse interactions.
 // Features rAF throttling, Initial CTA, and
 // performance optimizations like quad merging and cascading reveals.
 // Includes image preloading, optimized sliders, and dynamic CTA styling.
-// This version implements a robust architecture with a stable interaction overlay,
-// ensuring gestures are handled correctly regardless of where they start.
+// This version fixes the black flicker when revealing the deepest quads.
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
 const TARGET_IMAGE_HEIGHT = 720;
-const INITIAL_GRID_COLS = 5;
-const INITIAL_GRID_ROWS = 3;
-const MAX_QUAD_DEPTH = 6;
-const MIN_QUAD_SIZE_CONFIG = 2;
-const PENCIL_REVEAL_RADIUS_LOGICAL = 35; // Radius for area reveal
-const AUTO_REVEAL_DEPTH_THRESHOLD = 3;
-const CASCADE_REVEAL_DELAY = 10;
-const INIT_POLL_INTERVAL = 100; // ms
-const INIT_MAX_ATTEMPTS = 50; // 5 seconds total
+const INITIAL_GRID_COLS = 5; // 5
+const INITIAL_GRID_ROWS = 3; // 3
+const MAX_QUAD_DEPTH = 6; // <<< 6
+const MIN_QUAD_SIZE_CONFIG = 8; // <<< 4
+const TAP_MOVEMENT_THRESHOLD = 40;
+const PENCIL_REVEAL_RADIUS_LOGICAL = 23; // Radius for area reveal
+const AUTO_REVEAL_DEPTH_THRESHOLD = 4;
+const CASCADE_REVEAL_DELAY = 42;
+const INIT_POLL_INTERVAL = 200; // ms ? 100
+const INIT_MAX_ATTEMPTS = 100; // 5 seconds total
 
 // --- Application State ---
 let imageUrls = [];
 let currentImageIndex = 0;
 let isLoading = true;
 let error = null;
-let quadBorderRadius = 50; // Default to 50% for circles
+let quadBorderRadius = 100;
 let topLevelQuads = null;
 let originalImage = null;
 let displayDimensions = null;
 let isInitialCtaDismissed = false;
 
 // --- DOM Element References ---
-let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, initialCtaOverlayEl, initialCtaContentEl, interactionOverlayEl;
+let appRootEl, scratchImageDisplayEl, imageControlsContainerEl, prevImageBtnEl, nextImageBtnEl, imageInfoEl, borderRadiusSliderEl, borderRadiusLabelEl, initialCtaOverlayEl, initialCtaContentEl;
 
 // --- Interaction State ---
+let touchStartX = 0, touchStartY = 0;
 let isActiveTouchInteraction = false;
 let isMouseInteractionActive = false;
 let scheduledFrame = false;
-let interactionStartCoords = null; // Stores {x, y} on pointer down
-let hasMoved = false; // Distinguishes between a tap and a drag
-let lastTouchEndTime = 0; // Timestamp to guard against emulated mouse events
+let lastInteractionEvent = null;
 
 // --- Utility Functions ---
 function getAverageColor(sourceImageData, sourceImageWidth, regionX, regionY, regionWidth, regionHeight) {
@@ -119,12 +125,13 @@ function findQuadsInRadius(logicalX, logicalY, radius, quads) {
     let foundQuads = [];
 
     function checkQuad(quad) {
+        // Geometric check: Does the interaction radius overlap with the quad's bounding box?
         const quadCenterX = quad.x + quad.width / 2;
         const quadCenterY = quad.y + quad.height / 2;
         const distX = Math.abs(logicalX - quadCenterX);
         const distY = Math.abs(logicalY - quadCenterY);
         if (distX > (quad.width / 2 + radius) || distY > (quad.height / 2 + radius)) {
-            return;
+            return; // Not close enough, no need to check further or check children.
         }
 
         const closestX = Math.max(quad.x, Math.min(logicalX, quad.x + quad.width));
@@ -132,9 +139,12 @@ function findQuadsInRadius(logicalX, logicalY, radius, quads) {
         const distanceSquared = (logicalX - closestX) ** 2 + (logicalY - closestY) ** 2;
 
         if (distanceSquared < radius ** 2) {
+            // Interaction is within this quad's area.
             if (quad.isDivided && quad.children) {
+                // If it's a parent, we must recurse to check its children.
                 quad.children.forEach(checkQuad);
             } else {
+                // If it's a leaf node, check if it's interactable and add it.
                 if (isQuadInteractable(quad)) {
                     foundQuads.push(quad);
                 }
@@ -230,7 +240,11 @@ function loadImageAndSetupQuads(imageUrl) {
 
 function isQuadInteractable(quad) {
     if (!quad || quad.isRevealed) return false;
-    const canRevealFinal = !quad.isDivided;
+    // A quad is interactable if it hasn't been revealed and is either
+    // ready to be subdivided, or it's at max depth and ready to be revealed.
+    const canSubdivide = quad.depth < MAX_QUAD_DEPTH && !quad.isDivided && quad.width / 2 >= MIN_QUAD_SIZE_CONFIG;
+    const canRevealFinal = !quad.isDivided; // At any depth, if it's a leaf, it can be acted upon.
+    
     return !quad.isRevealed && canRevealFinal;
 }
 
@@ -255,7 +269,8 @@ function handleQuadInteraction(quad, isCascade = false) {
             quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
             quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
             quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-            quadEl.style.borderRadius = '0%';
+            quadEl.style.borderRadius = '50%'; // <<< or 0%
+            // quadEl.style.backgroundColor = ''; // <<< FIX: Do not remove background color to prevent flickering.
             quadEl.setAttribute('aria-label', `Image segment detail revealed.`);
         }
         attemptToMergeParent(quad.id);
@@ -263,96 +278,51 @@ function handleQuadInteraction(quad, isCascade = false) {
 }
 
 // --- Interaction Handlers ---
-function getCoordsFromEvent(e) {
-    if (e.touches && e.touches.length > 0) {
-        return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-    }
-    if (e.changedTouches && e.changedTouches.length > 0) {
-        return { clientX: e.changedTouches[0].clientX, clientY: e.changedTouches[0].clientY };
-    }
-    return { clientX: e.clientX, clientY: e.clientY };
-}
-
-function processInteraction(clientX, clientY) {
-    if (!topLevelQuads || !displayDimensions) {
+function processInteraction(e) {
+    if (!topLevelQuads || (!isActiveTouchInteraction && !isMouseInteractionActive) || !displayDimensions) {
+        scheduledFrame = false;
         return;
     }
     const rect = scratchImageDisplayEl.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     const logicalX = ((clientX - rect.left) / displayDimensions.width) * TARGET_IMAGE_WIDTH;
     const logicalY = ((clientY - rect.top) / displayDimensions.height) * TARGET_IMAGE_HEIGHT;
     const quadsToProcess = findQuadsInRadius(logicalX, logicalY, PENCIL_REVEAL_RADIUS_LOGICAL, topLevelQuads);
     quadsToProcess.forEach(quad => handleQuadInteraction(quad));
+    scheduledFrame = false;
 }
 
 function handlePointerDown(e) {
-    const isTouchEvent = 'touches' in e;
-    // Guard against emulated mouse events after a touch interaction.
-    if (!isTouchEvent && Date.now() - lastTouchEndTime < 500) {
-        e.preventDefault();
-        return;
-    }
     if (isLoading || error) return;
-    
     dismissInitialCta();
-
+    const isTouchEvent = !!e.touches;
     if (isTouchEvent) {
         document.body.style.overflow = 'hidden'; // Prevent scroll on iOS
         isActiveTouchInteraction = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
     } else {
         isMouseInteractionActive = true;
     }
-    
-    hasMoved = false;
-    const { clientX, clientY } = getCoordsFromEvent(e);
-    interactionStartCoords = { x: clientX, y: clientY };
-
-    console.log(`Start: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
+    processInteraction(e); // Process first tap/click immediately
 }
 
 function handlePointerMove(e) {
-    const isTouchEvent = 'touches' in e;
-    if ((isTouchEvent && !isActiveTouchInteraction) || (!isTouchEvent && !isMouseInteractionActive)) {
-      return;
-    }
-
-    hasMoved = true;
-    const { clientX, clientY } = getCoordsFromEvent(e);
-
-    // Throttle with rAF
+    if ((e.touches && !isActiveTouchInteraction) || (!e.touches && !isMouseInteractionActive)) return;
+    lastInteractionEvent = e;
     if (!scheduledFrame) {
         scheduledFrame = true;
-        requestAnimationFrame(() => {
-            // Check if interaction is still active when the frame runs
-            if (isActiveTouchInteraction || isMouseInteractionActive) {
-                processInteraction(clientX, clientY);
-                console.log(`Move: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
-            }
-            scheduledFrame = false;
-        });
+        requestAnimationFrame(() => processInteraction(lastInteractionEvent));
     }
 }
 
 function handlePointerUp(e) {
-    const isTouchEvent = 'touches' in e;
-    const wasActive = isActiveTouchInteraction || isMouseInteractionActive;
-
-    const { clientX, clientY } = getCoordsFromEvent(e);
-    console.log(`End: { x: ${Math.round(clientX)}, y: ${Math.round(clientY)} }`);
-
-    // If it was an active interaction but no movement was detected, process it as a tap.
-    if (wasActive && !hasMoved && interactionStartCoords) {
-        processInteraction(interactionStartCoords.x, interactionStartCoords.y);
-    }
-    
-    // Reset state AFTER potential tap processing
-    if (isTouchEvent) {
-        document.body.style.overflow = '';
-        lastTouchEndTime = Date.now();
+    if (isActiveTouchInteraction) {
+        document.body.style.overflow = ''; // Re-enable scroll
     }
     isActiveTouchInteraction = false;
     isMouseInteractionActive = false;
-    hasMoved = false;
-    interactionStartCoords = null;
 }
 
 function dismissInitialCta() {
@@ -372,7 +342,6 @@ function renderSingleQuadElement(quadData) {
     quadEl.style.border = '1px solid rgba(255,255,255,0.05)';
     quadEl.style.overflow = 'hidden';
     quadEl.style.transition = 'border-radius 0.2s ease-out, background-color 0.2s';
-    quadEl.style.pointerEvents = 'none'; // Quads should not interfere with the overlay
 
     const scaledX = (quadData.x / TARGET_IMAGE_WIDTH) * displayDimensions.width;
     const scaledY = (quadData.y / TARGET_IMAGE_HEIGHT) * displayDimensions.height;
@@ -392,7 +361,7 @@ function renderSingleQuadElement(quadData) {
         quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
         quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
         quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-        quadEl.style.borderRadius = '0%';
+        quadEl.style.borderRadius = '12.5%'; // <<< or 0%
     } else {
         quadEl.style.backgroundColor = `rgb(${quadData.color.r}, ${quadData.color.g}, ${quadData.color.b})`;
         quadEl.style.borderRadius = `${quadBorderRadius}%`;
@@ -403,8 +372,10 @@ function renderSingleQuadElement(quadData) {
 function initialFullRenderQuadsDOM() {
     if (!scratchImageDisplayEl || !topLevelQuads || !originalImage) return;
 
+    // Always get the most current dimensions of the container right before rendering.
     const rect = scratchImageDisplayEl.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) {
+        console.warn("Render container has no size. Aborting quad render.");
         return;
     }
     displayDimensions = { width: rect.width, height: rect.height };
@@ -427,10 +398,12 @@ function renderDisplayAreaContent() {
     const quadsToRemove = scratchImageDisplayEl.querySelectorAll('[role="button"], .status-message-container');
     quadsToRemove.forEach(el => el.remove());
 
+    console.log("RENDER DISPLAY:" + scratchImageDisplayEl.getBoundingClientRect());
+
     scratchImageDisplayEl.style.aspectRatio = `${TARGET_IMAGE_WIDTH} / ${TARGET_IMAGE_HEIGHT}`;
 
     if (isLoading) {
-        // No spinner, just show the black background
+        // No spinner, just show the black background of .image-display-area
     } else if (error) {
         scratchImageDisplayEl.insertAdjacentHTML('beforeend', `<div class="status-message-container status-error"><p class="status-title">Error</p><p class="status-text">${error}</p></div>`);
     } else if (topLevelQuads) {
@@ -473,8 +446,8 @@ function handleNextClick() {
 }
 
 function handleBorderRadiusChange(e) {
-    quadBorderRadius = parseInt(e.target.value, 10);
-    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius}%`;
+    quadBorderRadius = parseInt(e.target.value, 10); // <<< old 10
+    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius * 2}%`;
     const quads = scratchImageDisplayEl.querySelectorAll('[role="button"]');
     quads.forEach(quadEl => {
         const { found } = findQuadAndParent(quadEl.id, topLevelQuads);
@@ -482,6 +455,7 @@ function handleBorderRadiusChange(e) {
             quadEl.style.borderRadius = `${quadBorderRadius}%`;
         }
     });
+    // Update CTA
     if (initialCtaContentEl) {
         initialCtaContentEl.style.borderRadius = `${quadBorderRadius}%`;
     }
@@ -497,7 +471,6 @@ function handleResize() {
 function initializeAppState() {
     appRootEl = document.getElementById('vanilla-app-root');
     scratchImageDisplayEl = document.getElementById('scratch-image-display');
-    interactionOverlayEl = document.getElementById('interaction-overlay');
     imageControlsContainerEl = document.getElementById('image-controls-container');
     prevImageBtnEl = document.getElementById('prev-image-btn');
     nextImageBtnEl = document.getElementById('next-image-btn');
@@ -506,10 +479,13 @@ function initializeAppState() {
     borderRadiusLabelEl = document.getElementById('border-radius-label');
     initialCtaOverlayEl = document.getElementById('initial-cta-overlay');
     initialCtaContentEl = document.getElementById('initial-cta-content');
-    return appRootEl && scratchImageDisplayEl && imageControlsContainerEl && interactionOverlayEl;
+
+    console.log("Scratch Display: " + document.getElementById('scratch-image-display'));
+    
+    return appRootEl && scratchImageDisplayEl && imageControlsContainerEl;
 }
 
-function initApp() {
+function initAppReval() {
     if (!initializeAppState()) {
         console.error("Core application elements not found. Initialization failed.");
         return;
@@ -524,57 +500,61 @@ function initApp() {
         renderApp();
         return;
     }
-    
-    // Set initial UI state from defaults
-    borderRadiusSliderEl.value = quadBorderRadius;
-    borderRadiusLabelEl.textContent = `Corner Roundness: ${quadBorderRadius}%`;
-    if (initialCtaContentEl) {
-        initialCtaContentEl.style.borderRadius = `${quadBorderRadius}%`;
-    }
 
     // Event Listeners
     prevImageBtnEl.addEventListener('click', handlePrevClick);
     nextImageBtnEl.addEventListener('click', handleNextClick);
     borderRadiusSliderEl.addEventListener('change', handleBorderRadiusChange);
     
-    // Unified pointer events on the stable overlay
-    interactionOverlayEl.addEventListener('mousedown', handlePointerDown);
-    interactionOverlayEl.addEventListener('touchstart', handlePointerDown, { passive: false });
-    
-    // Global listeners for move and up events
+    // Unified pointer events
+    scratchImageDisplayEl.addEventListener('mousedown', handlePointerDown);
     document.addEventListener('mousemove', handlePointerMove);
     document.addEventListener('mouseup', handlePointerUp);
+    scratchImageDisplayEl.addEventListener('touchstart', handlePointerDown, { passive: false });
     document.addEventListener('touchmove', handlePointerMove, { passive: false });
     document.addEventListener('touchend', handlePointerUp);
     document.addEventListener('touchcancel', handlePointerUp);
 
     initialCtaOverlayEl.addEventListener('click', dismissInitialCta);
 
+    // Debounced resize handler
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(handleResize, 100);
     });
 
+    // Initial Load
     if (imageUrls.length > 0) {
         loadImageAndSetupQuads(imageUrls[currentImageIndex]);
     } else {
         error = "No images found to display.";
         isLoading = false;
-        renderApp();
+        initAppReval();
     }
 }
+function polling(){
 
-// Robust initialization polling
-let attempts = 0;
-const intervalId = setInterval(() => {
-    attempts++;
-    if (initializeAppState()) {
-        clearInterval(intervalId);
-        initApp();
-    } else if (attempts > INIT_MAX_ATTEMPTS) {
-        clearInterval(intervalId);
-        console.error("Application failed to initialize after several attempts. Essential DOM elements are missing.");
-        document.body.innerHTML = `<div class="status-message-container status-error"><p class="status-title">Fatal Error</p><p class="status-text">Could not start the application.</p></div>`;
-    }
-}, INIT_POLL_INTERVAL);
+    console.log("START POLLING!")
+    // Robust initialization polling
+    let attempts = 0;
+    const intervalId = setInterval(() => {
+        attempts++;
+        if (initializeAppState()) {
+            clearInterval(intervalId);
+            initAppReval();
+        } else if (attempts > INIT_MAX_ATTEMPTS) {
+            clearInterval(intervalId);
+            console.error("Application failed to initialize after several attempts. Essential DOM elements are missing.");
+            document.body.innerHTML = `<div class="status-message-container status-error"><p class="status-title">Fatal Error</p><p class="status-text">Could not start the application.</p></div>`;
+        }
+    }, INIT_POLL_INTERVAL);
+}
+//
+if (window.MALSUper?.STATE?.ready) {
+    console.log("MALSuper ready - start Polling")
+    polling();
+} else {
+    window.addEventListener("EmbedsReady", polling);
+}
+
