@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.02      |
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.03      |
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-11-20                               │
 │                                                  │
@@ -1154,18 +1154,25 @@ iframe[title="YouTube video player"] {
 }
 
 .notion-embed__container__wrapper {
-    padding-bottom: 56.123% !important;
+    /* padding-bottom: 56.123% !important; */
     width: var(--content-lg);
     max-height: calc(var(--content-lg) / 16 * 9);
     border-radius: var(--m423-radius);
     overflow: hidden;
 }
 
+.notion-embed__container__wrapper:has(iframe[title*="423matze"]) {
+    width: calc(100% - var(--m423-radius) * 4) !important;
+    max-width: calc(var(--m423-width) - var(--m423-radius) * 4);
+    height: 1000px !important;
+    max-height: 1200px !important;
+}
+
 span.notion-embed__container,
 span.notion-embed__container__external_object {
     display: block;
     position: absolute;
-    width: 100% !important;
+    width: calc(100% - var(--m423-radius) * 4) !important;
 }
 
 
@@ -1906,11 +1913,16 @@ html.theme-dark .sun-and-moon>.moon>circle {
         overflow: hidden;
     }
 
+    .notion-embed__container__wrapper:has(iframe[title*="423matze"]) {
+        height: 410px !important;
+        max-height: 440px !important;
+    }
+
     /* Spacings */
     .notion-divider {
-    margin: 2rem 0 !important;
-    border: 0 !important;
-}
+        margin: 2rem 0 !important;
+        border: 0 !important;
+    }
 
     /* --- Mobile Navigation (Burger Menu) --- */
     .my-super-navbar {
