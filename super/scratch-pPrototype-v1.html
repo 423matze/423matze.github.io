@@ -3748,7 +3748,7 @@
         }
         window.addEventListener('message', (e) => {
             console.log("GET THEME");
-            if (e.data?.type === 'theme') applyTheme(e.data.value);
+            if (e.data?.type === 'theme') setTheme(e.data.value);
 
         });
     </script>
