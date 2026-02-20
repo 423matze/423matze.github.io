@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.01      │
+│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.02      │
 │   DATE: 2026-02-19 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
@@ -15,13 +15,13 @@
 
 // --- Configuration Constants ---
 const TARGET_IMAGE_WIDTH = 1280;
-const TARGET_IMAGE_HEIGHT = 720;
+const TARGET_IMAGE_HEIGHT = 768;
 const INITIAL_GRID_COLS = 5; // 5
 const INITIAL_GRID_ROWS = 3; // 3
 const MAX_QUAD_DEPTH = 6; // <<< 6
-const MIN_QUAD_SIZE_CONFIG = 8; // <<< 4
+const MIN_QUAD_SIZE_CONFIG = 4; // <<< 4
 const TAP_MOVEMENT_THRESHOLD = 40;
-const PENCIL_REVEAL_RADIUS_LOGICAL = 23; // Radius for area reveal
+const PENCIL_REVEAL_RADIUS_LOGICAL = 42; // Radius for area reveal
 const AUTO_REVEAL_DEPTH_THRESHOLD = 4;
 const CASCADE_REVEAL_DELAY = 42;
 const INIT_POLL_INTERVAL = 200; // ms ? 100
@@ -269,7 +269,7 @@ function handleQuadInteraction(quad, isCascade = false) {
             quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
             quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
             quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-            quadEl.style.borderRadius = '50%'; // <<< or 0%
+            quadEl.style.borderRadius = '0%'; // <<< or 0%
             // quadEl.style.backgroundColor = ''; // <<< FIX: Do not remove background color to prevent flickering.
             quadEl.setAttribute('aria-label', `Image segment detail revealed.`);
         }
@@ -361,7 +361,7 @@ function renderSingleQuadElement(quadData) {
         quadEl.style.backgroundImage = `url(${originalImage.element.src})`;
         quadEl.style.backgroundSize = `${displayDimensions.width}px ${displayDimensions.height}px`;
         quadEl.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-        quadEl.style.borderRadius = '12.5%'; // <<< or 0%
+        quadEl.style.borderRadius = '0%'; // <<< or 0%
     } else {
         quadEl.style.backgroundColor = `rgb(${quadData.color.r}, ${quadData.color.g}, ${quadData.color.b})`;
         quadEl.style.borderRadius = `${quadBorderRadius}%`;
@@ -551,10 +551,21 @@ function polling(){
     }, INIT_POLL_INTERVAL);
 }
 //
-if (window.MALSUper?.STATE?.ready) {
-    console.log("MALSuper ready - start Polling")
-    polling();
+function safeStart() {
+    // Warte einen Tick nach dem Event, damit React Hydration abgeschlossen ist
+    setTimeout(() => {
+        if (window.MALSUper?.STATE?.ready) {
+            console.log("MALSuper ready - start Polling");
+            polling();
+        } else {
+            window.addEventListener("EmbedsReady", polling);
+        }
+    }, 0);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', safeStart);
 } else {
-    window.addEventListener("EmbedsReady", polling);
+    safeStart();
 }
 
