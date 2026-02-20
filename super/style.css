@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.00      |
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.01      |
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-11-20                               │
 │                                                  │
@@ -228,7 +228,7 @@ p {
 /* --- Headings (H1, H2, H3) --- */
 .notion-heading.notion-semantic-string {
     font-family: "Dosis", var(--primary-font) !important;
-    font-optical-sizing: auto;
+    /* font-optical-sizing: auto; */
     /* line-height: 1.23em !important; */
 }
 
@@ -1131,7 +1131,7 @@ iframe[title="YouTube video player"] {
 
 .notion-embed {
     width: 100%;
-    max-width: var(--content-lg);
+    /* max-width: var(--content-lg); */
     align-self: center;
 }
 
@@ -1563,6 +1563,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     h3.notion-heading.notion-semantic-string {
         font-size: var(--heading3-size) !important;
         margin-top: 2rem !important;
+        /* padding: 0 12px; */
     }
 
     .notion-collection-gallery.large {
@@ -1670,7 +1671,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     .notion-column-list {
         flex-direction: column;
         margin: 2em auto 0 auto;
-        max-width: calc(100% - 46px);
+        /* max-width: calc(100% - 46px); */
         gap: 4rem;
     }
 
@@ -1689,7 +1690,13 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
 
     .notion-column .notion-text {
-        padding: 12px !important;
+        padding: 23px !important;
+    }
+
+    .notion-column .notion-image, .notion-column .notion-image.page-width {
+        width: 100%;
+        padding: 0 23px;
+        margin: 0 auto;
     }
 
     .notion-column .notion-callout {
@@ -1903,14 +1910,13 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
     /* --- Mobile Navigation (Burger Menu) --- */
     .my-super-navbar {
-        padding: 0 56px !important;
+        padding: 0 42px !important;
     }
 
     /* Switch to flexbox for mobile layout */
     .my-super-navbar__content {
         display: flex;
         justify-content: space-between;
-        padding: 0 10px;
         height: 42px;
     }
 
