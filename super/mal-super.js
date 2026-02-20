@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 5.1     │
+│   SUPER.SO CUSTOM JS FRAMEWORK - VERSION 5.2     │
 │   DATE: 2026-01-27 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
@@ -22,11 +22,11 @@ window.MALSuper = (function () {
 
     // THEME MANAGEMENT
     function setTheme(theme) {
-		if(logging) console.log("SET THEME");
+		if(logging) console.log("SET NEW THEME ", theme);
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
-		sendThemeToIframes(document.documentElement.classList.contains('theme-' + theme));
+		sendThemeToIframes(theme);
     }
     function getThemePref() {        
         return localStorage.getItem(storageKey);
