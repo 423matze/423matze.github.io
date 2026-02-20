@@ -26,7 +26,7 @@ window.MALSuper = (function () {
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
-		sendThemeToIframes(document.documentElement.classList.contains(theme);
+		sendThemeToIframes(document.documentElement.classList.contains('theme-' + theme));
     }
     function getThemePref() {        
         return localStorage.getItem(storageKey);
