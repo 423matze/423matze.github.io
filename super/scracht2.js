@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.02      │
+│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.03      │
 │   DATE: 2026-02-19 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
@@ -530,7 +530,7 @@ function initAppReval() {
     } else {
         error = "No images found to display.";
         isLoading = false;
-        initAppReval();
+        renderApp();
     }
 }
 function polling(){
