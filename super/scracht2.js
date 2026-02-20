@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.03      │
+│   SUPER.SO SCRATCH-PROTOTYPE - VERSION 3.04      │
 │   DATE: 2026-02-19 - Matze Lenz                  │
 │                                                  │
 └──────────────────────────────────────────────────┘
@@ -24,7 +24,7 @@ const TAP_MOVEMENT_THRESHOLD = 40;
 const PENCIL_REVEAL_RADIUS_LOGICAL = 42; // Radius for area reveal
 const AUTO_REVEAL_DEPTH_THRESHOLD = 4;
 const CASCADE_REVEAL_DELAY = 42;
-const INIT_POLL_INTERVAL = 200; // ms ? 100
+const INIT_POLL_INTERVAL = 350; // ms ? 100
 const INIT_MAX_ATTEMPTS = 100; // 5 seconds total
 
 // --- Application State ---
