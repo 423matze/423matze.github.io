@@ -1918,6 +1918,12 @@ html.theme-dark .sun-and-moon>.moon>circle {
         max-height: 440px !important;
     }
 
+    span.notion-embed__container, span.notion-embed__container__external_object {
+        display: block;
+        position: absolute;
+        width: calc(100% - 12px) !important;
+    }
+
     /* Spacings */
     .notion-divider {
         margin: 2rem 0 !important;
