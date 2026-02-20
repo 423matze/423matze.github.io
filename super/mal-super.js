@@ -22,9 +22,11 @@ window.MALSuper = (function () {
 
     // THEME MANAGEMENT
     function setTheme(theme) {
+		if(logging) console.log("SET THEME");
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.className = 'theme-' + theme;
         document.querySelector('#my-theme-toggle')?.setAttribute('aria-label', theme);
+		sendThemeToIframes(document.documentElement.classList.contains(theme);
     }
     function getThemePref() {        
         return localStorage.getItem(storageKey);
@@ -60,6 +62,12 @@ window.MALSuper = (function () {
         setTheme(newTheme);
         localStorage.setItem(storageKey, newTheme);
     }
+	
+	function sendThemeToIframes(theme) {
+    document.querySelectorAll('iframe').forEach(iframe => {
+        iframe.contentWindow.postMessage({ type: 'theme', value: theme }, '*');
+    	});
+	}
 
     // MENU TOGGLE
     function menu_toggle(event) {
