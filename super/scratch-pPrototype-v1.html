@@ -3741,6 +3741,11 @@
         }
     </script>
     <script>
+        function setTheme(theme) {
+            onsole.log("SET THEME iFRANE");
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.className = 'theme-' + theme;
+        }
         window.addEventListener('message', (e) => {
             console.log("GET THEME");
             if (e.data?.type === 'theme') applyTheme(e.data.value);
