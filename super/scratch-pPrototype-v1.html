@@ -3744,7 +3744,8 @@
         function setTheme(theme) {
             console.log("SET THEME iFRANE");
             document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.className = 'theme-' + theme;
+            document.documentElement.classList.remove('theme-dark', 'theme-light');
+            document.documentElement.classList.add(`${theme}`);
         }
         window.addEventListener('message', (e) => {
             console.log("GET THEME");
