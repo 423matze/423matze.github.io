@@ -1,7 +1,7 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.01      |
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.02      |
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
 │   DATE: 2025-11-20                               │
 │                                                  │
@@ -1654,7 +1654,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
         text-underline-offset: 8px;
         opacity: .8;
         transition: all .2s ease-in, opacity .1s ease-in;
-        margin: 1rem 0;
+        /* margin: 1rem 0; */
     }
 
     /* --- Layout for Mobile --- */
@@ -1670,7 +1670,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
     /* List-Mobile */
     .notion-column-list {
         flex-direction: column;
-        margin: 2em auto 0 auto;
+        margin: 1em auto 0 auto;
         /* max-width: calc(100% - 46px); */
         gap: 4rem;
     }
@@ -1690,7 +1690,7 @@ html.theme-dark .sun-and-moon>.moon>circle {
 
 
     .notion-column .notion-text {
-        padding: 23px !important;
+        padding: 0 23px !important;
     }
 
     .notion-column .notion-image, .notion-column .notion-image.page-width {
@@ -1894,8 +1894,6 @@ html.theme-dark .sun-and-moon>.moon>circle {
         max-width: 100% !important;
     }
 
-    /* Images Mobile */
-
 
     /* Video Mobile */
 
@@ -1907,6 +1905,12 @@ html.theme-dark .sun-and-moon>.moon>circle {
         border-radius: var(--m423-radius);
         overflow: hidden;
     }
+
+    /* Spacings */
+    .notion-divider {
+    margin: 2rem 0 !important;
+    border: 0 !important;
+}
 
     /* --- Mobile Navigation (Burger Menu) --- */
     .my-super-navbar {
