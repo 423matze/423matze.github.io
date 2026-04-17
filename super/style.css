@@ -1,9 +1,9 @@
 /*
 ┌──────────────────────────────────────────────────┐
 │                                                  │
-│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.03      |
+│   SUPER.SO CUSTOM STYLES 423 - VERSION 5.04      |
 │   REFACTORED & CLEANED BY AI ASSISTANT           │
-│   DATE: 2025-11-20                               │
+│   DATE: 2026-04-17                               │
 │                                                  │
 └──────────────────────────────────────────────────┘
 */
@@ -202,6 +202,17 @@ p {
     padding-bottom: 1rem;
 }
 
+/* Leagal */
+.notion-text:has(span.highlighted-color.color-blue) {
+    margin-top: 4rem;
+    font-size: 1rem;
+    line-height: 120% !important;
+    text-align: center !important;
+}
+span.highlighted-color.color-blue{
+    color: var(--color-text-default);
+}
+
 .notion-text__content:has(+.notion-text__children) {
     padding-bottom: 1rem;
 }
@@ -244,7 +255,7 @@ h2 {
     font-size: calc(var(--heading2-size)*1.18) !important;
     font-weight: 700 !important;
     letter-spacing: 0.0423rem !important;
-    line-height: 109% !important;
+    line-height: 123.09% !important;
     margin-top: -.6rem !important;
     margin-bottom: 2rem !important;
 }
@@ -278,7 +289,7 @@ h1.notion-heading.color-green.notion-semantic-string strong {
     color: transparent !important;
     font-size: 9rem !important;
     font-weight: 900;
-    line-height: 59% !important;
+    line-height: 65% !important;
     letter-spacing: -.023em !important;
     hyphens: auto;
     background: radial-gradient(circle at 50%, var(--cta-background) 10%, var(--color-bg-transparent) 42%, var(--color-bg-transparent) 60%, var(--cta-background) 100%);
@@ -298,7 +309,8 @@ h1.notion-heading.color-green.notion-semantic-string strong {
 
 /* Sub-headline styles appearing after the main H1 */
 h1.notion-heading.color-green+.notion-text {
-    margin-top: 2rem !important;
+    margin-top: -1rem !important;
+    margin-bottom: 4rem !important;
     color: var(--link-text);
 }
 
@@ -310,7 +322,7 @@ h1.notion-heading.color-green+.notion-text {
 .notion-text__content:has(+ .notion-heading__anchor + h2) {
     font-size: calc(var(--heading2-size) - .023rem) !important;
     line-height: 123% !important;
-    padding-bottom: .6rem !important;
+    padding-bottom: 0 !important;
     color: var(--link-text);
 }
 
@@ -322,6 +334,7 @@ h1.notion-heading.color-green+.notion-text {
     color: var(--link-text);
 }
 */
+
 
 /* --- Links & Highlights --- */
 
@@ -1090,7 +1103,13 @@ article>.notion-image.page-width:nth-child(5) {
     filter: var(--ilu-image);
     border-radius: 0 !important;
 }
+.notion-callout.bg-gray-light .notion-image {
+    margin: 0 !important;
+}
 
+.notion-callout.bg-gray-light .notion-callout__content {
+    padding: 0;
+}
 
 /* Image / Video / Code Captions */
 .notion-caption {
@@ -1731,6 +1750,15 @@ html.theme-dark .sun-and-moon>.moon>circle {
     .notion-text .notion-text__children .notion-column-list:nth-of-type(even) {
         flex-direction: column-reverse;
     }
+
+    /* --- Mobile Text --- */
+    /* Leagal */
+.notion-text:has(span.highlighted-color.color-blue) {
+    margin-top: 4rem;
+    font-size: 0.7rem;
+    line-height: 120% !important;
+    text-align: center !important;
+}
 
 
     /* --- Components for Mobile --- */
