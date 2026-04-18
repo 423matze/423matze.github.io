@@ -47,7 +47,7 @@
       --theme-veg-mid: #78aabf;
       --theme-veg-dark: #4a7a94;
       --theme-ground: #8aabb8;
-      --ui-bg: #eaf2f7;
+      --ui-bg: #ebf0f3;
       --ui-accent: #4a7a94;
     }
 
@@ -100,15 +100,18 @@
     }
 
     /* === Layout === */
+
+    /* --- 1. IMPORTS & FONTS --- */
+    @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+
     .body {
       font-family: Dosis, Quicksand, Quicksand-fallback, Helvetica, sans-serif;
-      background: var(--color-bg-default);
-      color: var(--color-text-default);
+      background: transparent;
       width: 80%;
       margin: auto;
       max-width: 1440px;
       transition: background 0.4s ease;
-      border-radius: var(--m423-radius);
+      border-radius: 23px;
       overflow: hidden;
     }
 
@@ -123,6 +126,7 @@
       background: var(--ui-header-bg);
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+      border-radius: 23px 23px 0 0;
     }
 
     header label {
@@ -155,6 +159,8 @@
       display: flex;
       gap: 20px;
       align-items: flex-start;
+      background-color: var(--ui-bg);
+      border-radius: 0 0 23px 23px;
     }
 
     .mal-svg-pane {
@@ -312,7 +318,7 @@
 
 </head>
 
-<body>
+<body class="body">
 
 
   <header>
